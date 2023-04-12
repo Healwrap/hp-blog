@@ -1,0 +1,77 @@
+server:
+  servlet:
+    # 配置 API 路径
+    context-path: /api
+    # session 过期时间 60M 一个小时
+    session:
+      timeout: PT60M
+  # 配置端口
+  port: 7071
+
+spring:
+  mvc:
+    # 处理 favicon
+    favicon:
+      enable: false
+    # 错误页处理
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/easybbs?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: HikariCPDatasource
+      minimum-idle: 5
+      idle-timeout: 180000
+      maximum-pool-size: 10
+      auto-commit: true
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  # 发送邮件配置相关
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: test@qq.com
+    password: 123
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+        debug: true
+
+# 配置管理员账号密码邮箱
+admin:
+  account: admin
+  password: admin123
+  emails: test@qq.com
+
+# 项目目录 注意啊，不要用中文，是反斜杠，最后要带上反斜杠，最好是放到 d:/easybbs/ 这样的一个跟盘符下
+project:
+  folder: C:/Users/admin/Desktop/workspace/IDEA-Workplace/easybbs-java/easybbs-web/src/main/resources/easybbs/
+
+# 日志级别配置
+log:
+  root:
+    level: debug
+
+# 内部接口相关
+inner:
+  api:
+    appKey: easybbs
+    appSecret: easybbs_key
+
+# web 端接口地址
+web:
+  api:
+    url: http://localhost:7070/api/innerApi/refresSysSetting
+
+# 是否是开发环境
+isDev: true
