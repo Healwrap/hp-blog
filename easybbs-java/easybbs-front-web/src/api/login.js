@@ -1,5 +1,4 @@
 const api = {
-  CheckCode: '/api/CheckCode',
+  checkCode: '/api/checkCode',
 }
-
 export default api

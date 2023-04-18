@@ -1,6 +1,15 @@
 <template>
   <div class="cust-dialog">
-    <el-dialog :model-value="show" :draggable="true" :close-on-click-modal="false" :show-close="showClose" :title="title" @close="close" :width="width" :top="top">
+    <el-dialog
+      :model-value="show"
+      :draggable="true"
+      :close-on-click-modal="false"
+      :show-close="showClose"
+      :title="title"
+      @close="close"
+      :width="width"
+      :top="top"
+    >
       <!-- 弹窗标题 -->
       <template #header="{ titleId, titleClass }">
         <div class="dialog-title">
@@ -63,24 +72,6 @@ const close = () => {
   emit('close')
 }
 </script>
-
-<style lang="scss">
-// 修改element-plus默认样式
-.el-dialog {
-  .el-dialog__header {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px #ddd solid;
-    .el-dialog__headerbtn {
-      height: 30px;
-    }
-  }
-  .el-dialog__body {
-    padding: 0 !important;
-  }
-}
-</style>
 
 <style lang="scss" scoped>
 // 自定义弹窗

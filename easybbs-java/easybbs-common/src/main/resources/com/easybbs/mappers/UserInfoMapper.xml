@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easybbs.mappers.UserInfoMapper">
 
@@ -317,7 +317,7 @@
 				 #{bean.status},
 			</if>
 		 </trim>
-		 on DUPLICATE key update 
+		 on DUPLICATE key update
 		 <trim prefix="" suffix="" suffixOverrides=",">
 			<if test="bean.userId!=null">
 				 user_id = VALUES(user_id),
@@ -431,7 +431,7 @@
 				 #{item.status}
 			 )
 		 </foreach>
-			on DUPLICATE key update 
+			on DUPLICATE key update
 			user_id = VALUES(user_id),
 			nick_name = VALUES(nick_name),
 			email = VALUES(email),
@@ -450,7 +450,7 @@
 	<!-- 根据UserId修改-->
 	<update id="updateByUserId" parameterType="com.easybbs.entity.po.UserInfo">
 		 UPDATE user_info
- 		 <set> 
+ 		 <set>
 			<if test="bean.nickName != null">
 				 nick_name = #{bean.nickName},
 			</if>
@@ -504,7 +504,7 @@
 	<!-- 根据Email修改-->
 	<update id="updateByEmail" parameterType="com.easybbs.entity.po.UserInfo">
 		 UPDATE user_info
- 		 <set> 
+ 		 <set>
 			<if test="bean.userId != null">
 				 user_id = #{bean.userId},
 			</if>
@@ -558,7 +558,7 @@
 	<!-- 根据NickName修改-->
 	<update id="updateByNickName" parameterType="com.easybbs.entity.po.UserInfo">
 		 UPDATE user_info
- 		 <set> 
+ 		 <set>
 			<if test="bean.userId != null">
 				 user_id = #{bean.userId},
 			</if>
@@ -609,4 +609,13 @@
 		select <include refid="base_column_list" /> from user_info where nick_name=#{nickName}
 	</select>
 
+	<update id="updateIntegral">
+        update user_info set current_integral = current_integral + #{integral}
+        <if test="integral>0">
+            ,total_integral = total_integral + #{integral}
+        </if>
+        where user_id = #{userId}
+        <![CDATA[ and current_integral + #{integral} >= 0]]>
+
+	</update>
 </mapper>

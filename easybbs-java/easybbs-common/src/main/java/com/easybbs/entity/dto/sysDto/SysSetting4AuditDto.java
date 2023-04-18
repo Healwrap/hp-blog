@@ -1,10 +1,10 @@
-package com.easybbs.entity.dto;
+package com.easybbs.entity.dto.sysDto;
 
 /**
- * &#064; ClassName SysSetting4AuditDto
- * &#064; Description 审核设置
- * &#064; Date 2023/4/12 9:57
- * &#064; Created by admin
+ * @ClassName SysSetting4AuditDto
+ * @Description 审核设置
+ * @Date 2023/4/12 9:57
+ * @Created by admin
  */
 
 public class SysSetting4AuditDto {

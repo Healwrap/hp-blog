@@ -139,7 +139,7 @@ public class EmailCodeServiceImpl implements EmailCodeService {
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void sendEmailCode(String email, Integer type) {
-    if (Constants.ZERO == 0) {
+    if (Constants.ZERO == type) {
       UserInfo userInfo = userInfoMapper.selectByEmail(email);
       if (userInfo != null) {
         throw new BusinessException("邮箱已被注册");

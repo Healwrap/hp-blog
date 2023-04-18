@@ -8,9 +8,9 @@ import com.easybbs.entity.vo.PaginationResultVO;
 
 
 /**
- * 
+ *
  * 系统设置信息 业务接口
- * 
+ *
  */
 public interface SysSettingService {
 
@@ -61,4 +61,5 @@ public interface SysSettingService {
 	 */
 	Integer deleteSysSettingByCode(String code);
 
+	void refreshCache();
 }

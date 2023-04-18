@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @ClassName EasybbsWebApplication
- * @Description TODO
+ * @Description Web端启动类
  * @Date 2023/4/9 10:53
  * @Created by admin
  */

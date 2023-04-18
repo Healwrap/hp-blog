@@ -1,4 +1,4 @@
-package com.easybbs.controller;
+package com.easybbs.controller.base;
 import com.easybbs.entity.enums.ResponseCodeEnum;
 import com.easybbs.entity.vo.ResponseVO;
 import com.easybbs.exception.BusinessException;

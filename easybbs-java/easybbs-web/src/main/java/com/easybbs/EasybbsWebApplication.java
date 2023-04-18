@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @ClassName EasybbsWebApplication
- * @Description TODO
+ * @Description 管理端启动类
  * @Date 2023/4/9 10:53
  * @Created by admin
  */
