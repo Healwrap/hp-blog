@@ -184,12 +184,16 @@ public class AccountController extends ABaseController {
 
   /**
    * 获取系统设置
-   *
+   * @param session 会话
    * @return 返回值封装 系统设置
    */
   @RequestMapping("/getSysSetting")
   @GlobalIntercepter()
-  public ResponseVO getSysSetting() {
+  public ResponseVO getSysSetting(HttpSession session) {
+    // 未登录不获取评论设置
+    if (session.getAttribute(Constants.SESSIONS_KEY) == null) {
+      return getSuccessResponseVO(null);
+    }
     SysSettingDto sysSettingDto = SysCacheUtils.getSysSetting();
     Map<String, Object> result = new HashMap<>();
     result.put("commentEnable", sysSettingDto.getCommentSetting().getCommentEnable());
@@ -214,6 +218,5 @@ public class AccountController extends ABaseController {
     }
 
   }
-
 
 }

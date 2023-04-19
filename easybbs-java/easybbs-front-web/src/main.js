@@ -1,7 +1,6 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import router from './router'
-
 //引入cookies
 import VueCookies from 'vue-cookies'
 //引入element plus
@@ -14,6 +13,7 @@ import '@/assets/icon/iconfont.css'
 // 全局组件
 import Dialog from '@/components/Dialog/Dialog.vue'
 
+console.log(import.meta.env)
 const app = createApp(App)
 
 app.use(router)

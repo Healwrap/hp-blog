@@ -1,7 +1,7 @@
 <template>
   <div class="cust-dialog">
     <el-dialog
-      :model-value="show"
+        :model-value="show"
       :draggable="true"
       :close-on-click-modal="false"
       :show-close="showClose"
