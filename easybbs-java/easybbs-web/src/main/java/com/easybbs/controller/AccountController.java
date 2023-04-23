@@ -108,16 +108,16 @@ public class AccountController extends ABaseController {
   @GlobalIntercepter(checkParams = true)
   public ResponseVO register(HttpSession session,
                              @VerifyParams(required = true, regex = VerifyRegexEnum.EMAIL, max = 150) String email,
-                             @VerifyParams(required = true) String emailCode,
                              @VerifyParams(required = true, max = 20) String nickName,
                              @VerifyParams(required = true, regex = VerifyRegexEnum.PASSWORD) String password,
-                             @VerifyParams(required = true) String checkCode) {
+                             @VerifyParams(required = true) String checkCode,
+                             @VerifyParams(required = true) String emailCode) {
     try {
 
       if (StringTools.isEmpty(email) || StringTools.isEmpty(emailCode) || StringTools.isEmpty(nickName) || StringTools.isEmpty(password) || StringTools.isEmpty(checkCode)) {
         throw new BusinessException(ResponseCodeEnum.CODE_600);
       }
-      if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY_EMAIL))) {
+      if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY))) {
         throw new BusinessException("图片验证码错误");
       }
       userInfoService.register(email, emailCode, nickName, password);

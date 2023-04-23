@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -139,7 +140,7 @@ public class EmailCodeServiceImpl implements EmailCodeService {
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void sendEmailCode(String email, Integer type) {
-    if (Constants.ZERO == type) {
+    if (Constants.ZERO.equals(type)) {
       UserInfo userInfo = userInfoMapper.selectByEmail(email);
       if (userInfo != null) {
         throw new BusinessException("邮箱已被注册");
@@ -157,13 +158,18 @@ public class EmailCodeServiceImpl implements EmailCodeService {
     emailCodeMapper.insert(emailCode);
   }
 
+  /**
+   * 验证邮箱验证码
+   * @param email 邮箱
+   * @param emailCode 验证码
+   */
   @Override
   public void checkEmailCode(String email, String emailCode) {
     EmailCode dbInfo = this.emailCodeMapper.selectByEmailAndCode(email, emailCode);
     if (null == dbInfo) {
       throw new BusinessException("邮箱验证码错误");
     }
-    if (dbInfo.getStatus() != Constants.ZERO || System.currentTimeMillis() - dbInfo.getCreateTime().getTime() > 1000 * 60 * Constants.LENGTH_5) {
+    if (!Objects.equals(dbInfo.getStatus(), Constants.ZERO) || System.currentTimeMillis() - dbInfo.getCreateTime().getTime() > 1000 * 60 * Constants.LENGTH_5) {
       throw new BusinessException("验证码已失效");
     }
     emailCodeMapper.disableEmailCode(email);
@@ -190,6 +196,7 @@ public class EmailCodeServiceImpl implements EmailCodeService {
       javaMailSender.send(message);
     } catch (Exception e) {
       logger.error("发送邮件失败", e);
+      throw new BusinessException("发送邮件失败");
     }
 
 

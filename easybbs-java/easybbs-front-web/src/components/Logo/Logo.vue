@@ -27,6 +27,7 @@
     background-position: 100% 19%;
     animation: rainbow 150s linear infinite;
   }
+
   // 添加动画
   @keyframes rainbow {
     0% {

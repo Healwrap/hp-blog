@@ -18,8 +18,9 @@
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance, onMounted } from 'vue'
+import { getCurrentInstance, onMounted, ref } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
+
 const { proxy } = getCurrentInstance()
 // 获取头部元素
 const header = ref(null)
@@ -33,11 +34,11 @@ onMounted(() => {
   let scrollTop = getScrollTop()
   window.addEventListener('scroll', () => {
     const currentScrollTop = getScrollTop()
-    if (currentScrollTop > scrollTop) {
+    if (currentScrollTop > scrollTop && scrollType !== 2) {
       // 向下滚动
       scrollType = 2
       header.value.classList.add('header-up')
-    } else if (currentScrollTop < scrollTop) {
+    } else if (currentScrollTop < scrollTop && scrollType !== 1) {
       // 向上滚动
       scrollType = 1
       header.value.classList.remove('header-up')
@@ -68,7 +69,6 @@ onMounted(() => {
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
-  backdrop-filter: blur(4px);
   // 头部内容
   .header-content {
     display: flex;
@@ -83,7 +83,7 @@ onMounted(() => {
     .user-info-panel {
       display: flex;
       align-items: center;
-      width: 400px;
+      width: 450px;
       height: 100%;
       // 发帖搜索
       .box {

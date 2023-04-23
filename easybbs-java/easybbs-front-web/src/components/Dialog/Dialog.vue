@@ -1,14 +1,14 @@
 <template>
   <div class="cust-dialog">
     <el-dialog
-        :model-value="show"
+      :model-value="show"
       :draggable="true"
       :close-on-click-modal="false"
       :show-close="showClose"
       :title="title"
-      @close="close"
       :width="width"
       :top="top"
+      @close="close"
     >
       <!-- 弹窗标题 -->
       <template #header="{ titleId, titleClass }">
@@ -25,7 +25,7 @@
       <!-- 弹窗底部按钮 -->
       <template v-if="(buttons && buttons.length > 0) || showCancel">
         <div class="dialog-footer">
-          <el-button link @click="close" v-if="showCancel">取消</el-button>
+          <el-button v-if="showCancel" link @click="close">取消</el-button>
           <!-- 自定义按钮 -->
           <el-button v-for="btn in buttons" :type="btn.type" @click="btn.click">
             {{ btn.text }}
