@@ -19,7 +19,7 @@ const checkCode = opType => {
  * @returns {`/api/file/getAvatar/${string}`}
  */
 const avatarUrl = userId => {
-    return `${apis.avatarUrl}/${userId}`
+  return `${apis.avatarUrl}/${userId}`
 }
 /**
  * 获取邮箱验证码
@@ -93,6 +93,14 @@ const resetPwd = (email, password, checkCode, emailCode, errorCallback) => {
     }
   })
 }
+/**
+ * 登录
+ * @param email 邮箱
+ * @param password 密码
+ * @param checkCode 验证码
+ * @param errorCallback 错误回调
+ * @returns {*}
+ */
 const login = (email, password, checkCode, errorCallback) => {
   return request({
     url: apis.login,
@@ -107,12 +115,20 @@ const login = (email, password, checkCode, errorCallback) => {
     }
   })
 }
+
+const getUserInfo = () => {
+  return request({
+    url: apis.getUserInfo,
+    method: 'get'
+  })
+}
 const userApi = {
   checkCode,
   getEmailCode,
   register,
   resetPwd,
   login,
-  avatarUrl
+  avatarUrl,
+  getUserInfo
 }
 export default userApi

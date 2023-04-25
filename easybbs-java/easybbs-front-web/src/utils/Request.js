@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { ElLoading } from 'element-plus'
 import Toast from '@/utils/Toast'
+import store from '@/store'
 
 const requestContentType = {
   json: 'application/json;charset=UTF-8',
@@ -57,6 +58,8 @@ instance.interceptors.response.use(
     if (responseData.code === 200) {
       return responseData
     } else if (responseData.code === 901) {
+      store.commit('updateLoginUserInfo', null)
+      store.commit('showLoginDialog', true)
       return Promise.reject({ showError: false, msg: '登录超时，请重新登录' })
     }
     const errCode = Object.keys(ERROR_CODE).find(key => ERROR_CODE[key].code === responseData.code)

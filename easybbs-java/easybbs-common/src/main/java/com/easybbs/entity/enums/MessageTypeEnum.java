@@ -2,7 +2,7 @@ package com.easybbs.entity.enums;
 
 /**
  * @ClassName MessageTypeEnum
- * @Description TODO
+ * @Description 消息类型枚举
  * @Date 2023/4/12 14:46
  * @Created by admin
  */

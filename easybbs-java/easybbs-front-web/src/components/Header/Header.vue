@@ -83,7 +83,7 @@ onMounted(() => {
     .user-info-panel {
       display: flex;
       align-items: center;
-      width: 450px;
+      width: 500px;
       height: 100%;
       // 发帖搜索
       .box {

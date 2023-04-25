@@ -200,6 +200,15 @@ public class AccountController extends ABaseController {
     return getSuccessResponseVO(result);
   }
 
+  /**
+   * 重置密码
+   * @param session 会话
+   * @param email 邮箱
+   * @param password 密码
+   * @param checkCode 验证码
+   * @param emailCode 邮箱验证码
+   * @return
+   */
   @RequestMapping("/resetPwd")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO resetPwd(HttpSession session,
@@ -216,7 +225,5 @@ public class AccountController extends ABaseController {
     } finally {
       session.removeAttribute(Constants.CHECK_CODE_KEY);
     }
-
   }
-
 }

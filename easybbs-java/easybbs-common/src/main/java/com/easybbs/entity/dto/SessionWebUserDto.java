@@ -2,7 +2,7 @@ package com.easybbs.entity.dto;
 
 /**
  * @ClassName SessionWebUserDto
- * @Description TODO
+ * @Description 用户信息
  * @Date 2023/4/13 11:41
  * @Created by admin
  */

@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName OkHttpUtils
- * @Description TODO
+ * @Description okhttp工具类
  * @Date 2023/4/13 11:48
  * @Created by admin
  */

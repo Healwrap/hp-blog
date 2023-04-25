@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easybbs.mappers.ForumArticleMapper">
 
@@ -55,8 +55,7 @@
 	<!-- 通用查询结果列-->
 	<sql id="base_column_list">
 		 article_id,board_id,board_name,p_board_id,p_board_name,
-		 user_id,nick_name,user_ip_address,title,cover,
-		 content,markdown_content,editor_type,summary,post_time,
+		 user_id,nick_name,user_ip_address,title,cover,editor_type,summary,post_time,
 		 last_update_time,read_count,good_count,comment_count,top_type,
 		 attachment_type,status
 	</sql>
@@ -138,55 +137,59 @@
 
 	<!-- 通用查询条件列-->
 	<sql id="query_condition">
-	 <where>
-			<include refid="base_condition_filed" />
-			<if test="query.articleIdFuzzy!= null  and query.articleIdFuzzy!=''">
-				 and  article_id like concat('%', #{query.articleIdFuzzy}, '%')
-			</if>
-			<if test="query.boardNameFuzzy!= null  and query.boardNameFuzzy!=''">
-				 and  board_name like concat('%', #{query.boardNameFuzzy}, '%')
-			</if>
-			<if test="query.pBoardNameFuzzy!= null  and query.pBoardNameFuzzy!=''">
-				 and  p_board_name like concat('%', #{query.pBoardNameFuzzy}, '%')
-			</if>
-			<if test="query.userIdFuzzy!= null  and query.userIdFuzzy!=''">
-				 and  user_id like concat('%', #{query.userIdFuzzy}, '%')
-			</if>
-			<if test="query.nickNameFuzzy!= null  and query.nickNameFuzzy!=''">
-				 and  nick_name like concat('%', #{query.nickNameFuzzy}, '%')
-			</if>
-			<if test="query.userIpAddressFuzzy!= null  and query.userIpAddressFuzzy!=''">
-				 and  user_ip_address like concat('%', #{query.userIpAddressFuzzy}, '%')
-			</if>
-			<if test="query.titleFuzzy!= null  and query.titleFuzzy!=''">
-				 and  title like concat('%', #{query.titleFuzzy}, '%')
-			</if>
-			<if test="query.coverFuzzy!= null  and query.coverFuzzy!=''">
-				 and  cover like concat('%', #{query.coverFuzzy}, '%')
-			</if>
-			<if test="query.contentFuzzy!= null  and query.contentFuzzy!=''">
-				 and  content like concat('%', #{query.contentFuzzy}, '%')
-			</if>
-			<if test="query.markdownContentFuzzy!= null  and query.markdownContentFuzzy!=''">
-				 and  markdown_content like concat('%', #{query.markdownContentFuzzy}, '%')
-			</if>
-			<if test="query.summaryFuzzy!= null  and query.summaryFuzzy!=''">
-				 and  summary like concat('%', #{query.summaryFuzzy}, '%')
-			</if>
-			<if test="query.postTimeStart!= null and query.postTimeStart!=''">
-				 <![CDATA[ and  post_time>=str_to_date(#{query.postTimeStart}, '%Y-%m-%d') ]]>
-			</if>
-			<if test="query.postTimeEnd!= null and query.postTimeEnd!=''">
-				 <![CDATA[ and  post_time< date_sub(str_to_date(#{query.postTimeEnd},'%Y-%m-%d'),interval -1 day) ]]>
-			</if>
-			<if test="query.lastUpdateTimeStart!= null and query.lastUpdateTimeStart!=''">
-				 <![CDATA[ and  last_update_time>=str_to_date(#{query.lastUpdateTimeStart}, '%Y-%m-%d') ]]>
-			</if>
-			<if test="query.lastUpdateTimeEnd!= null and query.lastUpdateTimeEnd!=''">
-				 <![CDATA[ and  last_update_time< date_sub(str_to_date(#{query.lastUpdateTimeEnd},'%Y-%m-%d'),interval -1 day) ]]>
-			</if>
-	 </where>
-	</sql>
+        <where>
+            <include refid="base_condition_filed"/>
+            <if test="query.articleIdFuzzy!= null  and query.articleIdFuzzy!=''">
+                and article_id like concat('%', #{query.articleIdFuzzy}, '%')
+            </if>
+            <if test="query.boardNameFuzzy!= null  and query.boardNameFuzzy!=''">
+                and board_name like concat('%', #{query.boardNameFuzzy}, '%')
+            </if>
+            <if test="query.pBoardNameFuzzy!= null  and query.pBoardNameFuzzy!=''">
+                and p_board_name like concat('%', #{query.pBoardNameFuzzy}, '%')
+            </if>
+            <if test="query.userIdFuzzy!= null  and query.userIdFuzzy!=''">
+                and user_id like concat('%', #{query.userIdFuzzy}, '%')
+            </if>
+            <if test="query.nickNameFuzzy!= null  and query.nickNameFuzzy!=''">
+                and nick_name like concat('%', #{query.nickNameFuzzy}, '%')
+            </if>
+            <if test="query.userIpAddressFuzzy!= null  and query.userIpAddressFuzzy!=''">
+                and user_ip_address like concat('%', #{query.userIpAddressFuzzy}, '%')
+            </if>
+            <if test="query.titleFuzzy!= null  and query.titleFuzzy!=''">
+                and title like concat('%', #{query.titleFuzzy}, '%')
+            </if>
+            <if test="query.coverFuzzy!= null  and query.coverFuzzy!=''">
+                and cover like concat('%', #{query.coverFuzzy}, '%')
+            </if>
+            <if test="query.contentFuzzy!= null  and query.contentFuzzy!=''">
+                and content like concat('%', #{query.contentFuzzy}, '%')
+            </if>
+            <if test="query.markdownContentFuzzy!= null  and query.markdownContentFuzzy!=''">
+                and markdown_content like concat('%', #{query.markdownContentFuzzy}, '%')
+            </if>
+            <if test="query.summaryFuzzy!= null  and query.summaryFuzzy!=''">
+                and summary like concat('%', #{query.summaryFuzzy}, '%')
+            </if>
+            <if test="query.postTimeStart!= null and query.postTimeStart!=''">
+                <![CDATA[ and  post_time>=str_to_date(#{query.postTimeStart}, '%Y-%m-%d') ]]>
+            </if>
+            <if test="query.postTimeEnd!= null and query.postTimeEnd!=''">
+                <![CDATA[ and  post_time< date_sub(str_to_date(#{query.postTimeEnd},'%Y-%m-%d'),interval -1 day) ]]>
+            </if>
+            <if test="query.lastUpdateTimeStart!= null and query.lastUpdateTimeStart!=''">
+                <![CDATA[ and  last_update_time>=str_to_date(#{query.lastUpdateTimeStart}, '%Y-%m-%d') ]]>
+            </if>
+            <if test="query.lastUpdateTimeEnd!= null and query.lastUpdateTimeEnd!=''">
+                <![CDATA[ and  last_update_time< date_sub(str_to_date(#{query.lastUpdateTimeEnd},'%Y-%m-%d'),interval -1 day) ]]>
+            </if>
+            <!--查询待审核的条件-->
+            <if test="query.currentUserId!=null">
+                and (status = 1 or (status = 0 and user_id = #{query.currentUserId}))
+            </if>
+        </where>
+    </sql>
 
 	<!-- 查询集合-->
 	<select id="selectList" resultMap="base_result_map" >
@@ -484,7 +487,7 @@
 				 #{bean.status},
 			</if>
 		 </trim>
-		 on DUPLICATE key update 
+		 on DUPLICATE key update
 		 <trim prefix="" suffix="" suffixOverrides=",">
 			<if test="bean.articleId!=null">
 				 article_id = VALUES(article_id),
@@ -661,7 +664,7 @@
 				 #{item.status}
 			 )
 		 </foreach>
-			on DUPLICATE key update 
+			on DUPLICATE key update
 			article_id = VALUES(article_id),
 			board_id = VALUES(board_id),
 			board_name = VALUES(board_name),
@@ -689,7 +692,7 @@
 	<!-- 根据ArticleId修改-->
 	<update id="updateByArticleId" parameterType="com.easybbs.entity.po.ForumArticle">
 		 UPDATE forum_article
- 		 <set> 
+ 		 <set>
 			<if test="bean.boardId != null">
 				 board_id = #{bean.boardId},
 			</if>
@@ -764,7 +767,7 @@
 
 	<!-- 根据PrimaryKey获取对象-->
 	<select id="selectByArticleId" resultMap="base_result_map" >
-		select <include refid="base_column_list" /> from forum_article where article_id=#{articleId}
+		select <include refid="base_column_list" /> ,content, markdown_content from forum_article where article_id=#{articleId}
 	</select>
 
 </mapper>

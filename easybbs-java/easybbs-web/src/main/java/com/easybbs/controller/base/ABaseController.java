@@ -3,8 +3,10 @@ package com.easybbs.controller.base;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.vo.PaginationResultVO;
 import com.easybbs.entity.vo.ResponseVO;
 import com.easybbs.exception.BusinessException;
+import com.easybbs.utils.CopyTools;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -87,5 +89,15 @@ public class ABaseController {
     SessionWebUserDto sessionWebUserDto = (SessionWebUserDto) session.getAttribute(Constants.SESSIONS_KEY);
     System.out.println("sessionWebUserDto:" + sessionWebUserDto);
     return sessionWebUserDto;
+  }
+
+  protected <S, T> PaginationResultVO<T> convert2PaginationVO(PaginationResultVO<S> result, Class<T> clazz) {
+    PaginationResultVO<T> resultVO = new PaginationResultVO<>();
+    resultVO.setList(CopyTools.copyList(result.getList(), clazz));
+    resultVO.setPageNo(result.getPageNo());
+    resultVO.setPageSize(result.getPageSize());
+    resultVO.setPageTotal(result.getPageTotal());
+    resultVO.setTotalCount(result.getTotalCount());
+    return resultVO;
   }
 }
