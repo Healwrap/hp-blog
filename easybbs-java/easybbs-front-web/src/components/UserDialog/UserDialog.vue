@@ -366,11 +366,12 @@ const handleBtnClick = () => {
         proxy.VueCookies.set('loginInfo', loginInfo, '7d')
       } else {
         proxy.VueCookies.remove('loginInfo')
+        proxy.VueCookies.remove('JSESSIONID')
       }
       resetForm()
       dialogConfig.show = false
       proxy.Toast.success('登录成功')
-      proxy.store.commit('updateLoginUserInfo', result.data)
+      proxy.store.commit('UPDATE_USER_INFO', result.data)
       return
     }
     // 去登录

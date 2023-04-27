@@ -1,6 +1,13 @@
 import { createStore } from 'vuex'
+import app from './modules/app'
+import user from './modules/user'
+import getters from './getters'
 
 export default createStore({
+  modules: {
+    app,
+    user
+  },
   state: {
     // 用户信息
     loginUserInfo: null,
@@ -8,6 +15,9 @@ export default createStore({
     showLoginDialog: false
   },
   mutations: {
+    updateGlobalInfo(state, globalInfo) {
+      state.globalInfo = globalInfo
+    },
     updateLoginUserInfo(state, loginUserInfo) {
       state.loginUserInfo = loginUserInfo
     },
@@ -16,9 +26,5 @@ export default createStore({
     }
   },
   actions: {},
-  getters: {
-    getLoginUserInfo(state) {
-      return state.loginUserInfo
-    }
-  }
+  getters
 })

@@ -1,6 +1,6 @@
 <template>
   <div ref="header" class="header">
-    <div class="header-content" :style="{ width: proxy.globalInfo.bodyWidth }">
+    <div class="header-content" :style="{ width: proxy.store.getters.contentWidth }">
       <!-- Logo -->
       <slot name="logo">
         <Logo />
@@ -11,7 +11,7 @@
       </div>
       <!-- 用户板块 -->
       <div class="user-info-panel">
-        <slot name="user"> </slot>
+        <slot name="user"></slot>
       </div>
     </div>
   </div>
@@ -69,20 +69,24 @@ onMounted(() => {
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
+  z-index: 9999;
   // 头部内容
   .header-content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin: 0 auto;
     height: 100%;
     // 板块信息
     .menu-panel {
       flex: 1;
     }
+
     // 登录、注册、退出
     .user-info-panel {
       display: flex;
       align-items: center;
+      justify-content: right;
       width: 500px;
       height: 100%;
       // 发帖搜索
@@ -94,6 +98,7 @@ onMounted(() => {
     }
   }
 }
+
 // 头部收起
 .header-up {
   transform: translateY(-60px);

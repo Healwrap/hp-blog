@@ -1,13 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html>
+<head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Easybbs</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+    <style>
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border-top: 2px solid #1E88E5;
+            border-right: 2px solid transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+<div class="loading" id="loading">
+    <div class="spinner"></div>
+</div>
+<script type="module" src="/src/main.js"></script>
+<script>
+  window.addEventListener('load', function () {
+    var loader = document.querySelector('.loading');
+    loader.style.display = 'none';
+  });
+</script>
+</body>
 </html>

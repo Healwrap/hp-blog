@@ -87,23 +87,43 @@ instance.interceptors.response.use(
 )
 
 const request = config => {
-  const { url, method, params, dataType, showLoading = true, errorCallback, showError = true } = config
+  let { url, method, params, dataType, showLoading = true, errorCallback, showError = true } = config
   let contentType = requestContentType.form
-  let formData = new FormData()
-  for (let key in params) {
-    formData.append(key, params[key] === undefined ? '' : params[key])
-  }
-  if (dataType !== null && dataType === 'json') {
-    contentType = requestContentType.json
-  }
   let headers = {
     'Content-Type': contentType,
     'X-Requested-With': 'XMLHttpRequest'
   }
+  let formData = new FormData()
+  // 判断请求方法是否为get
+  if (method.toLowerCase() === 'get') {
+    let paramsArray = []
+    // 遍历参数对象，将参数加入到paramsArray中
+    for (let key in params) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (params.hasOwnProperty(key)) {
+        paramsArray.push(key + '=' + params[key])
+      }
+    }
+    // 拼接请求url
+    if (paramsArray.length > 0) {
+      url += '?' + paramsArray.join('&')
+    }
+  } else {
+    // 请求方法不为get，则使用FormData处理请求数据
+    for (let key in params) {
+      formData.append(key, params[key] === undefined ? '' : params[key])
+      console.log(formData.get(key))
+    }
+    if (dataType !== null && dataType === 'json') {
+      contentType = requestContentType.json
+    }
+    headers['Content-Type'] = contentType
+  }
+  // debugger
   return instance({
     url: url,
     method: method,
-    data: formData,
+    data: method.toLowerCase() === 'get' ? null : formData,
     headers: headers,
     showLoading: showLoading,
     errorCallback: errorCallback,

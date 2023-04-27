@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class Constants {
   public static final Integer INTEGRAL_5 = 5;
+  public static final Integer ONE = 1;
   public static final Integer ZERO = 0;
   public static final Integer LENGTH_5 = 5;
   public static final Integer LENGTH_10 = 10;

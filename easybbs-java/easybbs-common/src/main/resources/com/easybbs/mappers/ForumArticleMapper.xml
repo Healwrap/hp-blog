@@ -770,4 +770,19 @@
 		select <include refid="base_column_list" /> ,content, markdown_content from forum_article where article_id=#{articleId}
 	</select>
 
+	<update id="updateArticleCount">
+        update forum_article
+        <set>
+            <if test="updateType == 0">
+                read_count = read_count + #{changeCount}
+            </if>
+            <if test="updateType == 1">
+                good_count = good_count + #{changeCount}
+            </if>
+            <if test="updateType == 2">
+                comment_count = comment_count + #{changeCount}
+            </if>
+        </set>
+        where article_id = #{articleId}
+    </update>
 </mapper>

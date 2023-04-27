@@ -8,9 +8,9 @@ import com.easybbs.entity.vo.PaginationResultVO;
 
 
 /**
- * 
+ *
  * 文章信息 业务接口
- * 
+ *
  */
 public interface ForumArticleService {
 
@@ -60,5 +60,5 @@ public interface ForumArticleService {
 	 * 根据ArticleId删除
 	 */
 	Integer deleteForumArticleByArticleId(String articleId);
-
+	public ForumArticle readArticle(String articleId);
 }

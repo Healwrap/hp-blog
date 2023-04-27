@@ -6,9 +6,15 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      component: () => import('@/layout/BasicLayout.vue')
-    },
-    {}
+      component: () => import('@/layout/BasicLayout.vue'),
+      children: [
+        {
+          path: '/',
+          name: 'all_article',
+          component: () => import('@/views/forum/ArticleList/index.vue')
+        }
+      ]
+    }
   ]
 })
 

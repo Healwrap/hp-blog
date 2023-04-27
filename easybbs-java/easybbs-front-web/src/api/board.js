@@ -5,12 +5,14 @@ const apis = {
 }
 
 const loadBoard = boardId => {
+  let params = {}
+  if (boardId !== undefined) {
+    params.boardId = boardId
+  }
   return request({
     url: apis.loadBoard,
     method: 'get',
-    params: {
-      boardId
-    }
+    params
   })
 }
 
