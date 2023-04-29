@@ -17,7 +17,7 @@
           </template>
         </div>
         <div class="article-title">
-          <router-link :to="'/article/' + data.articleId">
+          <router-link :to="'/forum/' + data.articleId">
             {{ data.title }}
           </router-link>
         </div>
@@ -26,13 +26,13 @@
         </div>
         <div class="article-info">
           <span class="iconfont icon-eye-solid">
-            {{ data.readCount == 0 ? '阅读' : data.readCount }}
+            {{ data.readCount === 0 ? '阅读' : data.readCount }}
           </span>
           <span class="iconfont icon-good">
-            {{ data.goodCount == 0 ? '点赞' : data.goodCount }}
+            {{ data.goodCount === 0 ? '点赞' : data.goodCount }}
           </span>
           <span class="iconfont icon-comment">
-            {{ data.commentCount == 0 ? '评论' : data.commentCount }}
+            {{ data.commentCount === 0 ? '评论' : data.commentCount }}
           </span>
         </div>
       </div>

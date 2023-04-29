@@ -10,8 +10,23 @@ const router = createRouter({
       children: [
         {
           path: '/',
-          name: 'all_article',
+          name: 'allArticle',
           component: () => import('@/views/forum/ArticleList/index.vue')
+        },
+        {
+          path: 'forum/:pBoardId',
+          name: 'pBoard',
+          component: () => import('@/views/forum/ArticleList/index.vue')
+        },
+        {
+          path: 'forum/:pBoardId/:boardId',
+          name: 'board',
+          component: () => import('@/views/forum/ArticleList/index.vue')
+        },
+        {
+          path: 'user/:userId',
+          name: 'userCenter',
+          component: () => import('@/views/Account/Center/index.vue')
         }
       ]
     }

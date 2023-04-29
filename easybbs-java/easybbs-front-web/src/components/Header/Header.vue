@@ -69,7 +69,7 @@ onMounted(() => {
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
-  z-index: 9999;
+  z-index: 10;
   // 头部内容
   .header-content {
     display: flex;

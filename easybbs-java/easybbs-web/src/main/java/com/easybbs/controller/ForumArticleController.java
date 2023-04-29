@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName ForumArticleController
@@ -82,7 +83,7 @@ public class ForumArticleController extends ABaseController {
     ForumArticleDetailVO detailVO = new ForumArticleDetailVO();
     detailVO.setForumArticleVO(CopyTools.copy(forumArticle, ForumArticleVO.class));
     // 有附件
-    if (forumArticle.getAttachmentType() == Constants.ONE) {
+    if (Objects.equals(forumArticle.getAttachmentType(), Constants.ONE)) {
       ForumArticleAttachmentQuery attachmentQuery = new ForumArticleAttachmentQuery();
       attachmentQuery.setArticleId(articleId);
       List<ForumArticleAttachment> forumArticleAttachmentList = forumArticleAttachmentService.findListByParam(attachmentQuery);

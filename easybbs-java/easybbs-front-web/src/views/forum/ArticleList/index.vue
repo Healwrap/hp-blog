@@ -31,8 +31,13 @@
 <script setup>
 import forumApi from '@/api/forum'
 import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import ArticleListItem from './components/ArticleListItem/ArticleListitem.vue'
 
+const route = useRoute()
+// 一级板块
+const pBoardId = ref(0)
+const boardId = ref(0)
 const loading = ref(false)
 const orderType = ref(0)
 const currentPage = ref(0)
@@ -48,9 +53,16 @@ const loadArticle = async (currPage, orderType) => {
   loading.value = false
 }
 loadArticle()
+// 监听排序方式
 watch(orderType, () => {
   loadArticle(1, orderType.value)
 })
+// 监听路由变化
+watch(
+  () => route.params,
+  (newVal, oldVal) => {},
+  { immediate: true, deep: true }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -75,6 +87,9 @@ watch(orderType, () => {
       &:hover {
         color: #409eff;
       }
+    }
+    span.active {
+      color: #409eff;
     }
   }
 }
