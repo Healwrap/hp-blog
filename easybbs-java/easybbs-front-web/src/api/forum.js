@@ -3,18 +3,18 @@ import request from '@/utils/Request'
 const apis = {
   loadArticle: '/forum/loadArticle'
 }
-const loadArticle = (pageNo = undefined, orderType = undefined, boardId = undefined, pBoardId = undefined) => {
+const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   let params = {}
-  if (pageNo !== undefined) {
+  if (pageNo !== null && pageNo !== undefined) {
     params.pageNo = pageNo
   }
-  if (boardId !== undefined) {
+  if (boardId !== null && boardId !== undefined) {
     params.boardId = boardId
   }
-  if (pBoardId !== undefined) {
+  if (pBoardId !== null && pBoardId !== undefined) {
     params.pBoardId = pBoardId
   }
-  if (orderType !== undefined) {
+  if (orderType !== null && orderType !== undefined) {
     params.orderType = orderType
   }
   return request({

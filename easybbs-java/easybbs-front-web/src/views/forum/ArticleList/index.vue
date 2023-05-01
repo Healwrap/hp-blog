@@ -42,9 +42,9 @@ const loading = ref(false)
 const orderType = ref(0)
 const currentPage = ref(0)
 const articleInfo = ref({})
-const loadArticle = async (currPage, orderType) => {
+const loadArticle = async () => {
   loading.value = true
-  const result = await forumApi.loadArticle(currPage, orderType)
+  const result = await forumApi.loadArticle(currentPage.value, orderType.value, boardId.value, pBoardId.value)
   if (!result) {
     return
   }
@@ -55,12 +55,16 @@ const loadArticle = async (currPage, orderType) => {
 loadArticle()
 // 监听排序方式
 watch(orderType, () => {
-  loadArticle(1, orderType.value)
+  loadArticle()
 })
 // 监听路由变化
 watch(
   () => route.params,
-  (newVal, oldVal) => {},
+  newVal => {
+    pBoardId.value = newVal.pBoardId
+    boardId.value = newVal.boardId
+    loadArticle()
+  },
   { immediate: true, deep: true }
 )
 </script>
@@ -88,6 +92,7 @@ watch(
         color: #409eff;
       }
     }
+
     span.active {
       color: #409eff;
     }
