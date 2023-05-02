@@ -1,6 +1,6 @@
 <template>
   <!-- 彩虹字logo -->
-  <div class="logo"><a href="/index">Easybbs</a></div>
+  <div class="logo"><a href="/">Easybbs</a></div>
 </template>
 
 <script setup></script>

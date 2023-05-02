@@ -17,7 +17,8 @@
           </template>
         </div>
         <div class="article-title">
-          <router-link :to="'/forum/' + data.articleId">
+          <router-link :to="'/article/' + data.articleId">
+            <el-tag dark v-if="data.topType === 1">置顶</el-tag>
             {{ data.title }}
           </router-link>
         </div>
@@ -75,6 +76,7 @@ const props = defineProps({
     &:hover {
       background: #f5f5f5;
     }
+
     .list-item {
       padding: 10px 5px;
 

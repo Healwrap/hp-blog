@@ -19,6 +19,7 @@
       </div>
       <el-pagination
         v-model:current-page="currentPage"
+        hide-on-single-page
         :total="articleInfo.totalCount"
         :page-size="articleInfo.pageSize"
         layout="prev, pager, next"

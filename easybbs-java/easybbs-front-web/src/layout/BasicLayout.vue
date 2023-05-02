@@ -59,7 +59,7 @@
       </template>
     </Header>
     <!--body-->
-    <div class="content" :style="{ width: proxy.store.getters.contentWidth, top: proxy.store.getters.headerHeight }">
+    <div class="content" :style="{ width: proxy.store.getters.contentWidth + 'px', top: proxy.store.getters.headerHeight + 'px'}">
       <router-view/>
     </div>
     <UserDialog ref="userDialog"/>

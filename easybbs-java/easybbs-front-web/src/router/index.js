@@ -14,17 +14,22 @@ const router = createRouter({
           component: () => import('@/views/forum/ArticleList/index.vue')
         },
         {
-          path: 'forum/:pBoardId',
+          path: '/forum/:pBoardId',
           name: 'pBoard',
           component: () => import('@/views/forum/ArticleList/index.vue')
         },
         {
-          path: 'forum/:pBoardId/:boardId',
+          path: '/forum/:pBoardId/:boardId',
           name: 'board',
           component: () => import('@/views/forum/ArticleList/index.vue')
         },
         {
-          path: 'user/:userId',
+          path: '/article/:articleId',
+          name: 'article',
+          component: () => import('@/views/forum/ArticleDetail/index.vue')
+        },
+        {
+          path: '/user/:userId',
           name: 'userCenter',
           component: () => import('@/views/Account/Center/index.vue')
         }

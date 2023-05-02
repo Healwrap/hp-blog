@@ -115,7 +115,7 @@ public class ForumArticleServiceImpl implements ForumArticleService {
   @Override
   public ForumArticle readArticle(String articleId) {
     ForumArticle forumArticle = this.forumArticleMapper.selectByArticleId(articleId);
-    if (forumArticle != null) {
+    if (forumArticle == null) {
       throw new BusinessException(ResponseCodeEnum.CODE_404);
     }
     if (ArticleStatusEnum.AUDIT.getStatus().equals(forumArticle.getStatus())) {

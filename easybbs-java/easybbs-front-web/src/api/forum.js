@@ -1,7 +1,8 @@
 import request from '@/utils/Request'
 
 const apis = {
-  loadArticle: '/forum/loadArticle'
+  loadArticle: '/forum/loadArticle',
+  getArticleDetail: '/forum/getArticleDetail'
 }
 const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   let params = {}
@@ -25,7 +26,18 @@ const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   })
 }
 
+const getArticleDetail = (articleId) => {
+  return request({
+    url: apis.getArticleDetail,
+    method: 'get',
+    params: {
+      articleId
+    }
+  })
+}
+
 const forumApi = {
-  loadArticle
+  loadArticle,
+  getArticleDetail
 }
 export default forumApi

@@ -4,8 +4,8 @@ const app = {
   state: {
     isMobile: false,
     theme: 'light',
-    contentWidth: '1200px',
-    headerHeight: '60px'
+    contentWidth: 1200,
+    headerHeight: 60
   },
   mutations: {
     [TOGGLE_MOBILE_TYPE]: (state, isMobile) => {
