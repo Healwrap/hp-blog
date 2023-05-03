@@ -4,10 +4,11 @@
     <div class="article-detail-info">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-          >{{ articleInfo.pBoardName }}
+        >{{ articleInfo.pBoardName }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-          >{{ articleInfo.boardName }}
+        <el-breadcrumb-item v-if="articleInfo.boardId"
+                            :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+        >{{ articleInfo.boardName }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
       </el-breadcrumb>
@@ -20,7 +21,7 @@
       </div>
       <!--用户信息-->
       <div class="user-info">
-        <UserAvatar :src="articleInfo.avatarUrl" :user-id="articleInfo.userId" />
+        <UserAvatar :src="articleInfo.avatarUrl" :user-id="articleInfo.userId"/>
         <div class="user-info-detail">
           <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
           <div class="info">
@@ -33,7 +34,7 @@
         </div>
       </div>
       <!--文章内容-->
-      <div class="detail" v-html="articleInfo.content"></div>
+      <div id="detail" class="detail" v-html="articleInfo.content"></div>
       <!--附件-->
       <div v-if="attachment" class="attachment-panel">
         <div class="title">附件</div>
@@ -43,7 +44,7 @@
           <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
           <div>
             需要<span class="integral">{{ attachment.integral }}</span
-            >积分
+          >积分
           </div>
           <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
           <div class="download-btn">
@@ -59,7 +60,7 @@
   <div class="article-quick-panel" :style="{ left: quickPanelLeft + 'px' }">
     <!--点赞-->
     <el-badge :value="articleInfo.goodCount" type="info" :hidden="articleInfo.goodCount <= 0">
-      <div class="quick-item">
+      <div class="quick-item" @click="handleGoodClick">
         <div class="iconfont icon-good" :style="{ color: havaLike ? '#409eff' : '' }"></div>
       </div>
     </el-badge>
@@ -74,31 +75,77 @@
       <div class="iconfont icon-zip"></div>
     </div>
   </div>
+  <!--图片预览-->
+  <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, ref } from 'vue'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useRoute } from 'vue-router'
+import {getCurrentInstance, nextTick, onMounted, ref} from 'vue'
+import {ArrowRight} from '@element-plus/icons-vue'
+import {useRoute} from 'vue-router'
 import router from '@/router'
 import formatFileSize from '@/utils/Format'
 import forumApi from '@/api/forum'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-light.css' // 样式文件
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 const route = useRoute()
-const quickPanelLeft = (window.innerWidth - proxy.store.getters.contentWidth - 100) / 2
+const imageViewerRef = ref(null)
+const previewImgList = ref([])
+const quickPanelLeft = (window.innerWidth - proxy.store.getters.contentWidth - 70) / 2
 // 文章详情
 const articleInfo = ref({})
 // 附件
 const attachment = ref({})
 // 当前账号是否点赞了文章
 const havaLike = ref(false)
+// 点赞
+const handleGoodClick = async () => {
+  const result = await forumApi.doLike(articleInfo.value.articleId)
+  if (!result) {
+    return
+  }
+  havaLike.value = !havaLike.value
+  if (havaLike.value) {
+    articleInfo.value.goodCount++
+  } else {
+    articleInfo.value.goodCount--
+  }
+}
+const handleAttachmentDownload = () => {
+  // TODO
+}
+// 文章图片预览
+const handleImagePreview = () => {
+  nextTick(() => {
+    const imageNodelist = document.querySelectorAll('#detail img')
+    const imageList = []
+    imageNodelist.forEach((item, index) => {
+      imageList.push(item.src)
+      item.addEventListener('click', () => {
+        imageViewerRef.value.show(index)
+      })
+    })
+    previewImgList.value = imageList
+  })
+}
+// 代码高亮
+const highlightCode = () => {
+  nextTick(() => {
+    const blocks = document.querySelectorAll('pre code')
+    blocks.forEach(block => {
+      hljs.highlightBlock(block)
+    })
+  })
+}
 onMounted(async () => {
   let result = await forumApi.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
   attachment.value = result.data.forumArticleAttachmentVO
   havaLike.value = result.data.havaLike
+  handleImagePreview()
 })
 </script>
 

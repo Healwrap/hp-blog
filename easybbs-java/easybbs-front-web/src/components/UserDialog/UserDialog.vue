@@ -277,6 +277,9 @@ const showPanel = type => {
     formData.value.email = cookieLoginInfo ? cookieLoginInfo.email : ''
     formData.value.password = cookieLoginInfo ? cookieLoginInfo.password : ''
   }
+  if (proxy.store.state.showLoginDialog) {
+    proxy.store.commit('showLoginDialog', false)
+  }
 }
 // 显示发送邮箱验证码
 const showSendDialog = () => {

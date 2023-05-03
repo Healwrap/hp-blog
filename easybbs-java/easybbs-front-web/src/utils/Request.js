@@ -58,7 +58,7 @@ instance.interceptors.response.use(
     if (responseData.code === 200) {
       return responseData
     } else if (responseData.code === 901) {
-      store.commit('updateLoginUserInfo', null)
+      store.commit('UPDATE_USER_INFO', {})
       store.commit('showLoginDialog', true)
       return Promise.reject({ showError: false, msg: '登录超时，请重新登录' })
     }

@@ -16,6 +16,7 @@ import Request from '@/utils/Request'
 import store from '@/store'
 // 全局组件
 import Dialog from '@/components/Dialog/Dialog.vue'
+import ImageViewer from '@/components/ImageViewer/ImageViewer.vue'
 
 const app = createApp(App)
 
@@ -33,5 +34,6 @@ app.config.globalProperties.globalInfo = {
 }
 
 app.component('Dialog', Dialog)
+app.component('ImageViewer', ImageViewer)
 
 app.mount('#app')

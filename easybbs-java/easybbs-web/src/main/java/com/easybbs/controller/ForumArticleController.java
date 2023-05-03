@@ -49,6 +49,15 @@ public class ForumArticleController extends ABaseController {
   @Resource
   private LikeRecordService likeRecordService;
 
+  /**
+   * 加载文章列表
+   * @param session 用户session
+   * @param pageNo 页码
+   * @param boardId 板块id
+   * @param pBoardId 父板块id
+   * @param orderType 排序类型
+   * @return 文章列表
+   */
   @GetMapping("/loadArticle")
   public ResponseVO loadArticle(HttpSession session, Integer pageNo, Integer boardId, Integer pBoardId, Integer orderType) {
     ForumArticleQuery forumArticleQuery = new ForumArticleQuery();
@@ -68,6 +77,13 @@ public class ForumArticleController extends ABaseController {
     PaginationResultVO resultVO = forumArticleService.findListByPage(forumArticleQuery);
     return getSuccessResponseVO(convert2PaginationVO(resultVO, ForumArticleVO.class));
   }
+
+  /**
+   * 获取文章详情
+   * @param session 用户session
+   * @param articleId 文章id
+   * @return 文章详情
+   */
 
   @GetMapping("/getArticleDetail")
   @GlobalIntercepter(checkParams = true)
@@ -99,5 +115,19 @@ public class ForumArticleController extends ABaseController {
       }
     }
     return getSuccessResponseVO(detailVO);
+  }
+
+  /**
+   * 点赞
+   * @param session 用户session
+   * @param articleId 文章id
+   * @return 点赞结果
+   */
+  @GetMapping("/doLike")
+  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  public ResponseVO doLike(HttpSession session, @VerifyParams(required = true) String articleId) {
+    SessionWebUserDto sessionWebUserDto = getUserInfoFromSession(session);
+    likeRecordService.doLike(articleId, sessionWebUserDto.getUserId(), sessionWebUserDto.getNickName(), OperRecordOpTypeEnum.ARTICLE_LIKE);
+    return getSuccessResponseVO(null);
   }
 }

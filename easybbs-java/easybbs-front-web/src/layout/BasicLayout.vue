@@ -59,7 +59,8 @@
       </template>
     </Header>
     <!--body-->
-    <div class="content" :style="{ width: proxy.store.getters.contentWidth + 'px', top: proxy.store.getters.headerHeight + 'px'}">
+    <div class="content"
+         :style="{ width: proxy.store.getters.contentWidth + 'px', top: proxy.store.getters.headerHeight + 'px' }">
       <router-view/>
     </div>
     <UserDialog ref="userDialog"/>
@@ -130,6 +131,7 @@ watch(
     newVal => {
       if (newVal) {
         showUserDialog(0)
+        proxy.Toast.warning('请先登录')
       }
     },
     {immediate: true, deep: true}

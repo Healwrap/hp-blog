@@ -2,6 +2,8 @@ package com.easybbs.aspect;
 
 import com.easybbs.entity.annotation.GlobalIntercepter;
 import com.easybbs.entity.annotation.VerifyParams;
+import com.easybbs.entity.constants.Constants;
+import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.enums.ResponseCodeEnum;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.utils.StringTools;
@@ -15,7 +17,11 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 
@@ -43,6 +49,7 @@ public class OperationAspect {
 
   /**
    * 校验参数
+   *
    * @param pjp 切点
    * @return Object对象
    */
@@ -60,7 +67,7 @@ public class OperationAspect {
       }
       // 校验登录
       if (intercepter.checkLogin()) {
-        // TODO
+        checkLogin();
       }
       // 校验参数
       if (intercepter.checkParams()) {
@@ -82,8 +89,9 @@ public class OperationAspect {
 
   /**
    * 校验参数
+   *
    * @param method 方法
-   * @param args 参数
+   * @param args   参数
    */
   private void validateParams(Method method, Object[] args) {
     Parameter[] parameters = method.getParameters();
@@ -105,7 +113,8 @@ public class OperationAspect {
 
   /**
    * 校验参数
-   * @param value 参数值
+   *
+   * @param value        参数值
    * @param verifyParams 注解
    */
   private void checkValue(Object value, VerifyParams verifyParams) {
@@ -133,5 +142,14 @@ public class OperationAspect {
 
   private void checkObject(Parameter parameter, Object value) {
     // TODO
+  }
+
+  private void checkLogin() {
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpSession session = request.getSession();
+    Object obj = session.getAttribute(Constants.SESSIONS_KEY);
+    if (null == obj) {
+      throw new BusinessException(ResponseCodeEnum.CODE_901);
+    }
   }
 }

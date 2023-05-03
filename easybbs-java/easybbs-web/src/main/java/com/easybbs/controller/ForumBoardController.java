@@ -21,6 +21,10 @@ public class ForumBoardController extends ABaseController {
   @Resource
   private ForumBoardService forumBoardService;
 
+  /**
+   * 加载板块树
+   * @return 板块树
+   */
   @GetMapping("loadBoard")
   public ResponseVO loadBoard() {
     return getSuccessResponseVO(forumBoardService.getBoardTree(null));

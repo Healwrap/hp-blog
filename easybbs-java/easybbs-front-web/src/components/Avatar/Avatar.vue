@@ -8,7 +8,7 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>我的主页</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
+          <el-dropdown-item @click="handleLogout">退出</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -16,9 +16,11 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, getCurrentInstance } from 'vue'
+import userApi from '@/api/user'
 import router from '@/router'
 
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   userId: {
     type: String
@@ -39,6 +41,12 @@ const gotoAccountCenter = () => {
   if (props.addLink) {
     router.push('/user/' + props.userId)
   }
+}
+const handleLogout = () => {
+  userApi.logout().then(() => {
+    proxy.VueCookies.remove('loginInfo')
+    proxy.store.commit('UPDATE_USER_INFO', {})
+  })
 }
 </script>
 

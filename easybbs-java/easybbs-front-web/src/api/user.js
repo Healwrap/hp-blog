@@ -7,7 +7,8 @@ const apis = {
   login: '/login',
   resetPwd: '/resetPwd',
   getUserInfo: '/getUserInfo',
-  avatarUrl: '/api/file/getAvatar'
+  avatarUrl: '/api/file/getAvatar',
+  logout: '/logout'
 }
 // 类型 0:登录/注册验证码 1:发送邮箱验证码
 const checkCode = opType => {
@@ -116,6 +117,13 @@ const login = (email, password, checkCode, errorCallback) => {
   })
 }
 
+const logout = () => {
+  return request({
+    url: apis.logout,
+    method: 'post'
+  })
+}
+
 const getUserInfo = () => {
   return request({
     url: apis.getUserInfo,
@@ -129,6 +137,7 @@ const userApi = {
   resetPwd,
   login,
   avatarUrl,
+  logout,
   getUserInfo
 }
 export default userApi

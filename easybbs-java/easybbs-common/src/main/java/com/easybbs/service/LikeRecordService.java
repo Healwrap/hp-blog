@@ -2,15 +2,16 @@ package com.easybbs.service;
 
 import java.util.List;
 
+import com.easybbs.entity.enums.OperRecordOpTypeEnum;
 import com.easybbs.entity.query.LikeRecordQuery;
 import com.easybbs.entity.po.LikeRecord;
 import com.easybbs.entity.vo.PaginationResultVO;
 
 
 /**
- * 
+ *
  * 点赞记录 业务接口
- * 
+ *
  */
 public interface LikeRecordService {
 
@@ -79,4 +80,5 @@ public interface LikeRecordService {
 	 */
 	Integer deleteLikeRecordByObjectIdAndUserIdAndOpType(String objectId,String userId,Integer opType);
 
+	void doLike(String objectId, String userId, String nickName, OperRecordOpTypeEnum opTypeEnum);
 }

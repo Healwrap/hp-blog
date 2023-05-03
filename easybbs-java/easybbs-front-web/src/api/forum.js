@@ -2,7 +2,10 @@ import request from '@/utils/Request'
 
 const apis = {
   loadArticle: '/forum/loadArticle',
-  getArticleDetail: '/forum/getArticleDetail'
+  getArticleDetail: '/forum/getArticleDetail',
+  doLike: '/forum/doLike',
+  getUserIntegral: '/getUserIntegral',
+  attachmentDownload: '/forum/attachmentDownload'
 }
 const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   let params = {}
@@ -26,7 +29,7 @@ const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   })
 }
 
-const getArticleDetail = (articleId) => {
+const getArticleDetail = articleId => {
   return request({
     url: apis.getArticleDetail,
     method: 'get',
@@ -36,8 +39,20 @@ const getArticleDetail = (articleId) => {
   })
 }
 
+const doLike = articleId => {
+  return request({
+    url: apis.doLike,
+    method: 'get',
+    params: {
+      articleId
+    },
+    showLoading: false
+  })
+}
+
 const forumApi = {
   loadArticle,
-  getArticleDetail
+  getArticleDetail,
+  doLike
 }
 export default forumApi

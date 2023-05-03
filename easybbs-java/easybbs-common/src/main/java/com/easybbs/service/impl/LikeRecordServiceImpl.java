@@ -1,137 +1,195 @@
 package com.easybbs.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.easybbs.entity.constants.Constants;
+import com.easybbs.entity.enums.*;
+import com.easybbs.entity.po.ForumArticle;
+import com.easybbs.entity.po.LikeRecord;
+import com.easybbs.entity.po.UserMessage;
+import com.easybbs.entity.query.ForumArticleQuery;
+import com.easybbs.entity.query.LikeRecordQuery;
+import com.easybbs.entity.query.SimplePage;
+import com.easybbs.entity.query.UserMessageQuery;
+import com.easybbs.entity.vo.PaginationResultVO;
+import com.easybbs.exception.BusinessException;
+import com.easybbs.mappers.ForumArticleMapper;
+import com.easybbs.mappers.LikeRecordMapper;
+import com.easybbs.mappers.UserMessageMapper;
+import com.easybbs.service.LikeRecordService;
 import org.springframework.stereotype.Service;
 
-import com.easybbs.entity.enums.PageSize;
-import com.easybbs.entity.query.LikeRecordQuery;
-import com.easybbs.entity.po.LikeRecord;
-import com.easybbs.entity.vo.PaginationResultVO;
-import com.easybbs.entity.query.SimplePage;
-import com.easybbs.mappers.LikeRecordMapper;
-import com.easybbs.service.LikeRecordService;
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 
 /**
- * 
  * 点赞记录 业务接口实现
- * 
  */
 @Service("likeRecordService")
 public class LikeRecordServiceImpl implements LikeRecordService {
 
-	@Resource
-	private LikeRecordMapper<LikeRecord,LikeRecordQuery> likeRecordMapper;
+  @Resource
+  private LikeRecordMapper<LikeRecord, LikeRecordQuery> likeRecordMapper;
+  @Resource
+  private UserMessageMapper<UserMessage, UserMessageQuery> userMessageMapper;
 
-	/**
-	 * 根据条件查询列表
-	 */
-	@Override
-	public List<LikeRecord> findListByParam(LikeRecordQuery param) {
-		return this.likeRecordMapper.selectList(param);
-	}
+  @Resource
+  private ForumArticleMapper<ForumArticle, ForumArticleQuery> forumArticleMapper;
 
-	/**
-	 * 根据条件查询列表
-	 */
-	@Override
-	public Integer findCountByParam(LikeRecordQuery param) {
-		return this.likeRecordMapper.selectCount(param);
-	}
+  /**
+   * 根据条件查询列表
+   */
+  @Override
+  public List<LikeRecord> findListByParam(LikeRecordQuery param) {
+    return this.likeRecordMapper.selectList(param);
+  }
 
-	/**
-	 * 分页查询方法
-	 */
-	@Override
-	public PaginationResultVO<LikeRecord> findListByPage(LikeRecordQuery param) {
-		int count = this.findCountByParam(param);
-		int pageSize = param.getPageSize()==null?PageSize.SIZE15.getSize():param.getPageSize();
+  /**
+   * 根据条件查询列表
+   */
+  @Override
+  public Integer findCountByParam(LikeRecordQuery param) {
+    return this.likeRecordMapper.selectCount(param);
+  }
 
-		SimplePage page = new SimplePage(param.getPageNo(), count, pageSize);
-		param.setSimplePage(page);
-		List<LikeRecord> list = this.findListByParam(param);
-		PaginationResultVO<LikeRecord> result = new PaginationResultVO(count, page.getPageSize(), page.getPageNo(),page.getPageTotal(), list);
-		return result;
-	}
+  /**
+   * 分页查询方法
+   */
+  @Override
+  public PaginationResultVO<LikeRecord> findListByPage(LikeRecordQuery param) {
+    int count = this.findCountByParam(param);
+    int pageSize = param.getPageSize() == null ? PageSize.SIZE15.getSize() : param.getPageSize();
 
-	/**
-	 * 新增
-	 */
-	@Override
-	public Integer add(LikeRecord bean){
-		return this.likeRecordMapper.insert(bean);
-	}
+    SimplePage page = new SimplePage(param.getPageNo(), count, pageSize);
+    param.setSimplePage(page);
+    List<LikeRecord> list = this.findListByParam(param);
+    PaginationResultVO<LikeRecord> result = new PaginationResultVO(count, page.getPageSize(), page.getPageNo(), page.getPageTotal(), list);
+    return result;
+  }
 
-	/**
-	 * 批量新增
-	 */
-	@Override
-	public Integer addBatch(List<LikeRecord> listBean){
-		if (listBean == null || listBean.isEmpty()) {
-			return 0;
-		}
-		return this.likeRecordMapper.insertBatch(listBean);
-	}
+  /**
+   * 新增
+   */
+  @Override
+  public Integer add(LikeRecord bean) {
+    return this.likeRecordMapper.insert(bean);
+  }
 
-	/**
-	 * 批量新增或者修改
-	 */
-	@Override
-	public Integer addOrUpdateBatch(List<LikeRecord> listBean){
-		if (listBean == null || listBean.isEmpty()) {
-			return 0;
-		}
-		return this.likeRecordMapper.insertOrUpdateBatch(listBean);
-	}
+  /**
+   * 批量新增
+   */
+  @Override
+  public Integer addBatch(List<LikeRecord> listBean) {
+    if (listBean == null || listBean.isEmpty()) {
+      return 0;
+    }
+    return this.likeRecordMapper.insertBatch(listBean);
+  }
 
-	/**
-	 * 根据OpId获取对象
-	 */
-	@Override
-	public LikeRecord getLikeRecordByOpId(Integer opId){
-		return this.likeRecordMapper.selectByOpId(opId);
-	}
+  /**
+   * 批量新增或者修改
+   */
+  @Override
+  public Integer addOrUpdateBatch(List<LikeRecord> listBean) {
+    if (listBean == null || listBean.isEmpty()) {
+      return 0;
+    }
+    return this.likeRecordMapper.insertOrUpdateBatch(listBean);
+  }
 
-	/**
-	 * 根据OpId修改
-	 */
-	@Override
-	public Integer updateLikeRecordByOpId(LikeRecord bean,Integer opId){
-		return this.likeRecordMapper.updateByOpId(bean,opId);
-	}
+  /**
+   * 根据OpId获取对象
+   */
+  @Override
+  public LikeRecord getLikeRecordByOpId(Integer opId) {
+    return this.likeRecordMapper.selectByOpId(opId);
+  }
 
-	/**
-	 * 根据OpId删除
-	 */
-	@Override
-	public Integer deleteLikeRecordByOpId(Integer opId){
-		return this.likeRecordMapper.deleteByOpId(opId);
-	}
+  /**
+   * 根据OpId修改
+   */
+  @Override
+  public Integer updateLikeRecordByOpId(LikeRecord bean, Integer opId) {
+    return this.likeRecordMapper.updateByOpId(bean, opId);
+  }
 
-	/**
-	 * 根据ObjectIdAndUserIdAndOpType获取对象
-	 */
-	@Override
-	public LikeRecord getLikeRecordByObjectIdAndUserIdAndOpType(String objectId,String userId,Integer opType){
-		return this.likeRecordMapper.selectByObjectIdAndUserIdAndOpType(objectId,userId,opType);
-	}
+  /**
+   * 根据OpId删除
+   */
+  @Override
+  public Integer deleteLikeRecordByOpId(Integer opId) {
+    return this.likeRecordMapper.deleteByOpId(opId);
+  }
 
-	/**
-	 * 根据ObjectIdAndUserIdAndOpType修改
-	 */
-	@Override
-	public Integer updateLikeRecordByObjectIdAndUserIdAndOpType(LikeRecord bean,String objectId,String userId,Integer opType){
-		return this.likeRecordMapper.updateByObjectIdAndUserIdAndOpType(bean,objectId,userId,opType);
-	}
+  /**
+   * 根据ObjectIdAndUserIdAndOpType获取对象
+   */
+  @Override
+  public LikeRecord getLikeRecordByObjectIdAndUserIdAndOpType(String objectId, String userId, Integer opType) {
+    return this.likeRecordMapper.selectByObjectIdAndUserIdAndOpType(objectId, userId, opType);
+  }
 
-	/**
-	 * 根据ObjectIdAndUserIdAndOpType删除
-	 */
-	@Override
-	public Integer deleteLikeRecordByObjectIdAndUserIdAndOpType(String objectId,String userId,Integer opType){
-		return this.likeRecordMapper.deleteByObjectIdAndUserIdAndOpType(objectId,userId,opType);
-	}
+  /**
+   * 根据ObjectIdAndUserIdAndOpType修改
+   */
+  @Override
+  public Integer updateLikeRecordByObjectIdAndUserIdAndOpType(LikeRecord bean, String objectId, String userId, Integer opType) {
+    return this.likeRecordMapper.updateByObjectIdAndUserIdAndOpType(bean, objectId, userId, opType);
+  }
+
+  /**
+   * 根据ObjectIdAndUserIdAndOpType删除
+   */
+  @Override
+  public Integer deleteLikeRecordByObjectIdAndUserIdAndOpType(String objectId, String userId, Integer opType) {
+    return this.likeRecordMapper.deleteByObjectIdAndUserIdAndOpType(objectId, userId, opType);
+  }
+
+  @Override
+  public void doLike(String objectId, String userId, String nickName, OperRecordOpTypeEnum opTypeEnum) {
+    UserMessage userMessage = new UserMessage();
+    userMessage.setCreateTime(new Date());
+    LikeRecord likeRecord = null;
+    switch (opTypeEnum) {
+      case ARTICLE_LIKE:
+        ForumArticle forumArticle = forumArticleMapper.selectByArticleId(objectId);
+        if (forumArticle == null) {
+          throw new BusinessException("文章不存在");
+        }
+        likeRecord = articleLike(objectId, forumArticle, userId, opTypeEnum);
+
+        userMessage.setArticleId(objectId);
+        userMessage.setArticleTitle(forumArticle.getTitle());
+        userMessage.setMessageType(MessageTypeEnum.ARTICLE_LIKE.getType());
+        userMessage.setCommentId(Constants.ZERO);
+        userMessage.setReceivedUserId(forumArticle.getUserId());
+        break;
+      case COMMENT_LIKE:
+        break;
+    }
+    userMessage.setSendUserId(userId);
+    userMessage.setSendNickName(nickName);
+    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
+    if (likeRecord == null && userId.equals(userMessage.getReceivedUserId())) {
+      userMessageMapper.insert(userMessage);
+    }
+  }
+
+  public LikeRecord articleLike(String objId, ForumArticle forumArticle, String userId, OperRecordOpTypeEnum opTypeEnum) {
+    LikeRecord record = this.likeRecordMapper.selectByObjectIdAndUserIdAndOpType(objId, userId, opTypeEnum.getType());
+    if (record != null) {
+      this.likeRecordMapper.deleteByObjectIdAndUserIdAndOpType(objId, userId, opTypeEnum.getType());
+      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.GOOD_COUNT.getType(), -1, objId);
+    } else {
+      LikeRecord likeRecord = new LikeRecord();
+      likeRecord.setObjectId(objId);
+      likeRecord.setUserId(userId);
+      likeRecord.setOpType(opTypeEnum.getType());
+      likeRecord.setCreateTime(new Date());
+      likeRecord.setAuthorUserId(forumArticle.getUserId());
+      this.likeRecordMapper.insert(likeRecord);
+      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.GOOD_COUNT.getType(), 1, objId);
+    }
+    return record;
+  }
 }
