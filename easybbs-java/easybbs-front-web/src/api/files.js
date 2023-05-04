@@ -1,6 +1,5 @@
 const apis = {
-  getImage: '/api/files/getImage/',
-  attachmentDownload: '/file/attachmentDownload'
+  getImage: '/api/files/getImage/'
 }
 
 /**
@@ -12,13 +11,8 @@ const getImage = cover => {
   return `${apis.getImage}${cover}`
 }
 
-const attachmentDownload = fileId => {
-  return `${apis.attachmentDownload}?fileId=${fileId}`
-}
-
 const filesApi = {
-  getImage,
-  attachmentDownload
+  getImage
 }
 
 export default filesApi

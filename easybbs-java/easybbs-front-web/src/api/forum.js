@@ -4,7 +4,8 @@ const apis = {
   loadArticle: '/forum/loadArticle',
   getArticleDetail: '/forum/getArticleDetail',
   doLike: '/forum/doLike',
-  getUserDownloadInfo: '/forum/getUserDownloadInfo'
+  getUserDownloadInfo: '/forum/getUserDownloadInfo',
+  attachmentDownload: '/forum/attachmentDownload'
 }
 
 /**
@@ -84,10 +85,15 @@ const getUserDownloadInfo = fileId => {
   })
 }
 
+const attachmentDownload = fileId => {
+  return `${apis.attachmentDownload}?fileId=${fileId}`
+}
+
 const forumApi = {
   loadArticle,
   getArticleDetail,
   doLike,
-  getUserDownloadInfo
+  getUserDownloadInfo,
+  attachmentDownload
 }
 export default forumApi

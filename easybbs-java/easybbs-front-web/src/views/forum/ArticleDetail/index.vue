@@ -91,7 +91,6 @@ import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
-import filesApi from '@/api/files'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
@@ -128,7 +127,7 @@ const handleAttachmentDownload = async () => {
     return
   }
   proxy.Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
-    window.open(filesApi.attachmentDownload(attachment.value.fileId), '_blank')
+    window.open(forumApi.attachmentDownload(attachment.value.fileId), '_blank')
     attachment.value.downloadCount++
   })
 }
