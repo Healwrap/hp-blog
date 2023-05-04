@@ -10,10 +10,16 @@ const apis = {
   avatarUrl: '/api/file/getAvatar',
   logout: '/logout'
 }
-// 类型 0:登录/注册验证码 1:发送邮箱验证码
+
+/**
+ * 获取验证码
+ * @param opType 类型 0:登录/注册验证码 1:发送邮箱验证码
+ * @returns {`/api/checkCode?type=${string}&time=${number}`}
+ */
 const checkCode = opType => {
   return `${apis.checkCode}?type=${opType}&time=${new Date().getTime()}`
 }
+
 /**
  * 获取用户头像
  * @param userId 用户id
@@ -22,6 +28,7 @@ const checkCode = opType => {
 const avatarUrl = userId => {
   return `${apis.avatarUrl}/${userId}`
 }
+
 /**
  * 获取邮箱验证码
  * @param email 邮箱
@@ -44,6 +51,7 @@ const getEmailCode = (email, checkCode, type, errorCallback) => {
     }
   })
 }
+
 /**
  * 注册
  * @param email 邮箱
@@ -70,6 +78,7 @@ const register = (email, nickName, password, checkCode, emailCode, errorCallback
     }
   })
 }
+
 /**
  * 重置密码
  * @param email 邮箱
@@ -94,6 +103,7 @@ const resetPwd = (email, password, checkCode, emailCode, errorCallback) => {
     }
   })
 }
+
 /**
  * 登录
  * @param email 邮箱
@@ -117,6 +127,10 @@ const login = (email, password, checkCode, errorCallback) => {
   })
 }
 
+/**
+ * 退出登录
+ * @returns {*}
+ */
 const logout = () => {
   return request({
     url: apis.logout,
@@ -124,6 +138,10 @@ const logout = () => {
   })
 }
 
+/**
+ * 获取用户信息
+ * @returns {*}
+ */
 const getUserInfo = () => {
   return request({
     url: apis.getUserInfo,

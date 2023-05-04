@@ -1,7 +1,5 @@
 package com.easybbs.entity.constants;
 
-import java.util.Map;
-
 /**
  * @ClassName Constants
  * @Description 一些常量
@@ -18,6 +16,8 @@ public class Constants {
 
   public static final String CHECK_CODE_KEY = "check_code_key";
   public static final String CHECK_CODE_KEY_EMAIL = "check_code_key_email";
-  public static final String NO_ADDRESS = "";
+  public static final String NO_ADDRESS = "未知";
   public static final String SESSIONS_KEY = "session_key";
+  public static final String FILE_FOLDER_FILE = "/file/";
+  public static final String FILE_FOLDER_ATTACHMENT = "/attachment/";
 }

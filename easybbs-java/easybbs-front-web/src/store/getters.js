@@ -3,6 +3,16 @@ const getters = {
   theme: state => state.app.theme,
   contentWidth: state => state.app.contentWidth,
   headerHeight: state => state.app.headerHeight,
+  userInfo: state => {
+    return {
+      token: state.user.token,
+      nickName: state.user.nickName,
+      userId: state.user.userId,
+      admin: state.user.admin,
+      avatar: state.user.avatar,
+      province: state.user.province
+    }
+  },
   token: state => state.user.token,
   nickName: state => state.user.nickName,
   userId: state => state.user.userId,

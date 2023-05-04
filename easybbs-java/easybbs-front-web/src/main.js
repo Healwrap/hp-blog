@@ -12,6 +12,7 @@ import '@/assets/icon/iconfont.css'
 // 全局方法
 import Verify from '@/utils/Verify'
 import Toast from '@/utils/Toast'
+import Confirm from '@/utils/Confirm'
 import Request from '@/utils/Request'
 import store from '@/store'
 // 全局组件
@@ -25,6 +26,7 @@ app.use(ElementPlus)
 app.config.globalProperties.Verify = Verify
 app.config.globalProperties.Toast = Toast
 app.config.globalProperties.Request = Request
+app.config.globalProperties.Confirm = Confirm
 app.config.globalProperties.store = store
 app.config.globalProperties.VueCookies = VueCookies
 

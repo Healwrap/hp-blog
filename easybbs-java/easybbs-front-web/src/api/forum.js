@@ -4,9 +4,17 @@ const apis = {
   loadArticle: '/forum/loadArticle',
   getArticleDetail: '/forum/getArticleDetail',
   doLike: '/forum/doLike',
-  getUserIntegral: '/getUserIntegral',
-  attachmentDownload: '/forum/attachmentDownload'
+  getUserDownloadInfo: '/forum/getUserDownloadInfo'
 }
+
+/**
+ * 获取文章列表
+ * @param pageNo 页码
+ * @param orderType 排序类型
+ * @param boardId 板块id
+ * @param pBoardId 父板块id
+ * @returns {*}
+ */
 const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   let params = {}
   if (pageNo !== null && pageNo !== undefined) {
@@ -29,6 +37,12 @@ const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
   })
 }
 
+/**
+ * 获取文章详情
+ * @param articleId 文章id
+ * @returns {*}
+ */
+
 const getArticleDetail = articleId => {
   return request({
     url: apis.getArticleDetail,
@@ -39,6 +53,11 @@ const getArticleDetail = articleId => {
   })
 }
 
+/**
+ * 点赞
+ * @param articleId 文章id
+ * @returns {*}
+ */
 const doLike = articleId => {
   return request({
     url: apis.doLike,
@@ -49,10 +68,26 @@ const doLike = articleId => {
     showLoading: false
   })
 }
+/**
+ * 获取用户积分
+ * @param fileId 文件id
+ * @returns {*}
+ */
+const getUserDownloadInfo = fileId => {
+  return request({
+    url: apis.getUserDownloadInfo,
+    method: 'post',
+    params: {
+      fileId
+    },
+    showLoading: false
+  })
+}
 
 const forumApi = {
   loadArticle,
   getArticleDetail,
-  doLike
+  doLike,
+  getUserDownloadInfo
 }
 export default forumApi

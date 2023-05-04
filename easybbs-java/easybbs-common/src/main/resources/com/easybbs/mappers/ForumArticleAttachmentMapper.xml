@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easybbs.mappers.ForumArticleAttachmentMapper">
 
@@ -230,7 +230,7 @@
 				 #{bean.integral},
 			</if>
 		 </trim>
-		 on DUPLICATE key update 
+		 on DUPLICATE key update
 		 <trim prefix="" suffix="" suffixOverrides=",">
 			<if test="bean.fileId!=null">
 				 file_id = VALUES(file_id),
@@ -316,7 +316,7 @@
 				 #{item.integral}
 			 )
 		 </foreach>
-			on DUPLICATE key update 
+			on DUPLICATE key update
 			file_id = VALUES(file_id),
 			article_id = VALUES(article_id),
 			user_id = VALUES(user_id),
@@ -331,7 +331,7 @@
 	<!-- 根据FileId修改-->
 	<update id="updateByFileId" parameterType="com.easybbs.entity.po.ForumArticleAttachment">
 		 UPDATE forum_article_attachment
- 		 <set> 
+ 		 <set>
 			<if test="bean.articleId != null">
 				 article_id = #{bean.articleId},
 			</if>
@@ -369,5 +369,11 @@
 	<select id="selectByFileId" resultMap="base_result_map" >
 		select <include refid="base_column_list" /> from forum_article_attachment where file_id=#{fileId}
 	</select>
+
+	<update id="updateDownloadCount">
+        update forum_article_attachment
+        set download_count = download_count + 1
+        where file_id = #{fileId}
+    </update>
 
 </mapper>

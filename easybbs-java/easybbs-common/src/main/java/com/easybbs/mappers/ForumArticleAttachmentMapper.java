@@ -3,9 +3,9 @@ package com.easybbs.mappers;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 
+ *
  * 文件信息 数据库操作接口
- * 
+ *
  */
 public interface ForumArticleAttachmentMapper<T,P> extends BaseMapper<T,P> {
 
@@ -26,5 +26,5 @@ public interface ForumArticleAttachmentMapper<T,P> extends BaseMapper<T,P> {
 	 */
 	 T selectByFileId(@Param("fileId") String fileId);
 
-
+	 void updateDownloadCount(@Param("fileId") String fileId);
 }

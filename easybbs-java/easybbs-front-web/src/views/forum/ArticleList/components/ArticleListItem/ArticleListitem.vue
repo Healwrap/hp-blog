@@ -18,7 +18,7 @@
         </div>
         <div class="article-title">
           <router-link :to="'/article/' + data.articleId">
-            <el-tag dark v-if="data.topType === 1">置顶</el-tag>
+            <el-tag v-if="data.topType === 1" dark>置顶</el-tag>
             {{ data.title }}
           </router-link>
         </div>
@@ -54,7 +54,7 @@ const avatarConfig = ref({
   addLink: false,
   userId: ''
 })
-const props = defineProps({
+defineProps({
   data: {
     type: Object
   }

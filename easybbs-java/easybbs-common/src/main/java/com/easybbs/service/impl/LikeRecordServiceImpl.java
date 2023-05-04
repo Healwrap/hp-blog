@@ -16,6 +16,7 @@ import com.easybbs.mappers.LikeRecordMapper;
 import com.easybbs.mappers.UserMessageMapper;
 import com.easybbs.service.LikeRecordService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -146,18 +147,17 @@ public class LikeRecordServiceImpl implements LikeRecordService {
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public void doLike(String objectId, String userId, String nickName, OperRecordOpTypeEnum opTypeEnum) {
     UserMessage userMessage = new UserMessage();
     userMessage.setCreateTime(new Date());
-    LikeRecord likeRecord = null;
     switch (opTypeEnum) {
       case ARTICLE_LIKE:
         ForumArticle forumArticle = forumArticleMapper.selectByArticleId(objectId);
         if (forumArticle == null) {
           throw new BusinessException("文章不存在");
         }
-        likeRecord = articleLike(objectId, forumArticle, userId, opTypeEnum);
-
+        articleLike(objectId, forumArticle, userId, opTypeEnum);
         userMessage.setArticleId(objectId);
         userMessage.setArticleTitle(forumArticle.getTitle());
         userMessage.setMessageType(MessageTypeEnum.ARTICLE_LIKE.getType());
@@ -170,8 +170,11 @@ public class LikeRecordServiceImpl implements LikeRecordService {
     userMessage.setSendUserId(userId);
     userMessage.setSendNickName(nickName);
     userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
-    if (likeRecord == null && userId.equals(userMessage.getReceivedUserId())) {
-      userMessageMapper.insert(userMessage);
+    if (!userId.equals(userMessage.getReceivedUserId())) {
+      UserMessage dbInfo = userMessageMapper.selectByArticleIdAndCommentIdAndSendUserIdAndMessageType(userMessage.getArticleId(), userMessage.getCommentId(), userMessage.getSendUserId(), userMessage.getMessageType());
+      if (dbInfo == null) {
+        userMessageMapper.insert(userMessage);
+      }
     }
   }
 

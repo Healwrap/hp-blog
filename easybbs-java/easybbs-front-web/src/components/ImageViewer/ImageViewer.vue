@@ -1,12 +1,11 @@
 <template>
   <div class="image-viewer">
-    <el-image-viewer v-if="previewImgIndex != null" :initial-index="previewImgIndex" :url-list="imageList"
-                     hide-on-click-modal @close="close"/>
+    <el-image-viewer v-if="previewImgIndex != null" :initial-index="previewImgIndex" :url-list="imageList" hide-on-click-modal @close="close" />
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   imageList: {

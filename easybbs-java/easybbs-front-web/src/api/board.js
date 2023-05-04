@@ -4,6 +4,11 @@ const apis = {
   loadBoard: '/board/loadBoard'
 }
 
+/**
+ * 获取板块
+ * @param boardId 板块id
+ * @returns {*}
+ */
 const loadBoard = boardId => {
   let params = {}
   if (boardId !== undefined) {

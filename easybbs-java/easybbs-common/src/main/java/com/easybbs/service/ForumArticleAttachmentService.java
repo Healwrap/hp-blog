@@ -2,15 +2,16 @@ package com.easybbs.service;
 
 import java.util.List;
 
+import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.query.ForumArticleAttachmentQuery;
 import com.easybbs.entity.po.ForumArticleAttachment;
 import com.easybbs.entity.vo.PaginationResultVO;
 
 
 /**
- * 
+ *
  * 文件信息 业务接口
- * 
+ *
  */
 public interface ForumArticleAttachmentService {
 
@@ -61,4 +62,5 @@ public interface ForumArticleAttachmentService {
 	 */
 	Integer deleteForumArticleAttachmentByFileId(String fileId);
 
+	ForumArticleAttachment downloadAttachment(String fileId, SessionWebUserDto sessionWebUserDto);
 }

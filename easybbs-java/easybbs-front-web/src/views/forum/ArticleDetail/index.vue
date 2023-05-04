@@ -1,27 +1,26 @@
 <template>
-  <div class="article-detail">
+  <div class="article-detail" :style="{ width: proxy.store.getters.contentWidth - 300 + 'px' }">
     <!--顶部面包屑-->
     <div class="article-detail-info">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-        >{{ articleInfo.pBoardName }}
+          >{{ articleInfo.pBoardName }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item v-if="articleInfo.boardId"
-                            :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-        >{{ articleInfo.boardName }}
+        <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+          >{{ articleInfo.boardName }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!--文章内容-->
-    <div class="article-detail-content" :style="{ width: proxy.store.getters.contentWidth - 300 + 'px' }">
+    <div class="article-detail-content block">
       <!--标题-->
       <div class="title">
         {{ articleInfo.title }}
       </div>
       <!--用户信息-->
       <div class="user-info">
-        <UserAvatar :src="articleInfo.avatarUrl" :user-id="articleInfo.userId"/>
+        <UserAvatar :src="articleInfo.avatarUrl" :user-id="articleInfo.userId" />
         <div class="user-info-detail">
           <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
           <div class="info">
@@ -35,25 +34,27 @@
       </div>
       <!--文章内容-->
       <div id="detail" class="detail" v-html="articleInfo.content"></div>
-      <!--附件-->
-      <div v-if="attachment" class="attachment-panel">
-        <div class="title">附件</div>
-        <div class="attachment-info">
-          <div class="iconfont icon-zip"></div>
-          <div class="file-name">{{ attachment.fileName }}</div>
-          <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
-          <div>
-            需要<span class="integral">{{ attachment.integral }}</span
+    </div>
+    <!--附件-->
+    <div v-if="attachment" class="attachment-panel block">
+      <div class="title">附件</div>
+      <div class="attachment-info">
+        <div class="iconfont icon-zip"></div>
+        <div class="file-name">{{ attachment.fileName }}</div>
+        <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
+        <div>
+          需要<span class="integral">{{ attachment.integral }}</span
           >积分
-          </div>
-          <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
-          <div class="download-btn">
-            <el-button type="primary" size="small">下载</el-button>
-          </div>
+        </div>
+        <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
+        <div class="download-btn">
+          <el-button type="primary" size="small" @click="handleAttachmentDownload">下载</el-button>
         </div>
       </div>
-      <!--评论-->
-      <div class="comment-panel"></div>
+    </div>
+    <!--评论-->
+    <div class="comment-panel block">
+      <CommentList :article-id="articleInfo.articleId" :article-userid="articleInfo.userId" />
     </div>
   </div>
   <!--左侧快捷操作-->
@@ -76,24 +77,27 @@
     </div>
   </div>
   <!--图片预览-->
-  <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
+  <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
 </template>
 
 <script setup>
-import {getCurrentInstance, nextTick, onMounted, ref} from 'vue'
-import {ArrowRight} from '@element-plus/icons-vue'
-import {useRoute} from 'vue-router'
+import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router'
 import router from '@/router'
 import formatFileSize from '@/utils/Format'
 import forumApi from '@/api/forum'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
+import CommentList from './components/CommentList.vue'
+import filesApi from '@/api/files'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
+const currentUserinfo = ref({})
 const quickPanelLeft = (window.innerWidth - proxy.store.getters.contentWidth - 70) / 2
 // 文章详情
 const articleInfo = ref({})
@@ -114,8 +118,19 @@ const handleGoodClick = async () => {
     articleInfo.value.goodCount--
   }
 }
-const handleAttachmentDownload = () => {
-  // TODO
+const handleAttachmentDownload = async () => {
+  const result = await forumApi.getUserDownloadInfo(attachment.value.fileId)
+  if (!result) {
+    return
+  }
+  if (result.data.userIntegral < attachment.value.integral && currentUserinfo.value.userId !== articleInfo.value.userId) {
+    proxy.Toast.warning('你的积分不够，无法下载')
+    return
+  }
+  proxy.Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
+    window.open(filesApi.attachmentDownload(attachment.value.fileId), '_blank')
+    attachment.value.downloadCount++
+  })
 }
 // 文章图片预览
 const handleImagePreview = () => {
@@ -146,7 +161,18 @@ onMounted(async () => {
   attachment.value = result.data.forumArticleAttachmentVO
   havaLike.value = result.data.havaLike
   handleImagePreview()
+  highlightCode()
 })
+watch(
+  () => proxy.store.getters.userInfo,
+  newVal => {
+    currentUserinfo.value = newVal
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -160,7 +186,6 @@ onMounted(async () => {
   }
 
   .article-detail-content {
-    background: #fff;
     padding: 10px;
 
     .title {
@@ -205,54 +230,65 @@ onMounted(async () => {
         width: 90%;
       }
     }
+  }
 
-    .attachment-panel {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #eee;
+  .attachment-panel {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #eee;
 
-      .title {
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .attachment-info {
+      display: flex;
+      align-items: center;
+
+      .iconfont {
+        font-size: 30px;
+        color: #1e88e5;
+      }
+
+      .file-name {
+        margin-left: 10px;
         font-size: 16px;
         font-weight: bold;
-        margin-bottom: 10px;
       }
 
-      .attachment-info {
-        display: flex;
-        align-items: center;
-
-        .iconfont {
-          font-size: 30px;
-          color: #1e88e5;
-        }
-
-        .file-name {
-          margin-left: 10px;
-          font-size: 16px;
-          font-weight: bold;
-        }
-
-        .size {
-          margin: 0 10px;
-          font-size: 12px;
-          color: #999;
-        }
-
-        .integral {
-          font-size: 12px;
-          color: #f56c6c;
-        }
-
-        .download-count {
-          margin-left: 10px;
-          font-size: 12px;
-          color: #999;
-        }
-
-        .download-btn {
-          margin-left: 10px;
-        }
+      .size {
+        margin: 0 10px;
+        font-size: 12px;
+        color: #999;
       }
+
+      .integral {
+        font-size: 12px;
+        color: #f56c6c;
+      }
+
+      .download-count {
+        margin-left: 10px;
+        font-size: 12px;
+        color: #999;
+      }
+
+      .download-btn {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  .block {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+
+    &:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     }
   }
 }
