@@ -125,6 +125,12 @@ public class ForumArticleAttachmentServiceImpl implements ForumArticleAttachment
     return this.forumArticleAttachmentMapper.deleteByFileId(fileId);
   }
 
+  /**
+   * 下载附件
+   * @param fileId 附件ID
+   * @param sessionWebUserDto 当前登录用户
+   * @return
+   */
   @Override
   @Transactional(rollbackFor = Exception.class)
   public ForumArticleAttachment downloadAttachment(String fileId, SessionWebUserDto sessionWebUserDto) {

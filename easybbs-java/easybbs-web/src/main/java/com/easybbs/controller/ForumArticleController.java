@@ -82,8 +82,8 @@ public class ForumArticleController extends ABaseController {
     if (sessionWebUserDto == null) {
       forumArticleQuery.setStatus(ArticleStatusEnum.AUDIT.getStatus());
     }
-    forumArticleQuery.setCurrentUserId(sessionWebUserDto == null ? null : sessionWebUserDto.getUserId());
     forumArticleQuery.setStatus(ArticleStatusEnum.AUDIT.getStatus());
+    forumArticleQuery.setCurrentUserId(sessionWebUserDto == null ? null : sessionWebUserDto.getUserId());
     ArticleOrderTypeEnum orderTypeEnum = ArticleOrderTypeEnum.getByType(orderType);
     orderTypeEnum = orderTypeEnum == null ? ArticleOrderTypeEnum.HOT : orderTypeEnum;
     forumArticleQuery.setOrderBy(orderTypeEnum.getOrderSql());
@@ -146,6 +146,13 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(null);
   }
 
+  /**
+   * 获取用户积分和下载信息
+   *
+   * @param session 用户session
+   * @param fileId  文件id
+   * @return
+   */
   @RequestMapping("/getUserDownloadInfo")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO getUserDownloadInfo(HttpSession session, @VerifyParams(required = true) String fileId) {
@@ -163,6 +170,14 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(userDownloadInfoVO);
   }
 
+  /**
+   * 下载附件
+   *
+   * @param session  用户session
+   * @param request  请求
+   * @param response 响应
+   * @param fileId   文件id
+   */
   @GetMapping("/attachmentDownload")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public void attachmentDownload(HttpSession session, HttpServletRequest request, HttpServletResponse response, @VerifyParams(required = true) String fileId) {

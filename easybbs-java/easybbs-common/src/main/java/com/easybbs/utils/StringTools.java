@@ -49,4 +49,13 @@ public class StringTools {
   public static String encodeMd5(String str) {
     return StringTools.isEmpty(str) ? "" : DigestUtils.md5Hex(str);
   }
+
+  /**
+   * 获取文件后缀
+   * @param fileName 文件名
+   * @return
+   */
+  public static String getFileSuffix(String fileName) {
+    return fileName.substring(fileName.lastIndexOf("."));
+  }
 }

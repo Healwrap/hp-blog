@@ -5,7 +5,7 @@ const apis = {
   getArticleDetail: '/forum/getArticleDetail',
   doLike: '/forum/doLike',
   getUserDownloadInfo: '/forum/getUserDownloadInfo',
-  attachmentDownload: '/forum/attachmentDownload'
+  attachmentDownload: '/api/forum/attachmentDownload'
 }
 
 /**

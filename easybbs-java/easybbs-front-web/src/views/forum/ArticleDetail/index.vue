@@ -122,8 +122,15 @@ const handleAttachmentDownload = async () => {
   if (!result) {
     return
   }
+  // 积分不够
   if (result.data.userIntegral < attachment.value.integral && currentUserinfo.value.userId !== articleInfo.value.userId) {
     proxy.Toast.warning('你的积分不够，无法下载')
+    return
+  }
+  // 积分为0或者是自己的文章或者已经下载过了
+  if (attachment.value.integral === 0 || currentUserinfo.value.userId === articleInfo.value.userId || result.data.havaDownload) {
+    window.open(forumApi.attachmentDownload(attachment.value.fileId), '_blank')
+    attachment.value.downloadCount++
     return
   }
   proxy.Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {

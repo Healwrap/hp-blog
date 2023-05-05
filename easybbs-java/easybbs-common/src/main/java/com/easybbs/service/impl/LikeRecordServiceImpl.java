@@ -3,15 +3,14 @@ package com.easybbs.service.impl;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.enums.*;
 import com.easybbs.entity.po.ForumArticle;
+import com.easybbs.entity.po.ForumComment;
 import com.easybbs.entity.po.LikeRecord;
 import com.easybbs.entity.po.UserMessage;
-import com.easybbs.entity.query.ForumArticleQuery;
-import com.easybbs.entity.query.LikeRecordQuery;
-import com.easybbs.entity.query.SimplePage;
-import com.easybbs.entity.query.UserMessageQuery;
+import com.easybbs.entity.query.*;
 import com.easybbs.entity.vo.PaginationResultVO;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.mappers.ForumArticleMapper;
+import com.easybbs.mappers.ForumCommentMapper;
 import com.easybbs.mappers.LikeRecordMapper;
 import com.easybbs.mappers.UserMessageMapper;
 import com.easybbs.service.LikeRecordService;
@@ -36,6 +35,8 @@ public class LikeRecordServiceImpl implements LikeRecordService {
 
   @Resource
   private ForumArticleMapper<ForumArticle, ForumArticleQuery> forumArticleMapper;
+  @Resource
+  private ForumCommentMapper<ForumComment, ForumCommentQuery> forumCommentMapper;
 
   /**
    * 根据条件查询列表
@@ -146,6 +147,14 @@ public class LikeRecordServiceImpl implements LikeRecordService {
     return this.likeRecordMapper.deleteByObjectIdAndUserIdAndOpType(objectId, userId, opType);
   }
 
+  /**
+   * 点赞 文章点赞 评论点赞
+   *
+   * @param objectId   文章id或者评论id
+   * @param userId     用户id
+   * @param nickName   用户昵称
+   * @param opTypeEnum 操作类型
+   */
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void doLike(String objectId, String userId, String nickName, OperRecordOpTypeEnum opTypeEnum) {
@@ -165,6 +174,18 @@ public class LikeRecordServiceImpl implements LikeRecordService {
         userMessage.setReceivedUserId(forumArticle.getUserId());
         break;
       case COMMENT_LIKE:
+        ForumComment forumComment = forumCommentMapper.selectByCommentId(Integer.parseInt(objectId));
+        if (null == forumComment) {
+          throw new BusinessException("评论不存在");
+        }
+        commentLike(forumComment, objectId, userId, opTypeEnum);
+        forumArticle = forumArticleMapper.selectByArticleId(forumComment.getArticleId());
+        userMessage.setArticleId(objectId);
+        userMessage.setArticleTitle(forumArticle.getTitle());
+        userMessage.setMessageType(MessageTypeEnum.COMMENT_LIKE.getType());
+        userMessage.setCommentId(forumComment.getCommentId());
+        userMessage.setReceivedUserId(forumComment.getUserId());
+        userMessage.setMessageContent(forumComment.getContent());
         break;
     }
     userMessage.setSendUserId(userId);
@@ -178,11 +199,21 @@ public class LikeRecordServiceImpl implements LikeRecordService {
     }
   }
 
-  public LikeRecord articleLike(String objId, ForumArticle forumArticle, String userId, OperRecordOpTypeEnum opTypeEnum) {
+  /**
+   * 文章点赞
+   *
+   * @param objId        文章id
+   * @param forumArticle 文章信息
+   * @param userId       用户id
+   * @param opTypeEnum   操作类型
+   * @return
+   */
+  public void articleLike(String objId, ForumArticle forumArticle, String userId, OperRecordOpTypeEnum opTypeEnum) {
     LikeRecord record = this.likeRecordMapper.selectByObjectIdAndUserIdAndOpType(objId, userId, opTypeEnum.getType());
+    int changeCount = 0;
     if (record != null) {
       this.likeRecordMapper.deleteByObjectIdAndUserIdAndOpType(objId, userId, opTypeEnum.getType());
-      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.GOOD_COUNT.getType(), -1, objId);
+      changeCount = -1;
     } else {
       LikeRecord likeRecord = new LikeRecord();
       likeRecord.setObjectId(objId);
@@ -191,8 +222,34 @@ public class LikeRecordServiceImpl implements LikeRecordService {
       likeRecord.setCreateTime(new Date());
       likeRecord.setAuthorUserId(forumArticle.getUserId());
       this.likeRecordMapper.insert(likeRecord);
-      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.GOOD_COUNT.getType(), 1, objId);
+      changeCount = 1;
     }
-    return record;
+    forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.GOOD_COUNT.getType(), changeCount, objId);
+  }
+
+  /**
+   * 评论点赞
+   *
+   * @param objId      评论id
+   * @param userId     用户id
+   * @param opTypeEnum 操作类型
+   */
+  public void commentLike(ForumComment forumComment, String objId, String userId, OperRecordOpTypeEnum opTypeEnum) {
+    LikeRecord record = this.likeRecordMapper.selectByObjectIdAndUserIdAndOpType(objId, userId, opTypeEnum.getType());
+    int changeCount = 0;
+    if (record != null) {
+      this.likeRecordMapper.deleteByObjectIdAndUserIdAndOpType(objId, userId, opTypeEnum.getType());
+      changeCount = -1;
+    } else {
+      LikeRecord likeRecord = new LikeRecord();
+      likeRecord.setObjectId(objId);
+      likeRecord.setUserId(userId);
+      likeRecord.setOpType(opTypeEnum.getType());
+      likeRecord.setCreateTime(new Date());
+      likeRecord.setAuthorUserId(forumComment.getUserId());
+      this.likeRecordMapper.insert(likeRecord);
+      changeCount = 1;
+    }
+    this.forumCommentMapper.updateCommentGoodCount(changeCount, Integer.parseInt(objId));
   }
 }
