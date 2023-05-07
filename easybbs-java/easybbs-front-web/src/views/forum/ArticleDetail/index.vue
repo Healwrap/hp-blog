@@ -54,7 +54,7 @@
     </div>
     <!--评论-->
     <div class="comment-panel block">
-      <CommentList :article-id="articleInfo.articleId" :article-userid="articleInfo.userId" />
+      <CommentList v-if="Object.keys(articleInfo).length !== 0" :article-id="articleInfo.articleId" :article-userid="articleInfo.userId" />
     </div>
   </div>
   <!--左侧快捷操作-->
@@ -85,7 +85,7 @@ import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
-import formatFileSize from '@/utils/Format'
+import { formatFileSize } from '@/utils/Utils'
 import forumApi from '@/api/forum'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'

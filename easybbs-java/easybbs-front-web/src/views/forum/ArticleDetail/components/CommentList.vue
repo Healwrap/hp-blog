@@ -4,28 +4,27 @@
       <div class="title">评论<span class="count">0</span></div>
       <div class="tab">
         <span>热榜</span>
-        <el-divider direction="vertical"/>
+        <el-divider direction="vertical" />
         <span>最新</span>
       </div>
     </div>
     <div class="comment-form-panel">
-      <UserAvatar size="default" :user-id="currentUserinfo.userId"/>
+      <UserAvatar size="default" :user-id="currentUserinfo.userId" />
       <div class="comment-form">
         <el-form ref="formDataRef" :model="formData" :rules="rules">
           <!--textarea输入-->
           <el-form-item prop="content">
-            <el-input v-model="formData.content" placeholder="输入评论内容" type="textarea" rows="3" maxlength="800"
-                      resize="none" show-word-limit/>
+            <el-input v-model="formData.content" placeholder="输入评论内容" type="textarea" rows="3" maxlength="800" resize="none" show-word-limit />
           </el-form-item>
         </el-form>
         <div class="comment-form-btn">
           <div v-if="currentUserinfo.userId" class="insert-img">
             <el-upload
-                name="file"
-                :show-file-list="false"
-                accept=".png,.PNG,.jpg,.JPG,.jpeg,.JPEG,.gif,.GIF,.bmp,.BMP"
-                :multiple="false"
-                :http-request="selectImg"
+              name="file"
+              :show-file-list="false"
+              accept=".png,.PNG,.jpg,.JPG,.jpeg,.JPEG,.gif,.GIF,.bmp,.BMP"
+              :multiple="false"
+              :http-request="selectImg"
             >
               <span class="iconfont icon-image"></span>
             </el-upload>
@@ -34,16 +33,25 @@
         </div>
       </div>
     </div>
-    <div class="comment-list-panel"></div>
+    <div class="comment-list-panel">
+      <!--<comment-item :comment-data="commentListInfo" :article-userid="articleUserid" :current-user-id="currentUserinfo.userId" />-->
+      <data-list :data-source="commentListInfo" :loading="loading">
+        <template #default="{ data }">
+          <CommentItem :comment-data="data" :article-user-id="articleUserid" :current-user-id="currentUserinfo.userId" />
+        </template>
+      </data-list>
+    </div>
   </div>
 </template>
 
 <script setup>
-import {getCurrentInstance, ref, watch} from 'vue'
+import { getCurrentInstance, ref, watch } from 'vue'
 import commentApis from '@/api/comment'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
+import CommentItem from '@/views/forum/ArticleDetail/components/CommentItem.vue'
+import DataList from '@/components/DataList/DataList.vue'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   articleId: {
     type: String
@@ -57,14 +65,16 @@ const currentUserinfo = ref({})
 const commentListInfo = ref({})
 // 排序
 const orderType = ref(0)
+// 加载
+const loading = ref(false)
 const formData = ref({
   content: ''
 })
 const formDataRef = ref(null)
 const rules = {
   content: [
-    {required: true, message: '请输入评论内容', trigger: 'blur'},
-    {min: 1, max: 800, message: '评论内容长度在 1 到 800 个字符', trigger: 'blur'}
+    { required: true, message: '请输入评论内容', trigger: 'blur' },
+    { min: 1, max: 800, message: '评论内容长度在 1 到 800 个字符', trigger: 'blur' }
   ]
 }
 // 提交评论
@@ -77,25 +87,24 @@ const selectImg = () => {
 }
 // 加载评论列表
 const loadComment = async () => {
-  const result = await commentApis.loadComment({
-    pageNo: commentListInfo.value.pageNo,
-    articleId: props.articleId,
-    orderType: orderType.value
-  })
+  loading.value = true
+  const result = await commentApis.loadComment(props.articleId, commentListInfo.value.pageNo, orderType.value)
   if (!result) {
     return
   }
   commentListInfo.value = result.data
+  loading.value = false
 }
+loadComment()
 watch(
-    () => proxy.store.getters.userInfo,
-    newVal => {
-      currentUserinfo.value = newVal
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => proxy.store.getters.userInfo,
+  newVal => {
+    currentUserinfo.value = newVal
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 )
 </script>
 

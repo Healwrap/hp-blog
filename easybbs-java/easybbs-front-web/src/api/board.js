@@ -1,5 +1,5 @@
 import request from '@/utils/Request'
-
+import { mergeParams } from '@/utils/Utils'
 const apis = {
   loadBoard: '/board/loadBoard'
 }
@@ -10,10 +10,7 @@ const apis = {
  * @returns {*}
  */
 const loadBoard = boardId => {
-  let params = {}
-  if (boardId !== undefined) {
-    params.boardId = boardId
-  }
+  const params = mergeParams({ boardId })
   return request({
     url: apis.loadBoard,
     method: 'get',

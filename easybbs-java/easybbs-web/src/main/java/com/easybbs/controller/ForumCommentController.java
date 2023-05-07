@@ -64,6 +64,9 @@ public class ForumCommentController extends ABaseController {
     } else {
       commentQuery.setStatus(ArticleStatusEnum.AUDIT.getStatus());
     }
+    if (pageNo == null || pageNo < 1 ) {
+      pageNo = 1;
+    }
     commentQuery.setPageNo(pageNo);
     commentQuery.setPageSize(PageSize.SIZE50.getSize());
     commentQuery.setpCommentId(0);

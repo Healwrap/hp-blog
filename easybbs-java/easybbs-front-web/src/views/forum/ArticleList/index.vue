@@ -8,23 +8,28 @@
       <span :class="['tab', orderType === 2 ? 'active' : '']" @click="orderType = 2">最新</span>
     </div>
     <div class="article-list-panel">
-      <div class="no-data">
-        <el-empty v-if="!loading && articleInfo.list.length === 0" />
-      </div>
-      <div v-if="loading" class="skeleton">
-        <el-skeleton :row="3" animated />
-      </div>
-      <div v-for="item in articleInfo.list" v-else :key="item.articleId">
-        <ArticleListItem :data="item" />
-      </div>
-      <el-pagination
-        v-model:current-page="currentPage"
-        hide-on-single-page
-        :total="articleInfo.totalCount"
-        :page-size="articleInfo.pageSize"
-        layout="prev, pager, next"
-        @current-change="loadArticle(currentPage)"
-      />
+      <!--<div class="no-data">-->
+      <!--  <el-empty v-if="!loading && articleInfo.list.length === 0" />-->
+      <!--</div>-->
+      <!--<div v-if="loading" class="skeleton">-->
+      <!--  <el-skeleton :row="3" animated />-->
+      <!--</div>-->
+      <!--<div v-for="item in articleInfo.list" v-else :key="item.articleId">-->
+      <!--  <ArticleListItem :data="item" />-->
+      <!--</div>-->
+      <!--<el-pagination-->
+      <!--  v-model:current-page="currentPage"-->
+      <!--  hide-on-single-page-->
+      <!--  :total="articleInfo.totalCount"-->
+      <!--  :page-size="articleInfo.pageSize"-->
+      <!--  layout="prev, pager, next"-->
+      <!--  @current-change="loadArticle(currentPage)"-->
+      <!--/>-->
+      <data-list :data-source="articleInfo" :loading="loading" @load-data="loadArticle">
+        <template #default="{ data }">
+          <ArticleListItem :data="data" />
+        </template>
+      </data-list>
     </div>
   </div>
 </template>
@@ -34,6 +39,7 @@ import forumApi from '@/api/forum'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import ArticleListItem from './components/ArticleListItem/ArticleListitem.vue'
+import DataList from '@/components/DataList/DataList.vue'
 
 const route = useRoute()
 // 一级板块
@@ -41,16 +47,14 @@ const pBoardId = ref(0)
 const boardId = ref(0)
 const loading = ref(false)
 const orderType = ref(0)
-const currentPage = ref(0)
 const articleInfo = ref({})
 const loadArticle = async () => {
   loading.value = true
-  const result = await forumApi.loadArticle(currentPage.value, orderType.value, boardId.value, pBoardId.value)
+  const result = await forumApi.loadArticle(articleInfo.value.pageNo, orderType.value, boardId.value, pBoardId.value)
   if (!result) {
     return
   }
   articleInfo.value = result.data
-  currentPage.value = result.data.pageNo
   loading.value = false
 }
 loadArticle()

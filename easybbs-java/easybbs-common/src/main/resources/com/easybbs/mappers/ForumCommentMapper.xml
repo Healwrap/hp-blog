@@ -144,10 +144,10 @@
 		SELECT
 		<include refid="base_column_list"/>
 		<if test="query.queryLikeType != null and query.queryLikeType and query.currentUserId != null">
-			,(select count(1) from like_record r where r.object_id=c.commentId and r.user_id = #{query.currentUserId})
+			,(select count(1) from like_record r where r.object_id=comment_id and r.user_id = #{query.currentUserId})
 			likeType
 		</if>
-		FROM forum_comment c
+		FROM forum_comment
 		<include refid="query_condition"/>
 		<if test="query.orderBy!=null">
 			order by ${query.orderBy}
