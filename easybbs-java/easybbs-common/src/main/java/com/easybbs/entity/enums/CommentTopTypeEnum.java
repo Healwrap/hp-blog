@@ -9,8 +9,8 @@ package com.easybbs.entity.enums;
 public enum CommentTopTypeEnum {
   NO_TOP(0, "未置顶"),
   TOP(1, "已置顶");
-  private Integer type;
-  private String desc;
+  private final Integer type;
+  private final String desc;
 
   CommentTopTypeEnum(Integer type, String desc) {
     this.type = type;

@@ -1,5 +1,7 @@
 package com.easybbs.entity.vo.web;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,7 @@ import java.io.Serializable;
  * @Date 2023/4/27 23:04
  * @Created by admin
  */
+@Data
 public class ForumArticleAttachmentVO implements Serializable {
   /**
    * 文件id
@@ -21,55 +24,6 @@ public class ForumArticleAttachmentVO implements Serializable {
    * 文件名
    */
   private String fileName;
-
-  public String getFileId() {
-    return fileId;
-  }
-
-  public void setFileId(String fileId) {
-    this.fileId = fileId;
-  }
-
-  public Long getFileSize() {
-    return fileSize;
-  }
-
-  public void setFileSize(Long fileSize) {
-    this.fileSize = fileSize;
-  }
-
-  public String getFileName() {
-    return fileName;
-  }
-
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
-  }
-
-  public Integer getDownloadCount() {
-    return downloadCount;
-  }
-
-  public void setDownloadCount(Integer downloadCount) {
-    this.downloadCount = downloadCount;
-  }
-
-  public Integer getFileType() {
-    return fileType;
-  }
-
-  public void setFileType(Integer fileType) {
-    this.fileType = fileType;
-  }
-
-  public Integer getIntegral() {
-    return integral;
-  }
-
-  public void setIntegral(Integer integral) {
-    this.integral = integral;
-  }
-
   /**
    * 下载次数
    */

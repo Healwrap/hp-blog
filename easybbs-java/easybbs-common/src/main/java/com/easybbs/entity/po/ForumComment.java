@@ -1,7 +1,7 @@
 package com.easybbs.entity.po;
 
 import com.easybbs.entity.enums.DateTimePatternEnum;
-import com.easybbs.utils.DateUtil;
+import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -223,6 +223,6 @@ public class ForumComment implements Serializable {
 
   @Override
   public String toString() {
-    return "评论ID:" + (commentId == null ? "空" : commentId) + "，父级评论ID:" + (pCommentId == null ? "空" : pCommentId) + "，文章ID:" + (articleId == null ? "空" : articleId) + "，回复内容:" + (content == null ? "空" : content) + "，图片:" + (imgPath == null ? "空" : imgPath) + "，用户ID:" + (userId == null ? "空" : userId) + "，昵称:" + (nickName == null ? "空" : nickName) + "，用户ip地址:" + (userIpAddress == null ? "空" : userIpAddress) + "，回复人ID:" + (replyUserId == null ? "空" : replyUserId) + "，回复人昵称:" + (replyNickName == null ? "空" : replyNickName) + "，0:未置顶  1:置顶:" + (topType == null ? "空" : topType) + "，发布时间:" + (postTime == null ? "空" : DateUtil.format(postTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern())) + "，good数量:" + (goodCount == null ? "空" : goodCount) + "，0:待审核  1:已审核:" + (status == null ? "空" : status);
+    return "评论ID:" + (commentId == null ? "空" : commentId) + "，父级评论ID:" + (pCommentId == null ? "空" : pCommentId) + "，文章ID:" + (articleId == null ? "空" : articleId) + "，回复内容:" + (content == null ? "空" : content) + "，图片:" + (imgPath == null ? "空" : imgPath) + "，用户ID:" + (userId == null ? "空" : userId) + "，昵称:" + (nickName == null ? "空" : nickName) + "，用户ip地址:" + (userIpAddress == null ? "空" : userIpAddress) + "，回复人ID:" + (replyUserId == null ? "空" : replyUserId) + "，回复人昵称:" + (replyNickName == null ? "空" : replyNickName) + "，0:未置顶  1:置顶:" + (topType == null ? "空" : topType) + "，发布时间:" + (postTime == null ? "空" : DateUtils.format(postTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern())) + "，good数量:" + (goodCount == null ? "空" : goodCount) + "，0:待审核  1:已审核:" + (status == null ? "空" : status);
   }
 }

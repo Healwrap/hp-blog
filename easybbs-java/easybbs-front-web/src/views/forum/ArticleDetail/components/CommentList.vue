@@ -34,10 +34,14 @@
       </div>
     </div>
     <div class="comment-list-panel">
-      <!--<comment-item :comment-data="commentListInfo" :article-userid="articleUserid" :current-user-id="currentUserinfo.userId" />-->
       <data-list :data-source="commentListInfo" :loading="loading">
         <template #default="{ data }">
-          <CommentItem :comment-data="data" :article-user-id="articleUserid" :current-user-id="currentUserinfo.userId" />
+          <CommentItem
+            :comment-data="data"
+            :article-user-id="articleUserid"
+            :current-user-id="currentUserinfo.userId"
+            @hide-all-reply="hideAllReplyHandler"
+          />
         </template>
       </data-list>
     </div>
@@ -84,6 +88,13 @@ const handleCommentSubmit = () => {
 // 选择图片
 const selectImg = () => {
   // TODO
+}
+// 隐藏所有回复
+const hideAllReplyHandler = () => {
+  // TODO
+  commentListInfo.value.list.forEach(item => {
+    item.showReply = false
+  })
 }
 // 加载评论列表
 const loadComment = async () => {

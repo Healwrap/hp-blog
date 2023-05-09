@@ -1,12 +1,14 @@
 package com.easybbs.entity.dto.sysDto;
 
+import lombok.Data;
+
 /**
  * @ClassName SysSetting4AuditDto
  * @Description 审核设置
  * @Date 2023/4/12 9:57
  * @Created by admin
  */
-
+@Data
 public class SysSetting4AuditDto {
   /**
    * 帖子是否需要审核
@@ -17,19 +19,4 @@ public class SysSetting4AuditDto {
    */
   private Boolean commentAudit;
 
-  public Boolean getPostAudit() {
-    return postAudit;
-  }
-
-  public void setPostAudit(Boolean postAudit) {
-    this.postAudit = postAudit;
-  }
-
-  public Boolean getCommentAudit() {
-    return commentAudit;
-  }
-
-  public void setCommentAudit(Boolean commentAudit) {
-    this.commentAudit = commentAudit;
-  }
 }

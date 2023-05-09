@@ -10,9 +10,9 @@ public enum ResponseCodeEnum {
   CODE_900(900, "请求超时"),
   CODE_901(901, "登录超时");
 
-  private Integer code;
+  private final Integer code;
 
-  private String msg;
+  private final String msg;
 
   ResponseCodeEnum(Integer code, String msg) {
     this.code = code;

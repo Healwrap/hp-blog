@@ -39,6 +39,12 @@ public class FileController extends ABaseController {
   @Resource
   private WebConfig webConfig;
 
+  /**
+   * 上传图片
+   * @param file 图片文件
+   * @return
+   */
+
   @RequestMapping("/uploadImage")
   @GlobalIntercepter(checkLogin = true)
   public ResponseVO uploadImage(MultipartFile file) {
@@ -77,9 +83,37 @@ public class FileController extends ABaseController {
     }
   }
 
+  /**
+   * 获取图片
+   * @param response 响应
+   * @param imageFolder 图片文件夹
+   * @param imageName 图片名称
+   */
+
   @GetMapping("/getImage/{imageFolder}/{imageName}")
   public void getImage(HttpServletResponse response, @PathVariable("imageFolder") String imageFolder, @PathVariable("imageName") String imageName) {
     readImage(response, imageFolder, imageName);
+  }
+
+  /**
+   * 获取头像
+   * @param response 响应
+   * @param userId 用户id
+   */
+  @GetMapping("/getAvatar/{userId}")
+  public void getAvatar(HttpServletResponse response, @PathVariable("userId") String userId) {
+    String avatarFolderName = Constants.FILE_FOLDER_FILE + Constants.FILE_FOLDER_AVATAR_NAME;
+    String avatarPath = webConfig.getProjectFolder() + avatarFolderName + userId + Constants.AVATAR_SUFFIX;
+    File avatarFolder = new File(webConfig.getProjectFolder() + avatarFolderName);
+    if (!avatarFolder.exists()) {
+      avatarFolder.mkdirs();
+    }
+    String imageName = userId + Constants.AVATAR_SUFFIX;
+    File file = new File(avatarPath);
+    if (!file.exists()) {
+      imageName = Constants.AVATAR_DEFAULT;
+    }
+    readImage(response, Constants.FILE_FOLDER_AVATAR_NAME, imageName);
   }
 
   private void readImage(HttpServletResponse response, String imageFolder, String imageName) {

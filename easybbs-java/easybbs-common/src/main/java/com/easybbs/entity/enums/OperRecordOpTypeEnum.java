@@ -9,8 +9,8 @@ package com.easybbs.entity.enums;
 public enum OperRecordOpTypeEnum {
   ARTICLE_LIKE(0, "文章点赞"),
   COMMENT_LIKE(1, "评论点赞");
-  private Integer type;
-  private String desc;
+  private final Integer type;
+  private final String desc;
 
   public Integer getType() {
     return type;

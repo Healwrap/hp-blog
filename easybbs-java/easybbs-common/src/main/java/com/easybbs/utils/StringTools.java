@@ -58,4 +58,5 @@ public class StringTools {
   public static String getFileSuffix(String fileName) {
     return fileName.substring(fileName.lastIndexOf("."));
   }
+
 }

@@ -293,9 +293,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     sessionWebUserDto.setProvince(ipAddress);
     sessionWebUserDto.setUserId(userInfo.getUserId());
     if (!StringUtils.isEmpty(webConfig.getAdminEmails()) && ArrayUtils.contains(webConfig.getAdminEmails().split(","), email)) {
-      sessionWebUserDto.setAdmin(true);
+      sessionWebUserDto.setIsAdmin(true);
     } else {
-      sessionWebUserDto.setAdmin(false);
+      sessionWebUserDto.setIsAdmin(false);
     }
     return sessionWebUserDto;
   }

@@ -9,8 +9,8 @@ package com.easybbs.entity.enums;
 public enum MessageStatusEnum {
   NO_READ(0, "未读"),
   READ(1, "已读");
-  private Integer status;
-  private String desc;
+  private final Integer status;
+  private final String desc;
 
   MessageStatusEnum(Integer status, String desc) {
     this.status = status;

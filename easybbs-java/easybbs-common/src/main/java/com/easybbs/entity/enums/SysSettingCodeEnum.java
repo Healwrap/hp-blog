@@ -16,10 +16,10 @@ public enum SysSettingCodeEnum {
   REGISTER("register","com.easybbs.entity.dto.sysDto.SysSetting4RegisterDto","registerSetting","注册设置"),
   EMAIL("email","com.easybbs.entity.dto.sysDto.SysSetting4EmailDto","emailSetting","邮件设置");
 
-  private String code;
-  private String clazz;
-  private String propName;
-  private String desc;
+  private final String code;
+  private final String clazz;
+  private final String propName;
+  private final String desc;
   SysSettingCodeEnum(String code, String clazz, String propName, String desc) {
     this.code = code;
     this.clazz = clazz;

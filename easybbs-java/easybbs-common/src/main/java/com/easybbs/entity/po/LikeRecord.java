@@ -1,9 +1,8 @@
 package com.easybbs.entity.po;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import com.easybbs.entity.enums.DateTimePatternEnum;
-import com.easybbs.utils.DateUtil;
+import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,9 +10,9 @@ import java.io.Serializable;
 
 
 /**
- * 
+ *
  * 点赞记录
- * 
+ *
  */
 public class LikeRecord implements Serializable {
 
@@ -101,6 +100,6 @@ public class LikeRecord implements Serializable {
 
 	@Override
 	public String toString (){
-		return "自增ID:"+(opId == null ? "空" : opId)+"，操作类型0:文章点赞 1:评论点赞:"+(opType == null ? "空" : opType)+"，主体ID:"+(objectId == null ? "空" : objectId)+"，用户ID:"+(userId == null ? "空" : userId)+"，发布时间:"+(createTime == null ? "空" : DateUtil.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，主体作者ID:"+(authorUserId == null ? "空" : authorUserId);
+		return "自增ID:"+(opId == null ? "空" : opId)+"，操作类型0:文章点赞 1:评论点赞:"+(opType == null ? "空" : opType)+"，主体ID:"+(objectId == null ? "空" : objectId)+"，用户ID:"+(userId == null ? "空" : userId)+"，发布时间:"+(createTime == null ? "空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，主体作者ID:"+(authorUserId == null ? "空" : authorUserId);
 	}
 }

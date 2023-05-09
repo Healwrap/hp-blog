@@ -1,11 +1,14 @@
 package com.easybbs.entity.dto.sysDto;
 
+import lombok.Data;
+
 /**
  * @ClassName SysSetting4PostDto
  * @Description 帖子设置
  * @Date 2023/4/12 10:32
  * @Created by admin
  */
+@Data
 public class SysSetting4PostDto {
   /**
    * 发帖积分
@@ -24,35 +27,4 @@ public class SysSetting4PostDto {
    */
   private Integer postAttachmentSize;
 
-  public Integer getPostIntegral() {
-    return postIntegral;
-  }
-
-  public void setPostIntegral(Integer postIntegral) {
-    this.postIntegral = postIntegral;
-  }
-
-  public Integer getPostDayCountThreshold() {
-    return postDayCountThreshold;
-  }
-
-  public void setPostDayCountThreshold(Integer postDayCountThreshold) {
-    this.postDayCountThreshold = postDayCountThreshold;
-  }
-
-  public Integer getPostUploadImageCount() {
-    return postUploadImageCount;
-  }
-
-  public void setPostUploadImageCount(Integer postUploadImageCount) {
-    this.postUploadImageCount = postUploadImageCount;
-  }
-
-  public Integer getPostAttachmentSize() {
-    return postAttachmentSize;
-  }
-
-  public void setPostAttachmentSize(Integer postAttachmentSize) {
-    this.postAttachmentSize = postAttachmentSize;
-  }
 }

@@ -3,6 +3,7 @@ package com.easybbs.service;
 import com.easybbs.entity.po.ForumComment;
 import com.easybbs.entity.query.ForumCommentQuery;
 import com.easybbs.entity.vo.PaginationResultVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -60,4 +61,6 @@ public interface ForumCommentService {
   Integer deleteForumCommentByCommentId(Integer commentId);
 
   void changeTopType(String userId, Integer commentId, Integer topType);
+
+  void postComment(ForumComment comment, MultipartFile image);
 }

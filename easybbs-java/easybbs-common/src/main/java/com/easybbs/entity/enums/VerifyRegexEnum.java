@@ -18,8 +18,8 @@ public enum VerifyRegexEnum {
   ACCOUNT("^[a-zA-Z][a-zA-Z0-9_]{1,11}$","字母开头，由数字、字母、下划线组成，2-12位"),
   MONEY("^[0-9]+(.[0-9]{1,2})?$","金额");
 
-  private String regex;
-  private String desc;
+  private final String regex;
+  private final String desc;
 
   VerifyRegexEnum(String regex, String desc) {
     this.regex = regex;

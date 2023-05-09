@@ -3,7 +3,7 @@
     <div class="article-item-inner">
       <div class="list-item">
         <div class="user-info">
-          <el-avatar :src="data.cover" :size="avatarConfig.size" />
+          <user-avatar :user-id="data.userId" :src="userApi.avatarUrl(data.userId)" />
           <router-link :to="'/user/' + data.userId">
             {{ data.nickName }}
           </router-link>
@@ -45,15 +45,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import filesApi from '@/api/files'
+import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
+import userApi from '@/api/user'
 
-const avatarConfig = ref({
-  src: '',
-  size: 'small',
-  addLink: false,
-  userId: ''
-})
 defineProps({
   data: {
     type: Object

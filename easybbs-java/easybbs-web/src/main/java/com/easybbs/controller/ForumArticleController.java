@@ -106,7 +106,7 @@ public class ForumArticleController extends ABaseController {
     ForumArticle forumArticle = forumArticleService.readArticle(articleId);
     if (null == forumArticle
         || (ArticleStatusEnum.NO_AUDIT.getStatus().equals(forumArticle.getStatus())
-        && (sessionWebUserDto == null || !sessionWebUserDto.getUserId().equals(forumArticle.getUserId()) || !sessionWebUserDto.getAdmin()))
+        && (sessionWebUserDto == null || !sessionWebUserDto.getUserId().equals(forumArticle.getUserId()) || !sessionWebUserDto.getIsAdmin()))
         || ArticleStatusEnum.DEL.getStatus().equals(forumArticle.getStatus())) {
       throw new BusinessException(ResponseCodeEnum.CODE_404);
     }

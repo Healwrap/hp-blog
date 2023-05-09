@@ -1,12 +1,11 @@
 <template>
   <div class="comment-item">
     <div class="comment-info">
-      <user-avatar class="avatar" :user-id="commentData.userId"/>
+      <user-avatar class="avatar" :user-id="commentData.userId" />
       <div class="right-panel">
         <div class="nick-name">
           <span class="name">{{ commentData.nickName }}</span>
-          <el-tag v-if="commentData.userId === articleUserId" class="tag-author" effect="dark" size="small">作者
-          </el-tag>
+          <el-tag v-if="commentData.userId === articleUserId" class="tag-author" effect="dark" size="small">作者 </el-tag>
         </div>
         <div class="comment-content">
           <span v-html="commentData.content"></span>
@@ -17,7 +16,7 @@
             <span class="address"> &nbsp;·&nbsp;{{ commentData.userIpAddress }} </span>
           </div>
           <div class="iconfont icon-good">&nbsp;{{ commentData.goodCount > 0 ? commentData.goodCount : '点赞' }}</div>
-          <div class="iconfont icon-comment" @click="showReply">&nbsp;回复</div>
+          <div class="iconfont icon-comment" @click="showReply(commentData)">&nbsp;回复</div>
           <el-dropdown v-if="articleUserId === currentUserId">
             <div class="iconfont icon-more"></div>
             <template #dropdown>
@@ -29,8 +28,8 @@
         </div>
       </div>
     </div>
-    <div class="reply-panel">
-      <post-comment/>
+    <div v-if="commentData.showReply" class="reply-panel">
+      <post-comment :user-id="currentUserId" :p-comment-id="pCommentId" :reply-user-id="replyUserId" @post-comment="postComment" />
     </div>
   </div>
 </template>
@@ -38,6 +37,7 @@
 <script setup>
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import PostComment from '@/views/forum/ArticleDetail/components/PostComment.vue'
+import { ref } from 'vue'
 
 defineProps({
   commentData: {
@@ -50,7 +50,17 @@ defineProps({
     type: String
   }
 })
-const showReply = () => {
+const pCommentId = ref('')
+const replyUserId = ref('')
+const emit = defineEmits(['hideAllReply'])
+const showReply = curData => {
+  const temp = curData.showReply === undefined ? false : curData.showReply
+  emit('hideAllReply')
+  curData.showReply = !temp
+  pCommentId.value = curData.commentId
+}
+const postComment = () => {
+  console.log('postComment')
 }
 </script>
 

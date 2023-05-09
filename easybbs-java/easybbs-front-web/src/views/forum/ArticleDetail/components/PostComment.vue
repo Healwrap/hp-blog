@@ -18,16 +18,26 @@
       <!--    <span class="iconfont icon-image"></span>-->
       <!--  </el-upload>-->
       <!--</div>-->
-      <el-button class="btn" type="primary" @click="handleCommentSubmit" size="small">发布</el-button>
+      <el-button class="btn" type="primary" size="small" @click="handleCommentSubmit">发布</el-button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import commentApis from '@/api/comment'
 
-defineProps({
+const props = defineProps({
+  articleId: {
+    type: String
+  },
   userId: {
+    type: String
+  },
+  pCommentId: {
+    type: String
+  },
+  replyUserId: {
     type: String
   },
   placeholder: {
@@ -46,8 +56,27 @@ const rules = {
   ]
 }
 // 提交评论
+const emit = defineEmits(['postComment'])
 const handleCommentSubmit = () => {
   // TODO
+  debugger
+  formDataRef.value.validate(async valid => {
+    if (!valid) {
+      return
+    }
+    const result = await commentApis.postComment({
+      articleId: props.articleId,
+      pCommentId: props.pCommentId,
+      replyUserId: props.replyUserId,
+      content: formData.value.content
+    })
+    console.log(result)
+    if (!result) {
+      return
+    }
+    formDataRef.value.resetField()
+    emit('postComment')
+  })
 }
 // 选择图片
 const selectImg = () => {

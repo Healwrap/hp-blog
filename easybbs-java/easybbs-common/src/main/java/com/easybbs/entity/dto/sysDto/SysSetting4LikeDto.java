@@ -1,20 +1,15 @@
 package com.easybbs.entity.dto.sysDto;
 
+import lombok.Data;
+
 /**
  * @ClassName SysSetting4LikeDto
  * @Description 点赞设置
  * @Date 2023/4/12 10:31
  * @Created by admin
  */
+@Data
 public class SysSetting4LikeDto {
-  public Integer getLikeDayCountThreshold() {
-    return likeDayCountThreshold;
-  }
-
-  public void setLikeDayCountThreshold(Integer likeDayCountThreshold) {
-    this.likeDayCountThreshold = likeDayCountThreshold;
-  }
-
   /**
    * 点赞阈值
    */

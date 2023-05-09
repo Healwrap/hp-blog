@@ -1,9 +1,8 @@
 package com.easybbs.entity.po;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import com.easybbs.entity.enums.DateTimePatternEnum;
-import com.easybbs.utils.DateUtil;
+import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,9 +10,9 @@ import java.io.Serializable;
 
 
 /**
- * 
+ *
  * 邮箱验证码
- * 
+ *
  */
 public class EmailCode implements Serializable {
 
@@ -75,6 +74,6 @@ public class EmailCode implements Serializable {
 
 	@Override
 	public String toString (){
-		return "邮箱:"+(email == null ? "空" : email)+"，编号:"+(code == null ? "空" : code)+"，创建时间:"+(createTime == null ? "空" : DateUtil.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，0:未使用  1:已使用:"+(status == null ? "空" : status);
+		return "邮箱:"+(email == null ? "空" : email)+"，编号:"+(code == null ? "空" : code)+"，创建时间:"+(createTime == null ? "空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，0:未使用  1:已使用:"+(status == null ? "空" : status);
 	}
 }

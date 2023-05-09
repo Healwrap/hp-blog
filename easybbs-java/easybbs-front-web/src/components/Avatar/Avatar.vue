@@ -1,10 +1,7 @@
 <template>
   <div class="avatar">
     <el-dropdown>
-      <el-avatar :src="src" :size="size" @click="gotoAccountCenter">
-        <!--加载失败头像-->
-        <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="" />
-      </el-avatar>
+      <user-avatar :user-id="userId" :size="size" :add-link="addLink" />
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item>我的主页</el-dropdown-item>
@@ -18,10 +15,10 @@
 <script setup>
 import { defineProps, getCurrentInstance } from 'vue'
 import userApi from '@/api/user'
-import router from '@/router'
+import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 
 const { proxy } = getCurrentInstance()
-const props = defineProps({
+defineProps({
   userId: {
     type: String
   },
@@ -29,19 +26,11 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  src: {
-    type: String
-  },
   size: {
     type: String,
     default: ''
   }
 })
-const gotoAccountCenter = () => {
-  if (props.addLink) {
-    router.push('/user/' + props.userId)
-  }
-}
 const handleLogout = () => {
   userApi.logout().then(() => {
     proxy.VueCookies.remove('loginInfo')

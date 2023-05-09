@@ -12,9 +12,9 @@ public enum MessageTypeEnum {
   ARTICLE_LIKE(2, "article_like", "文章被点赞"),
   COMMENT_LIKE(3, "comment_like", "评论被点赞"),
   DOWNLOAD_ATTACHMENT(4, "download_attachment", "下载附件");
-  private Integer type;
-  private String code;
-  private String desc;
+  private final Integer type;
+  private final String code;
+  private final String desc;
 
   MessageTypeEnum(Integer type, String code, String desc) {
     this.type = type;

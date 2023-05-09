@@ -1,9 +1,8 @@
 package com.easybbs.entity.po;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import com.easybbs.entity.enums.DateTimePatternEnum;
-import com.easybbs.utils.DateUtil;
+import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,9 +10,9 @@ import java.io.Serializable;
 
 
 /**
- * 
+ *
  * 用户积分记录表
- * 
+ *
  */
 public class UserIntegralRecord implements Serializable {
 
@@ -88,6 +87,6 @@ public class UserIntegralRecord implements Serializable {
 
 	@Override
 	public String toString (){
-		return "记录ID:"+(recordId == null ? "空" : recordId)+"，用户ID:"+(userId == null ? "空" : userId)+"，操作类型:"+(operType == null ? "空" : operType)+"，积分:"+(integral == null ? "空" : integral)+"，创建时间:"+(createTime == null ? "空" : DateUtil.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()));
+		return "记录ID:"+(recordId == null ? "空" : recordId)+"，用户ID:"+(userId == null ? "空" : userId)+"，操作类型:"+(operType == null ? "空" : operType)+"，积分:"+(integral == null ? "空" : integral)+"，创建时间:"+(createTime == null ? "空" : DateUtils.format(createTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()));
 	}
 }

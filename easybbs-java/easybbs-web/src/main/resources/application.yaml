@@ -53,7 +53,7 @@ admin:
   password: admin123
   emails: test@qq.com
 
-# 项目目录 注意啊，不要用中文，是反斜杠，最后要带上反斜杠，最好是放到 d:/easybbs/ 这样的一个跟盘符下
+# 项目目录
 project:
   folder: C:/Users/admin/Desktop/workspace/IDEA-Workplace/easybbs/easybbs-java/easybbs-web/src/main/resources/files/
 

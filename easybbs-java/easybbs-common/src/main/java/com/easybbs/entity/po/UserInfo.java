@@ -1,9 +1,8 @@
 package com.easybbs.entity.po;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
 import com.easybbs.entity.enums.DateTimePatternEnum;
-import com.easybbs.utils.DateUtil;
+import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,9 +10,9 @@ import java.io.Serializable;
 
 
 /**
- * 
+ *
  * 用户信息
- * 
+ *
  */
 public class UserInfo implements Serializable {
 
@@ -194,6 +193,6 @@ public class UserInfo implements Serializable {
 
 	@Override
 	public String toString (){
-		return "用户ID:"+(userId == null ? "空" : userId)+"，昵称:"+(nickName == null ? "空" : nickName)+"，邮箱:"+(email == null ? "空" : email)+"，密码:"+(password == null ? "空" : password)+"，0:女 1:男:"+(sex == null ? "空" : sex)+"，个人描述:"+(personDescription == null ? "空" : personDescription)+"，加入时间:"+(joinTime == null ? "空" : DateUtil.format(joinTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，最后登录时间:"+(lastLoginTime == null ? "空" : DateUtil.format(lastLoginTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，最后登录IP:"+(lastLoginIp == null ? "空" : lastLoginIp)+"，最后登录ip地址:"+(lastLoginIpAddress == null ? "空" : lastLoginIpAddress)+"，积分:"+(totalIntegral == null ? "空" : totalIntegral)+"，当前积分:"+(currentIntegral == null ? "空" : currentIntegral)+"，0:禁用 1:正常:"+(status == null ? "空" : status);
+		return "用户ID:"+(userId == null ? "空" : userId)+"，昵称:"+(nickName == null ? "空" : nickName)+"，邮箱:"+(email == null ? "空" : email)+"，密码:"+(password == null ? "空" : password)+"，0:女 1:男:"+(sex == null ? "空" : sex)+"，个人描述:"+(personDescription == null ? "空" : personDescription)+"，加入时间:"+(joinTime == null ? "空" : DateUtils.format(joinTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，最后登录时间:"+(lastLoginTime == null ? "空" : DateUtils.format(lastLoginTime, DateTimePatternEnum.YYYY_MM_DD_HH_MM_SS.getPattern()))+"，最后登录IP:"+(lastLoginIp == null ? "空" : lastLoginIp)+"，最后登录ip地址:"+(lastLoginIpAddress == null ? "空" : lastLoginIpAddress)+"，积分:"+(totalIntegral == null ? "空" : totalIntegral)+"，当前积分:"+(currentIntegral == null ? "空" : currentIntegral)+"，0:禁用 1:正常:"+(status == null ? "空" : status);
 	}
 }

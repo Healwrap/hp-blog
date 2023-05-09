@@ -1,10 +1,12 @@
 package com.easybbs.service.impl;
 
-import com.easybbs.entity.enums.CommentTopTypeEnum;
-import com.easybbs.entity.enums.PageSize;
-import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.constants.Constants;
+import com.easybbs.entity.dto.FileUploadDto;
+import com.easybbs.entity.enums.*;
 import com.easybbs.entity.po.ForumArticle;
 import com.easybbs.entity.po.ForumComment;
+import com.easybbs.entity.po.UserInfo;
+import com.easybbs.entity.po.UserMessage;
 import com.easybbs.entity.query.ForumArticleQuery;
 import com.easybbs.entity.query.ForumCommentQuery;
 import com.easybbs.entity.query.SimplePage;
@@ -13,10 +15,17 @@ import com.easybbs.exception.BusinessException;
 import com.easybbs.mappers.ForumArticleMapper;
 import com.easybbs.mappers.ForumCommentMapper;
 import com.easybbs.service.ForumCommentService;
+import com.easybbs.service.UserInfoService;
+import com.easybbs.service.UserMessageService;
+import com.easybbs.utils.StringTools;
+import com.easybbs.utils.SysCacheUtils;
+import com.easybbs.utils.file.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,6 +41,12 @@ public class ForumCommentServiceImpl implements ForumCommentService {
   private ForumCommentMapper<ForumComment, ForumCommentQuery> forumCommentMapper;
   @Resource
   private ForumArticleMapper<ForumArticle, ForumArticleQuery> forumArticleMapper;
+  @Resource
+  private UserInfoService userInfoService;
+  @Resource
+  private UserMessageService userMessageService;
+  @Resource
+  private FileUtils fileUtils;
 
   /**
    * 根据条件查询列表
@@ -136,36 +151,117 @@ public class ForumCommentServiceImpl implements ForumCommentService {
 
   /**
    * 切换置顶状态
-   * @param userId 用户id
+   *
+   * @param userId    用户id
    * @param commentId 评论id
-   * @param topType 置顶状态
+   * @param topType   置顶状态
    */
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void changeTopType(String userId, Integer commentId, Integer topType) {
     CommentTopTypeEnum topTypeEnum = CommentTopTypeEnum.getByType(topType);
+    // 判断是否传入了置顶状态
     if (null == topTypeEnum) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
     ForumComment forumComment = forumCommentMapper.selectByCommentId(commentId);
+    // 判断评论是否存在
     if (null == forumComment) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
     ForumArticle forumArticle = forumArticleMapper.selectByArticleId(forumComment.getArticleId());
+    // 判断文章是否存在
     if (null == forumArticle) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
+    // 判断是否是自己的文章 或者 评论是否是一级评论
     if (!forumArticle.getUserId().equals(userId) || forumComment.getpCommentId() != 0) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
+    // 判断是否已经是置顶状态
     if (forumComment.getTopType().equals(topType)) {
       return;
     }
+    // 判断是否是取消置顶
     if (CommentTopTypeEnum.TOP.getType().equals(topType)) {
       forumCommentMapper.updateTopTypeByArticleId(forumArticle.getArticleId());
     }
     ForumComment updateInfo = new ForumComment();
     updateInfo.setTopType(topType);
     forumCommentMapper.updateByCommentId(updateInfo, commentId);
+  }
+
+  /**
+   * 发布评论
+   *
+   * @param comment 评论信息
+   * @param image   图片
+   */
+  @Override
+  public void postComment(ForumComment comment, MultipartFile image) {
+    // 判断文章是否存在
+    ForumArticle article = forumArticleMapper.selectByArticleId(comment.getArticleId());
+    if (article == null || ArticleStatusEnum.AUDIT.getStatus().equals(article.getStatus())) {
+      throw new BusinessException("评论文章不存在");
+    }
+    // 判断回复的评论是否存在
+    ForumComment pComment = null;
+    if (comment.getpCommentId() != 0) {
+      pComment = forumCommentMapper.selectByCommentId(comment.getpCommentId());
+      if (pComment == null) {
+        throw new BusinessException("回复的评论不存在");
+      }
+    }
+    // 判断回复的用户是否存在
+    if (!StringTools.isEmpty(comment.getReplyNickName())) {
+      UserInfo userInfo = userInfoService.getUserInfoByUserId(comment.getReplyUserId());
+      if (userInfo == null) {
+        throw new BusinessException("回复的用户不存在");
+      }
+      comment.setReplyNickName(userInfo.getNickName());
+    }
+    comment.setPostTime(new Date());
+    // 判断是否有图片
+    if (image != null) {
+      FileUploadDto fileUploadDto = fileUtils.uploadFile2Local(image, Constants.FILE_FOLDER_IMAGE, FileUploadTypeEnum.COMMENT_IMAGE);
+      comment.setImgPath(fileUploadDto.getLocalPath());
+    }
+    Boolean needAudit = SysCacheUtils.getSysSetting().getAuditSetting().getCommentAudit();
+    comment.setStatus(needAudit ? CommentStatusEnum.NO_AUDIT.getStatus() : CommentStatusEnum.AUDIT.getStatus());
+    forumCommentMapper.insert(comment);
+    if (needAudit) {
+      return;
+    }
+    updateCommentInfo(comment, pComment, article);
+  }
+
+  public void updateCommentInfo(ForumComment comment, ForumComment pComment, ForumArticle forumArticle) {
+    Integer commentIntegral = SysCacheUtils.getSysSetting().getCommentSetting().getCommentIntegral();
+    if (commentIntegral > 0) {
+      userInfoService.updateUserIntegral(comment.getUserId(), UserIntegralOperTypeEnum.POST_COMMENT, UserIntegralChangeTypeEnum.ADD.getChangeType(), commentIntegral);
+    }
+    if (comment.getpCommentId() == 0) {
+      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.COMMENT_COUNT.getType(), Constants.ONE, comment.getArticleId());
+    }
+    // 记录消息
+    UserMessage userMessage = new UserMessage();
+    userMessage.setMessageType(MessageTypeEnum.COMMENT.getType());
+    userMessage.setCreateTime(new Date());
+    userMessage.setArticleId(comment.getArticleId());
+    userMessage.setCommentId(comment.getCommentId());
+    userMessage.setSendUserId(comment.getUserId());
+    userMessage.setSendNickName(comment.getNickName());
+    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
+    userMessage.setArticleTitle(forumArticle.getTitle());
+    if (comment.getpCommentId() == 0) {
+      userMessage.setReceivedUserId(forumArticle.getUserId());
+    } else if (comment.getpCommentId() != 0 && StringTools.isEmpty(comment.getReplyUserId())) {
+      userMessage.setReceivedUserId(pComment.getUserId());
+    } else if (comment.getpCommentId() != 0 && !StringTools.isEmpty(comment.getReplyUserId())) {
+      userMessage.setReceivedUserId(comment.getReplyUserId());
+    }
+    if (comment.getUserId().equals(userMessage.getReceivedUserId())) {
+      userMessageService.add(userMessage);
+    }
   }
 }

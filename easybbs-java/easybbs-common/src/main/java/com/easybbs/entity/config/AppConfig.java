@@ -1,5 +1,6 @@
 package com.easybbs.entity.config;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,12 +10,9 @@ import org.springframework.stereotype.Component;
  * @Date 2023/4/11 18:16
  * @Created by admin
  */
+@Data
 @Component
 public class AppConfig {
   @Value("${project.folder:}")
   private String projectFolder;
-
-  public String getProjectFolder() {
-    return projectFolder;
-  }
 }

@@ -8,23 +8,6 @@
       <span :class="['tab', orderType === 2 ? 'active' : '']" @click="orderType = 2">最新</span>
     </div>
     <div class="article-list-panel">
-      <!--<div class="no-data">-->
-      <!--  <el-empty v-if="!loading && articleInfo.list.length === 0" />-->
-      <!--</div>-->
-      <!--<div v-if="loading" class="skeleton">-->
-      <!--  <el-skeleton :row="3" animated />-->
-      <!--</div>-->
-      <!--<div v-for="item in articleInfo.list" v-else :key="item.articleId">-->
-      <!--  <ArticleListItem :data="item" />-->
-      <!--</div>-->
-      <!--<el-pagination-->
-      <!--  v-model:current-page="currentPage"-->
-      <!--  hide-on-single-page-->
-      <!--  :total="articleInfo.totalCount"-->
-      <!--  :page-size="articleInfo.pageSize"-->
-      <!--  layout="prev, pager, next"-->
-      <!--  @current-change="loadArticle(currentPage)"-->
-      <!--/>-->
       <data-list :data-source="articleInfo" :loading="loading" @load-data="loadArticle">
         <template #default="{ data }">
           <ArticleListItem :data="data" />

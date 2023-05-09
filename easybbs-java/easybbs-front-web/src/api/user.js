@@ -7,7 +7,7 @@ const apis = {
   login: '/login',
   resetPwd: '/resetPwd',
   getUserInfo: '/getUserInfo',
-  avatarUrl: '/api/file/getAvatar',
+  avatarUrl: '/api/files/getAvatar',
   logout: '/logout'
 }
 

@@ -20,7 +20,7 @@
       </div>
       <!--用户信息-->
       <div class="user-info">
-        <UserAvatar :src="articleInfo.avatarUrl" :user-id="articleInfo.userId" />
+        <user-avatar :user-id="articleInfo.userId" />
         <div class="user-info-detail">
           <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
           <div class="info">
@@ -91,6 +91,7 @@ import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
+import userApi from '@/api/user'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()

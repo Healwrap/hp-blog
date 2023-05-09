@@ -1,11 +1,14 @@
 package com.easybbs.entity.dto.sysDto;
 
+import lombok.Data;
+
 /**
  * @ClassName SysSetting4CommitDto
  * @Description 评论设置
  * @Date 2023/4/12 10:01
  * @Created by admin
  */
+@Data
 public class SysSetting4CommentDto {
   /**
    * 评论积分
@@ -19,28 +22,4 @@ public class SysSetting4CommentDto {
    * 开启评论
    */
   private Boolean commentEnable;
-
-  public Integer getCommentIntegral() {
-    return commentIntegral;
-  }
-
-  public Integer getCommentDayCountThreshold() {
-    return commentDayCountThreshold;
-  }
-
-  public void setCommentIntegral(Integer commentIntegral) {
-    this.commentIntegral = commentIntegral;
-  }
-
-  public void setCommentDayCountThreshold(Integer commentDayCountThreshold) {
-    this.commentDayCountThreshold = commentDayCountThreshold;
-  }
-
-  public void setCommentEnable(Boolean commentEnable) {
-    this.commentEnable = commentEnable;
-  }
-
-  public Boolean getCommentEnable() {
-    return commentEnable;
-  }
 }
