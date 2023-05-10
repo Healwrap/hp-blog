@@ -4,7 +4,7 @@ package com.easybbs.entity.enums;
  * @ClassName UserIntegralChangeTypeEnum
  * @Description 用户积分变更类型
  * @Date 2023/4/12 16:05
- * @Created by admin
+ * @author pepedd
  */
 public enum UserIntegralChangeTypeEnum {
   ADD(1, "增加"),

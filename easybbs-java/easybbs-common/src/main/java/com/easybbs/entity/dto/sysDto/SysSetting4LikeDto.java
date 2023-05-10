@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName SysSetting4LikeDto
  * @Description 点赞设置
  * @Date 2023/4/12 10:31
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class SysSetting4LikeDto {

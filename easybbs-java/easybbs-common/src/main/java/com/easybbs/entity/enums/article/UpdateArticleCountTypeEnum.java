@@ -1,10 +1,10 @@
-package com.easybbs.entity.enums;
+package com.easybbs.entity.enums.article;
 
 /**
  * @ClassName UpdateArticleCountTypeEnum
  * @Description TODO
  * @Date 2023/4/27 20:50
- * @Created by admin
+ * @author pepedd
  */
 public enum UpdateArticleCountTypeEnum {
   READ_COUNT(0, "阅读数"),

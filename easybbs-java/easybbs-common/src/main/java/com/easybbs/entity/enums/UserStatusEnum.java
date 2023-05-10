@@ -4,7 +4,7 @@ package com.easybbs.entity.enums;
  * @ClassName UserStatusEnum
  * @Description 用户状态
  * @Date 2023/4/11 18:16
- * @Created by admin
+ * @author pepedd
  */
 
 public enum UserStatusEnum {

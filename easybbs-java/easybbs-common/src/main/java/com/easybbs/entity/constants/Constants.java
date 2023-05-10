@@ -1,10 +1,10 @@
 package com.easybbs.entity.constants;
 
 /**
+ * @author pepedd
  * @ClassName Constants
  * @Description 一些常量
  * @Date 2023/4/11 12:04
- * @Created by admin
  */
 public class Constants {
   /**
@@ -20,13 +20,12 @@ public class Constants {
    * 数值常量
    */
   public static final Integer INTEGRAL_5 = 5;
-  public static final Integer ONE = 1;
-  public static final Integer ZERO = 0;
   public static final Integer LENGTH_5 = 5;
   public static final Integer LENGTH_10 = 10;
   public static final Integer LENGTH_15 = 15;
   public static final Integer LENGTH_30 = 30;
   public static final Integer LENGTH_200 = 200;
+  public static final Integer FILE_SIZE_1M = 1024 * 1024;
   /**
    * 验证码
    */
@@ -79,4 +78,5 @@ public class Constants {
    * 允许的文件后缀
    */
   public static final String[] FILE_SUFFIX = new String[]{".zip", ".ZIP", ".rar", ".RAR"};
+  public static final String READ_IMAGE_PATH = "/api/files/getImage/";
 }

@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName ForumArticleDetailVO
  * @Description TODO
  * @Date 2023/4/27 23:01
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class ForumArticleDetailVO {

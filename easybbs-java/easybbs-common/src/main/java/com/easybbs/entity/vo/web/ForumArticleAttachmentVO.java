@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @ClassName ForumArticleAttachmentVO
  * @Description TODO
  * @Date 2023/4/27 23:04
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class ForumArticleAttachmentVO implements Serializable {

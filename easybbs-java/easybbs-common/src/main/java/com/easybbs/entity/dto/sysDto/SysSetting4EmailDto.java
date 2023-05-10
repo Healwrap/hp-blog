@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName SysSetting4EmailDto
  * @Description 邮件设置
  * @Date 2023/4/12 10:29
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class SysSetting4EmailDto {

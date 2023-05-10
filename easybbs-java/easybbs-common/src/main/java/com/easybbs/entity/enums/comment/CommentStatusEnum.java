@@ -1,10 +1,10 @@
-package com.easybbs.entity.enums;
+package com.easybbs.entity.enums.comment;
 
 /**
  * @ClassName CommentStatusEnum
  * @Description TODO
  * @Date 2023/5/9 19:12
- * @Created by pepedd
+ * @author pepedd
  */
 public enum CommentStatusEnum {
   DEL(-1, "已删除"),

@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName SysSetting4AuditDto
  * @Description 审核设置
  * @Date 2023/4/12 9:57
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class SysSetting4AuditDto {

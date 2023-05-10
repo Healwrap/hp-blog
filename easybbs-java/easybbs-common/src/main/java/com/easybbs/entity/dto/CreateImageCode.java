@@ -11,7 +11,7 @@ import java.util.Random;
  * @ClassName CreateImageCode
  * @Description 生成验证码
  * @Date 2023/4/12 10:01
- * @Created by admin
+ * @author pepedd
  */
 
 public class CreateImageCode {

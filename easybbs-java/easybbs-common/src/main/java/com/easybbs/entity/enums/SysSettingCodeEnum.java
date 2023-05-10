@@ -6,7 +6,7 @@ import net.sf.jsqlparser.statement.Commit;
  * @ClassName SysSettingCodeEnum
  * @Description 系统设置代码枚举
  * @Date 2023/4/12 13:31
- * @Created by admin
+ * @author pepedd
  */
 public enum SysSettingCodeEnum {
   AUDIT("audit","com.easybbs.entity.dto.sysDto.SysSetting4AuditDto","auditSetting","审核设置"),

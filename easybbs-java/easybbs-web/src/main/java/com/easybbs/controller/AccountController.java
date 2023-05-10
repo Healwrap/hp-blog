@@ -29,7 +29,7 @@ import java.util.Map;
  * @ClassName AccountController
  * @Description 登录、注册等的控制器
  * @Date 2023/4/11 10:09
- * @Created by admin
+ * @author pepedd
  */
 @RestController
 public class AccountController extends ABaseController {

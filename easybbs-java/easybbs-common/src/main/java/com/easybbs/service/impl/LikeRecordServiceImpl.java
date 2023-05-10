@@ -1,7 +1,9 @@
 package com.easybbs.service.impl;
 
-import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.article.UpdateArticleCountTypeEnum;
+import com.easybbs.entity.enums.message.MessageStatusEnum;
+import com.easybbs.entity.enums.message.MessageTypeEnum;
 import com.easybbs.entity.po.ForumArticle;
 import com.easybbs.entity.po.ForumComment;
 import com.easybbs.entity.po.LikeRecord;
@@ -170,7 +172,7 @@ public class LikeRecordServiceImpl implements LikeRecordService {
         userMessage.setArticleId(objectId);
         userMessage.setArticleTitle(forumArticle.getTitle());
         userMessage.setMessageType(MessageTypeEnum.ARTICLE_LIKE.getType());
-        userMessage.setCommentId(Constants.ZERO);
+        userMessage.setCommentId(0);
         userMessage.setReceivedUserId(forumArticle.getUserId());
         break;
       case COMMENT_LIKE:

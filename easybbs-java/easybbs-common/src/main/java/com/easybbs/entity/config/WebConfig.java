@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @ClassName WebConfig
  * @Description web配置
  * @Date 2023/4/11 18:18
- * @Created by admin
+ * @author pepedd
  */
 @Data
 @Component

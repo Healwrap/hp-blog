@@ -140,7 +140,7 @@ public class EmailCodeServiceImpl implements EmailCodeService {
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void sendEmailCode(String email, Integer type) {
-    if (Constants.ZERO.equals(type)) {
+    if (type == 0) {
       UserInfo userInfo = userInfoMapper.selectByEmail(email);
       if (userInfo != null) {
         throw new BusinessException("邮箱已被注册");
@@ -153,7 +153,7 @@ public class EmailCodeServiceImpl implements EmailCodeService {
     EmailCode emailCode = new EmailCode();
     emailCode.setCode(code);
     emailCode.setEmail(email);
-    emailCode.setStatus(Constants.ZERO);
+    emailCode.setStatus(0);
     emailCode.setCreateTime(new Date());
     emailCodeMapper.insert(emailCode);
   }
@@ -169,7 +169,7 @@ public class EmailCodeServiceImpl implements EmailCodeService {
     if (null == dbInfo) {
       throw new BusinessException("邮箱验证码错误");
     }
-    if (!Objects.equals(dbInfo.getStatus(), Constants.ZERO) || System.currentTimeMillis() - dbInfo.getCreateTime().getTime() > 1000 * 60 * Constants.LENGTH_5) {
+    if (dbInfo.getStatus() != 0 || System.currentTimeMillis() - dbInfo.getCreateTime().getTime() > 1000 * 60 * Constants.LENGTH_5) {
       throw new BusinessException("验证码已失效");
     }
     emailCodeMapper.disableEmailCode(email);

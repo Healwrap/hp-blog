@@ -4,7 +4,7 @@ package com.easybbs.entity.enums;
  * @ClassName OperRecordOpTypeEnum
  * @Description TODO
  * @Date 2023/4/27 23:29
- * @Created by admin
+ * @author pepedd
  */
 public enum OperRecordOpTypeEnum {
   ARTICLE_LIKE(0, "文章点赞"),

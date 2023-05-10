@@ -1,10 +1,10 @@
-package com.easybbs.entity.enums;
+package com.easybbs.entity.enums.comment;
 
 /**
  * @ClassName CommentTopTypeEnum
  * @Description TODO
  * @Date 2023/5/5 20:14
- * @Created by pepedd
+ * @author pepedd
  */
 public enum CommentTopTypeEnum {
   NO_TOP(0, "未置顶"),

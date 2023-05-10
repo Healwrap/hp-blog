@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName SysSetting4CommitDto
  * @Description 评论设置
  * @Date 2023/4/12 10:01
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class SysSetting4CommentDto {

@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName SysSetting4RegisterDto
  * @Description 注册设置
  * @Date 2023/4/12 10:36
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class SysSetting4RegisterDto {

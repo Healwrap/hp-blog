@@ -1,10 +1,10 @@
-package com.easybbs.entity.enums;
+package com.easybbs.entity.enums.message;
 
 /**
  * @ClassName MessageTypeEnum
  * @Description 消息类型枚举
  * @Date 2023/4/12 14:46
- * @Created by admin
+ * @author pepedd
  */
 public enum MessageTypeEnum {
   SYS(0, "sys", "系统消息"),

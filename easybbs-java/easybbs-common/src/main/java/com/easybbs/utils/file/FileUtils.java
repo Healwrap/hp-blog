@@ -4,7 +4,7 @@ import com.easybbs.entity.config.AppConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.FileUploadDto;
 import com.easybbs.entity.enums.DateTimePatternEnum;
-import com.easybbs.entity.enums.FileUploadTypeEnum;
+import com.easybbs.entity.enums.file.FileUploadTypeEnum;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.utils.DateUtils;
 import com.easybbs.utils.StringTools;
@@ -22,13 +22,15 @@ import java.util.Date;
  * @ClassName FileUtils
  * @Description TODO
  * @Date 2023/5/9 20:05
- * @Created by pepedd
+ * @author pepedd
  */
 @Component
 public class FileUtils {
   private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
   @Resource
   private AppConfig appConfig;
+  @Resource
+  private ImageUtils imageUtils;
 
   public FileUploadDto uploadFile2Local(MultipartFile file, String folder, FileUploadTypeEnum uploadTypeEnum) {
     try {
@@ -55,22 +57,22 @@ public class FileUtils {
 //      String localPath = month + "/" + fileName;
       String localPath = mergePath(month, fileName);
       if (uploadTypeEnum == FileUploadTypeEnum.AVATAR) {
-        // TODO 头像上传
         targetFileFolder = new File(baseFolder + Constants.FILE_FOLDER_AVATAR_NAME);
 //        targetFile = new File(targetFileFolder.getPath() + "/" + folder + Constants.AVATAR_SUFFIX);
         targetFile = new File(mergePath(targetFile.getPath(), folder + Constants.AVATAR_SUFFIX));
+        localPath = mergePath(folder,Constants.AVATAR_SUFFIX);
       }
       file.transferTo(targetFile);
       // 压缩图片
       if (uploadTypeEnum == FileUploadTypeEnum.COMMENT_IMAGE) {
         String thumbnailName = targetFile.getName().replace(".", "_.");
         File thumbnail = new File(targetFile.getParent(), thumbnailName);
-        Boolean thumbnailCreated = ImageUtils.createThumbnail(targetFile, thumbnail, Constants.LENGTH_200, Constants.LENGTH_200);
-        if (thumbnailCreated) {
+        Boolean thumbnailCreated = imageUtils.createThumbnail(targetFile, thumbnail, Constants.LENGTH_200, Constants.LENGTH_200);
+        if (!thumbnailCreated) {
           org.apache.commons.io.FileUtils.copyFile(targetFile, thumbnail);
         }
       } else if (uploadTypeEnum == FileUploadTypeEnum.AVATAR || uploadTypeEnum == FileUploadTypeEnum.ARTICLE_COVER) {
-        ImageUtils.createThumbnail(targetFile, targetFile, Constants.LENGTH_200, Constants.LENGTH_200);
+        imageUtils.createThumbnail(targetFile, targetFile, Constants.LENGTH_200, Constants.LENGTH_200);
       }
       fileUploadDto.setLocalPath(localPath);
       fileUploadDto.setOriginalFileName(originalFilename);

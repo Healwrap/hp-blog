@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * @ClassName Initialize
  * @Description 初始化
  * @Date 2023/4/12 10:42
- * @Created by admin
+ * @author pepedd
  */
 
 @Component

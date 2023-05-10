@@ -2,6 +2,8 @@ package com.easybbs.service.impl;
 
 import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.message.MessageStatusEnum;
+import com.easybbs.entity.enums.message.MessageTypeEnum;
 import com.easybbs.entity.po.*;
 import com.easybbs.entity.query.ForumArticleAttachmentDownloadQuery;
 import com.easybbs.entity.query.ForumArticleAttachmentQuery;

@@ -3,6 +3,13 @@ package com.easybbs.service.impl;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.FileUploadDto;
 import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.article.ArticleStatusEnum;
+import com.easybbs.entity.enums.article.UpdateArticleCountTypeEnum;
+import com.easybbs.entity.enums.comment.CommentStatusEnum;
+import com.easybbs.entity.enums.comment.CommentTopTypeEnum;
+import com.easybbs.entity.enums.file.FileUploadTypeEnum;
+import com.easybbs.entity.enums.message.MessageStatusEnum;
+import com.easybbs.entity.enums.message.MessageTypeEnum;
 import com.easybbs.entity.po.ForumArticle;
 import com.easybbs.entity.po.ForumComment;
 import com.easybbs.entity.po.UserInfo;
@@ -241,7 +248,7 @@ public class ForumCommentServiceImpl implements ForumCommentService {
       userInfoService.updateUserIntegral(comment.getUserId(), UserIntegralOperTypeEnum.POST_COMMENT, UserIntegralChangeTypeEnum.ADD.getChangeType(), commentIntegral);
     }
     if (comment.getpCommentId() == 0) {
-      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.COMMENT_COUNT.getType(), Constants.ONE, comment.getArticleId());
+      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.COMMENT_COUNT.getType(), 1, comment.getArticleId());
     }
     // 记录消息
     UserMessage userMessage = new UserMessage();

@@ -1,5 +1,5 @@
 <template>
-  <el-avatar :src="userApi.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter"/>
+  <el-avatar :src="userApi.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter" />
 </template>
 
 <script setup>

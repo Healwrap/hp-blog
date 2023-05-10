@@ -1,10 +1,10 @@
-package com.easybbs.entity.enums;
+package com.easybbs.entity.enums.article;
 
 /**
  * @ClassName ArticleOrderTypeEnum
  * @Description 文章排序类型
  * @Date 2023/4/24 23:52
- * @Created by admin
+ * @author pepedd
  */
 public enum ArticleOrderTypeEnum {
   HOT(0, "top_type desc, comment_count desc, good_count desc, read_count desc", "热榜"),

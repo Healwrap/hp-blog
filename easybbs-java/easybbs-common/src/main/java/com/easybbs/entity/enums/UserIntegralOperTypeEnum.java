@@ -4,7 +4,7 @@ package com.easybbs.entity.enums;
  * @ClassName UserIntegralOperTypeEnum
  * @Description 用户积分操作类型
  * @Date 2023/4/12 15:54
- * @Created by admin
+ * @author pepedd
  */
 public enum UserIntegralOperTypeEnum {
   REGISTER(1,"账号注册"),

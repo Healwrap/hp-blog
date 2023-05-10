@@ -6,10 +6,9 @@ import com.easybbs.entity.annotation.VerifyParams;
 import com.easybbs.entity.config.WebConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.SessionWebUserDto;
-import com.easybbs.entity.enums.ArticleOrderTypeEnum;
-import com.easybbs.entity.enums.ArticleStatusEnum;
-import com.easybbs.entity.enums.OperRecordOpTypeEnum;
-import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.article.ArticleOrderTypeEnum;
+import com.easybbs.entity.enums.article.ArticleStatusEnum;
 import com.easybbs.entity.po.*;
 import com.easybbs.entity.query.ForumArticleAttachmentQuery;
 import com.easybbs.entity.query.ForumArticleQuery;
@@ -22,11 +21,14 @@ import com.easybbs.entity.vo.web.UserDownloadInfoVO;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.service.*;
 import com.easybbs.utils.CopyTools;
+import com.easybbs.utils.StringTools;
+import com.easybbs.utils.html.EscapeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +44,7 @@ import java.util.Objects;
  * @ClassName ForumArticleController
  * @Description 论坛文章控制器
  * @Date 2023/4/24 22:39
- * @Created by admin
+ * @author pepedd
  */
 @RestController
 @RequestMapping("/forum")
@@ -60,6 +62,8 @@ public class ForumArticleController extends ABaseController {
   private ForumArticleAttachmentDownloadService forumArticleAttachmentDownloadService;
   @Resource
   private WebConfig webConfig;
+  @Resource
+  private ForumBoardService forumBoardService;
 
   /**
    * 加载文章列表
@@ -113,7 +117,7 @@ public class ForumArticleController extends ABaseController {
     ForumArticleDetailVO detailVO = new ForumArticleDetailVO();
     detailVO.setForumArticleVO(CopyTools.copy(forumArticle, ForumArticleVO.class));
     // 有附件
-    if (Objects.equals(forumArticle.getAttachmentType(), Constants.ONE)) {
+    if (Objects.equals(forumArticle.getAttachmentType(), 1)) {
       ForumArticleAttachmentQuery attachmentQuery = new ForumArticleAttachmentQuery();
       attachmentQuery.setArticleId(articleId);
       List<ForumArticleAttachment> forumArticleAttachmentList = forumArticleAttachmentService.findListByParam(attachmentQuery);
@@ -218,5 +222,83 @@ public class ForumArticleController extends ABaseController {
         logger.error("下载失败", e);
       }
     }
+  }
+
+  /**
+   * 发布文章时加载板块
+   *
+   * @param session 会话
+   * @return
+   */
+
+  @RequestMapping("/loadBoard4Post")
+  @GlobalIntercepter(checkLogin = true)
+  public ResponseVO loadBoard4Post(HttpSession session) {
+    SessionWebUserDto webUserDto = getUserInfoFromSession(session);
+    Integer postType = 0;
+    if (!webUserDto.getIsAdmin()) {
+      postType = 1;
+    }
+    List<ForumBoard> list = forumBoardService.getBoardTree(postType);
+    return getSuccessResponseVO(list);
+  }
+
+  /**
+   * 发布文章
+   *
+   * @param session         会话
+   * @param title           标题
+   * @param pBoardId        父板块
+   * @param summary         摘要
+   * @param editorType      编辑器类型
+   * @param content         内容
+   * @param markdownContent markdown内容
+   * @param boardId         子板块id
+   * @param cover           封面
+   * @param attachment      附件
+   * @param integral        附件下载所需积分
+   * @return
+   */
+
+  @RequestMapping("/postArticle")
+  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  public ResponseVO postArticle(HttpSession session,
+                                @VerifyParams(required = true, max = 150) String title,
+                                @VerifyParams(required = true) Integer pBoardId,
+                                @VerifyParams(max = 200) String summary,
+                                @VerifyParams(required = true) Integer editorType,
+                                @VerifyParams(required = true) String content,
+                                String markdownContent,
+                                Integer boardId,
+                                MultipartFile cover,
+                                MultipartFile attachment,
+                                Integer integral
+  ) {
+    SessionWebUserDto userDto = getUserInfoFromSession(session);
+    ForumArticle forumArticle = new ForumArticle();
+    forumArticle.setTitle(EscapeUtil.escape(title));
+    forumArticle.setSummary(EscapeUtil.escape(summary));
+    forumArticle.setpBoardId(pBoardId);
+    forumArticle.setBoardId(boardId);
+    forumArticle.setContent(content);
+    EditorTypeEnum typeEnum = EditorTypeEnum.getByType(editorType);
+    if (typeEnum == null) {
+      throw new BusinessException(ResponseCodeEnum.CODE_600);
+    }
+    // 编辑器类型为markdown 但markdown内容为空，抛出异常
+    if (EditorTypeEnum.MARKDOWN.getType().equals(editorType) && StringTools.isEmpty(markdownContent)) {
+      throw new BusinessException(ResponseCodeEnum.CODE_600);
+    }
+    forumArticle.setMarkdownContent(markdownContent);
+    forumArticle.setEditorType(editorType);
+    forumArticle.setUserId(userDto.getUserId());
+    forumArticle.setNickName(userDto.getNickName());
+    forumArticle.setUserIpAddress(userDto.getProvince());
+
+    // 附件信息
+    ForumArticleAttachment articleAttachment = new ForumArticleAttachment();
+    articleAttachment.setIntegral(integral == null ? 0 : integral);
+    forumArticleService.postArticle(userDto.getIsAdmin(), forumArticle, articleAttachment, cover, attachment);
+    return getSuccessResponseVO(forumArticle.getArticleId());
   }
 }

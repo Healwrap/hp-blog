@@ -4,7 +4,7 @@ package com.easybbs.entity.enums;
  * @ClassName VerifyRegexEnum
  * @Description 校验正则
  * @Date 2023/4/13 10:28
- * @Created by admin
+ * @author pepedd
  */
 public enum VerifyRegexEnum {
   NO("", "不校验"),

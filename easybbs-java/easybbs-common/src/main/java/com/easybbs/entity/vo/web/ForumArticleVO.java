@@ -11,7 +11,7 @@ import java.util.Date;
  * @ClassName ForumArticleVO
  * @Description 文章信息
  * @Date 2023/4/25 0:35
- * @Created by admin
+ * @author pepedd
  */
 @Data
 public class ForumArticleVO implements Serializable {

@@ -1,4 +1,4 @@
-package com.easybbs.entity.enums;
+package com.easybbs.entity.enums.file;
 
 import com.easybbs.entity.constants.Constants;
 
@@ -6,7 +6,7 @@ import com.easybbs.entity.constants.Constants;
  * @ClassName FileUploadTypeEnum
  * @Description TODO
  * @Date 2023/5/9 20:37
- * @Created by pepedd
+ * @author pepedd
  */
 public enum FileUploadTypeEnum {
   ARTICLE_COVER("文章封面", Constants.IMAGE_SUFFIX),

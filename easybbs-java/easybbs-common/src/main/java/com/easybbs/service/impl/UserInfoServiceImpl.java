@@ -4,6 +4,8 @@ import com.easybbs.entity.config.WebConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.message.MessageStatusEnum;
+import com.easybbs.entity.enums.message.MessageTypeEnum;
 import com.easybbs.entity.po.UserInfo;
 import com.easybbs.entity.po.UserIntegralRecord;
 import com.easybbs.entity.po.UserMessage;
@@ -217,8 +219,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     insertInfo.setPassword(StringTools.encodeMd5(password));
     insertInfo.setJoinTime(new Date());
     insertInfo.setStatus(UserStatusEnum.ENABLE.getStatus());
-    insertInfo.setTotalIntegral(Constants.ZERO);
-    insertInfo.setCurrentIntegral(Constants.ZERO);
+    insertInfo.setTotalIntegral(0);
+    insertInfo.setCurrentIntegral(0);
     this.userInfoMapper.insert(insertInfo);
 
     // 更新用户积分

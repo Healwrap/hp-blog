@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  * @ClassName GloabalIntercepter
  * @Description TODO
  * @Date 2023/4/13 9:58
- * @Created by admin
+ * @author pepedd
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

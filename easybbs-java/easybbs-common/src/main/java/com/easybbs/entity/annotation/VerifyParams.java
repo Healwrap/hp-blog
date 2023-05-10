@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @ClassName VerifyParams
  * @Description TODO
  * @Date 2023/4/13 10:25
- * @Created by admin
+ * @author pepedd
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

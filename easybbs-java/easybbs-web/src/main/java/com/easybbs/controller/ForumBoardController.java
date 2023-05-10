@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @ClassName ForumBoardController
  * @Description 论坛板块控制器
  * @Date 2023/4/23 9:12
- * @Created by admin
+ * @author pepedd
  */
 @RestController
 @RequestMapping("/board")
