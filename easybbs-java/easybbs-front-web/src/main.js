@@ -30,11 +30,6 @@ app.config.globalProperties.Confirm = Confirm
 app.config.globalProperties.store = store
 app.config.globalProperties.VueCookies = VueCookies
 
-app.config.globalProperties.globalInfo = {
-  headerHeight: '60px',
-  bodyWidth: '1300px'
-}
-
 app.component('Dialog', Dialog)
 app.component('ImageViewer', ImageViewer)
 

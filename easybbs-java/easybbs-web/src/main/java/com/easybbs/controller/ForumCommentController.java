@@ -146,7 +146,7 @@ public class ForumCommentController extends ABaseController {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
     SessionWebUserDto userDto = getUserInfoFromSession(session);
-    content = EscapeUtil.escape(content);
+    content = EscapeUtil.escapeHtml(content);
     ForumComment forumComment = new ForumComment();
     forumComment.setUserId(userDto.getUserId());
     forumComment.setNickName(userDto.getNickName());

@@ -276,8 +276,8 @@ public class ForumArticleController extends ABaseController {
   ) {
     SessionWebUserDto userDto = getUserInfoFromSession(session);
     ForumArticle forumArticle = new ForumArticle();
-    forumArticle.setTitle(EscapeUtil.escape(title));
-    forumArticle.setSummary(EscapeUtil.escape(summary));
+    forumArticle.setTitle(EscapeUtil.escapeHtml(title));
+    forumArticle.setSummary(EscapeUtil.escapeHtml(summary));
     forumArticle.setpBoardId(pBoardId);
     forumArticle.setBoardId(boardId);
     forumArticle.setContent(content);

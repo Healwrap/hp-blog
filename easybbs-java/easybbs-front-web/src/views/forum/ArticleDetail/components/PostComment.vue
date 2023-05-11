@@ -24,9 +24,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 import commentApis from '@/api/comment'
 
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   articleId: {
     type: String
@@ -56,26 +57,19 @@ const rules = {
   ]
 }
 // 提交评论
-const emit = defineEmits(['postComment'])
+const emit = defineEmits(['postCommentFinish'])
 const handleCommentSubmit = () => {
-  // TODO
-  debugger
   formDataRef.value.validate(async valid => {
     if (!valid) {
       return
     }
-    const result = await commentApis.postComment({
-      articleId: props.articleId,
-      pCommentId: props.pCommentId,
-      replyUserId: props.replyUserId,
-      content: formData.value.content
-    })
-    console.log(result)
+    const result = await commentApis.postComment(props.articleId, props.pCommentId, props.replyUserId, formData.value.content)
     if (!result) {
       return
     }
+    proxy.Toast.success('评论成功')
     formDataRef.value.resetField()
-    emit('postComment')
+    emit('postCommentFinish', result.data)
   })
 }
 // 选择图片

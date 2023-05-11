@@ -26,7 +26,7 @@ public class EscapeUtil {
   }
 
   /**
-   * 转义文本中的HTML字符为安全的字符
+   * escape编码
    *
    * @param text 被转义的文本
    * @return 转义后的文本
@@ -36,7 +36,7 @@ public class EscapeUtil {
   }
 
   /**
-   * 还原被转义的HTML特殊字符
+   * 还原
    *
    * @param content 包含转义符的HTML内容
    * @return 转换后的字符串
@@ -45,6 +45,57 @@ public class EscapeUtil {
     return decode(content);
   }
 
+  /**
+   * 将html转为安全字符
+   * @param input 输入字符
+   * @return
+   */
+  public static String escapeHtml(String input) {
+    if (input == null) {
+      return null;
+    }
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < input.length(); i++) {
+      char ch = input.charAt(i);
+      switch (ch) {
+        case '<':
+          sb.append("&lt;");
+          break;
+        case '>':
+          sb.append("&gt;");
+          break;
+        case '&':
+          sb.append("&amp;");
+          break;
+        case '\"':
+          sb.append("&quot;");
+          break;
+        case '\'':
+          sb.append("&apos;");
+          break;
+        default:
+          sb.append(ch);
+      }
+    }
+    return sb.toString();
+  }
+
+  /**
+   * 将安全字符转为html
+   * @param input 输入字符
+   * @return
+   */
+  public static String unescapeHtml(String input) {
+    if (input == null) {
+      return null;
+    }
+    return input.replaceAll("&lt;", "<")
+        .replaceAll("&gt;", ">")
+        .replaceAll("&amp;", "&")
+        .replaceAll("&quot;", "\"")
+        .replaceAll("&apos;", "'");
+  }
+  
   /**
    * 清除所有HTML标签，但是不删除标签内的内容
    *
@@ -129,7 +180,7 @@ public class EscapeUtil {
 
   public static void main(String[] args) {
     String html = "<script>alert(1);</script>";
-    String escape = EscapeUtil.escape(html);
+    String escape = EscapeUtil.escapeHtml(html);
     // String html = "<scr<script>ipt>alert(\"XSS\")</scr<script>ipt>";
     // String html = "<123";
     // String html = "123>";

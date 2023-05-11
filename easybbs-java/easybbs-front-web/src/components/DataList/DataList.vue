@@ -26,7 +26,8 @@ const props = defineProps({
     type: Object
   },
   loading: {
-    type: Boolean
+    type: Boolean,
+    required: true
   }
 })
 const emit = defineEmits(['loadData'])

@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, ref } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
 const { proxy } = getCurrentInstance()
