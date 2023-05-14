@@ -1,12 +1,11 @@
 <template>
   <div class="comment-item">
     <div class="comment-info">
-      <user-avatar class="avatar" :user-id="commentData.userId"/>
+      <user-avatar class="avatar" :user-id="commentData.userId" />
       <div class="right-panel">
         <div class="nick-name">
           <span class="name">{{ commentData.nickName }}</span>
-          <el-tag v-if="commentData.userId === articleUserId" class="tag-author" effect="dark" size="small">作者
-          </el-tag>
+          <el-tag v-if="commentData.userId === articleUserId" class="tag-author" effect="dark" size="small">作者 </el-tag>
         </div>
         <div class="comment-content">
           <span v-html="commentData.content"></span>
@@ -32,9 +31,9 @@
     <div v-if="commentData.showReply" class="reply-panel">
       <slot name="postComment"></slot>
     </div>
-    <div class="comment-sub-list" v-if="commentData.children">
-      <div class="comment-sub-item" v-for="sub in commentData.children" :key="sub.commentId">
-        <user-avatar class="avatar" size="small" :user-id="sub.userId"/>
+    <div v-if="commentData.children" class="comment-sub-list">
+      <div v-for="sub in commentData.children" :key="sub.commentId" class="comment-sub-item">
+        <user-avatar class="avatar" size="small" :user-id="sub.userId" />
         <div class="right-panel">
           <div class="nick-name">
             <span class="name">{{ sub.nickName }}</span>
