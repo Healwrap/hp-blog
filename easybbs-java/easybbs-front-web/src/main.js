@@ -18,6 +18,8 @@ import store from '@/store'
 // 全局组件
 import Dialog from '@/components/Dialog/Dialog.vue'
 import ImageViewer from '@/components/ImageViewer/ImageViewer.vue'
+import HtmlEditor from '@/components/HtmlEditor/HtmlEditor.vue'
+import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue'
 
 const app = createApp(App)
 
@@ -30,6 +32,8 @@ app.config.globalProperties.Confirm = Confirm
 app.config.globalProperties.store = store
 app.config.globalProperties.VueCookies = VueCookies
 
+app.component('HtmlEditor', HtmlEditor)
+app.component('MarkdownEditor', MarkdownEditor)
 app.component('Dialog', Dialog)
 app.component('ImageViewer', ImageViewer)
 

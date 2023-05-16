@@ -87,6 +87,7 @@ module.exports = {
     'vue/no-reserved-component-names': 0, // 关闭组件名称不能使用保留字
     'vue/valid-v-for': 0, // 关闭v-for指令必须有v-bind:key
     'vue/valid-define-emits': 0, // 关闭定义组件时必须使用emits
+    'vue/no-mutating-props': 0, // 关闭禁止修改props
     // 取消关闭标签不能自闭合的限制设置
     'vue/html-self-closing': [
       'error',

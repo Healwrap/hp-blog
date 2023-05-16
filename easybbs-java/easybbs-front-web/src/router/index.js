@@ -29,6 +29,16 @@ const router = createRouter({
           component: () => import('@/views/forum/ArticleDetail/index.vue')
         },
         {
+          path: '/postArticle',
+          name: 'postArticle',
+          component: () => import('@/views/forum/PostArticle/index.vue')
+        },
+        {
+          path: '/postArticle/:articleId',
+          name: 'editArticle',
+          component: () => import('@/views/forum/PostArticle/index.vue')
+        },
+        {
           path: '/user/:userId',
           name: 'userCenter',
           component: () => import('@/views/Account/Center/index.vue')

@@ -1,6 +1,6 @@
 <template>
   <div ref="header" class="header">
-    <div class="header-content" :style="{ width: proxy.store.getters.contentWidth + 'px' }">
+    <div class="header-content" :style="{ width: headerWidth + 'px' }">
       <!-- Logo -->
       <slot name="logo">
         <Logo />
@@ -22,6 +22,11 @@ import { getCurrentInstance, ref } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
 const { proxy } = getCurrentInstance()
+defineProps({
+  headerWidth: {
+    type: Number,
+  }
+})
 // 获取头部元素
 const header = ref(null)
 // 获取滚动条高度

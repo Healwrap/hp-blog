@@ -4,7 +4,9 @@ import com.easybbs.controller.base.ABaseController;
 import com.easybbs.entity.annotation.GlobalIntercepter;
 import com.easybbs.entity.annotation.VerifyParams;
 import com.easybbs.entity.dto.SessionWebUserDto;
-import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.OperRecordOpTypeEnum;
+import com.easybbs.entity.enums.PageSize;
+import com.easybbs.entity.enums.ResponseCodeEnum;
 import com.easybbs.entity.enums.article.ArticleStatusEnum;
 import com.easybbs.entity.enums.comment.CommentTopTypeEnum;
 import com.easybbs.entity.po.ForumComment;
@@ -14,6 +16,7 @@ import com.easybbs.entity.vo.ResponseVO;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.service.ForumCommentService;
 import com.easybbs.service.LikeRecordService;
+import com.easybbs.service.UserInfoService;
 import com.easybbs.utils.StringTools;
 import com.easybbs.utils.SysCacheUtils;
 import com.easybbs.utils.html.EscapeUtil;
@@ -27,10 +30,10 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
+ * @author pepedd
  * @ClassName ForumCommentController
  * @Description TODO
  * @Date 2023/5/5 8:58
- * @author pepedd
  */
 @RestController
 @RequestMapping("/comment")
@@ -39,6 +42,8 @@ public class ForumCommentController extends ABaseController {
   private ForumCommentService forumCommentService;
   @Resource
   private LikeRecordService likeRecordService;
+  @Resource
+  private UserInfoService userInfoService;
 
   /**
    * 加载评论
@@ -75,7 +80,7 @@ public class ForumCommentController extends ABaseController {
       pageNo = 1;
     }
     commentQuery.setPageNo(pageNo);
-    commentQuery.setPageSize(PageSize.SIZE50.getSize());
+    commentQuery.setPageSize(PageSize.SIZE15.getSize());
     commentQuery.setpCommentId(0);
     commentQuery.setLoadChildren(true);
     return getSuccessResponseVO(forumCommentService.findListByPage(commentQuery));
@@ -86,7 +91,7 @@ public class ForumCommentController extends ABaseController {
    *
    * @param session   会话
    * @param commentId 评论id
-   * @return
+   * @return ResponseVO
    */
   @RequestMapping("/doLike")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
@@ -108,14 +113,14 @@ public class ForumCommentController extends ABaseController {
    * @param session   会话
    * @param commentId 评论id
    * @param topType   置顶类型
-   * @return
+   * @return ResponseVO
    */
   @RequestMapping("/changeTopType")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO changeTopType(HttpSession session,
-                                  @VerifyParams(required = true) Integer commentId,
-                                  @VerifyParams(required = true) Integer topType) {
-    forumCommentService.changeTopType(getUserInfoFromSession(session).getUserId(), commentId, topType);
+                                  @VerifyParams(required = true) String commentId,
+                                  @VerifyParams(required = true) String topType) {
+    forumCommentService.changeTopType(getUserInfoFromSession(session).getUserId(), Integer.parseInt(commentId), Integer.parseInt(topType));
     return getSuccessResponseVO(null);
   }
 
@@ -128,7 +133,7 @@ public class ForumCommentController extends ABaseController {
    * @param content     评论内容
    * @param image       图片
    * @param replyUserId 回复用户id
-   * @return
+   * @return ResponseVO
    */
 
   @RequestMapping("/postComment")
@@ -155,6 +160,9 @@ public class ForumCommentController extends ABaseController {
     forumComment.setpCommentId(pCommentId);
     forumComment.setContent(content);
     forumComment.setReplyUserId(replyUserId);
+    if (replyUserId != null && Long.parseLong(replyUserId) != 0) {
+      forumComment.setReplyNickName(userInfoService.getUserInfoByUserId(replyUserId).getNickName());
+    }
     forumComment.setTopType(CommentTopTypeEnum.NO_TOP.getType());
     forumCommentService.postComment(forumComment, image);
     if (pCommentId != 0) {

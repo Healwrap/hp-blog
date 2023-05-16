@@ -19,7 +19,8 @@ const loadComment = (articleId, pageNo, orderType) => {
   return request({
     url: apis.loadComment,
     method: 'get',
-    params
+    params,
+    showLoading: false
   })
 }
 
@@ -32,9 +33,29 @@ const postComment = (articleId, pCommentId, replyUserId, content) => {
   })
 }
 
+const changeTopType = (commentId, topType) => {
+  const params = mergeParams({ commentId: commentId, topType: topType })
+  return request({
+    url: apis.changeTopType,
+    method: 'post',
+    params
+  })
+}
+
+const doLike = (commentId) => {
+  const params = mergeParams({ commentId: commentId })
+  return request({
+    url: apis.doLike,
+    method: 'post',
+    params
+  })
+}
+
 const commentApis = {
   loadComment,
-  postComment
+  postComment,
+  changeTopType,
+  doLike
 }
 
 export default commentApis

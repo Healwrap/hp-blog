@@ -4,10 +4,11 @@
     <div class="article-detail-info">
       <el-breadcrumb :separator-icon="ArrowRight">
         <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-          >{{ articleInfo.pBoardName }}
+        >{{ articleInfo.pBoardName }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-          >{{ articleInfo.boardName }}
+        <el-breadcrumb-item v-if="articleInfo.boardId"
+                            :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+        >{{ articleInfo.boardName }}
         </el-breadcrumb-item>
         <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
       </el-breadcrumb>
@@ -20,7 +21,7 @@
       </div>
       <!--用户信息-->
       <div class="user-info">
-        <user-avatar :user-id="articleInfo.userId" />
+        <user-avatar :user-id="articleInfo.userId"/>
         <div class="user-info-detail">
           <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
           <div class="info">
@@ -36,7 +37,7 @@
       <div id="detail" class="detail" v-html="articleInfo.content"></div>
     </div>
     <!--附件-->
-    <div v-if="attachment" class="attachment-panel block">
+    <div v-if="attachment" class="attachment-panel block" id="attachment">
       <div class="title">附件</div>
       <div class="attachment-info">
         <div class="iconfont icon-zip"></div>
@@ -44,7 +45,7 @@
         <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
         <div>
           需要<span class="integral">{{ attachment.integral }}</span
-          >积分
+        >积分
         </div>
         <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
         <div class="download-btn">
@@ -53,8 +54,9 @@
       </div>
     </div>
     <!--评论-->
-    <div class="comment-panel block">
-      <CommentList v-if="Object.keys(articleInfo).length !== 0" :article-id="articleInfo.articleId" :article-userid="articleInfo.userId" />
+    <div class="comment-panel block" id="comment">
+      <CommentList v-if="Object.keys(articleInfo).length !== 0" :article-id="articleInfo.articleId"
+                   :article-userid="articleInfo.userId" @updateCommentCount="updateCommentCount"/>
     </div>
   </div>
   <!--左侧快捷操作-->
@@ -67,33 +69,32 @@
     </el-badge>
     <!--评论-->
     <el-badge :value="articleInfo.commentCount" type="info" :hidden="articleInfo.commentCount <= 0">
-      <div class="quick-item">
+      <div class="quick-item" @click="handleLeftPanelClick('#comment')">
         <div class="iconfont icon-comment"></div>
       </div>
     </el-badge>
     <!--附件-->
-    <div class="quick-item">
+    <div class="quick-item" @click="handleLeftPanelClick('#attachment')">
       <div class="iconfont icon-zip"></div>
     </div>
   </div>
   <!--图片预览-->
-  <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
+  <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
 </template>
 
 <script setup>
-import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useRoute } from 'vue-router'
+import {getCurrentInstance, nextTick, onMounted, ref, watch} from 'vue'
+import {ArrowRight} from '@element-plus/icons-vue'
+import {useRoute} from 'vue-router'
 import router from '@/router'
-import { formatFileSize } from '@/utils/Utils'
+import {formatFileSize} from '@/utils/Utils'
 import forumApi from '@/api/forum'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
-import userApi from '@/api/user'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
@@ -146,6 +147,9 @@ const handleImagePreview = () => {
     const imageList = []
     imageNodelist.forEach((item, index) => {
       imageList.push(item.src)
+      item.style.cursor = 'pointer'
+      item.style.width = '100%'
+      item.style.height = 'auto'
       item.addEventListener('click', () => {
         imageViewerRef.value.show(index)
       })
@@ -162,6 +166,14 @@ const highlightCode = () => {
     })
   })
 }
+// 左侧快捷操作 点击
+const handleLeftPanelClick = (anchor) => {
+  document.querySelector(anchor).scrollIntoView(true)
+}
+// 更新评论数
+const updateCommentCount = (count) => {
+  articleInfo.value.commentCount = count
+}
 onMounted(async () => {
   let result = await forumApi.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
@@ -171,14 +183,14 @@ onMounted(async () => {
   highlightCode()
 })
 watch(
-  () => proxy.store.getters.userInfo,
-  newVal => {
-    currentUserinfo.value = newVal
-  },
-  {
-    immediate: true,
-    deep: true
-  }
+    () => proxy.store.getters.userInfo,
+    newVal => {
+      currentUserinfo.value = newVal
+    },
+    {
+      immediate: true,
+      deep: true
+    }
 )
 </script>
 

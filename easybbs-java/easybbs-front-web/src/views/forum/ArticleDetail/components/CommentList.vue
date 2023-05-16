@@ -1,11 +1,13 @@
 <template>
   <div v-if="articleId" class="comment-list">
     <div class="comment-title">
-      <div class="title">评论<span class="count">0</span></div>
+      <div class="title">
+        评论<span class="count">{{ commentListInfo.totalCount }}</span>
+      </div>
       <div class="tab">
-        <span>热榜</span>
+        <span @click="changeOrderType(0)" :style="`color: ${orderType === 0 ? '#1e88e5' : '#999'}`">热榜</span>
         <el-divider direction="vertical" />
-        <span>最新</span>
+        <span @click="changeOrderType(1)" :style="`color: ${orderType === 1 ? '#1e88e5' : '#999'}`">最新</span>
       </div>
     </div>
     <div class="comment-form-panel">
@@ -34,13 +36,14 @@
       </div>
     </div>
     <div class="comment-list-panel">
-      <data-list :data-source="commentListInfo" :loading="loading">
+      <data-list :data-source="commentListInfo" :loading="loading" @load-data="loadComment">
         <template #default="{ data }">
           <CommentItem
             :comment-data="data"
             :article-user-id="articleUserid"
             :current-user-id="currentUserinfo.userId"
             @hide-all-reply="hideAllReplyHandler"
+            @reload-data="loadComment"
           >
             <template #postComment>
               <PostComment
@@ -93,6 +96,7 @@ const rules = {
   ]
 }
 // 提交评论
+const emit = defineEmits(['updateCommentCount'])
 const handleCommentSubmit = () => {
   // TODO
   formDataRef.value.validate(async valid => {
@@ -105,8 +109,18 @@ const handleCommentSubmit = () => {
     }
     proxy.Toast.success('评论成功')
     commentListInfo.value.list.unshift(result.data)
-    formDataRef.value.resetField()
+    // 更新数量
+    commentListInfo.value.totalCount++
+    // 重置表单
+    console.log(formDataRef.value)
+    formDataRef.value.resetFields()
+    emit('updateCommentCount', commentListInfo.value.totalCount)
   })
+}
+// 评论排序
+const changeOrderType = type => {
+  orderType.value = type
+  loadComment()
 }
 // 选择图片
 const selectImg = () => {
@@ -179,7 +193,7 @@ watch(
         transition: all 0.3s;
 
         &:hover {
-          color: #333;
+          color: #32c5ff;
         }
       }
     }

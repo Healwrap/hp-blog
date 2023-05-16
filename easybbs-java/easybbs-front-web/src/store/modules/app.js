@@ -1,4 +1,4 @@
-import { TOGGLE_CONTENT_WIDTH, TOGGLE_HEADER_HEIGHT, TOGGLE_MOBILE_TYPE, TOGGLE_THEME } from '@/store/mutation-types'
+import { TOGGLE_HEADER_HEIGHT, TOGGLE_MOBILE_TYPE, TOGGLE_THEME } from '@/store/mutation-types'
 
 const app = {
   state: {
@@ -14,7 +14,7 @@ const app = {
     [TOGGLE_THEME]: (state, theme) => {
       state.theme = theme
     },
-    [TOGGLE_CONTENT_WIDTH]: (state, width) => {
+    TOGGLE_CONTENT_WIDTH: (state, width) => {
       state.contentWidth = width
     },
     [TOGGLE_HEADER_HEIGHT]: (state, height) => {

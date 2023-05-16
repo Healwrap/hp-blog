@@ -1,5 +1,9 @@
+import request from '@/utils/Request'
+import { mergeParams } from '@/utils/Utils'
+
 const apis = {
-  getImage: '/api/files/getImage/'
+  getImage: '/api/files/getImage/',
+  uploadImage: 'files/uploadImage'
 }
 
 /**
@@ -11,8 +15,18 @@ const getImage = cover => {
   return `${apis.getImage}${cover}`
 }
 
+const uploadImage = file => {
+  const params = mergeParams({ file })
+  return request({
+    url: apis.uploadImage,
+    method: 'post',
+    params
+  })
+}
+
 const filesApi = {
-  getImage
+  getImage,
+  uploadImage
 }
 
 export default filesApi

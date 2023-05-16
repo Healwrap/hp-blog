@@ -2,6 +2,7 @@
   padding: 0;
   margin: 0;
 }
+
 /**
 * 引入字体
 */
@@ -9,14 +10,20 @@
   font-family: '思源黑体';
   src: url('./fonts/思源黑体/SourceHanSansCN-Normal.otf');
 }
+
 @font-face {
   font-family: '思源黑体 Bold';
   src: url('./fonts/思源黑体/SourceHanSansCN-Bold.otf');
 }
 
+html {
+  scroll-behavior: auto;
+  scroll-behavior: smooth;
+}
+
 body {
   background: #eee;
-  font-family: 思源黑体;
+  font-family: 思源黑体, serif;
 }
 
 // scoller
@@ -42,23 +49,28 @@ body {
 .el-dialog {
   border-radius: 10px;
   backdrop-filter: blur(10px);
+
   .el-dialog__header {
     display: flex;
     align-items: center;
     padding: 10px;
     border-bottom: 1px #ddd solid;
+
     .el-dialog__headerbtn {
       height: 30px;
     }
+
     .el-dialog__title {
       margin-left: 20px;
       color: #000;
     }
   }
+
   .el-dialog__body {
     padding: 0 !important;
   }
 }
+
 // el-input
 div.el-input__wrapper {
   border-radius: 10px;

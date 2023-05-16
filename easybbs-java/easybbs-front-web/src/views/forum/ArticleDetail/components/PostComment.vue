@@ -49,11 +49,18 @@ const props = defineProps({
 const formData = ref({
   content: ''
 })
+const checkPostComment = (rule, value, callback) => {
+  if (value == null && formData.value.image == null) {
+    callback(new Error('请输入评论内容'))
+  } else {
+    callback()
+  }
+}
 const formDataRef = ref(null)
 const rules = {
   content: [
-    { required: true, message: '请输入评论内容', trigger: 'blur' },
-    { min: 1, max: 800, message: '评论内容长度在 1 到 800 个字符', trigger: 'blur' }
+    { required: true, message: '请输入评论内容', trigger: 'blur', validator: checkPostComment },
+    { min: 5, max: 800, message: '评论内容长度在 5 到 800 个字符', trigger: 'blur' }
   ]
 }
 // 提交评论
@@ -81,7 +88,6 @@ const selectImg = () => {
 <style lang="scss" scoped>
 .comment-form {
   flex: 1;
-  margin-left: 20px;
 
   .comment-form-btn {
     display: flex;
