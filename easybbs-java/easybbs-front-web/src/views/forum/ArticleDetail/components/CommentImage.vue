@@ -1,13 +1,13 @@
 <template>
   <el-image
-      class="comment-img"
-      :src="src"
-      :zoom-rate="1.2"
-      :preview-src-list="previewImg ? previewImg : [src]"
-      :initial-index="0"
-      fit="scale-down"
-      loading="lazy"
-      hide-on-click-modal
+    class="comment-img"
+    :src="src"
+    :zoom-rate="1.2"
+    :preview-src-list="previewImg ? previewImg : [src]"
+    :initial-index="0"
+    fit="scale-down"
+    loading="lazy"
+    hide-on-click-modal
   />
 </template>
 

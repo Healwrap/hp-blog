@@ -27,10 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author pepedd
  * @ClassName FileController
  * @Description TODO
  * @Date 2023/5/5 20:48
- * @author pepedd
  */
 @RestController
 @RequestMapping("/files")
@@ -41,6 +41,7 @@ public class FileController extends ABaseController {
 
   /**
    * 上传图片
+   *
    * @param file 图片文件
    * @return
    */
@@ -85,9 +86,10 @@ public class FileController extends ABaseController {
 
   /**
    * 获取图片
-   * @param response 响应
+   *
+   * @param response    响应
    * @param imageFolder 图片文件夹
-   * @param imageName 图片名称
+   * @param imageName   图片名称
    */
 
   @GetMapping("/getImage/{imageFolder}/{imageName}")
@@ -97,8 +99,9 @@ public class FileController extends ABaseController {
 
   /**
    * 获取头像
+   *
    * @param response 响应
-   * @param userId 用户id
+   * @param userId   用户id
    */
   @GetMapping("/getAvatar/{userId}")
   public void getAvatar(HttpServletResponse response, @PathVariable("userId") String userId) {
@@ -126,7 +129,7 @@ public class FileController extends ABaseController {
       }
       String imageSuffix = StringTools.getFileSuffix(imageName);
       String filePath = webConfig.getProjectFolder() + Constants.FILE_FOLDER_FILE + Constants.FILE_FOLDER_IMAGE + "/" + imageFolder + "/" + imageName;
-      if (Constants.FILE_FOLDER_TEMP.equals(imageFolder) || imageFolder.contains(Constants.FILE_FOLDER_AVATAR_NAME)) {
+      if (Constants.FILE_FOLDER_TEMP.replace("/", "").equals(imageFolder) || imageFolder.contains(Constants.FILE_FOLDER_AVATAR_NAME)) {
         filePath = webConfig.getProjectFolder() + Constants.FILE_FOLDER_FILE + imageFolder + "/" + imageName;
       }
       File file = new File(filePath);

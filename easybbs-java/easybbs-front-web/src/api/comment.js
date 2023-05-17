@@ -42,7 +42,7 @@ const changeTopType = (commentId, topType) => {
   })
 }
 
-const doLike = (commentId) => {
+const doLike = commentId => {
   const params = mergeParams({ commentId: commentId })
   return request({
     url: apis.doLike,

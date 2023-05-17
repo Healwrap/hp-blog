@@ -5,7 +5,8 @@ import store from '@/store'
 
 const requestContentType = {
   json: 'application/json;charset=UTF-8',
-  form: 'application/x-www-form-urlencoded;charset=UTF-8'
+  form: 'application/x-www-form-urlencoded;charset=UTF-8',
+  file: 'multipart/form-data;charset=UTF-8'
 }
 
 const instance = axios.create({
@@ -111,10 +112,15 @@ const request = config => {
   } else {
     // 请求方法不为get，则使用FormData处理请求数据
     for (let key in params) {
-      formData.append(key, params[key] === undefined ? '' : params[key])
+      formData.append(String(key), params[key] === undefined ? '' : params[key])
     }
-    if (dataType !== null && dataType === 'json') {
-      contentType = requestContentType.json
+    if (dataType !== null) {
+      if (dataType === 'json') {
+        contentType = requestContentType.json
+      }
+      if (dataType === 'file') {
+        contentType = requestContentType.file
+      }
     }
     headers['Content-Type'] = contentType
   }

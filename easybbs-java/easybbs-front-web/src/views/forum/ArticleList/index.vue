@@ -26,10 +26,10 @@ import DataList from '@/components/DataList/DataList.vue'
 
 const route = useRoute()
 // 一级板块
-const pBoardId = ref(0)
-const boardId = ref(0)
+const pBoardId = ref(null)
+const boardId = ref(null)
 const loading = ref(false)
-const orderType = ref(0)
+const orderType = ref(null)
 const articleInfo = ref({})
 const loadArticle = async () => {
   loading.value = true
@@ -60,8 +60,10 @@ watch(
 <style lang="scss" scoped>
 .article-list {
   position: relative;
-  margin: 10px auto;
+  margin: 12px auto;
+  padding: 5px;
   background: #fff;
+  border-radius: 10px;
 
   .article-list-panel {
     padding: 5px 5px;
@@ -86,6 +88,4 @@ watch(
     }
   }
 }
-
-
 </style>

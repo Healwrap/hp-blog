@@ -1,6 +1,8 @@
 <template>
   <!-- 彩虹字logo -->
-  <div class="logo"><a href="/">Easybbs</a></div>
+  <div class="logo">
+    <router-link to="/">Easybbs</router-link>
+  </div>
 </template>
 
 <script setup></script>

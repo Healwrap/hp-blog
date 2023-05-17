@@ -3,11 +3,10 @@
     <div class="comment-info">
       <div class="inner">
         <div class="user-info">
-          <user-avatar class="avatar" :user-id="commentData.userId"/>
+          <user-avatar class="avatar" :user-id="commentData.userId" />
           <div class="nick-name">
             <span class="name">{{ commentData.nickName }}</span>
-            <el-tag v-if="commentData.userId === articleUserId" class="tag-author" effect="dark" size="small">作者
-            </el-tag>
+            <el-tag v-if="commentData.userId === articleUserId" class="tag-author" effect="dark" size="small">作者 </el-tag>
           </div>
         </div>
         <div class="bottom">
@@ -18,9 +17,9 @@
               <span class="content" v-html="commentData.content"></span>
             </div>
             <comment-image
-                v-if="commentData.imgPath"
-                :src="filesApi.getImage(commentData.imgPath.replace('.', '_.'))"
-                :preview-img="[filesApi.getImage(commentData.imgPath)]"
+              v-if="commentData.imgPath"
+              :src="filesApi.getImage(commentData.imgPath.replace('.', '_.'))"
+              :preview-img="[filesApi.getImage(commentData.imgPath)]"
             />
           </div>
           <div class="op-panel">
@@ -53,7 +52,7 @@
       <div v-for="sub in commentData.children" :key="sub.commentId" class="comment-sub-item">
         <div class="inner">
           <div class="user-info">
-            <user-avatar class="avatar" size="small" :user-id="sub.userId"/>
+            <user-avatar class="avatar" size="small" :user-id="sub.userId" />
             <div class="nick-name">
               <span class="name">{{ sub.nickName }}</span>
               <el-tag v-if="sub.userId === articleUserId" class="tag-author" effect="dark" size="small">作者</el-tag>
@@ -62,10 +61,10 @@
           <div class="bottom">
             <div class="comment-content">
               <span v-if="commentData.children.some(obj => obj.commentId === sub.pCommentId)"
-              >回复 <user-link :username="sub.replyNickName" :user-id="sub.replyUserId"/> :
+                >回复 <user-link :username="sub.replyNickName" :user-id="sub.replyUserId" /> :
               </span>
               <span v-html="sub.content"></span>
-              <comment-image v-if="sub.imgPath" src="sub.imgPath"/>
+              <comment-image v-if="sub.imgPath" src="sub.imgPath" />
             </div>
             <div class="op-panel">
               <div class="time">
@@ -86,8 +85,7 @@
           </div>
         </div>
         <div v-if="sub.showReply" class="reply-panel">
-          <PostComment :placeholder="placeholderInfo" :article-id="sub.articleId" :user-id="currentUserId"
-                       :reply-user-id="sub.userId"/>
+          <PostComment :placeholder="placeholderInfo" :article-id="sub.articleId" :user-id="currentUserId" :reply-user-id="sub.userId" />
         </div>
       </div>
     </div>
@@ -101,7 +99,7 @@ import UserLink from '@/components/UserLink/UserLink.vue'
 import CommentImage from '@/views/forum/ArticleDetail/components/CommentImage.vue'
 import filesApi from '@/api/files'
 import commentApis from '@/api/comment'
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   commentData: {
@@ -143,9 +141,9 @@ const changeTopType = async curData => {
   emit('reloadData')
 }
 // 评论点赞
-const commentDoLike = commentData => {
-  const result = commentApis.doLike(commentData.commentId)
-  if (!result) {
+const commentDoLike = async commentData => {
+  const result = await commentApis.doLike(commentData.commentId)
+  if (!result || result.code === 901) {
     return
   }
   commentData.goodCount++

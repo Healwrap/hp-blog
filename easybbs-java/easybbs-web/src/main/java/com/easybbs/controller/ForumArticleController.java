@@ -225,25 +225,6 @@ public class ForumArticleController extends ABaseController {
   }
 
   /**
-   * 发布文章时加载板块
-   *
-   * @param session 会话
-   * @return
-   */
-
-  @RequestMapping("/loadBoard4Post")
-  @GlobalIntercepter(checkLogin = true)
-  public ResponseVO loadBoard4Post(HttpSession session) {
-    SessionWebUserDto webUserDto = getUserInfoFromSession(session);
-    Integer postType = 0;
-    if (!webUserDto.getIsAdmin()) {
-      postType = 1;
-    }
-    List<ForumBoard> list = forumBoardService.getBoardTree(postType);
-    return getSuccessResponseVO(list);
-  }
-
-  /**
    * 发布文章
    *
    * @param session         会话

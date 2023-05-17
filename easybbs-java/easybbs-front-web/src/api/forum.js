@@ -6,7 +6,10 @@ const apis = {
   getArticleDetail: '/forum/getArticleDetail',
   doLike: '/forum/doLike',
   getUserDownloadInfo: '/forum/getUserDownloadInfo',
-  attachmentDownload: '/api/forum/attachmentDownload'
+  attachmentDownload: '/api/forum/attachmentDownload',
+  postArticle: '/forum/postArticle',
+  getArticleDetail4Update: '/forum/articleDetail4Update',
+  updateArticle: '/forum/updateArticle'
 }
 
 /**
@@ -73,7 +76,11 @@ const getUserDownloadInfo = fileId => {
     showLoading: false
   })
 }
-
+/**
+ * 下载附件
+ * @param fileId
+ * @returns {`/api/forum/attachmentDownload?fileId=${string}`}
+ */
 const attachmentDownload = fileId => {
   return `${apis.attachmentDownload}?fileId=${fileId}`
 }

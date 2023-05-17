@@ -86,9 +86,7 @@ public class ABaseController {
   }
 
   protected SessionWebUserDto getUserInfoFromSession(HttpSession session) {
-    SessionWebUserDto sessionWebUserDto = (SessionWebUserDto) session.getAttribute(Constants.SESSIONS_KEY);
-    System.out.println("sessionWebUserDto:" + sessionWebUserDto);
-    return sessionWebUserDto;
+    return (SessionWebUserDto) session.getAttribute(Constants.SESSIONS_KEY);
   }
 
   protected <S, T> PaginationResultVO<T> convert2PaginationVO(PaginationResultVO<S> result, Class<T> clazz) {

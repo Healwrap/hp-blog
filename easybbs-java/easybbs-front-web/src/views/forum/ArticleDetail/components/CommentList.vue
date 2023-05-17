@@ -112,7 +112,6 @@ const handleCommentSubmit = () => {
     // 更新数量
     commentListInfo.value.totalCount++
     // 重置表单
-    console.log(formDataRef.value)
     formDataRef.value.resetFields()
     emit('updateCommentCount', commentListInfo.value.totalCount)
   })
@@ -145,8 +144,6 @@ const loadComment = async () => {
 }
 loadComment()
 const postCommentFinish = data => {
-  console.log(data)
-  console.log('finish')
   commentListInfo.value.list.unshift(data)
 }
 watch(

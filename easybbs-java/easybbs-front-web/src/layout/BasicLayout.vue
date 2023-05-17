@@ -6,8 +6,7 @@
           <!--板块信息-->
           <el-menu class="board-menu" mode="horizontal" @select="handleSelect">
             <template v-for="nav in boardList">
-              <el-menu-item v-if="Array.prototype.isPrototypeOf(nav.children) && nav.children.length === 0"
-                            :index="String(nav.boardId)">
+              <el-menu-item v-if="Array.prototype.isPrototypeOf(nav.children) && nav.children.length === 0" :index="String(nav.boardId)">
                 {{ nav.boardName }}
               </el-menu-item>
               <el-sub-menu v-else :index="String(nav.boardId)">
@@ -25,13 +24,11 @@
       <template #user>
         <!-- 发帖搜索 -->
         <div class="box">
-          <el-button type="primary" @click="handleTopButtonClick(0)"><span class="iconfont icon-add"></span>&nbsp; 发帖
-          </el-button>
+          <el-button type="primary" @click="handleTopButtonClick(0)"><span class="iconfont icon-add"></span>&nbsp; 发帖 </el-button>
           <el-button type="primary"><span class="iconfont icon-search"></span>&nbsp; 搜索</el-button>
         </div>
         <!--用户信息-->
-        <div v-if="userInfo !== null" class="user-info"
-             style="width: 150px; display: flex; align-items: center; justify-content: center">
+        <div v-if="userInfo !== null" class="user-info" style="width: 150px; display: flex; align-items: center; justify-content: center">
           <el-dropdown>
             <el-badge :value="12" class="item">
               <div class="iconfont icon-message" style="margin: 0 15px; font-size: 25px; cursor: pointer"></div>
@@ -47,41 +44,35 @@
             </template>
           </el-dropdown>
           <!--头像-->
-          <Avatar user-id="8743908827" :src="userApi.avatarUrl(8743908827)" style="margin-left: 25px"/>
+          <Avatar user-id="8743908827" :src="userApi.avatarUrl(8743908827)" style="margin-left: 25px" />
         </div>
         <!-- 登录、注册、退出 -->
         <el-button-group v-else style="margin-left: 10px">
-          <el-button type="primary" plain @click="showUserDialog(0)"><span class="iconfont icon-login"></span>&nbsp; 登录
-          </el-button>
-          <el-button type="primary" plain @click="showUserDialog(1)"><span class="iconfont icon-register"></span>&nbsp;
-            注册
-          </el-button>
+          <el-button type="primary" plain @click="showUserDialog(0)"><span class="iconfont icon-login"></span>&nbsp; 登录 </el-button>
+          <el-button type="primary" plain @click="showUserDialog(1)"><span class="iconfont icon-register"></span>&nbsp; 注册 </el-button>
         </el-button-group>
       </template>
     </Header>
     <!--body-->
-    <div class="content"
-         :style="{ width: proxy.store.getters.contentWidth + 'px', top: proxy.store.getters.headerHeight + 'px' }">
-      <transition name="fade">
-        <router-view/>
-      </transition>
+    <div class="content" :style="{ width: proxy.store.getters.contentWidth + 'px', top: proxy.store.getters.headerHeight + 'px' }">
+      <router-view />
     </div>
-    <UserDialog ref="userDialog"/>
-    <el-backtop :right="200" :bottom="30"/>
+    <UserDialog ref="userDialog" />
+    <el-backtop :right="200" :bottom="30" />
   </div>
 </template>
 
 <script setup>
-import {getCurrentInstance, onMounted, ref, watch} from 'vue'
+import { getCurrentInstance, onMounted, ref, watch } from 'vue'
 import userApi from '@/api/user'
 import boardApi from '@/api/board'
 import Header from '@/components/Header/Header.vue'
 import UserDialog from '@/components/UserDialog/UserDialog.vue'
 import Avatar from '@/components/Avatar/Avatar.vue'
 import router from '@/router'
-import {useRoute} from 'vue-router'
+import { useRoute } from 'vue-router'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const route = useRoute()
 const headerWidth = ref(proxy.store.getters.contentWidth)
 // 元素ref
@@ -116,7 +107,6 @@ const handleSelect = (key, keyPath) => {
 }
 // 处理发帖、搜索按钮点击
 const handleTopButtonClick = type => {
-  console.log(proxy.store.getters.contentWidth)
   if (type === 0) {
     if (!proxy.store.getters.userId) {
       showUserDialog(0)
@@ -139,37 +129,37 @@ onMounted(() => {
 })
 // 监听用户信息
 watch(
-    () => proxy.store.getters.userId,
-    newVal => {
-      if (!newVal) {
-        userInfo.value = {}
-      }
-      userInfo.value = newVal
-    },
-    {immediate: true, deep: true}
+  () => proxy.store.getters.userId,
+  newVal => {
+    if (!newVal) {
+      userInfo.value = {}
+    }
+    userInfo.value = newVal
+  },
+  { immediate: true, deep: true }
 )
 // 监听是否展示登录框
 watch(
-    () => proxy.store.state.showLoginDialog,
-    newVal => {
-      if (newVal) {
-        showUserDialog(0)
-        proxy.Toast.warning('请先登录')
-      }
-    },
-    {immediate: true, deep: true}
+  () => proxy.store.state.showLoginDialog,
+  newVal => {
+    if (newVal) {
+      showUserDialog(0)
+      proxy.Toast.warning('请先登录')
+    }
+  },
+  { immediate: true, deep: true }
 )
 // 监听是否需要切换屏幕宽度 (path == /postArticle/:articleId || /postArticle)
 watch(
-    () => route.path,
-    newVal => {
-      if (newVal === '/postArticle' || newVal.indexOf('/postArticle/') !== -1) {
-        headerWidth.value = 1200
-        proxy.store.commit('TOGGLE_CONTENT_WIDTH', document.body.clientWidth)
-      } else {
-        proxy.store.commit('TOGGLE_CONTENT_WIDTH', 1200)
-      }
+  () => route.path,
+  newVal => {
+    if (newVal === '/postArticle' || newVal.indexOf('/postArticle/') !== -1) {
+      headerWidth.value = 1200
+      proxy.store.commit('TOGGLE_CONTENT_WIDTH', document.body.clientWidth)
+    } else {
+      proxy.store.commit('TOGGLE_CONTENT_WIDTH', 1200)
     }
+  }
 )
 </script>
 

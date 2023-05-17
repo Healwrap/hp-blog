@@ -18,45 +18,41 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, onBeforeUnmount, onMounted, ref } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
 const { proxy } = getCurrentInstance()
 defineProps({
   headerWidth: {
-    type: Number,
+    type: Number
   }
 })
 // 获取头部元素
 const header = ref(null)
-// 获取滚动条高度
-// const getScrollTop = () => {
-//   const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
-//   return scrollTop
-// }
-// onMounted(() => {
-//   let scrollType = 0 // 0:未滚动 1:向上滚动 2:向下滚动
-//   let scrollTop = getScrollTop()
-//   window.addEventListener('scroll', () => {
-//     const currentScrollTop = getScrollTop()
-//     if (currentScrollTop > scrollTop && scrollType !== 2) {
-//       // 向下滚动
-//       scrollType = 2
-//       header.value.classList.add('header-up')
-//     } else if (currentScrollTop < scrollTop && scrollType !== 1) {
-//       // 向上滚动
-//       scrollType = 1
-//       header.value.classList.remove('header-up')
-//     } else {
-//       // 未滚动
-//       scrollType = 0
-//     }
-//     // 滚动距离的绝对值大于300px时才执行
-//     if (Math.abs(currentScrollTop - scrollTop) > 300) {
-//       scrollTop = currentScrollTop
-//     }
-//   })
-// })
+// 绑定滚动事件
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll) // 监听滚动事件
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll) // 移除滚动事件
+})
+// 处理滚动事件
+let scrollPosition = 0
+const handleScroll = () => {
+  console.log(scrollPosition)
+  const currentPosition = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
+  const scrollDirection = currentPosition > scrollPosition ? 'down' : 'up'
+  scrollPosition = currentPosition // 更新滚动位置
+  if (scrollDirection === 'down' && currentPosition > 200) {
+    // 向下滚动超过200px
+    header.value.classList.add('header-up') // 添加属性
+    scrollPosition = 0 // 重置滚动位置
+  } else if (scrollDirection === 'up' && currentPosition < 200) {
+    // 向上滚动超过200px
+    header.value.classList.remove('header-up') // 移除属性
+    scrollPosition = 0 // 重置滚动位置
+  }
+}
 </script>
 
 <style lang="scss" scoped>
