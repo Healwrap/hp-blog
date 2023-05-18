@@ -6,7 +6,9 @@ import com.easybbs.entity.annotation.VerifyParams;
 import com.easybbs.entity.config.WebConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.SessionWebUserDto;
-import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.EditorTypeEnum;
+import com.easybbs.entity.enums.OperRecordOpTypeEnum;
+import com.easybbs.entity.enums.ResponseCodeEnum;
 import com.easybbs.entity.enums.article.ArticleOrderTypeEnum;
 import com.easybbs.entity.enums.article.ArticleStatusEnum;
 import com.easybbs.entity.po.*;
@@ -38,13 +40,12 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Objects;
 
 /**
+ * @author pepedd
  * @ClassName ForumArticleController
  * @Description 论坛文章控制器
  * @Date 2023/4/24 22:39
- * @author pepedd
  */
 @RestController
 @RequestMapping("/forum")
@@ -117,7 +118,7 @@ public class ForumArticleController extends ABaseController {
     ForumArticleDetailVO detailVO = new ForumArticleDetailVO();
     detailVO.setForumArticleVO(CopyTools.copy(forumArticle, ForumArticleVO.class));
     // 有附件
-    if (Objects.equals(forumArticle.getAttachmentType(), 1)) {
+    if (forumArticle.getAttachmentType() == 1) {
       ForumArticleAttachmentQuery attachmentQuery = new ForumArticleAttachmentQuery();
       attachmentQuery.setArticleId(articleId);
       List<ForumArticleAttachment> forumArticleAttachmentList = forumArticleAttachmentService.findListByParam(attachmentQuery);
@@ -259,7 +260,7 @@ public class ForumArticleController extends ABaseController {
     ForumArticle forumArticle = new ForumArticle();
     forumArticle.setTitle(EscapeUtil.escapeHtml(title));
     forumArticle.setSummary(EscapeUtil.escapeHtml(summary));
-    forumArticle.setpBoardId(pBoardId);
+    forumArticle.setPBoardId(pBoardId);
     forumArticle.setBoardId(boardId);
     forumArticle.setContent(content);
     EditorTypeEnum typeEnum = EditorTypeEnum.getByType(editorType);
@@ -280,6 +281,75 @@ public class ForumArticleController extends ABaseController {
     ForumArticleAttachment articleAttachment = new ForumArticleAttachment();
     articleAttachment.setIntegral(integral == null ? 0 : integral);
     forumArticleService.postArticle(userDto.getIsAdmin(), forumArticle, articleAttachment, cover, attachment);
+    return getSuccessResponseVO(forumArticle.getArticleId());
+  }
+
+  /**
+   * 更新时获取文章详情
+   *
+   * @param session   会话
+   * @param articleId 文章id
+   * @return
+   */
+  @RequestMapping("articleDetail4Update")
+  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  public ResponseVO articleDetail4Update(HttpSession session, @VerifyParams(required = true) String articleId) {
+    SessionWebUserDto userDto = getUserInfoFromSession(session);
+    ForumArticle forumArticle = forumArticleService.getForumArticleByArticleId(articleId);
+    if (forumArticle == null || !forumArticle.getUserId().equals(userDto.getUserId())) {
+      throw new BusinessException("文章不存在");
+    }
+    ForumArticleDetailVO articleDetailVO = new ForumArticleDetailVO();
+    articleDetailVO.setForumArticleVO(CopyTools.copy(forumArticle, ForumArticleVO.class));
+    if (forumArticle.getAttachmentType() == 1) {
+      ForumArticleAttachmentQuery attachmentQuery = new ForumArticleAttachmentQuery();
+      attachmentQuery.setArticleId(articleId);
+      List<ForumArticleAttachment> forumArticleAttachmentList = forumArticleAttachmentService.findListByParam(attachmentQuery);
+      if (!forumArticleAttachmentList.isEmpty()) {
+        articleDetailVO.setForumArticleAttachmentVO(CopyTools.copy(forumArticleAttachmentList.get(0), ForumArticleAttachmentVO.class));
+      }
+    }
+    return getSuccessResponseVO(articleDetailVO);
+  }
+
+  @RequestMapping("/updateArticle")
+  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  public ResponseVO updateArticle(HttpSession session,
+                                  @VerifyParams(required = true) String articleId,
+                                  @VerifyParams(required = true, max = 150) String title,
+                                  @VerifyParams(required = true) Integer pBoardId,
+                                  @VerifyParams(max = 200) String summary,
+                                  @VerifyParams(required = true) Integer editorType,
+                                  @VerifyParams(required = true) Integer attachmentType,
+                                  @VerifyParams(required = true) String content,
+                                  String markdownContent,
+                                  Integer boardId,
+                                  MultipartFile cover,
+                                  MultipartFile attachment,
+                                  Integer integral
+  ) {
+    SessionWebUserDto userDto = getUserInfoFromSession(session);
+    // 校验文章是否存在
+    ForumArticle forumArticle = forumArticleService.getForumArticleByArticleId(articleId);
+    if (forumArticle == null || !forumArticle.getUserId().equals(userDto.getUserId())) {
+      throw new BusinessException("文章不存在");
+    }
+    // 文章信息
+    forumArticle.setMarkdownContent(markdownContent);
+    forumArticle.setContent(content);
+    forumArticle.setEditorType(editorType);
+    forumArticle.setSummary(summary);
+    forumArticle.setBoardId(boardId);
+    forumArticle.setPBoardId(pBoardId);
+    forumArticle.setTitle(title);
+    forumArticle.setAttachmentType(attachmentType);
+    forumArticle.setUserId(userDto.getUserId());
+    forumArticle.setNickName(userDto.getNickName());
+    forumArticle.setUserIpAddress(userDto.getProvince());
+    // 附件信息
+    ForumArticleAttachment articleAttachment = new ForumArticleAttachment();
+    articleAttachment.setIntegral(integral == null ? 0 : integral);
+    forumArticleService.updateArticle(userDto.getIsAdmin(), forumArticle, articleAttachment, cover, attachment);
     return getSuccessResponseVO(forumArticle.getArticleId());
   }
 }

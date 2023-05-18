@@ -8,10 +8,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * @author pepedd
  * @ClassName ForumArticleVO
  * @Description 文章信息
  * @Date 2023/4/25 0:35
- * @author pepedd
  */
 @Data
 public class ForumArticleVO implements Serializable {
@@ -59,6 +59,14 @@ public class ForumArticleVO implements Serializable {
    * 内容
    */
   private String content;
+  /**
+   * markdown内容
+   */
+  private String markdownContent;
+  /**
+   * 编辑器类型 0: html 1: markdown
+   */
+  private Integer editorType;
   /**
    * 摘要
    */

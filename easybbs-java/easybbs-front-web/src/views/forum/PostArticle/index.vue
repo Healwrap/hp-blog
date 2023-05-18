@@ -1,6 +1,6 @@
 <template>
   <div class="post-article">
-    <el-form class="article-panel" ref="formDataRef" :model="formData" :rules="rules">
+    <el-form class="article-panel" ref="formDataRef" :model="formData" :rules="rules" label-width="60px">
       <div class="article-editor box">
         <el-card>
           <template #header>
@@ -63,10 +63,13 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, ref} from 'vue'
+import {getCurrentInstance, nextTick, ref, watch} from 'vue'
 import HtmlEditor from '@/components/HtmlEditor/HtmlEditor.vue'
 import boardApi from '@/api/board'
+import {useRoute} from 'vue-router'
+import forumApi from '@/api/forum'
 
+const route = useRoute()
 const {proxy} = getCurrentInstance()
 const formData = ref({})
 const formDataRef = ref()
@@ -88,16 +91,17 @@ const boardProps = {
   value: 'boardId',
   label: 'boardName'
 }
+// 文章id
+const articleId = ref()
+// 板块列表
 const boardList = ref()
 // 编辑器类型 0：富文本 1：markdown
 const editorType = ref(Number(proxy.VueCookies.get('editorType')) || 0) // 这里从cookie中获取，是字符串，所以需要转为数字，否则使用`===`判断时会出错
-console.log(proxy.VueCookies.get('editorType'))
 const changeEditor = () => {
   proxy.Confirm('切换编辑器后，内容将不会保留，确定要切换吗？', () => {
     editorType.value = editorType.value === 0 ? 1 : 0
     formData.value.content = ''
     formData.value.markdownContent = ''
-    console.log(editorType.value)
     proxy.VueCookies.set('editorType', editorType.value, -1)
   })
 }
@@ -109,6 +113,35 @@ const loadBoardList = async () => {
   boardList.value = result.data
 }
 loadBoardList()
+const getArticleDetail = () => {
+  nextTick(async () => {
+    formDataRef.value.resetFields()
+    if (articleId.value) {
+      const result = await forumApi.getArticleDetail4Update(articleId.value)
+      if (!result) {
+        return
+      }
+      const articleInfo = result.data.forumArticleVO
+      editorType.value = articleInfo.editorType
+      formData.value = articleInfo
+    }
+  })
+}
+// 当路径后有文章id时，表示是编辑文章
+watch(
+    () => route,
+    newVal => {
+      if (!newVal.params.articleId) {
+        return
+      }
+      articleId.value = newVal.params.articleId
+      getArticleDetail()
+    },
+    {
+      immediate: true,
+      deep: true
+    }
+)
 </script>
 
 <style lang="scss" scoped>

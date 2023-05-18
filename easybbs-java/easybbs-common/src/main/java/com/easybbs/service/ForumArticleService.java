@@ -70,4 +70,8 @@ public interface ForumArticleService {
    * 发表文章
    */
   void postArticle(Boolean isAdmin, ForumArticle article, ForumArticleAttachment forumArticleAttachment, MultipartFile cover, MultipartFile attachment);
+  /**
+   * 更新文章
+   */
+  void updateArticle(Boolean isAdmin, ForumArticle article, ForumArticleAttachment forumArticleAttachment, MultipartFile cover, MultipartFile attachment);
 }

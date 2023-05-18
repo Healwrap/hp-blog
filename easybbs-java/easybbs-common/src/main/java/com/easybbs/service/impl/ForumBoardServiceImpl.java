@@ -120,7 +120,7 @@ public class ForumBoardServiceImpl implements ForumBoardService {
   private List<ForumBoard> convertLine2Tree(List<ForumBoard> dataList, Integer pid) {
     List<ForumBoard> children = new ArrayList<>();
     for (ForumBoard data : dataList) {
-      if (data.getpBoardId().equals(pid)) {
+      if (data.getPBoardId().equals(pid)) {
         data.setChildren(convertLine2Tree(dataList, data.getBoardId()));
         children.add(data);
       }

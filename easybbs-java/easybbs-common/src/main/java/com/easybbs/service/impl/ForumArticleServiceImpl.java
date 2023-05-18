@@ -1,5 +1,6 @@
 package com.easybbs.service.impl;
 
+import com.easybbs.entity.config.AppConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.FileUploadDto;
 import com.easybbs.entity.dto.sysDto.SysSetting4AuditDto;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +57,8 @@ public class ForumArticleServiceImpl implements ForumArticleService {
   private UserInfoService userInfoService;
   @Resource
   private ImageUtils imageUtils;
+  @Resource
+  private AppConfig appConfig;
 
   /**
    * 根据条件查询列表
@@ -216,12 +220,74 @@ public class ForumArticleServiceImpl implements ForumArticleService {
 
   }
 
+  @Override
+  public void updateArticle(Boolean isAdmin, ForumArticle article, ForumArticleAttachment forumArticleAttachment, MultipartFile cover, MultipartFile attachment) {
+    ForumArticle dbInfo = forumArticleMapper.selectByArticleId(article.getArticleId());
+    if (!isAdmin && !dbInfo.getUserId().equals(article.getUserId())) {
+      throw new BusinessException("非法操作");
+    }
+    article.setLastUpdateTime(new Date());
+    resetBoardInfo(isAdmin, article);
+    if (cover != null) {
+      FileUploadDto uploadDto = fileUtils.uploadFile2Local(cover, Constants.FILE_FOLDER_IMAGE, FileUploadTypeEnum.ARTICLE_COVER);
+      article.setCover(uploadDto.getLocalPath());
+    }
+    if (attachment != null) {
+      uploadAttachment(article, forumArticleAttachment, attachment, true);
+      article.setAttachmentType(ArticleAttachmentTypeEnum.HAVE_ATTACHMENT.getType());
+    } else {
+      article.setAttachmentType(ArticleAttachmentTypeEnum.NO_ATTACHMENT.getType());
+    }
+
+    ForumArticleAttachment dbAttachment = null;
+    ForumArticleAttachmentQuery forumArticleAttachmentQuery = new ForumArticleAttachmentQuery();
+    forumArticleAttachmentQuery.setArticleId(article.getArticleId());
+    List<ForumArticleAttachment> attachmentList = forumArticleAttachmentMapper.selectList(forumArticleAttachmentQuery);
+    if (!attachmentList.isEmpty()) {
+      dbAttachment = attachmentList.get(0);
+    }
+    if (dbAttachment != null) {
+      if (article.getAttachmentType() == 0) {
+        new File(appConfig.getProjectFolder() + Constants.FILE_FOLDER_FILE + Constants.FILE_FOLDER_ATTACHMENT + dbAttachment.getFilePath()).delete();
+        forumArticleAttachmentMapper.deleteByFileId(dbAttachment.getFileId());
+      } else {
+        if (!dbAttachment.getIntegral().equals(forumArticleAttachment.getArticleId())) {
+          ForumArticleAttachment updateAttachment = new ForumArticleAttachment();
+          updateAttachment.setIntegral(forumArticleAttachment.getIntegral());
+          forumArticleAttachmentMapper.updateByFileId(updateAttachment, dbAttachment.getFileId());
+        }
+
+      }
+    }
+    // 文章是否需要审核
+    if (isAdmin) {
+      article.setStatus(ArticleStatusEnum.AUDIT.getStatus());
+    } else {
+      SysSetting4AuditDto auditDto = SysCacheUtils.getSysSetting().getAuditSetting();
+      article.setStatus(auditDto.getPostAudit() ? ArticleStatusEnum.NO_AUDIT.getStatus() : ArticleStatusEnum.AUDIT.getStatus());
+    }
+    // 替换图片
+    String content = article.getContent();
+    if (!StringTools.isEmpty(content)) {
+      String month = imageUtils.resetImageHtml(content);
+      String replaceMonth = "/" + month + "/";
+      content = content.replace(Constants.FILE_FOLDER_TEMP, replaceMonth);
+      article.setContent(content);
+      String markdownContent = article.getMarkdownContent();
+      if (!StringTools.isEmpty(markdownContent)) {
+        markdownContent = markdownContent.replace(Constants.FILE_FOLDER_TEMP, replaceMonth);
+        article.setMarkdownContent(markdownContent);
+      }
+    }
+    forumArticleMapper.updateByArticleId(article, article.getArticleId());
+  }
+
   private void resetBoardInfo(Boolean isAdmin, ForumArticle forumArticle) {
-    ForumBoard pBoard = forumBoardService.getForumBoardByBoardId(forumArticle.getpBoardId());
+    ForumBoard pBoard = forumBoardService.getForumBoardByBoardId(forumArticle.getPBoardId());
     if (pBoard == null || pBoard.getPostType() == 0 && !isAdmin) {
       throw new BusinessException("一级板块不存在");
     }
-    forumArticle.setpBoardName(pBoard.getBoardName());
+    forumArticle.setPBoardName(pBoard.getBoardName());
     if (forumArticle.getBoardId() != null && forumArticle.getBoardId() != 0) {
       ForumBoard board = forumBoardService.getForumBoardByBoardId(forumArticle.getBoardId());
       if (board == null || board.getPostType() == 0 && !isAdmin) {
@@ -241,18 +307,35 @@ public class ForumArticleServiceImpl implements ForumArticleService {
       throw new BusinessException("附件最大只能上传" + allowSizeMb + "MB");
     }
     // 修改
+    ForumArticleAttachment dbInfo = null;
     if (isUpdate) {
-
+      ForumArticleAttachmentQuery forumArticleAttachmentQuery = new ForumArticleAttachmentQuery();
+      forumArticleAttachmentQuery.setArticleId(article.getArticleId());
+      List<ForumArticleAttachment> attachmentList = forumArticleAttachmentMapper.selectList(forumArticleAttachmentQuery);
+      if (!attachmentList.isEmpty()) {
+        dbInfo = attachmentList.get(0);
+        new File(appConfig.getProjectFolder() + Constants.FILE_FOLDER_FILE + Constants.FILE_FOLDER_ATTACHMENT + dbInfo.getFilePath()).delete();
+      }
     }
     FileUploadDto uploadDto = fileUtils.uploadFile2Local(file, Constants.FILE_FOLDER_ATTACHMENT, FileUploadTypeEnum.ARTICLE_ATTACHMENT);
-    attachment.setFileId(StringTools.getRandomNumber(15));
-    attachment.setArticleId(article.getArticleId());
-    attachment.setUserId(article.getUserId());
-    attachment.setFileName(uploadDto.getOriginalFileName());
-    attachment.setFilePath(uploadDto.getLocalPath());
-    attachment.setFileSize(file.getSize());
-    attachment.setDownloadCount(0);
-    attachment.setFileType(AttachmentFileTypeEnum.ZIP.getType());
-    forumArticleAttachmentMapper.insert(attachment);
+    if (dbInfo == null) {
+      attachment.setFileId(StringTools.getRandomNumber(15));
+      attachment.setArticleId(article.getArticleId());
+      attachment.setUserId(article.getUserId());
+      attachment.setFileName(uploadDto.getOriginalFileName());
+      attachment.setFilePath(uploadDto.getLocalPath());
+      attachment.setFileSize(file.getSize());
+      attachment.setDownloadCount(0);
+      attachment.setFileType(AttachmentFileTypeEnum.ZIP.getType());
+      forumArticleAttachmentMapper.insert(attachment);
+    } else {
+      ForumArticleAttachment updateInfo = new ForumArticleAttachment();
+      updateInfo.setFileName(uploadDto.getOriginalFileName());
+      updateInfo.setFilePath(uploadDto.getLocalPath());
+      updateInfo.setFileSize(file.getSize());
+      forumArticleAttachmentMapper.updateByFileId(updateInfo, dbInfo.getFileId());
+    }
   }
+
+
 }

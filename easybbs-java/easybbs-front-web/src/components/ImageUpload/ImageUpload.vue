@@ -1,18 +1,18 @@
 <template>
   <div class="image-upload">
     <el-upload
-        name="file"
-        :show-file-list="false"
-        accept=".png, .PNG, .jpg, .JPG, .jpeg, .JPEG, .gif, .GIF, .bmp, .BMP"
-        :multiple="false"
-        :http-request="uploadFile"
+      name="file"
+      :show-file-list="false"
+      accept=".png, .PNG, .jpg, .JPG, .jpeg, .JPEG, .gif, .GIF, .bmp, .BMP"
+      :multiple="false"
+      :http-request="uploadFile"
     >
       <template v-if="localFile">
-        <img :src="localFile" alt="image"/>
+        <img :src="localFile" alt="image" />
       </template>
       <template v-else>
         <el-icon>
-          <Plus/>
+          <Plus />
         </el-icon>
       </template>
     </el-upload>
@@ -20,8 +20,8 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import {Plus} from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { Plus } from '@element-plus/icons-vue'
 
 defineProps({
   modelValue: {
@@ -35,7 +35,7 @@ const uploadFile = file => {
   file = file.file
   let img = new FileReader()
   img.readAsDataURL(file)
-  img.onload = ({target}) => {
+  img.onload = ({ target }) => {
     localFile.value = target.result
   }
   emit('update:modelValue', file)
