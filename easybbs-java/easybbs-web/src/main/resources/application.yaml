@@ -1,3 +1,10 @@
+# 项目相关配置
+easybbs:
+  # 名称
+  name: easybbs
+  # 版本
+  version: 1.0.0
+
 server:
   servlet:
     # 配置 API 路径
