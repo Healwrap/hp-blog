@@ -4,6 +4,7 @@ import java.util.Date;
 import com.easybbs.entity.enums.DateTimePatternEnum;
 import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * 用户信息
  *
  */
+@Data
 public class UserInfo implements Serializable {
 
 
@@ -85,111 +87,6 @@ public class UserInfo implements Serializable {
 	 * 0:禁用 1:正常
 	 */
 	private Integer status;
-
-
-	public void setUserId(String userId){
-		this.userId = userId;
-	}
-
-	public String getUserId(){
-		return this.userId;
-	}
-
-	public void setNickName(String nickName){
-		this.nickName = nickName;
-	}
-
-	public String getNickName(){
-		return this.nickName;
-	}
-
-	public void setEmail(String email){
-		this.email = email;
-	}
-
-	public String getEmail(){
-		return this.email;
-	}
-
-	public void setPassword(String password){
-		this.password = password;
-	}
-
-	public String getPassword(){
-		return this.password;
-	}
-
-	public void setSex(Integer sex){
-		this.sex = sex;
-	}
-
-	public Integer getSex(){
-		return this.sex;
-	}
-
-	public void setPersonDescription(String personDescription){
-		this.personDescription = personDescription;
-	}
-
-	public String getPersonDescription(){
-		return this.personDescription;
-	}
-
-	public void setJoinTime(Date joinTime){
-		this.joinTime = joinTime;
-	}
-
-	public Date getJoinTime(){
-		return this.joinTime;
-	}
-
-	public void setLastLoginTime(Date lastLoginTime){
-		this.lastLoginTime = lastLoginTime;
-	}
-
-	public Date getLastLoginTime(){
-		return this.lastLoginTime;
-	}
-
-	public void setLastLoginIp(String lastLoginIp){
-		this.lastLoginIp = lastLoginIp;
-	}
-
-	public String getLastLoginIp(){
-		return this.lastLoginIp;
-	}
-
-	public void setLastLoginIpAddress(String lastLoginIpAddress){
-		this.lastLoginIpAddress = lastLoginIpAddress;
-	}
-
-	public String getLastLoginIpAddress(){
-		return this.lastLoginIpAddress;
-	}
-
-	public void setTotalIntegral(Integer totalIntegral){
-		this.totalIntegral = totalIntegral;
-	}
-
-	public Integer getTotalIntegral(){
-		return this.totalIntegral;
-	}
-
-	public void setCurrentIntegral(Integer currentIntegral){
-		this.currentIntegral = currentIntegral;
-	}
-
-	public Integer getCurrentIntegral(){
-		return this.currentIntegral;
-	}
-
-	public void setStatus(Integer status){
-		this.status = status;
-	}
-
-	public Integer getStatus(){
-		return this.status;
-	}
 
 	@Override
 	public String toString (){
