@@ -71,7 +71,7 @@ public class ForumCommentServiceImpl implements ForumCommentService {
       List<Integer> pCommentIdList = list.stream().map(ForumComment::getCommentId).distinct().collect(Collectors.toList());
       subQuery.setpCommentIdList(pCommentIdList);
       List<ForumComment> subCommentList = this.forumCommentMapper.selectList(subQuery);
-      Map<Integer, List<ForumComment>> tempMap = subCommentList.stream().collect(Collectors.groupingBy(ForumComment::getpCommentId));
+      Map<Integer, List<ForumComment>> tempMap = subCommentList.stream().collect(Collectors.groupingBy(ForumComment::getPCommentId));
       list.forEach(item -> {
         item.setChildren(tempMap.get(item.getCommentId()));
       });
@@ -182,7 +182,7 @@ public class ForumCommentServiceImpl implements ForumCommentService {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
     // 判断是否是自己的文章 或者 评论是否是一级评论
-    if (!forumArticle.getUserId().equals(userId) || forumComment.getpCommentId() != 0) {
+    if (!forumArticle.getUserId().equals(userId) || forumComment.getPCommentId() != 0) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
     // 判断是否已经是置顶状态
@@ -213,8 +213,8 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     }
     // 判断回复的评论是否存在
     ForumComment pComment = null;
-    if (comment.getpCommentId() != 0) {
-      pComment = forumCommentMapper.selectByCommentId(comment.getpCommentId());
+    if (comment.getPCommentId() != 0) {
+      pComment = forumCommentMapper.selectByCommentId(comment.getPCommentId());
       if (pComment == null) {
         throw new BusinessException("回复的评论不存在");
       }
@@ -247,7 +247,7 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     if (commentIntegral > 0) {
       userInfoService.updateUserIntegral(comment.getUserId(), UserIntegralOperTypeEnum.POST_COMMENT, UserIntegralChangeTypeEnum.ADD.getChangeType(), commentIntegral);
     }
-    if (comment.getpCommentId() == 0) {
+    if (comment.getPCommentId() == 0) {
       forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.COMMENT_COUNT.getType(), 1, comment.getArticleId());
     }
     // 记录消息
@@ -260,11 +260,11 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     userMessage.setSendNickName(comment.getNickName());
     userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessage.setArticleTitle(forumArticle.getTitle());
-    if (comment.getpCommentId() == 0) {
+    if (comment.getPCommentId() == 0) {
       userMessage.setReceivedUserId(forumArticle.getUserId());
-    } else if (comment.getpCommentId() != 0 && StringTools.isEmpty(comment.getReplyUserId())) {
+    } else if (comment.getPCommentId() != 0 && StringTools.isEmpty(comment.getReplyUserId())) {
       userMessage.setReceivedUserId(pComment.getUserId());
-    } else if (comment.getpCommentId() != 0 && !StringTools.isEmpty(comment.getReplyUserId())) {
+    } else if (comment.getPCommentId() != 0 && !StringTools.isEmpty(comment.getReplyUserId())) {
       userMessage.setReceivedUserId(comment.getReplyUserId());
     }
     if (comment.getUserId().equals(userMessage.getReceivedUserId())) {

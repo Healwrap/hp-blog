@@ -1,5 +1,7 @@
 import request from '@/utils/Request'
 import { mergeParams } from '@/utils/Utils'
+import { ElMessageBox } from 'element-plus'
+import router from '@/router'
 
 const apis = {
   loadArticle: '/forum/loadArticle',
@@ -85,11 +87,31 @@ const attachmentDownload = fileId => {
   return `${apis.attachmentDownload}?fileId=${fileId}`
 }
 
+const getArticleDetail4Update = articleId => {
+  return request({
+    url: apis.getArticleDetail4Update,
+    method: 'post',
+    params: {
+      articleId
+    },
+    showError: false,
+    errorCallback: response => {
+      ElMessageBox.alert(response.info, '错误', {
+        showClose: false,
+        callback: () => {
+          router.go(-1)
+        }
+      })
+    }
+  })
+}
+
 const forumApi = {
   loadArticle,
   getArticleDetail,
   doLike,
   getUserDownloadInfo,
-  attachmentDownload
+  attachmentDownload,
+  getArticleDetail4Update
 }
 export default forumApi

@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * @author pepedd
  * @ClassName ForumCommentController
- * @Description TODO
+ * @Description 文章评论控制器
  * @Date 2023/5/5 8:58
  */
 @RestController
@@ -157,7 +157,7 @@ public class ForumCommentController extends ABaseController {
     forumComment.setNickName(userDto.getNickName());
     forumComment.setUserIpAddress(userDto.getProvince());
     forumComment.setArticleId(articleId);
-    forumComment.setpCommentId(pCommentId);
+    forumComment.setPCommentId(pCommentId);
     forumComment.setContent(content);
     forumComment.setReplyUserId(replyUserId);
     if (replyUserId != null && Long.parseLong(replyUserId) != 0) {
