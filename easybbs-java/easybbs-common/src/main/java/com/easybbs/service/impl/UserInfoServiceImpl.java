@@ -3,7 +3,11 @@ package com.easybbs.service.impl;
 import com.easybbs.entity.config.WebConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.SessionWebUserDto;
-import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.PageSize;
+import com.easybbs.entity.enums.UserIntegralChangeTypeEnum;
+import com.easybbs.entity.enums.UserIntegralOperTypeEnum;
+import com.easybbs.entity.enums.UserStatusEnum;
+import com.easybbs.entity.enums.file.FileUploadTypeEnum;
 import com.easybbs.entity.enums.message.MessageStatusEnum;
 import com.easybbs.entity.enums.message.MessageTypeEnum;
 import com.easybbs.entity.po.UserInfo;
@@ -24,12 +28,14 @@ import com.easybbs.utils.JsonUtils;
 import com.easybbs.utils.OkHttpUtils;
 import com.easybbs.utils.StringTools;
 import com.easybbs.utils.SysCacheUtils;
+import com.easybbs.utils.file.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -53,7 +59,8 @@ public class UserInfoServiceImpl implements UserInfoService {
   private UserMessageMapper<UserMessage, UserMessageQuery> userMessageMapper;
   @Resource
   private UserIntegralRecordMapper<UserIntegralRecord, UserIntegralRecordQuery> userIntegralRecordMapper;
-
+  @Resource
+  private FileUtils fileUtils;
   @Resource
   private WebConfig webConfig;
 
@@ -325,8 +332,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
   /**
    * 修改密码
-   * @param email 邮箱
-   * @param password 密码
+   *
+   * @param email     邮箱
+   * @param password  密码
    * @param emailCode 邮箱验证码
    */
   @Override
@@ -340,5 +348,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     UserInfo tmpInfo = new UserInfo();
     tmpInfo.setPassword(StringTools.encodeMd5(password));
     this.userInfoMapper.updateByEmail(tmpInfo, email);
+  }
+
+  @Override
+  public void updateUserInfo(UserInfo userInfo, MultipartFile avatar) {
+    userInfoMapper.updateByUserId(userInfo, userInfo.getUserId());
+    if (avatar != null) {
+      fileUtils.uploadFile2Local(avatar, userInfo.getUserId(), FileUploadTypeEnum.AVATAR);
+    }
   }
 }

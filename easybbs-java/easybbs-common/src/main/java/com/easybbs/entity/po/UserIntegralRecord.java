@@ -2,6 +2,7 @@ package com.easybbs.entity.po;
 
 import java.util.Date;
 import com.easybbs.entity.enums.DateTimePatternEnum;
+import com.easybbs.entity.enums.UserIntegralOperTypeEnum;
 import com.easybbs.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -45,5 +46,9 @@ public class UserIntegralRecord implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
-
+	private String operTypeName;
+	public String getOperTypeName() {
+		UserIntegralOperTypeEnum operTypeEnum = UserIntegralOperTypeEnum.getByOperType(operType);
+		return operTypeEnum == null ? "" : operTypeEnum.getDesc();
+	}
 }

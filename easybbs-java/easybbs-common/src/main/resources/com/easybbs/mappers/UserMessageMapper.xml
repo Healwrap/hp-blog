@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.easybbs.mappers.UserMessageMapper">
 
@@ -271,7 +271,7 @@
 				 #{bean.createTime},
 			</if>
 		 </trim>
-		 on DUPLICATE key update 
+		 on DUPLICATE key update
 		 <trim prefix="" suffix="" suffixOverrides=",">
 			<if test="bean.receivedUserId!=null">
 				 received_user_id = VALUES(received_user_id),
@@ -364,7 +364,7 @@
 				 #{item.createTime}
 			 )
 		 </foreach>
-			on DUPLICATE key update 
+			on DUPLICATE key update
 			received_user_id = VALUES(received_user_id),
 			article_id = VALUES(article_id),
 			article_title = VALUES(article_title),
@@ -380,7 +380,7 @@
 	<!-- 根据MessageId修改-->
 	<update id="updateByMessageId" parameterType="com.easybbs.entity.po.UserMessage">
 		 UPDATE user_message
- 		 <set> 
+ 		 <set>
 			<if test="bean.receivedUserId != null">
 				 received_user_id = #{bean.receivedUserId},
 			</if>
@@ -428,7 +428,7 @@
 	<!-- 根据ArticleIdAndCommentIdAndSendUserIdAndMessageType修改-->
 	<update id="updateByArticleIdAndCommentIdAndSendUserIdAndMessageType" parameterType="com.easybbs.entity.po.UserMessage">
 		 UPDATE user_message
- 		 <set> 
+ 		 <set>
 			<if test="bean.receivedUserId != null">
 				 received_user_id = #{bean.receivedUserId},
 			</if>
@@ -461,4 +461,23 @@
 		select <include refid="base_column_list" /> from user_message where article_id=#{articleId} and comment_id=#{commentId} and send_user_id=#{sendUserId} and message_type=#{messageType}
 	</select>
 
+	<select id="selectUserMessageCount" resultType="java.util.Map">
+        select message_type messageType, count(1) count
+        from user_message
+        where received_user_id = #{userId}
+          and status = 1
+        group by message_type
+    </select>
+
+	<update id="updateMessageStatusBatch">
+        update user_message set status = #{status}
+        <where>
+            <if test="receiveUserId!=null and receiveUserId!=''">
+                and receive_user_id = #{receiveUserId}
+            </if>
+            <if test="messageType!=null">
+                and message_type = #{messageType}
+            </if>
+        </where>
+    </update>
 </mapper>

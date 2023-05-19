@@ -5,7 +5,9 @@ import com.easybbs.entity.enums.UserIntegralOperTypeEnum;
 import com.easybbs.entity.po.UserInfo;
 import com.easybbs.entity.query.UserInfoQuery;
 import com.easybbs.entity.vo.PaginationResultVO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -97,11 +99,24 @@ public interface UserInfoService {
    */
   Integer deleteUserInfoByNickName(String nickName);
 
+  /**
+   * 注册
+   */
   void register(String email, String emailCode, String nickName, String password);
 
+  /**
+   * 更新用户积分
+   */
   void updateUserIntegral(String userId, UserIntegralOperTypeEnum operTypeEnum, Integer changeType, Integer integral);
 
+  /**
+   * 登录
+   */
   SessionWebUserDto login(String email, String password, String ip);
 
+  /**
+   * 重置密码
+   */
   void resetPwd(String email, String password, String emailCode);
+  void updateUserInfo(UserInfo userInfo, MultipartFile avatar);
 }

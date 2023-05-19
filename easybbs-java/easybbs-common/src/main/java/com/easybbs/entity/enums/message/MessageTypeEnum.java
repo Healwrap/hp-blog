@@ -1,17 +1,17 @@
 package com.easybbs.entity.enums.message;
 
 /**
+ * @author pepedd
  * @ClassName MessageTypeEnum
  * @Description 消息类型枚举
  * @Date 2023/4/12 14:46
- * @author pepedd
  */
 public enum MessageTypeEnum {
   SYS(0, "sys", "系统消息"),
   COMMENT(1, "reply", "回复我的"),
   ARTICLE_LIKE(2, "article_like", "文章被点赞"),
   COMMENT_LIKE(3, "comment_like", "评论被点赞"),
-  DOWNLOAD_ATTACHMENT(4, "download_attachment", "下载附件");
+  ATTACHMENT_DOWNLOAD(4, "attachment_download", "下载附件");
   private final Integer type;
   private final String code;
   private final String desc;
@@ -22,9 +22,18 @@ public enum MessageTypeEnum {
     this.desc = desc;
   }
 
-  public static MessageTypeEnum getByType(String code) {
+  public static MessageTypeEnum getByCode(String code) {
     for (MessageTypeEnum messageTypeEnum : MessageTypeEnum.values()) {
       if (messageTypeEnum.getCode().equals(code)) {
+        return messageTypeEnum;
+      }
+    }
+    return null;
+  }
+
+  public static MessageTypeEnum getByType(Integer type) {
+    for (MessageTypeEnum messageTypeEnum : MessageTypeEnum.values()) {
+      if (messageTypeEnum.getType().equals(type)) {
         return messageTypeEnum;
       }
     }
