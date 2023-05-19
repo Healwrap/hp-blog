@@ -81,7 +81,7 @@ public class ForumCommentController extends ABaseController {
     }
     commentQuery.setPageNo(pageNo);
     commentQuery.setPageSize(PageSize.SIZE15.getSize());
-    commentQuery.setpCommentId(0);
+    commentQuery.setPCommentId(0);
     commentQuery.setLoadChildren(true);
     return getSuccessResponseVO(forumCommentService.findListByPage(commentQuery));
   }
@@ -168,7 +168,7 @@ public class ForumCommentController extends ABaseController {
     if (pCommentId != 0) {
       ForumCommentQuery forumCommentQuery = new ForumCommentQuery();
       forumCommentQuery.setArticleId(articleId);
-      forumCommentQuery.setpCommentId(pCommentId);
+      forumCommentQuery.setPCommentId(pCommentId);
       forumCommentQuery.setOrderBy("comment_id asc");
       List<ForumComment> children = forumCommentService.findListByParam(forumCommentQuery);
       return getSuccessResponseVO(children);

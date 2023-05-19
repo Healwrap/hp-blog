@@ -43,6 +43,10 @@ public class Constants {
    */
   public static final String SESSIONS_KEY = "session_key";
   /**
+   * 频次
+   */
+  public static final String SESSIONS_KEY_FREQUENCY = "SESSIONS_KEY_FREQUENCY";
+  /**
    * 文件夹
    */
   public static final String FILE_FOLDER_FILE = "/file/";
@@ -78,5 +82,9 @@ public class Constants {
    * 允许的文件后缀
    */
   public static final String[] FILE_SUFFIX = new String[]{".zip", ".ZIP", ".rar", ".RAR"};
+  /**
+   * 获取图片路径
+   */
   public static final String READ_IMAGE_PATH = "/api/files/getImage/";
+  public static final String STATUS_SUCCESS = "success";
 }

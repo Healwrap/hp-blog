@@ -4,9 +4,21 @@ import com.easybbs.entity.annotation.GlobalIntercepter;
 import com.easybbs.entity.annotation.VerifyParams;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.SessionWebUserDto;
+import com.easybbs.entity.dto.SysSettingDto;
+import com.easybbs.entity.enums.DateTimePatternEnum;
 import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
+import com.easybbs.entity.query.ForumArticleQuery;
+import com.easybbs.entity.query.ForumCommentQuery;
+import com.easybbs.entity.query.LikeRecordQuery;
+import com.easybbs.entity.vo.ResponseVO;
 import com.easybbs.exception.BusinessException;
+import com.easybbs.service.ForumArticleService;
+import com.easybbs.service.ForumCommentService;
+import com.easybbs.service.LikeRecordService;
+import com.easybbs.utils.DateUtils;
 import com.easybbs.utils.StringTools;
+import com.easybbs.utils.SysCacheUtils;
 import com.easybbs.utils.VerifyUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,17 +32,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Date;
 
 
 /**
+ * @author pepedd
  * @ClassName OperationAspect
  * @Description AOP切面
  * @Date 2023/4/13 10:03
- * @author pepedd
  */
 
 @Component
@@ -39,6 +53,14 @@ public class OperationAspect {
   private static final Logger logger = LoggerFactory.getLogger(OperationAspect.class);
 
   private static final String[] TYPE_BASE = {"java.lang.String", "java.lang.Integer", "java.lang.Long", "java.lang.Double", "java.lang.Float", "java.lang.Boolean", "java.lang.Short", "java.lang.Byte", "java.lang.Character", "java.lang.Number", "java.lang.Object", "java.util.Date", "java.sql.Date", "java.sql.Timestamp", "java.math.BigDecimal", "java.math.BigInteger"};
+
+  @Resource
+  private ForumArticleService forumArticleService;
+  @Resource
+  private ForumCommentService forumCommentService;
+  @Resource
+  private LikeRecordService likeRecordService;
+
 
   /**
    * 校验参数
@@ -65,26 +87,107 @@ public class OperationAspect {
       if (null == intercepter) {
         return null;
       }
-      // 校验登录
+      /* 校验登录 */
       if (intercepter.checkLogin()) {
         checkLogin();
       }
-      // 校验参数
+      /* 校验参数 */
       if (intercepter.checkParams()) {
         validateParams(method, args);
       }
+      /* 频次校验 */
+      checkFrequency(intercepter.frequencyType());
       Object result = pjp.proceed();
+      if (result instanceof ResponseVO) {
+        ResponseVO responseVO = (ResponseVO) result;
+        if (responseVO.getStatus().equals(Constants.STATUS_SUCCESS)) {
+          addOpCount(intercepter.frequencyType());
+        }
+      }
       return result;
     } catch (BusinessException e) {
       logger.error("全局拦截器异常", e);
       throw e;
-    } catch (Exception e) {
-      logger.error("全局拦截器异常", e);
-      throw new BusinessException(ResponseCodeEnum.CODE_500);
     } catch (Throwable e) {
       logger.error("全局拦截器异常", e);
       throw new BusinessException(ResponseCodeEnum.CODE_500);
     }
+  }
+
+  private void checkFrequency(UserOperFrequencyTypeEnum typeEnum) {
+    if (typeEnum == null || typeEnum == UserOperFrequencyTypeEnum.NO_CHECK) {
+      return;
+    }
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpSession session = request.getSession();
+    SessionWebUserDto userDto = (SessionWebUserDto) session.getAttribute(Constants.SESSIONS_KEY);
+    if (userDto == null) {
+      throw new BusinessException(ResponseCodeEnum.CODE_901);
+    }
+    String curDate = DateUtils.format(new Date(), DateTimePatternEnum.YYYY_MM_DD.getPattern());
+    String sessionKey = Constants.SESSIONS_KEY_FREQUENCY + curDate + typeEnum.getOperType();
+    Integer count = (Integer) session.getAttribute(sessionKey);
+    SysSettingDto settingDto = SysCacheUtils.getSysSetting();
+
+    switch (typeEnum) {
+      case POST_ARTICLE:
+        if (count == null) {
+          ForumArticleQuery query = new ForumArticleQuery();
+          query.setUserId(userDto.getUserId());
+          query.setPostTimeStart(curDate);
+          query.setPostTimeEnd(curDate);
+          count = forumArticleService.findCountByParam(query);
+        }
+        if (count >= settingDto.getPostSetting().getPostDayCountThreshold()) {
+          throw new BusinessException(ResponseCodeEnum.CODE_602);
+        }
+        break;
+      case POST_COMMENT:
+        if (count == null) {
+          ForumCommentQuery query = new ForumCommentQuery();
+          query.setUserId(userDto.getUserId());
+          query.setPostTimeStart(curDate);
+          query.setPostTimeEnd(curDate);
+          count = forumCommentService.findCountByParam(query);
+        }
+        if (count >= settingDto.getCommentSetting().getCommentDayCountThreshold()) {
+          throw new BusinessException(ResponseCodeEnum.CODE_602);
+        }
+        break;
+      case DO_LIKE:
+        if (count == null) {
+          LikeRecordQuery query = new LikeRecordQuery();
+          query.setUserId(userDto.getUserId());
+          query.setCreateTimeStart(curDate);
+          query.setCreateTimeEnd(curDate);
+          count = likeRecordService.findCountByParam(query);
+        }
+        if (count >= settingDto.getLikeSetting().getLikeDayCountThreshold()) {
+          throw new BusinessException(ResponseCodeEnum.CODE_602);
+        }
+        break;
+      case IMAGE_UPLOAD:
+        if (count == null) {
+          count = 0;
+        }
+        if (count >= settingDto.getPostSetting().getPostUploadImageCount()) {
+          throw new BusinessException(ResponseCodeEnum.CODE_602);
+        }
+        break;
+    }
+    session.setAttribute(sessionKey, count);
+  }
+
+  private void addOpCount(UserOperFrequencyTypeEnum typeEnum) {
+    if (typeEnum == null || typeEnum == UserOperFrequencyTypeEnum.NO_CHECK) {
+      return;
+    }
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpSession session = request.getSession();
+    String curDate = DateUtils.format(new Date(), DateTimePatternEnum.YYYY_MM_DD.getPattern());
+    String sessionKey = Constants.SESSIONS_KEY_FREQUENCY + curDate + typeEnum.getOperType();
+    Integer count = (Integer) session.getAttribute(sessionKey);
+    session.setAttribute(sessionKey, count + 1);
   }
 
   /**
@@ -118,23 +221,17 @@ public class OperationAspect {
    * @param verifyParams 注解
    */
   private void checkValue(Object value, VerifyParams verifyParams) {
-    Boolean isEmpty = value == null || StringTools.isEmpty(value.toString());
-    Integer length = value == null ? 0 : value.toString().length();
-    /**
-     * 校验是否为空
-     */
+    boolean isEmpty = value == null || StringTools.isEmpty(value.toString());
+    int length = value == null ? 0 : value.toString().length();
+    /* 校验是否为空 */
     if (isEmpty && verifyParams.required()) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
-    /**
-     * 校验长度
-     */
+    /* 校验长度 */
     if (verifyParams.max() != -1 && length > verifyParams.max() || verifyParams.min() != -1 && length < verifyParams.min()) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
-    /**
-     * 校验正则
-     */
+    /* 校验正则 */
     if (!StringTools.isEmpty(verifyParams.regex().getRegex()) && !VerifyUtils.verify(verifyParams.regex(), value.toString())) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }

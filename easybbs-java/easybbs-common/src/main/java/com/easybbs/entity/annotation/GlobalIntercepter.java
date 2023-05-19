@@ -1,5 +1,7 @@
 package com.easybbs.entity.annotation;
 
+import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
+
 import java.lang.annotation.*;
 
 /**
@@ -15,14 +17,16 @@ import java.lang.annotation.*;
 public @interface GlobalIntercepter {
   /**
    * 是否需要登录
-   * @return true 需要登录
    */
   boolean checkLogin() default false;
 
   /**
    * 是否需要校验参数
-   * @return true 需要校验参数
    */
   boolean checkParams() default false;
 
+  /**
+   * 校验频次
+   */
+  UserOperFrequencyTypeEnum frequencyType() default UserOperFrequencyTypeEnum.NO_CHECK;
 }
