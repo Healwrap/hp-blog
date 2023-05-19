@@ -7,6 +7,7 @@ import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.enums.OperRecordOpTypeEnum;
 import com.easybbs.entity.enums.PageSize;
 import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
 import com.easybbs.entity.enums.article.ArticleStatusEnum;
 import com.easybbs.entity.enums.comment.CommentTopTypeEnum;
 import com.easybbs.entity.po.ForumComment;
@@ -137,7 +138,7 @@ public class ForumCommentController extends ABaseController {
    */
 
   @RequestMapping("/postComment")
-  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  @GlobalIntercepter(checkLogin = true, checkParams = true, frequencyType = UserOperFrequencyTypeEnum.POST_COMMENT)
   public ResponseVO postComment(HttpSession session,
                                 @VerifyParams(required = true) String articleId,
                                 @VerifyParams(required = true) Integer pCommentId,

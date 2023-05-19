@@ -5,6 +5,7 @@ import com.easybbs.entity.annotation.GlobalIntercepter;
 import com.easybbs.entity.config.WebConfig;
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
 import com.easybbs.entity.vo.ResponseVO;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.utils.StringTools;
@@ -47,7 +48,7 @@ public class FileController extends ABaseController {
    */
 
   @RequestMapping("/uploadImage")
-  @GlobalIntercepter(checkLogin = true)
+  @GlobalIntercepter(checkLogin = true, frequencyType = UserOperFrequencyTypeEnum.IMAGE_UPLOAD)
   public ResponseVO uploadImage(MultipartFile file) {
     if (file == null) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);

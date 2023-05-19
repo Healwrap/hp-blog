@@ -9,6 +9,7 @@ import com.easybbs.entity.dto.SessionWebUserDto;
 import com.easybbs.entity.enums.EditorTypeEnum;
 import com.easybbs.entity.enums.OperRecordOpTypeEnum;
 import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
 import com.easybbs.entity.enums.article.ArticleOrderTypeEnum;
 import com.easybbs.entity.enums.article.ArticleStatusEnum;
 import com.easybbs.entity.po.*;
@@ -144,7 +145,7 @@ public class ForumArticleController extends ABaseController {
    * @return 点赞结果
    */
   @GetMapping("/doLike")
-  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  @GlobalIntercepter(checkLogin = true, checkParams = true, frequencyType = UserOperFrequencyTypeEnum.DO_LIKE)
   public ResponseVO doLike(HttpSession session, @VerifyParams(required = true) String articleId) {
     SessionWebUserDto sessionWebUserDto = getUserInfoFromSession(session);
     likeRecordService.doLike(articleId, sessionWebUserDto.getUserId(), sessionWebUserDto.getNickName(), OperRecordOpTypeEnum.ARTICLE_LIKE);
@@ -243,7 +244,7 @@ public class ForumArticleController extends ABaseController {
    */
 
   @RequestMapping("/postArticle")
-  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  @GlobalIntercepter(checkLogin = true, checkParams = true, frequencyType = UserOperFrequencyTypeEnum.POST_ARTICLE)
   public ResponseVO postArticle(HttpSession session,
                                 @VerifyParams(required = true, max = 150) String title,
                                 @VerifyParams(required = true) Integer pBoardId,
