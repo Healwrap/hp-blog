@@ -74,11 +74,8 @@ inner:
   api:
     appKey: easybbs
     appSecret: easybbs_key
-
-# web 端接口地址
-web:
-  api:
-    url: http://localhost:7070/api/innerApi/refresSysSetting
+    # web 端接口地址
+    url: http://localhost:7070/api/inner/refresSysSetting
 
 # 是否是开发环境
 isDev: true
