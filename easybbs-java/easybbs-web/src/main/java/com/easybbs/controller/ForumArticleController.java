@@ -80,7 +80,7 @@ public class ForumArticleController extends ABaseController {
   public ResponseVO loadArticle(HttpSession session, Integer pageNo, Integer boardId, Integer pBoardId, Integer orderType) {
     ForumArticleQuery forumArticleQuery = new ForumArticleQuery();
     forumArticleQuery.setBoardId(boardId == null || boardId == 0 ? null : boardId);
-    forumArticleQuery.setpBoardId(pBoardId);
+    forumArticleQuery.setPBoardId(pBoardId);
     forumArticleQuery.setPageNo(pageNo);
 
     SessionWebUserDto sessionWebUserDto = getUserInfoFromSession(session);

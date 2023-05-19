@@ -69,7 +69,7 @@ public class ForumCommentServiceImpl implements ForumCommentService {
       subQuery.setArticleId(param.getArticleId());
       subQuery.setStatus(param.getStatus());
       List<Integer> pCommentIdList = list.stream().map(ForumComment::getCommentId).distinct().collect(Collectors.toList());
-      subQuery.setpCommentIdList(pCommentIdList);
+      subQuery.setPCommentIdList(pCommentIdList);
       List<ForumComment> subCommentList = this.forumCommentMapper.selectList(subQuery);
       Map<Integer, List<ForumComment>> tempMap = subCommentList.stream().collect(Collectors.groupingBy(ForumComment::getPCommentId));
       list.forEach(item -> {
