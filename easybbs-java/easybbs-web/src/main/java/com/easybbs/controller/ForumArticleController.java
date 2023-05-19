@@ -352,4 +352,13 @@ public class ForumArticleController extends ABaseController {
     forumArticleService.updateArticle(userDto.getIsAdmin(), forumArticle, articleAttachment, cover, attachment);
     return getSuccessResponseVO(forumArticle.getArticleId());
   }
+
+  @GetMapping("/search")
+  @GlobalIntercepter(checkParams = true)
+  public ResponseVO search(@VerifyParams(required = true, min = 3) String keyword) {
+    ForumArticleQuery query = new ForumArticleQuery();
+    query.setTitleFuzzy(keyword);
+    PaginationResultVO<ForumArticle> resultVO = forumArticleService.findListByPage(query);
+    return getSuccessResponseVO(resultVO);
+  }
 }

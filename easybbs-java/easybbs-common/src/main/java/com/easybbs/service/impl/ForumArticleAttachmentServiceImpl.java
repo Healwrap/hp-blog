@@ -169,7 +169,7 @@ public class ForumArticleAttachmentServiceImpl implements ForumArticleAttachment
     // 记录消息
     ForumArticle forumArticle = this.forumArticleService.getForumArticleByArticleId(forumArticleAttachment.getArticleId());
     UserMessage userMessage = new UserMessage();
-    userMessage.setMessageType(MessageTypeEnum.DOWNLOAD_ATTACHMENT.getType());
+    userMessage.setMessageType(MessageTypeEnum.ATTACHMENT_DOWNLOAD.getType());
     userMessage.setCreateTime(new Date());
     userMessage.setArticleId(forumArticle.getArticleId());
     userMessage.setArticleTitle(forumArticle.getTitle());
