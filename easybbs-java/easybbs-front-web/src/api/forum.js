@@ -86,7 +86,11 @@ const getUserDownloadInfo = fileId => {
 const attachmentDownload = fileId => {
   return `${apis.attachmentDownload}?fileId=${fileId}`
 }
-
+/**
+ * 更新时获取文章详情
+ * @param articleId 文章id
+ * @returns {*}
+ */
 const getArticleDetail4Update = articleId => {
   return request({
     url: apis.getArticleDetail4Update,
@@ -106,12 +110,33 @@ const getArticleDetail4Update = articleId => {
   })
 }
 
+const postArticle = (title, pBoardId, summary, editorType, content, markdownContent, boardId, cover, attachment, integral) => {
+  const params = mergeParams({
+    title,
+    pBoardId,
+    summary,
+    editorType,
+    content,
+    markdownContent,
+    boardId,
+    cover,
+    attachment,
+    integral
+  })
+  return request({
+    url: apis.postArticle,
+    method: 'post',
+    params
+  })
+}
+
 const forumApi = {
   loadArticle,
   getArticleDetail,
   doLike,
   getUserDownloadInfo,
   attachmentDownload,
-  getArticleDetail4Update
+  getArticleDetail4Update,
+  postArticle
 }
 export default forumApi

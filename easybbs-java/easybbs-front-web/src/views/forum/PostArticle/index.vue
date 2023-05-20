@@ -6,14 +6,12 @@
           <template #header>
             <span>正文</span>
             <span @click="changeEditor"
-            ><span class="iconfont icon-change"></span>&nbsp;切换为{{
-                editorType === 0 ? 'Markdown' : 'Html'
-              }}编辑器</span
+              ><span class="iconfont icon-change"></span>&nbsp;切换为{{ editorType === 0 ? 'Markdown' : 'Html' }}编辑器</span
             >
           </template>
           <div class="editor">
-            <html-editor v-if="editorType === 0" v-model:model-value="formData.content"/>
-            <markdown-editor v-else v-model:model-value="formData.markdownContent" @html-content="setHtmlContent"/>
+            <html-editor v-if="editorType === 0" v-model:model-value="formData.content" />
+            <markdown-editor v-else v-model:model-value="formData.markdownContent" @html-content="setHtmlContent" />
           </div>
         </el-card>
       </div>
@@ -23,40 +21,40 @@
             <span>设置</span>
           </template>
           <el-form-item prop="title" label="标题">
-            <el-input v-model="formData.title" placeholder="请输入标题" clearable/>
+            <el-input v-model="formData.title" placeholder="请输入标题" clearable />
           </el-form-item>
           <el-form-item prop="boardIds" label="板块">
             <el-cascader
-                v-model="formData.boardIds"
-                :options="boardList"
-                :props="boardProps"
-                placeholder="请选择板块"
-                clearable
-                filterable
-                show-all-levels
-                collapse-tags
+              v-model="formData.boardIds"
+              :options="boardList"
+              :props="boardProps"
+              placeholder="请选择板块"
+              clearable
+              filterable
+              show-all-levels
+              collapse-tags
             />
           </el-form-item>
           <el-form-item prop="cover" label="封面">
-            <image-upload v-model:model-value="formData.cover"/>
+            <image-upload v-model:model-value="formData.cover" />
           </el-form-item>
           <el-form-item prop="summary" label="摘要">
             <el-input
-                v-model="formData.title"
-                placeholder="请输入标题"
-                type="textarea"
-                :row="5"
-                maxlength="150"
-                resize="none"
-                show-word-limit
-                clearable
+              v-model="formData.title"
+              placeholder="请输入标题"
+              type="textarea"
+              :row="5"
+              maxlength="150"
+              resize="none"
+              show-word-limit
+              clearable
             />
           </el-form-item>
           <el-form-item prop="attachment" label="附件">
-            <file-upload v-model="formData.attachment"/>
+            <file-upload v-model="formData.attachment" />
           </el-form-item>
           <el-form-item prop="integral" label="积分">
-            <el-input v-model="formData.integral" clearable placeholder="请输入积分"/>
+            <el-input v-model="formData.integral" clearable placeholder="请输入积分" />
             <div style="font-size: 13px; color: #999">附件下载积分，0表示无需积分即可下载</div>
           </el-form-item>
           <el-button type="primary" style="width: 100%" @click="postHandler">发布</el-button>
@@ -67,25 +65,25 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, nextTick, ref, watch} from 'vue'
+import { getCurrentInstance, nextTick, ref, watch } from 'vue'
 import HtmlEditor from '@/components/HtmlEditor/HtmlEditor.vue'
 import boardApi from '@/api/board'
-import {useRoute} from 'vue-router'
+import { useRoute } from 'vue-router'
 import forumApi from '@/api/forum'
 
 const route = useRoute()
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const formData = ref({})
 const formDataRef = ref()
 const rules = ref({
   title: [
-    {required: true, message: '请输入标题', trigger: 'blur'},
-    {min: 5, max: 50, message: '长度在 5 到 50 个字符', trigger: 'blur'}
+    { required: true, message: '请输入标题', trigger: 'blur' },
+    { min: 5, max: 50, message: '长度在 5 到 50 个字符', trigger: 'blur' }
   ],
-  boardIds: [{required: true, message: '请选择板块', trigger: 'change'}],
+  boardIds: [{ required: true, message: '请选择板块', trigger: 'change' }],
   summary: [
-    {required: true, message: '请输入摘要', trigger: 'blur'},
-    {min: 5, max: 200, message: '长度在 5 到 200 个字符', trigger: 'blur'}
+    { required: true, message: '请输入摘要', trigger: 'blur' },
+    { min: 5, max: 200, message: '长度在 5 到 200 个字符', trigger: 'blur' }
   ]
 })
 // 板块信息
@@ -103,11 +101,42 @@ const boardList = ref()
 const editorType = ref(Number(proxy.VueCookies.get('editorType')) || 0) // 这里从cookie中获取，是字符串，所以需要转为数字，否则使用`===`判断时会出错
 // 提交信息
 const postHandler = () => {
-  formDataRef.value.validate(async (valid) => {
+  formDataRef.value.validate(async valid => {
     if (!valid) {
       return
     }
-
+    // 设置板块id
+    const params = {}
+    Object.assign(params, formData.value)
+    if (params.boardIds.length === 1) {
+      params.pBoardId = params.boardIds[0]
+    } else if (params.boardIds.length === 2) {
+      params.pBoardId = params.boardIds[1]
+      params.boardId = params.boardIds[0]
+    }
+    delete params.boardIds
+    // 设置编辑器类型
+    params.editorType = editorType.value
+    // 设置内容
+    const contentText = params.content.replace(/<(?!img).*?>/g, '')
+    if (contentText.length < 5) {
+      proxy.$message.error('正文不能为空')
+      return
+    }
+    if (params.attachment != null) {
+      params.attachmentType = 1
+    } else {
+      params.attachmentType = 0
+    }
+    // 封面
+    if (!(params.cover instanceof File)) {
+      delete params.cover
+    }
+    // 附件不是文件类型时，设置为空
+    if (!(params.attachment instanceof File)) {
+      delete params.attachment
+    }
+    const result = await forumApi.postArticle(params.title, params.pBoardId, params.boardId, params.summary, params.content, params.markdownContent, params.cover, params.attachment, params.attachmentType, params.integral, params.editorType, articleId.value)
   })
 }
 // 切换编辑器
@@ -148,7 +177,7 @@ const getArticleDetail = () => {
       }
       // 设置封面
       if (articleInfo.cover) {
-        articleInfo.cover = {imageUrl: articleInfo.cover}
+        articleInfo.cover = { imageUrl: articleInfo.cover }
       }
       // 设置附件
       const attachmentInfo = result.data.forumArticleAttachmentVO
@@ -168,18 +197,18 @@ const setHtmlContent = htmlContent => {
 }
 // 当路径后有文章id时，表示是编辑文章
 watch(
-    () => route,
-    newVal => {
-      if (!newVal.params.articleId) {
-        return
-      }
-      articleId.value = newVal.params.articleId
-      getArticleDetail()
-    },
-    {
-      immediate: true,
-      deep: true
+  () => route,
+  newVal => {
+    if (!newVal.params.articleId) {
+      return
     }
+    articleId.value = newVal.params.articleId
+    getArticleDetail()
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 )
 </script>
 
