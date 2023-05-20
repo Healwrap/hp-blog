@@ -11,7 +11,8 @@
         <img :src="localFile" alt="image" />
       </template>
       <template v-else>
-        <el-icon>
+        <el-image v-if="modelValue && modelValue.imageUrl" :src="filesApi.getImage(modelValue.imageUrl)" alt="image" />
+        <el-icon v-else>
           <Plus />
         </el-icon>
       </template>
@@ -22,6 +23,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
+import filesApi from '@/api/files'
 
 defineProps({
   modelValue: {

@@ -38,7 +38,7 @@
             />
           </el-form-item>
           <el-form-item prop="cover" label="封面">
-            <image-upload/>
+            <image-upload v-model:model-value="formData.cover"/>
           </el-form-item>
           <el-form-item prop="summary" label="摘要">
             <el-input
@@ -54,6 +54,10 @@
           </el-form-item>
           <el-form-item prop="attachment" label="附件">
             <file-upload v-model="formData.attachment"/>
+          </el-form-item>
+          <el-form-item prop="integral" label="积分">
+            <el-input v-model="formData.integral" clearable placeholder="请输入积分"/>
+            <div style="font-size: 13px; color: #999">附件下载积分，0表示无需积分即可下载</div>
           </el-form-item>
           <el-button type="primary" style="width: 100%">发布</el-button>
         </el-card>
@@ -122,7 +126,28 @@ const getArticleDetail = () => {
         return
       }
       const articleInfo = result.data.forumArticleVO
+      // 设置编辑器
       editorType.value = articleInfo.editorType
+      // 设置板块信息
+      articleInfo.boardIds = []
+      if (articleInfo.pBoardId != null && articleInfo.pBoardId !== 0) {
+        articleInfo.boardIds.push(articleInfo.pBoardId)
+      }
+      if (articleInfo.boardId != null && articleInfo.boardId !== 0) {
+        articleInfo.boardIds.push(articleInfo.boardId)
+      }
+      // 设置封面
+      if (articleInfo.cover) {
+        articleInfo.cover = {imageUrl: articleInfo.cover}
+      }
+      // 设置附件
+      const attachmentInfo = result.data.forumArticleAttachmentVO
+      if (attachmentInfo) {
+        articleInfo.attachment = {
+          name: attachmentInfo.fileName
+        }
+        articleInfo.integral = attachmentInfo.integral
+      }
       formData.value = articleInfo
     }
   })
