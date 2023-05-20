@@ -13,7 +13,7 @@
           </template>
           <div class="editor">
             <html-editor v-if="editorType === 0" v-model:model-value="formData.content"/>
-            <markdown-editor v-else v-model="formData.markdownContent"/>
+            <markdown-editor v-else v-model:model-value="formData.markdownContent" @html-content="setHtmlContent"/>
           </div>
         </el-card>
       </div>
@@ -59,7 +59,7 @@
             <el-input v-model="formData.integral" clearable placeholder="请输入积分"/>
             <div style="font-size: 13px; color: #999">附件下载积分，0表示无需积分即可下载</div>
           </el-form-item>
-          <el-button type="primary" style="width: 100%">发布</el-button>
+          <el-button type="primary" style="width: 100%" @click="postHandler">发布</el-button>
         </el-card>
       </div>
     </el-form>
@@ -101,6 +101,16 @@ const articleId = ref()
 const boardList = ref()
 // 编辑器类型 0：富文本 1：markdown
 const editorType = ref(Number(proxy.VueCookies.get('editorType')) || 0) // 这里从cookie中获取，是字符串，所以需要转为数字，否则使用`===`判断时会出错
+// 提交信息
+const postHandler = () => {
+  formDataRef.value.validate(async (valid) => {
+    if (!valid) {
+      return
+    }
+
+  })
+}
+// 切换编辑器
 const changeEditor = () => {
   proxy.Confirm('切换编辑器后，内容将不会保留，确定要切换吗？', () => {
     editorType.value = editorType.value === 0 ? 1 : 0
@@ -151,6 +161,10 @@ const getArticleDetail = () => {
       formData.value = articleInfo
     }
   })
+}
+// 设置markdown编辑器的富文本信息
+const setHtmlContent = htmlContent => {
+  formData.value.content = htmlContent
 }
 // 当路径后有文章id时，表示是编辑文章
 watch(

@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-editor">
-    <v-md-editor v-model="value" :disabled-menus="[]" @upload-image="uploadImageHandler" @change="change" />
+    <v-md-editor :model-value="modelValue" :disabled-menus="[]" @upload-image="uploadImageHandler" @change="change" />
   </div>
 </template>
 
