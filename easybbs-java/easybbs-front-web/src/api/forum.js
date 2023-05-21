@@ -126,7 +126,8 @@ const postArticle = (title, pBoardId, summary, editorType, content, markdownCont
   return request({
     url: apis.postArticle,
     method: 'post',
-    params
+    params,
+    dataType: 'file'
   })
 }
 

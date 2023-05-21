@@ -12,7 +12,7 @@
       </template>
       <template v-else>
         <el-image v-if="modelValue && modelValue.imageUrl" :src="filesApi.getImage(modelValue.imageUrl)" alt="image" />
-        <el-icon v-else>
+        <el-icon style="position: absolute">
           <Plus />
         </el-icon>
       </template>
@@ -46,6 +46,7 @@ const uploadFile = file => {
 
 <style lang="scss" scoped>
 .image-upload {
+  position: relative;
   width: 100px;
   height: 100px;
   border: 1px dashed #ccc;
@@ -61,6 +62,8 @@ const uploadFile = file => {
   }
 
   img {
+    position: absolute;
+    top: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;

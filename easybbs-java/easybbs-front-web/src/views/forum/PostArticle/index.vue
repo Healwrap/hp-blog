@@ -40,8 +40,8 @@
           </el-form-item>
           <el-form-item prop="summary" label="摘要">
             <el-input
-              v-model="formData.title"
-              placeholder="请输入标题"
+              v-model="formData.summary"
+              placeholder="请输入摘要"
               type="textarea"
               :row="5"
               maxlength="150"
@@ -108,11 +108,12 @@ const postHandler = () => {
     // 设置板块id
     const params = {}
     Object.assign(params, formData.value)
+    console.log(params.boardIds.length)
     if (params.boardIds.length === 1) {
       params.pBoardId = params.boardIds[0]
     } else if (params.boardIds.length === 2) {
-      params.pBoardId = params.boardIds[1]
-      params.boardId = params.boardIds[0]
+      params.pBoardId = params.boardIds[0]
+      params.boardId = params.boardIds[1]
     }
     delete params.boardIds
     // 设置编辑器类型
@@ -128,6 +129,7 @@ const postHandler = () => {
     } else {
       params.attachmentType = 0
     }
+    console.log(params)
     // 封面
     if (!(params.cover instanceof File)) {
       delete params.cover
@@ -136,7 +138,19 @@ const postHandler = () => {
     if (!(params.attachment instanceof File)) {
       delete params.attachment
     }
-    const result = await forumApi.postArticle(params.title, params.pBoardId, params.boardId, params.summary, params.content, params.markdownContent, params.cover, params.attachment, params.attachmentType, params.integral, params.editorType, articleId.value)
+    console.log(params)
+    const result = await forumApi.postArticle(
+      params.title,
+      params.pBoardId,
+      params.summary,
+      params.editorType,
+      params.content,
+      params.markdownContent,
+      params.boardId,
+      params.cover,
+      params.attachment,
+      params.integral
+    )
   })
 }
 // 切换编辑器
