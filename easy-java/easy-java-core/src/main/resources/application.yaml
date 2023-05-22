@@ -1,0 +1,46 @@
+db:
+  driver:
+    name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+  username: root
+  password: 123456
+
+ignore:
+  # 要忽略的属性
+  bean:
+    tojson:
+      field:
+        - companyId
+        - status
+      expression: @jsonIgnore
+      class: com.fasterxml.jackson.annotation.JsonIgnore
+
+  # 是否忽略表前缀
+  table:
+    prefix: true
+
+bean:
+  date:
+    # 日期格式序列化
+    format:
+      expression: @JsonFormat(pattern = "%s", timezone = "GMT+8")
+      class: com.fasterxml.jackson.annotation.JsonFormat
+    # 日期格式反序列化
+    unformat:
+      expression: @DateTimeFormat(pattern = "%s")
+      class: org.springframework.format.annotation.DateTimeFormat
+
+# 参数bean后缀
+suffix:
+  bean:
+    param: Param
+
+# 生成文件的路径
+path:
+  base: C:/Users/admin/Desktop/workspace/IDEA-Workplace/easyJava/easyJava-demo/src/main
+
+# 包名
+package:
+  base: com.easyjava
+  po: entity.po
+  param: entity.query
