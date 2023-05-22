@@ -37,20 +37,12 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll) // 移除滚动事件
 })
 // 处理滚动事件
-let scrollPosition = 0
 const handleScroll = () => {
-  console.log(scrollPosition)
-  const currentPosition = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
-  const scrollDirection = currentPosition > scrollPosition ? 'down' : 'up'
-  scrollPosition = currentPosition // 更新滚动位置
-  if (scrollDirection === 'down' && currentPosition > 200) {
-    // 向下滚动超过200px
-    header.value.classList.add('header-up') // 添加属性
-    scrollPosition = 0 // 重置滚动位置
-  } else if (scrollDirection === 'up' && currentPosition < 200) {
-    // 向上滚动超过200px
-    header.value.classList.remove('header-up') // 移除属性
-    scrollPosition = 0 // 重置滚动位置
+  // 向下滚动
+  if (window.scrollY > 0) {
+    header.value.classList.add('header-up')
+  } else {
+    header.value.classList.remove('header-up')
   }
 }
 </script>

@@ -112,14 +112,12 @@ const request = config => {
   } else {
     // 请求方法不为get，则使用FormData处理请求数据
     for (let key in params) {
-      console.log(key)
-      console.log(params[key])
       formData.append(String(key), params[key] === undefined ? '' : params[key])
     }
     console.log('------------------------')
-    console.log(params['file'])
+    console.log(params['file'] instanceof File)
     console.log('------------------------')
-    console.log(formData.get('file'))
+    console.log(formData.get('file') instanceof File)
     if (dataType !== null) {
       if (dataType === 'json') {
         contentType = requestContentType.json

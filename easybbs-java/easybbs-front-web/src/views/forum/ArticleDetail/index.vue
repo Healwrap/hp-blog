@@ -63,8 +63,22 @@
         />
       </div>
     </div>
+    <!--文章目录-->
+    <div class="toc-panel" :style="{ left: tocPanelLeft }">
+      <div class="top-container">
+        <div class="toc-title">目录</div>
+        <div class="toc-list">
+          <div class="no-toc" v-if="tocList.length === 0">未解析到目录</div>
+          <div class="toc" v-else>
+            <div class="toc-item" v-for="toc in tocList" :key="toc">
+              {{ toc.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--左侧快捷操作-->
-    <div class="article-quick-panel" :style="{ left: quickPanelLeft + 'px' }">
+    <div class="article-quick-panel" :style="{ left: quickPanelLeft }">
       <!--点赞-->
       <el-badge :value="articleInfo.goodCount" type="info" :hidden="articleInfo.goodCount <= 0">
         <div class="quick-item" @click="handleGoodClick">
@@ -88,7 +102,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
 import { ArrowRight } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
@@ -104,13 +118,14 @@ const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
 const currentUserinfo = ref({})
-const quickPanelLeft = (window.innerWidth - proxy.store.getters.contentWidth - 70) / 2
 // 文章详情
 const articleInfo = ref({})
 // 附件
 const attachment = ref({})
 // 当前账号是否点赞了文章
 const havaLike = ref(false)
+// 目录
+const tocList = ref([])
 // 点赞
 const handleGoodClick = async () => {
   const result = await forumApi.doLike(articleInfo.value.articleId)
@@ -124,6 +139,7 @@ const handleGoodClick = async () => {
     articleInfo.value.goodCount--
   }
 }
+// 处理下载附件
 const handleAttachmentDownload = async () => {
   const result = await forumApi.getUserDownloadInfo(attachment.value.fileId)
   if (!result) {
@@ -179,6 +195,32 @@ const handleLeftPanelClick = anchor => {
 const updateCommentCount = count => {
   articleInfo.value.commentCount = count
 }
+const makeToc = () => {
+  nextTick(() => {
+    const tocTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
+    // 获取所有H标签
+    const content = document.querySelector('#detail')
+    const childNodes = content.childNodes
+
+    let index = 0
+    childNodes.forEach(item => {
+      let tagName = item.tagName
+      if (tagName === undefined || !tocTags.includes(tagName)) {
+        return
+      }
+      index++
+      let id = 'toc' + index
+      item.setAttribute('id', id)
+      tocList.value.push({
+        id: id,
+        title: item.innerText,
+        leverl: Number.parseInt(tagName.substring(1)),
+        offsetTop: item.offsetTop
+      })
+    })
+  })
+}
+makeToc()
 onMounted(async () => {
   let result = await forumApi.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
@@ -187,6 +229,23 @@ onMounted(async () => {
   handleImagePreview()
   highlightCode()
 })
+// 计算左侧快捷操作位置，位于article-detail-content左侧
+const quickPanelLeft = computed(() => {
+  const content = document.querySelector('.article-detail-content')
+  if (!content) {
+    return '0px'
+  }
+  return content.offsetLeft - 50 + 'px'
+})
+// 计算目录位置，位于article-detail-content右侧
+const tocPanelLeft = computed(() => {
+  const content = document.querySelector('.article-detail-content')
+  if (!content) {
+    return '0px'
+  }
+  return content.offsetLeft + content.offsetWidth + 50 + 'px'
+})
+// 监听用户信息变化
 watch(
   () => proxy.store.getters.userInfo,
   newVal => {
@@ -251,6 +310,16 @@ watch(
         letter-spacing: 1.1px;
         line-height: 25px;
 
+        ::v-deep(h1),
+        ::v-deep(h2),
+        ::v-deep(h3),
+        ::v-deep(h4),
+        ::v-deep(h5),
+        ::v-deep(h6) {
+          margin: 20px 0 10px;
+          font-weight: bold;
+        }
+
         img {
           width: 90%;
         }
@@ -314,6 +383,34 @@ watch(
 
       &:hover {
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+      }
+    }
+  }
+
+  .toc-panel {
+    position: fixed;
+    top: 20%;
+    height: 300px;
+    width: 200px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    overflow: hidden;
+
+    &:hover {
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .toc-item {
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 1px solid #eee;
+
+      &:hover {
+        background: #fff;
       }
     }
   }

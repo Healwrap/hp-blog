@@ -70,6 +70,7 @@ import HtmlEditor from '@/components/HtmlEditor/HtmlEditor.vue'
 import boardApi from '@/api/board'
 import { useRoute } from 'vue-router'
 import forumApi from '@/api/forum'
+import router from '@/router'
 
 const route = useRoute()
 const { proxy } = getCurrentInstance()
@@ -151,6 +152,11 @@ const postHandler = () => {
       params.attachment,
       params.integral
     )
+    if (!result) {
+      return
+    }
+    proxy.Toast.success('发布成功')
+    router.push({ path: `/article/${result.data}` })
   })
 }
 // 切换编辑器
