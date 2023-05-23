@@ -160,7 +160,7 @@
 <script setup>
 import { defineExpose, getCurrentInstance, nextTick, reactive, ref } from 'vue'
 import md5 from 'js-md5'
-import userApi from '@/api/user'
+import accountApi from '@/api/account'
 
 /** ---------------------------data--------------------------------------*/
 const { proxy } = getCurrentInstance()
@@ -170,8 +170,8 @@ const sendFormDataRef = ref(null)
 // 操作类型 0-登录 1-注册 2-忘记密码
 const opType = ref(0)
 // 验证码 0:登录/注册验证码 1:发送邮箱验证码
-const checkCodeUrl = ref(userApi.checkCode(0))
-const sendCheckCodeUrl = ref(userApi.checkCode(1))
+const checkCodeUrl = ref(accountApi.checkCode(0))
+const sendCheckCodeUrl = ref(accountApi.checkCode(1))
 // 显示密码
 const showPassword = ref({
   login: false,
@@ -236,7 +236,7 @@ const rules = {
   email: [
     { required: true, message: '请输入邮箱' },
     { max: 150, message: '邮箱长度不能超过150个字符' },
-    { validator: proxy.Verify.email, message: '邮箱格式不正确' }
+    { validator: proxy.$Verify.email, message: '邮箱格式不正确' }
   ],
   password: [{ required: true, message: '请输入密码' }],
   emailCode: [
@@ -250,7 +250,7 @@ const rules = {
   registerPassword: [
     { required: true, message: '请输入密码' },
     { max: 20, message: '密码长度不能超过20个字符' },
-    { validator: proxy.Verify.password, message: '密码格式不正确' }
+    { validator: proxy.$Verify.password, message: '密码格式不正确' }
   ],
   reRegisterPassword: [
     { required: true, message: '请再次输入密码' },
@@ -268,15 +268,15 @@ const showPanel = type => {
   opType.value = type
   resetForm()
   if (opType.value === 0) {
-    const cookieLoginInfo = proxy.VueCookies.get('loginInfo')
+    const cookieLoginInfo = proxy.$VueCookies.get('loginInfo')
     if (cookieLoginInfo) {
       formData.value.rememberMe = true
     }
     formData.value.email = cookieLoginInfo ? cookieLoginInfo.email : ''
     formData.value.password = cookieLoginInfo ? cookieLoginInfo.password : ''
   }
-  if (proxy.store.state.showLoginDialog) {
-    proxy.store.commit('showLoginDialog', false)
+  if (proxy.$store.state.showLoginDialog) {
+    proxy.$store.commit('showLoginDialog', false)
   }
 }
 // 显示发送邮箱验证码
@@ -300,20 +300,20 @@ const getEmailCode = () => {
       return
     }
     const type = opType.value === 1 ? 0 : 1
-    let result = await userApi.getEmailCode(formData.value.email, sendFormData.value.checkCode, type, changeCheckCode)
+    let result = await accountApi.getEmailCode(formData.value.email, sendFormData.value.checkCode, type, changeCheckCode)
     if (!result) {
       return
     }
     sendDialogConfig.show = false
-    proxy.Toast.success('发送成功')
+    proxy.$Toast.success('发送成功')
   })
 }
 // 切换验证码
 const changeCheckCode = type => {
   if (type === 0) {
-    checkCodeUrl.value = userApi.checkCode(type)
+    checkCodeUrl.value = accountApi.checkCode(type)
   } else {
-    sendCheckCodeUrl.value = userApi.checkCode(type)
+    sendCheckCodeUrl.value = accountApi.checkCode(type)
   }
 }
 // 重置表单
@@ -333,12 +333,12 @@ const handleBtnClick = () => {
     }
     let result = null
     if (opType.value === 0) {
-      const cookiePassword = proxy.VueCookies.get('loginInfo') ? proxy.VueCookies.get('loginInfo').password : ''
+      const cookiePassword = proxy.$VueCookies.get('loginInfo') ? proxy.$VueCookies.get('loginInfo').password : ''
       const password = formData.value.password && formData.value.password !== cookiePassword ? md5(formData.value.password) : cookiePassword
-      result = await userApi.login(formData.value.email, password, formData.value.checkCode, changeCheckCode)
+      result = await accountApi.login(formData.value.email, password, formData.value.checkCode, changeCheckCode)
     }
     if (opType.value === 1) {
-      result = await userApi.register(
+      result = await accountApi.register(
         formData.value.email,
         formData.value.nickName,
         formData.value.registerPassword,
@@ -348,7 +348,7 @@ const handleBtnClick = () => {
       )
     }
     if (opType.value === 2) {
-      result = await userApi.resetPwd(
+      result = await accountApi.resetPwd(
         formData.value.email,
         formData.value.registerPassword,
         formData.value.checkCode,
@@ -366,25 +366,25 @@ const handleBtnClick = () => {
           email: formData.value.email,
           password: md5(formData.value.password)
         }
-        proxy.VueCookies.set('loginInfo', loginInfo, '7d')
+        proxy.$VueCookies.set('loginInfo', loginInfo, '7d')
       } else {
-        proxy.VueCookies.remove('loginInfo')
-        proxy.VueCookies.remove('JSESSIONID')
+        proxy.$VueCookies.remove('loginInfo')
+        proxy.$VueCookies.remove('JSESSIONID')
       }
       resetForm()
       dialogConfig.show = false
-      proxy.Toast.success('登录成功')
-      proxy.store.commit('UPDATE_USER_INFO', result.data)
+      proxy.$Toast.success('登录成功')
+      proxy.$store.commit('UPDATE_USER_INFO', result.data)
       return
     }
     // 去登录
     if (opType.value === 1) {
       showPanel(0)
-      proxy.Toast.success('注册成功')
+      proxy.$Toast.success('注册成功')
     }
     if (opType.value === 2) {
       showPanel(0)
-      proxy.Toast.success('重置密码成功')
+      proxy.$Toast.success('重置密码成功')
     }
   })
 }

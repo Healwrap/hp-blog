@@ -10,7 +10,7 @@
     <div class="article-list-panel">
       <data-list :data-source="articleInfo" :loading="loading" @load-data="loadArticle">
         <template #default="{ data }">
-          <ArticleListItem :data="data" />
+          <article-list-item :data="data" />
         </template>
       </data-list>
     </div>
@@ -21,7 +21,7 @@
 import forumApi from '@/api/forum'
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import ArticleListItem from './components/ArticleListItem/ArticleListitem.vue'
+import ArticleListItem from '@/components/ArticleListItem/ArticleListitem.vue'
 import DataList from '@/components/DataList/DataList.vue'
 
 const route = useRoute()

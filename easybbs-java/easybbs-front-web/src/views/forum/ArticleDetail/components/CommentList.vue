@@ -107,7 +107,7 @@ const handleCommentSubmit = () => {
     if (!result) {
       return
     }
-    proxy.Toast.success('评论成功')
+    proxy.$Toast.success('评论成功')
     commentListInfo.value.list.unshift(result.data)
     // 更新数量
     commentListInfo.value.totalCount++
@@ -147,7 +147,7 @@ const postCommentFinish = data => {
   commentListInfo.value.list.unshift(data)
 }
 watch(
-  () => proxy.store.getters.userInfo,
+  () => proxy.$store.getters.userInfo,
   newVal => {
     currentUserinfo.value = newVal
   },

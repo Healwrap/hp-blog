@@ -1,10 +1,10 @@
 <template>
-  <el-avatar :src="userApi.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter" />
+  <el-avatar :src="accountApi.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter" />
 </template>
 
 <script setup>
 import router from '@/router'
-import userApi from '@/api/user'
+import accountApi from '@/api/account'
 
 const props = defineProps({
   userId: {

@@ -1,15 +1,14 @@
 <template>
   <div class="article">
-    <div class="article-detail" :style="{ width: proxy.store.getters.contentWidth - 300 + 'px' }">
+    <div class="article-detail" :style="{ width: proxy.$store.getters.contentWidth - 300 + 'px' }">
       <!--顶部面包屑-->
       <div class="article-detail-info">
         <el-breadcrumb :separator-icon="ArrowRight">
           <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-          >{{ articleInfo.pBoardName }}
+            >{{ articleInfo.pBoardName }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="articleInfo.boardId"
-                              :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-          >{{ articleInfo.boardName }}
+          <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+            >{{ articleInfo.boardName }}
           </el-breadcrumb-item>
           <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
         </el-breadcrumb>
@@ -23,7 +22,7 @@
         </div>
         <!--用户信息-->
         <div class="user-info">
-          <user-avatar :user-id="articleInfo.userId"/>
+          <user-avatar :user-id="articleInfo.userId" />
           <div class="user-info-detail">
             <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
             <div class="info">
@@ -32,8 +31,7 @@
               <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
                 {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
               </span>
-              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId"
-                           :to="`/postArticle/${articleInfo.articleId}`">
+              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId" :to="`/postArticle/${articleInfo.articleId}`">
                 <span class="iconfont icon-edit">&nbsp;编辑</span>
               </router-link>
             </div>
@@ -51,7 +49,7 @@
           <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
           <div>
             需要<span class="integral">{{ attachment.integral }}</span
-          >积分
+            >积分
           </div>
           <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
           <div class="download-btn">
@@ -62,10 +60,10 @@
       <!--评论-->
       <div class="comment-panel block" id="comment">
         <CommentList
-            v-if="Object.keys(articleInfo).length !== 0"
-            :article-id="articleInfo.articleId"
-            :article-userid="articleInfo.userId"
-            @updateCommentCount="updateCommentCount"
+          v-if="Object.keys(articleInfo).length !== 0"
+          :article-id="articleInfo.articleId"
+          :article-userid="articleInfo.userId"
+          @updateCommentCount="updateCommentCount"
         />
       </div>
     </div>
@@ -77,11 +75,11 @@
           <div class="no-toc" v-if="tocList.length === 0">未解析到目录</div>
           <div class="toc" v-else>
             <div
-                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
-                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
-                v-for="toc in tocList"
-                :key="toc"
-                @click="gotoAnchor(toc.id)"
+              :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+              :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
+              v-for="toc in tocList"
+              :key="toc"
+              @click="gotoAnchor(toc.id)"
             >
               {{ toc.title }}
             </div>
@@ -109,23 +107,22 @@
       </div>
     </div>
     <!--图片预览-->
-    <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
+    <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
   </div>
 </template>
 
 <script setup>
-import {getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
-import {ArrowRight} from '@element-plus/icons-vue'
-import {useRoute} from 'vue-router'
+import { getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router'
 import router from '@/router'
-import {formatFileSize} from '@/utils/Utils'
-import forumApi from '@/api/forum'
+import { formatFileSize } from '@/utils/Utils'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
@@ -141,12 +138,12 @@ const tocList = ref([])
 //
 const tocPanelLeft = ref('100vw')
 //
-const quickPanelLeft = ref('-100vw')
+const quickPanelLeft = ref('0')
 //
 const anchorId = ref(null)
 // 点赞
 const handleGoodClick = async () => {
-  const result = await forumApi.doLike(articleInfo.value.articleId)
+  const result = await proxy.$Api.forum.doLike(articleInfo.value.articleId)
   if (!result) {
     return
   }
@@ -159,29 +156,30 @@ const handleGoodClick = async () => {
 }
 // 处理下载附件
 const handleAttachmentDownload = async () => {
-  const result = await forumApi.getUserDownloadInfo(attachment.value.fileId)
+  const result = await proxy.$Api.forum.getUserDownloadInfo(attachment.value.fileId)
   if (!result) {
     return
   }
   // 积分不够
   if (result.data.userIntegral < attachment.value.integral && currentUserinfo.value.userId !== articleInfo.value.userId) {
-    proxy.Toast.warning('你的积分不够，无法下载')
+    proxy.$Toast.warning('你的积分不够，无法下载')
     return
   }
   // 积分为0或者是自己的文章或者已经下载过了
   if (attachment.value.integral === 0 || currentUserinfo.value.userId === articleInfo.value.userId || result.data.havaDownload) {
-    window.open(forumApi.attachmentDownload(attachment.value.fileId), '_blank')
+    window.open(proxy.$Api.forum.attachmentDownload(attachment.value.fileId), '_blank')
     attachment.value.downloadCount++
     return
   }
-  proxy.Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
-    window.open(forumApi.attachmentDownload(attachment.value.fileId), '_blank')
+  proxy.$Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
+    window.open(proxy.$Api.forum.attachmentDownload(attachment.value.fileId), '_blank')
     attachment.value.downloadCount++
   })
 }
 // 文章图片预览
 const handleImagePreview = () => {
   nextTick(() => {
+    // 处理图片预览
     const imageNodelist = document.querySelectorAll('#detail img')
     const imageList = []
     imageNodelist.forEach((item, index) => {
@@ -207,7 +205,8 @@ const highlightCode = () => {
 }
 // 左侧快捷操作 点击
 const handleLeftPanelClick = anchor => {
-  document.querySelector(anchor).scrollIntoView(true)
+  console.log(anchor)
+  window.scrollTo(0, document.querySelector(anchor).offsetTop - 50)
 }
 // 更新评论数
 const updateCommentCount = count => {
@@ -245,7 +244,7 @@ const gotoAnchor = id => {
     return
   }
   anchorId.value = id
-  anchor.scrollIntoView(true)
+  window.scrollTo(0, anchor.offsetTop - 50)
 }
 // 获取滚动条高度
 const getScrollTop = () => {
@@ -256,10 +255,10 @@ const listenScroll = () => {
   const currentScrollTop = getScrollTop()
   tocList.value.forEach((item, index) => {
     if (
-        (index < tocList.value.length - 1 &&
-            currentScrollTop > tocList.value[index].offsetTop &&
-            currentScrollTop < tocList.value[index + 1].offsetTop) ||
-        (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
+      (index < tocList.value.length - 1 &&
+        currentScrollTop > tocList.value[index].offsetTop &&
+        currentScrollTop < tocList.value[index + 1].offsetTop) ||
+      (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
     ) {
       anchorId.value = item.id
     }
@@ -283,7 +282,7 @@ const getTocPanelLeft = () => {
   tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
 }
 onMounted(async () => {
-  let result = await forumApi.getArticleDetail(route.params.articleId)
+  let result = await proxy.$Api.forum.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
   attachment.value = result.data.forumArticleAttachmentVO
   havaLike.value = result.data.havaLike
@@ -314,14 +313,14 @@ onUnmounted(() => {
 })
 // 监听用户信息变化
 watch(
-    () => proxy.store.getters.userInfo,
-    newVal => {
-      currentUserinfo.value = newVal
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => proxy.$store.getters.userInfo,
+  newVal => {
+    currentUserinfo.value = newVal
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 )
 </script>
 
@@ -373,7 +372,7 @@ watch(
 
           .edit-btn {
             margin-left: 10px;
-            color: #1E88E5;
+            color: #1e88e5;
             cursor: pointer;
             text-decoration: none;
 
@@ -388,7 +387,7 @@ watch(
         padding: 5px 15px;
         letter-spacing: 1.1px;
         line-height: 25px;
-
+        //处理文章内的标签
         ::v-deep(h1),
         ::v-deep(h2),
         ::v-deep(h3),
@@ -397,6 +396,41 @@ watch(
         ::v-deep(h6) {
           margin: 20px 0 10px;
           font-weight: bold;
+        }
+
+        ::v-deep(table) {
+          margin: 20px 0;
+          border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+          table-layout: fixed;
+          overflow: auto;
+          display: block;
+          font-size: 14px;
+
+          th,
+          td {
+            padding: 8px;
+            border: 1px solid #ddd;
+          }
+
+          th {
+            background-color: #f5f5f5;
+          }
+        }
+
+        ::v-deep(ul) {
+          margin-left: 25px;
+        }
+
+        ::v-deep(ol) {
+          margin-left: 25px;
+        }
+
+        ::v-deep(code) {
+          margin: 10px 0;
+          background-color: #f1f1f1;
+          border-radius: 5px;
         }
 
         img {

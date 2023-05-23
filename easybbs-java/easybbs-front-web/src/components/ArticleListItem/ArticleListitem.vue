@@ -3,7 +3,7 @@
     <div class="article-item-inner">
       <div class="list-item">
         <div class="user-info">
-          <user-avatar :user-id="data.userId" :src="userApi.avatarUrl(data.userId)" />
+          <user-avatar :user-id="data.userId" :src="accountApi.avatarUrl(data.userId)" />
           <router-link :to="'/user/' + data.userId">
             {{ data.nickName }}
           </router-link>
@@ -47,7 +47,7 @@
 <script setup>
 import filesApi from '@/api/files'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
-import userApi from '@/api/user'
+import accountApi from '@/api/account'
 
 defineProps({
   data: {

@@ -4,7 +4,7 @@
       <el-empty v-if="!loading && dataSource.list.length === 0" />
     </div>
     <div v-if="loading" class="skeleton">
-      <el-skeleton :row="3" animated />
+      <el-skeleton :rows="rows" animated />
     </div>
     <div v-for="item in dataSource.list" v-else :key="item.articleId">
       <slot :data="item"></slot>
@@ -28,6 +28,10 @@ const props = defineProps({
   loading: {
     type: Boolean,
     required: true
+  },
+  rows: {
+    type: Number,
+    default: 4
   }
 })
 const emit = defineEmits(['loadData'])

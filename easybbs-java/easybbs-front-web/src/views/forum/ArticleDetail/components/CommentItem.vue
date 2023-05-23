@@ -31,7 +31,7 @@
               &nbsp;{{ commentData.goodCount > 0 ? commentData.goodCount : '点赞' }}
             </div>
             <div class="iconfont icon-comment" @click="showReply(commentData, 0)">&nbsp;回复</div>
-            <el-dropdown v-if="articleUserId === currentUserId">
+            <el-dropdown v-if="articleUserId === currentUserId" trigger="click">
               <div class="iconfont icon-more"></div>
               <template #dropdown>
                 <el-dropdown-menu>

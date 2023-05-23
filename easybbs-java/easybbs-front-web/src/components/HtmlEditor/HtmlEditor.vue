@@ -40,7 +40,7 @@ const editorConfig = {
           store.commit('UPDATE_USER_INFO', {})
           store.commit('showLoginDialog', true)
         } else {
-          proxy.Toast.error(responseData.info)
+          proxy.$Toast.error(responseData.info)
         }
       }
     }

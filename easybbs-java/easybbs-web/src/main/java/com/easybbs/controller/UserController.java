@@ -107,11 +107,12 @@ public class UserController extends ABaseController {
    * @param session 会话
    * @param userId  用户id
    * @param type    类型 0:发表 1:评论 2:点赞
+   * @param pageNo  页码
    * @return ResponseVO
    */
-  @PostMapping("getuUserArticleList")
+  @PostMapping("getUserArticleList")
   @GlobalIntercepter(checkParams = true)
-  public ResponseVO getuUserArticleList(HttpSession session, @VerifyParams(required = true) String userId, @VerifyParams(required = true) Integer type, Integer pageNo) {
+  public ResponseVO getUserArticleList(HttpSession session, @VerifyParams(required = true) String userId, @VerifyParams(required = true) Integer type, Integer pageNo) {
     UserInfo userInfo = userInfoService.getUserInfoByUserId(userId);
     if (userInfo == null || UserStatusEnum.DISABLE.getStatus().equals(userInfo.getStatus())) {
       throw new BusinessException("用户不存在");

@@ -18,6 +18,7 @@ import Toast from '@/utils/Toast'
 import Confirm from '@/utils/Confirm'
 import Request from '@/utils/Request'
 import store from '@/store'
+import Api from '@/api'
 // 全局组件
 import Dialog from '@/components/Dialog/Dialog.vue'
 import ImageViewer from '@/components/ImageViewer/ImageViewer.vue'
@@ -30,12 +31,13 @@ const app = createApp(App)
 
 app.use(router)
 app.use(ElementPlus)
-app.config.globalProperties.Verify = Verify
-app.config.globalProperties.Toast = Toast
-app.config.globalProperties.Request = Request
-app.config.globalProperties.Confirm = Confirm
-app.config.globalProperties.store = store
-app.config.globalProperties.VueCookies = VueCookies
+app.config.globalProperties.$Verify = Verify
+app.config.globalProperties.$Toast = Toast
+app.config.globalProperties.$Request = Request
+app.config.globalProperties.$Confirm = Confirm
+app.config.globalProperties.$store = store
+app.config.globalProperties.$VueCookies = VueCookies
+app.config.globalProperties.$Api = Api
 
 app.component('HtmlEditor', HtmlEditor)
 app.component('MarkdownEditor', MarkdownEditor)

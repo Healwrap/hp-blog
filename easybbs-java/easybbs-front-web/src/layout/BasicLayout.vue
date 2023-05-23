@@ -44,7 +44,7 @@
             </template>
           </el-dropdown>
           <!--头像-->
-          <Avatar user-id="8743908827" :src="userApi.avatarUrl(8743908827)" style="margin-left: 25px" />
+          <Avatar user-id="8743908827" :src="accountApi.avatarUrl(8743908827)" style="margin-left: 25px" />
         </div>
         <!-- 登录、注册、退出 -->
         <el-button-group v-else style="margin-left: 10px">
@@ -54,17 +54,19 @@
       </template>
     </Header>
     <!--body-->
-    <div class="content" :style="{ width: proxy.store.getters.contentWidth + 'px', top: proxy.store.getters.headerHeight + 'px' }">
+    <div class="content" :style="{ width: proxy.$store.getters.contentWidth + 'px', top: proxy.$store.getters.headerHeight + 'px' }">
       <router-view />
     </div>
     <UserDialog ref="userDialog" />
-    <el-backtop :right="200" :bottom="30" />
+    <div class="side-tools">
+      <el-backtop :right="30" :bottom="30" />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { getCurrentInstance, onMounted, ref, watch } from 'vue'
-import userApi from '@/api/user'
+import accountApi from '@/api/account'
 import boardApi from '@/api/board'
 import Header from '@/components/Header/Header.vue'
 import UserDialog from '@/components/UserDialog/UserDialog.vue'
@@ -74,7 +76,7 @@ import { useRoute } from 'vue-router'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
-const headerWidth = ref(proxy.store.getters.contentWidth)
+const headerWidth = ref(proxy.$store.getters.contentWidth)
 // 元素ref
 const userDialog = ref(null)
 const showUserDialog = type => {
@@ -82,11 +84,11 @@ const showUserDialog = type => {
 }
 // 获取用户信息
 const getUserInfo = async () => {
-  const result = await userApi.getUserInfo()
+  const result = await accountApi.getUserInfo()
   if (!result) {
     return
   }
-  proxy.store.commit('UPDATE_USER_INFO', result.data === null ? {} : result.data)
+  proxy.$store.commit('UPDATE_USER_INFO', result.data === null ? {} : result.data)
 }
 // 获取板块信息
 const boardList = ref([])
@@ -108,9 +110,9 @@ const handleSelect = (key, keyPath) => {
 // 处理发帖、搜索按钮点击
 const handleTopButtonClick = type => {
   if (type === 0) {
-    if (!proxy.store.getters.userId) {
+    if (!proxy.$store.getters.userId) {
       showUserDialog(0)
-      proxy.Toast.warning('请先登录')
+      proxy.$Toast.warning('请先登录')
     } else {
       router.push('/postArticle')
     }
@@ -124,12 +126,12 @@ loadBoard()
 onMounted(() => {
   if (route.path === '/postArticle' || route.path.indexOf('/postArticle/') !== -1) {
     headerWidth.value = 1200
-    proxy.store.commit('TOGGLE_CONTENT_WIDTH', document.body.clientWidth)
+    proxy.$store.commit('TOGGLE_CONTENT_WIDTH', document.body.clientWidth)
   }
 })
 // 监听用户信息
 watch(
-  () => proxy.store.getters.userId,
+  () => proxy.$store.getters.userId,
   newVal => {
     if (!newVal) {
       userInfo.value = {}
@@ -140,11 +142,11 @@ watch(
 )
 // 监听是否展示登录框
 watch(
-  () => proxy.store.state.showLoginDialog,
+  () => proxy.$store.state.showLoginDialog,
   newVal => {
     if (newVal) {
       showUserDialog(0)
-      proxy.Toast.warning('请先登录')
+      proxy.$Toast.warning('请先登录')
     }
   },
   { immediate: true, deep: true }
@@ -155,9 +157,9 @@ watch(
   newVal => {
     if (newVal === '/postArticle' || newVal.indexOf('/postArticle/') !== -1) {
       headerWidth.value = 1200
-      proxy.store.commit('TOGGLE_CONTENT_WIDTH', document.body.clientWidth)
+      proxy.$store.commit('TOGGLE_CONTENT_WIDTH', document.body.clientWidth)
     } else {
-      proxy.store.commit('TOGGLE_CONTENT_WIDTH', 1200)
+      proxy.$store.commit('TOGGLE_CONTENT_WIDTH', 1200)
     }
   }
 )

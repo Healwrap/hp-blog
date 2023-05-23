@@ -1,6 +1,6 @@
 import request from '@/utils/Request'
-import {mergeParams} from '@/utils/Utils'
-import {ElMessageBox} from 'element-plus'
+import { mergeParams } from '@/utils/Utils'
+import { ElMessageBox } from 'element-plus'
 import router from '@/router'
 
 const apis = {
@@ -23,7 +23,7 @@ const apis = {
  * @returns {*}
  */
 const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
-  const params = mergeParams({pageNo, orderType, boardId, pBoardId})
+  const params = mergeParams({ pageNo, orderType, boardId, pBoardId })
   return request({
     url: apis.loadArticle,
     method: 'get',
@@ -159,8 +159,21 @@ const postArticle = (title, pBoardId, summary, editorType, content, markdownCont
  * @param integral 积分
  * @returns {*}
  */
-const updateArticle = (articleId, title, pBoardId, summary, editorType, attachmentType, content, markdownContent, boardId, cover, attachment, integral) => {
-  if (articleId == null) {
+const updateArticle = (
+  articleId,
+  title,
+  pBoardId,
+  summary,
+  editorType,
+  attachmentType,
+  content,
+  markdownContent,
+  boardId,
+  cover,
+  attachment,
+  integral
+) => {
+  if (articleId === null) {
     throw new Error('articleId不能为空')
   }
   const params = mergeParams({

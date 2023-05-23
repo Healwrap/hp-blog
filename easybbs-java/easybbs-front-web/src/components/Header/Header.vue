@@ -39,11 +39,11 @@ onBeforeUnmount(() => {
 // 处理滚动事件
 const handleScroll = () => {
   // 向下滚动
-  // if (window.scrollY > 0) {
-  //   header.value.classList.add('header-up')
-  // } else {
-  //   header.value.classList.remove('header-up')
-  // }
+  if (window.scrollY >= 70) {
+    header.value.classList.add('header-up')
+  } else {
+    header.value.classList.remove('header-up')
+  }
 }
 </script>
 

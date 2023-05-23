@@ -47,7 +47,8 @@ const doLike = commentId => {
   return request({
     url: apis.doLike,
     method: 'post',
-    params
+    params,
+    showLoading: false
   })
 }
 
