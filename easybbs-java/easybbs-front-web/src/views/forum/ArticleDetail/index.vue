@@ -5,10 +5,11 @@
       <div class="article-detail-info">
         <el-breadcrumb :separator-icon="ArrowRight">
           <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-            >{{ articleInfo.pBoardName }}
+          >{{ articleInfo.pBoardName }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-            >{{ articleInfo.boardName }}
+          <el-breadcrumb-item v-if="articleInfo.boardId"
+                              :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+          >{{ articleInfo.boardName }}
           </el-breadcrumb-item>
           <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
         </el-breadcrumb>
@@ -18,10 +19,11 @@
         <!--标题-->
         <div class="title">
           {{ articleInfo.title }}
+          <el-tag v-if="articleInfo.status === 0">待审核</el-tag>
         </div>
         <!--用户信息-->
         <div class="user-info">
-          <user-avatar :user-id="articleInfo.userId" />
+          <user-avatar :user-id="articleInfo.userId"/>
           <div class="user-info-detail">
             <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
             <div class="info">
@@ -30,6 +32,10 @@
               <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
                 {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
               </span>
+              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId"
+                           :to="`/postArticle/${articleInfo.articleId}`">
+                <span class="iconfont icon-edit">&nbsp;编辑</span>
+              </router-link>
             </div>
           </div>
         </div>
@@ -45,7 +51,7 @@
           <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
           <div>
             需要<span class="integral">{{ attachment.integral }}</span
-            >积分
+          >积分
           </div>
           <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
           <div class="download-btn">
@@ -56,21 +62,27 @@
       <!--评论-->
       <div class="comment-panel block" id="comment">
         <CommentList
-          v-if="Object.keys(articleInfo).length !== 0"
-          :article-id="articleInfo.articleId"
-          :article-userid="articleInfo.userId"
-          @updateCommentCount="updateCommentCount"
+            v-if="Object.keys(articleInfo).length !== 0"
+            :article-id="articleInfo.articleId"
+            :article-userid="articleInfo.userId"
+            @updateCommentCount="updateCommentCount"
         />
       </div>
     </div>
     <!--文章目录-->
     <div class="toc-panel" :style="{ left: tocPanelLeft }">
-      <div class="top-container">
+      <div class="toc-container">
         <div class="toc-title">目录</div>
         <div class="toc-list">
           <div class="no-toc" v-if="tocList.length === 0">未解析到目录</div>
           <div class="toc" v-else>
-            <div class="toc-item" v-for="toc in tocList" :key="toc">
+            <div
+                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
+                v-for="toc in tocList"
+                :key="toc"
+                @click="gotoAnchor(toc.id)"
+            >
               {{ toc.title }}
             </div>
           </div>
@@ -97,23 +109,23 @@
       </div>
     </div>
     <!--图片预览-->
-    <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
+    <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
   </div>
 </template>
 
 <script setup>
-import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useRoute } from 'vue-router'
+import {getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
+import {ArrowRight} from '@element-plus/icons-vue'
+import {useRoute} from 'vue-router'
 import router from '@/router'
-import { formatFileSize } from '@/utils/Utils'
+import {formatFileSize} from '@/utils/Utils'
 import forumApi from '@/api/forum'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
@@ -126,6 +138,12 @@ const attachment = ref({})
 const havaLike = ref(false)
 // 目录
 const tocList = ref([])
+//
+const tocPanelLeft = ref('100vw')
+//
+const quickPanelLeft = ref('-100vw')
+//
+const anchorId = ref(null)
 // 点赞
 const handleGoodClick = async () => {
   const result = await forumApi.doLike(articleInfo.value.articleId)
@@ -197,11 +215,11 @@ const updateCommentCount = count => {
 }
 const makeToc = () => {
   nextTick(() => {
+    console.log('makeToc')
     const tocTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
     // 获取所有H标签
     const content = document.querySelector('#detail')
     const childNodes = content.childNodes
-
     let index = 0
     childNodes.forEach(item => {
       let tagName = item.tagName
@@ -214,13 +232,56 @@ const makeToc = () => {
       tocList.value.push({
         id: id,
         title: item.innerText,
-        leverl: Number.parseInt(tagName.substring(1)),
+        level: Number.parseInt(tagName.substring(1)),
         offsetTop: item.offsetTop
       })
     })
   })
 }
-makeToc()
+// 定位到锚点
+const gotoAnchor = id => {
+  const anchor = document.querySelector('#' + id)
+  if (!anchor) {
+    return
+  }
+  anchorId.value = id
+  anchor.scrollIntoView(true)
+}
+// 获取滚动条高度
+const getScrollTop = () => {
+  return document.documentElement.scrollTop || document.body.scrollTop
+}
+// 监听滚动条
+const listenScroll = () => {
+  const currentScrollTop = getScrollTop()
+  tocList.value.forEach((item, index) => {
+    if (
+        (index < tocList.value.length - 1 &&
+            currentScrollTop > tocList.value[index].offsetTop &&
+            currentScrollTop < tocList.value[index + 1].offsetTop) ||
+        (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
+    ) {
+      anchorId.value = item.id
+    }
+  })
+}
+// 计算左侧快捷操作位置，位于article-detail-content左侧
+const getQuickPanelLeft = () => {
+  const content = document.querySelector('.article-detail-content')
+  if (!content) {
+    return '0px'
+  }
+  quickPanelLeft.value = content.getBoundingClientRect().left - 50 + 'px'
+}
+// 计算目录位置，位于article-detail-content右侧
+const getTocPanelLeft = () => {
+  const content = document.querySelector('.article-detail-content')
+  if (!content) {
+    return '0px'
+  }
+  console.log()
+  tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
+}
 onMounted(async () => {
   let result = await forumApi.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
@@ -228,33 +289,39 @@ onMounted(async () => {
   havaLike.value = result.data.havaLike
   handleImagePreview()
   highlightCode()
+  getQuickPanelLeft()
+  getTocPanelLeft()
+  makeToc()
 })
-// 计算左侧快捷操作位置，位于article-detail-content左侧
-const quickPanelLeft = computed(() => {
-  const content = document.querySelector('.article-detail-content')
-  if (!content) {
-    return '0px'
-  }
-  return content.offsetLeft - 50 + 'px'
+// 监听窗口大小变化
+onMounted(() => {
+  window.addEventListener('resize', () => {
+    getQuickPanelLeft()
+    getTocPanelLeft()
+  })
+  window.addEventListener('scroll', () => {
+    listenScroll()
+  })
 })
-// 计算目录位置，位于article-detail-content右侧
-const tocPanelLeft = computed(() => {
-  const content = document.querySelector('.article-detail-content')
-  if (!content) {
-    return '0px'
-  }
-  return content.offsetLeft + content.offsetWidth + 50 + 'px'
+onUnmounted(() => {
+  window.removeEventListener('resize', () => {
+    getQuickPanelLeft()
+    getTocPanelLeft()
+  })
+  window.removeEventListener('scroll', () => {
+    listenScroll()
+  })
 })
 // 监听用户信息变化
 watch(
-  () => proxy.store.getters.userInfo,
-  newVal => {
-    currentUserinfo.value = newVal
-  },
-  {
-    immediate: true,
-    deep: true
-  }
+    () => proxy.store.getters.userInfo,
+    newVal => {
+      currentUserinfo.value = newVal
+    },
+    {
+      immediate: true,
+      deep: true
+    }
 )
 </script>
 
@@ -303,10 +370,22 @@ watch(
             color: #999;
             font-size: 12px;
           }
+
+          .edit-btn {
+            margin-left: 10px;
+            color: #1E88E5;
+            cursor: pointer;
+            text-decoration: none;
+
+            &:hover {
+              color: #1976d2;
+            }
+          }
         }
       }
 
       .detail {
+        padding: 5px 15px;
         letter-spacing: 1.1px;
         line-height: 25px;
 
@@ -389,28 +468,51 @@ watch(
 
   .toc-panel {
     position: fixed;
-    top: 20%;
-    height: 300px;
+    top: 14%;
     width: 200px;
+    min-height: 300px;
+    max-height: 80%;
     padding: 10px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    overflow: hidden;
+    transition: all 0.6s;
+    overflow: auto;
 
     &:hover {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
-    .toc-item {
-      padding: 10px;
-      cursor: pointer;
-      transition: all 0.3s;
-      border-bottom: 1px solid #eee;
+    .toc-container {
+      .toc-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
 
-      &:hover {
-        background: #fff;
+      .toc-list {
+        .no-toc {
+          font-size: 12px;
+          color: #999;
+        }
+
+        .toc-item {
+          margin-bottom: 5px;
+          padding: 5px 0 5px 10px;
+          border-left: 2px solid #fff;
+          cursor: pointer;
+          transition: all 0.3s;
+
+          &:hover {
+            background: #eee;
+          }
+        }
+
+        .active {
+          color: #1e88e5;
+          background: #eee;
+          border-left: 2px solid #1e88e5;
+        }
       }
     }
   }
@@ -422,6 +524,7 @@ watch(
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: all 0.6s;
 
     .quick-item {
       width: 40px;

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ElLoading } from 'element-plus'
+import {ElLoading} from 'element-plus'
 import Toast from '@/utils/Toast'
 import store from '@/store'
 
@@ -16,11 +16,11 @@ const instance = axios.create({
 
 // 错误代码枚举
 const ERROR_CODE = {
-  CODE_404: { code: 404, message: '请求地址不能存在' },
-  CODE_600: { code: 600, message: '请求参数错误' },
-  CODE_601: { code: 601, message: '信息已经存在' },
-  CODE_500: { code: 500, message: '服务器返回错误，请联系管理员' },
-  CODE_900: { code: 900, message: '请求超时' }
+  CODE_404: {code: 404, message: '请求地址不能存在'},
+  CODE_600: {code: 600, message: '请求参数错误'},
+  CODE_601: {code: 601, message: '信息已经存在'},
+  CODE_500: {code: 500, message: '服务器返回错误，请联系管理员'},
+  CODE_900: {code: 900, message: '请求超时'}
 }
 
 // 请求前拦截
@@ -48,7 +48,7 @@ instance.interceptors.request.use(
 // 请求后拦截
 instance.interceptors.response.use(
   response => {
-    const { showLoading, errorCallback, showErr = true } = response.config
+    const {showLoading, errorCallback, showErr = true} = response.config
     if (showLoading && loading) {
       // 延时0.5s关闭
       setTimeout(() => {
@@ -61,7 +61,7 @@ instance.interceptors.response.use(
     } else if (responseData.code === 901) {
       store.commit('UPDATE_USER_INFO', {})
       store.commit('showLoginDialog', true)
-      return Promise.reject({ showError: false, msg: '登录超时，请重新登录' })
+      return Promise.reject({showError: false, msg: '登录超时，请重新登录'})
     }
     const errCode = Object.keys(ERROR_CODE).find(key => ERROR_CODE[key].code === responseData.code)
     let errMsg = '未知错误'
@@ -74,7 +74,7 @@ instance.interceptors.response.use(
     if (errorCallback) {
       errorCallback(responseData)
     }
-    return Promise.reject({ showError: false, msg: errMsg })
+    return Promise.reject({showError: false, msg: errMsg})
   },
   error => {
     if (error.config.showLoading && loading) {
@@ -83,12 +83,12 @@ instance.interceptors.response.use(
         loading.close()
       }, 500)
     }
-    return Promise.reject({ showError: true, msg: '网络异常' })
+    return Promise.reject({showError: true, msg: '网络异常'})
   }
 )
 
 const request = config => {
-  let { url, method, params, dataType, showLoading = true, errorCallback, showError = true } = config
+  let {url, method, params, dataType, showLoading = true, errorCallback, showError = true} = config
   let contentType = requestContentType.form
   let headers = {
     'Content-Type': contentType,
@@ -114,10 +114,10 @@ const request = config => {
     for (let key in params) {
       formData.append(String(key), params[key] === undefined ? '' : params[key])
     }
-    console.log('------------------------')
-    console.log(params['file'] instanceof File)
-    console.log('------------------------')
-    console.log(formData.get('file') instanceof File)
+    // console.log('------------------------')
+    // console.log(params['file'] instanceof File)
+    // console.log('------------------------')
+    // console.log(formData.get('file') instanceof File)
     if (dataType !== null) {
       if (dataType === 'json') {
         contentType = requestContentType.json

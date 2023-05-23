@@ -29,6 +29,7 @@ import com.easybbs.utils.html.EscapeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -272,7 +273,7 @@ public class ForumArticleController extends ABaseController {
     if (EditorTypeEnum.MARKDOWN.getType().equals(editorType) && StringTools.isEmpty(markdownContent)) {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
-    forumArticle.setMarkdownContent(markdownContent);
+    forumArticle.setMarkdownContent(EscapeUtil.escapeHtml(markdownContent));
     forumArticle.setEditorType(editorType);
     forumArticle.setUserId(userDto.getUserId());
     forumArticle.setNickName(userDto.getNickName());
@@ -313,7 +314,7 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(articleDetailVO);
   }
 
-  @RequestMapping("/updateArticle")
+  @PostMapping("/updateArticle")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO updateArticle(HttpSession session,
                                   @VerifyParams(required = true) String articleId,
@@ -336,7 +337,7 @@ public class ForumArticleController extends ABaseController {
       throw new BusinessException("文章不存在");
     }
     // 文章信息
-    forumArticle.setMarkdownContent(markdownContent);
+    forumArticle.setMarkdownContent(EscapeUtil.escapeHtml(markdownContent));
     forumArticle.setContent(content);
     forumArticle.setEditorType(editorType);
     forumArticle.setSummary(summary);

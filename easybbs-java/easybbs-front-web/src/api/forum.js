@@ -1,6 +1,6 @@
 import request from '@/utils/Request'
-import { mergeParams } from '@/utils/Utils'
-import { ElMessageBox } from 'element-plus'
+import {mergeParams} from '@/utils/Utils'
+import {ElMessageBox} from 'element-plus'
 import router from '@/router'
 
 const apis = {
@@ -23,7 +23,7 @@ const apis = {
  * @returns {*}
  */
 const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
-  const params = mergeParams({ pageNo, orderType, boardId, pBoardId })
+  const params = mergeParams({pageNo, orderType, boardId, pBoardId})
   return request({
     url: apis.loadArticle,
     method: 'get',
@@ -109,7 +109,20 @@ const getArticleDetail4Update = articleId => {
     }
   })
 }
-
+/**
+ * 发布文章
+ * @param title 标题
+ * @param pBoardId 父板块id
+ * @param summary 摘要
+ * @param editorType 编辑器类型
+ * @param content html内容
+ * @param markdownContent markdown内容
+ * @param boardId 板块id
+ * @param cover 封面
+ * @param attachment 附件
+ * @param integral 积分
+ * @returns {*}
+ */
 const postArticle = (title, pBoardId, summary, editorType, content, markdownContent, boardId, cover, attachment, integral) => {
   const params = mergeParams({
     title,
@@ -130,6 +143,47 @@ const postArticle = (title, pBoardId, summary, editorType, content, markdownCont
     dataType: 'file'
   })
 }
+/**
+ * 更新文章
+ * @param articleId 文章id
+ * @param title 标题
+ * @param pBoardId 父板块id
+ * @param summary 摘要
+ * @param editorType 编辑器类型
+ * @param attachmentType 附件类型
+ * @param content html内容
+ * @param markdownContent markdown内容
+ * @param boardId 板块id
+ * @param cover 封面
+ * @param attachment 附件
+ * @param integral 积分
+ * @returns {*}
+ */
+const updateArticle = (articleId, title, pBoardId, summary, editorType, attachmentType, content, markdownContent, boardId, cover, attachment, integral) => {
+  if (articleId == null) {
+    throw new Error('articleId不能为空')
+  }
+  const params = mergeParams({
+    articleId,
+    title,
+    pBoardId,
+    summary,
+    editorType,
+    attachmentType,
+    content,
+    markdownContent,
+    boardId,
+    cover,
+    attachment,
+    integral
+  })
+  return request({
+    url: apis.updateArticle,
+    method: 'post',
+    params,
+    dataType: 'file'
+  })
+}
 
 const forumApi = {
   loadArticle,
@@ -138,6 +192,7 @@ const forumApi = {
   getUserDownloadInfo,
   attachmentDownload,
   getArticleDetail4Update,
-  postArticle
+  postArticle,
+  updateArticle
 }
 export default forumApi
