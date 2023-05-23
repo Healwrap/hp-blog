@@ -11,7 +11,7 @@
         <img :src="localFile" alt="image" />
       </template>
       <template v-else>
-        <el-image v-if="modelValue && modelValue.imageUrl" :src="filesApi.getImage(modelValue.imageUrl)" alt="image" />
+        <el-image v-if="modelValue" :src="imageUrl" alt="image" />
         <el-icon style="position: absolute">
           <Plus />
         </el-icon>
@@ -21,16 +21,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { getCurrentInstance, ref, watch } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-import filesApi from '@/api/files'
 
-defineProps({
+const { proxy } = getCurrentInstance()
+const props = defineProps({
   modelValue: {
     type: Object,
     default: null
+  },
+  type: {
+    type: String,
+    required: true,
+    default: 'image'
   }
 })
+const imageUrl = ref(null)
 const localFile = ref(null)
 const emit = defineEmits()
 const uploadFile = file => {
@@ -42,6 +48,17 @@ const uploadFile = file => {
   }
   emit('update:modelValue', file)
 }
+watch(
+  () => props.modelValue,
+  () => {
+    if (props.type === 'image') {
+      imageUrl.value = proxy.$Api.files.getImage(props.modelValue.imageUrl)
+    } else if (props.type === 'avatar') {
+      imageUrl.value = proxy.$Api.account.avatarUrl(props.modelValue.userId)
+    }
+    console.log(imageUrl.value)
+  }
+)
 </script>
 
 <style lang="scss" scoped>

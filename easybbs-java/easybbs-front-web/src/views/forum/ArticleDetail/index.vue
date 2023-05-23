@@ -200,6 +200,9 @@ const highlightCode = () => {
     const blocks = document.querySelectorAll('pre code')
     blocks.forEach(block => {
       hljs.highlightBlock(block)
+      hljs.configure({
+        ignoreUnescapedHTML: true
+      })
     })
   })
 }

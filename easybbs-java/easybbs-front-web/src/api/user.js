@@ -3,7 +3,8 @@ import { mergeParams } from '@/utils/Utils'
 
 const apis = {
   getUserInfo: '/user/getUserInfo',
-  getUserArticleList: '/user/getUserArticleList'
+  getUserArticleList: '/user/getUserArticleList',
+  updateUserInfo: '/user/updateUserInfo'
 }
 /**
  * 获取用户信息
@@ -36,6 +37,8 @@ const getUserArticleList = (userId, type, pageNo) => {
     showLoading: false
   })
 }
+
+
 
 const userApi = {
   getUserInfo,
