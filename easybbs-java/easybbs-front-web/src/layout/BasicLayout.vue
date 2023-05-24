@@ -77,6 +77,7 @@
     <div class="side-tools">
       <el-backtop :right="30" :bottom="30" />
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -87,6 +88,7 @@ import boardApi from '@/api/board'
 import Header from '@/components/Header/Header.vue'
 import UserDialog from '@/components/UserDialog/UserDialog.vue'
 import Avatar from '@/components/Avatar/Avatar.vue'
+import Footer from '@/components/Footer/Footer.vue'
 import { useRoute } from 'vue-router'
 import { TOGGLE_CONTENT_WIDTH, UPDATE_MESSAGE_COUNT } from '@/store/mutation-types'
 
@@ -217,6 +219,7 @@ watch(
   .content {
     position: relative;
     margin: 0 auto;
+    min-height: 93vh;
   }
 
   .board-menu {
