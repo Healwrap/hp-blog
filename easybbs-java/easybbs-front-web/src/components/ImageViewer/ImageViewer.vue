@@ -18,9 +18,6 @@ const show = index => {
   previewImgIndex.value = index
   handleMouseWheel(true)
 }
-defineExpose({
-  show
-})
 const close = () => {
   previewImgIndex.value = null
   handleMouseWheel(false)
@@ -33,6 +30,9 @@ const handleMouseWheel = flag => {
     document.body.style.overflow = 'auto'
   }
 }
+defineExpose({
+  show
+})
 </script>
 
 <style scoped></style>

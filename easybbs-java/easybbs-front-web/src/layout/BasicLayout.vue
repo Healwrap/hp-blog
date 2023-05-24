@@ -35,11 +35,11 @@
             </el-badge>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item>回复我的</el-dropdown-item>
-                <el-dropdown-item>赞了我的文章</el-dropdown-item>
-                <el-dropdown-item>下载了我的附件</el-dropdown-item>
-                <el-dropdown-item>赞了我的评论</el-dropdown-item>
-                <el-dropdown-item>系统消息</el-dropdown-item>
+                <el-dropdown-item @click="goToMessage('reply')">回复我的</el-dropdown-item>
+                <el-dropdown-item @click="goToMessage('likePost')">赞了我的文章</el-dropdown-item>
+                <el-dropdown-item @click="goToMessage('likeComment')">下载了我的附件</el-dropdown-item>
+                <el-dropdown-item @click="goToMessage('likeComment')">赞了我的评论</el-dropdown-item>
+                <el-dropdown-item @click="goToMessage('sys')">系统消息</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -71,7 +71,6 @@ import boardApi from '@/api/board'
 import Header from '@/components/Header/Header.vue'
 import UserDialog from '@/components/UserDialog/UserDialog.vue'
 import Avatar from '@/components/Avatar/Avatar.vue'
-import router from '@/router'
 import { useRoute } from 'vue-router'
 
 const { proxy } = getCurrentInstance()
@@ -102,9 +101,9 @@ const loadBoard = async () => {
 // 选择板块
 const handleSelect = (key, keyPath) => {
   if (keyPath.length === 1) {
-    router.push(`/forum/${key}`)
+    proxy.$router.push(`/forum/${key}`)
   } else {
-    router.push(`/forum/${keyPath[0]}/${key}`)
+    proxy.$router.push(`/forum/${keyPath[0]}/${key}`)
   }
 }
 // 处理发帖、搜索按钮点击
@@ -114,9 +113,13 @@ const handleTopButtonClick = type => {
       showUserDialog(0)
       proxy.$Toast.warning('请先登录')
     } else {
-      router.push('/postArticle')
+      proxy.$router.push('/postArticle')
     }
   }
+}
+// 消息中心
+const goToMessage = type => {
+  proxy.$router.push(`/user/message/${type}`)
 }
 const userInfo = ref()
 // beforeCreated

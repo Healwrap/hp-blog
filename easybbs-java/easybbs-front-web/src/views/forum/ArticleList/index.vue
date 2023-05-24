@@ -8,7 +8,7 @@
       <span :class="['tab', orderType === 2 ? 'active' : '']" @click="orderType = 2">最新</span>
     </div>
     <div class="article-list-panel">
-      <data-list :data-source="articleInfo" :loading="loading" @load-data="loadArticle">
+      <data-list :data-source="articleInfo" :loading="loading" @load-data="loadArticle" desc="暂无文章">
         <template #default="{ data }">
           <article-list-item :data="data" />
         </template>

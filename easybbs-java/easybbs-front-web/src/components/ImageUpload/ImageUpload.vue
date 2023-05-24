@@ -11,8 +11,8 @@
         <img :src="localFile" alt="image" />
       </template>
       <template v-else>
-        <el-image v-if="modelValue" :src="imageUrl" alt="image" />
-        <el-icon style="position: absolute">
+        <el-image v-if="modelValue" :src="imageUrl" alt="image" width="100" height="100" fit="cover" />
+        <el-icon v-else style="position: absolute">
           <Plus />
         </el-icon>
       </template>
@@ -32,7 +32,6 @@ const props = defineProps({
   },
   type: {
     type: String,
-    required: true,
     default: 'image'
   }
 })
@@ -51,12 +50,13 @@ const uploadFile = file => {
 watch(
   () => props.modelValue,
   () => {
-    if (props.type === 'image') {
-      imageUrl.value = proxy.$Api.files.getImage(props.modelValue.imageUrl)
-    } else if (props.type === 'avatar') {
-      imageUrl.value = proxy.$Api.account.avatarUrl(props.modelValue.userId)
+    if (props.modelValue instanceof String) {
+      if (props.type === 'image') {
+        imageUrl.value = proxy.$api.files.getImage(props.modelValue.imageUrl)
+      } else if (props.type === 'avatar') {
+        imageUrl.value = proxy.$api.account.avatarUrl(props.modelValue.userId)
+      }
     }
-    console.log(imageUrl.value)
   }
 )
 </script>
@@ -89,6 +89,11 @@ watch(
   ::v-deep(.el-icon) {
     font-size: 30px;
     color: #999;
+  }
+
+  ::v-deep(.el-image) {
+    width: 100px;
+    height: 100px;
   }
 }
 </style>

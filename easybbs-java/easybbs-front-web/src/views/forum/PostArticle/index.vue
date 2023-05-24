@@ -252,6 +252,16 @@ watch(
     deep: true
   }
 )
+watch(
+  () => formData.value.cover,
+  newVal => {
+    console.log('post-article: ', newVal)
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style lang="scss" scoped>

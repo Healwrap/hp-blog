@@ -24,6 +24,7 @@ import com.easybbs.exception.BusinessException;
 import com.easybbs.service.*;
 import com.easybbs.utils.CopyTools;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -89,7 +90,7 @@ public class UserController extends ABaseController {
    * @param avatar      头像
    * @return ResponseVO
    */
-  @PostMapping("updateUserInfo")
+  @PutMapping("updateUserInfo")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO updateUserInfo(HttpSession session, Integer sex, @VerifyParams(max = 100) String description, MultipartFile avatar) {
     SessionWebUserDto userDto = getUserInfoFromSession(session);
@@ -138,6 +139,15 @@ public class UserController extends ABaseController {
     return getSuccessResponseVO(convert2PaginationVO(resultVO, ForumArticleVO.class));
   }
 
+  /**
+   * 获取用户积分记录
+   *
+   * @param session         会话
+   * @param pageNo          页码
+   * @param createTimeStart 开始时间
+   * @param createTimeEnd   结束时间
+   * @return ResponseVO
+   */
   @PostMapping("/getUserIntegralRecord")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO getUserIntegralRecord(HttpSession session, Integer pageNo, String createTimeStart, String createTimeEnd) {
@@ -159,6 +169,14 @@ public class UserController extends ABaseController {
     return getSuccessResponseVO(userMessageService.getUserMessageCountDto(userDto.getUserId()));
   }
 
+  /**
+   * 获取用户消息列表
+   *
+   * @param session 会话
+   * @param code    消息类型
+   * @param pageNo  页码
+   * @return ResponseVO
+   */
   @PostMapping("getMessageList")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO getMessageList(HttpSession session, @VerifyParams(required = true) String code, Integer pageNo) {

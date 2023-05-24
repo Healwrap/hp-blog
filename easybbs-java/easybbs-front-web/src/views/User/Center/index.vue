@@ -9,51 +9,55 @@
     </div>
     <!--个人中心-->
     <div class="user-panel">
-      <div class="user-side">
-        <!--头像-->
-        <div class="avatar-panel">
-          <div class="edit-btn" v-if="userId === currentUserId">
-            <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
+      <el-affix :offset="30">
+        <div class="user-side">
+          <!--头像-->
+          <div class="avatar-panel">
+            <div class="edit-btn" v-if="userId === currentUserId">
+              <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
+            </div>
+            <div class="avatar">
+              <img :src="accountApi.avatarUrl(userId)" />
+            </div>
+            <div class="nickname">
+              <span>{{ userInfo.nickName }}</span>
+              <span class="sex">
+                <span v-if="userInfo.sex === 0" class="iconfont icon-woman" style="color: #ff006a"></span>
+                <span v-if="userInfo.sex === 1" class="iconfont icon-man" style="color: #0080ff"></span>
+              </span>
+            </div>
+            <div class="desc">
+              <span>{{ userInfo.personDescription }}</span>
+            </div>
           </div>
-          <div class="avatar">
-            <img :src="accountApi.avatarUrl(userId)" />
-          </div>
-          <div class="nickname">
-            <span>{{ userInfo.nickName }}</span>
-            <span class="sex" v-if="userInfo.sex">
-              <span v-if="userInfo.sex === 0" class="iconfont icon-woman" style="color: #ff006a"></span>
-              <span v-if="userInfo.sex === 1" class="iconfont icon-man" style="color: #0080ff"></span>
-            </span>
-          </div>
-          <div class="desc">
-            <span>{{ userInfo.personDescription }}</span>
+          <!--信息-->
+          <div class="info-panel">
+            <div class="info-item">
+              <span class="label iconfont icon-integral">&nbsp;积分</span>
+              <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer" @click="showIntegralRecord">{{
+                userInfo.currentIntegral
+              }}</span>
+              <span class="value" v-else>{{ userInfo.currentIntegral }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-like">&nbsp;获赞</span>
+              <span class="value">{{ userInfo.likeCount }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-edit">&nbsp;发帖</span>
+              <span class="value">{{ userInfo.postCount }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-register">&nbsp;加入</span>
+              <span class="value">{{ userInfo.joinTime }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-login">&nbsp;最后登录</span>
+              <span class="value">{{ userInfo.lastLoginTime }}</span>
+            </div>
           </div>
         </div>
-        <!--信息-->
-        <div class="info-panel">
-          <div class="info-item">
-            <span class="label iconfont icon-integral">&nbsp;积分</span>
-            <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer">{{ userInfo.currentIntegral }}</span>
-            <span class="value" v-else>{{ userInfo.currentIntegral }}</span>
-          </div>
-          <div class="info-item">
-            <span class="label iconfont icon-like">&nbsp;获赞</span>
-            <span class="value">{{ userInfo.likeCount }}</span>
-          </div>
-          <div class="info-item">
-            <span class="label iconfont icon-edit">&nbsp;发帖</span>
-            <span class="value">{{ userInfo.postCount }}</span>
-          </div>
-          <div class="info-item">
-            <span class="label iconfont icon-register">&nbsp;加入</span>
-            <span class="value">{{ userInfo.joinTime }}</span>
-          </div>
-          <div class="info-item">
-            <span class="label iconfont icon-login">&nbsp;最后登录</span>
-            <span class="value">{{ userInfo.lastLoginTime }}</span>
-          </div>
-        </div>
-      </div>
+      </el-affix>
       <div class="article-side">
         <el-tabs v-model:model-value="activeTagName" @tab-change="changeTab">
           <el-tab-pane label="发帖" :name="0" />
@@ -61,7 +65,7 @@
           <el-tab-pane label="点赞" :name="2" />
         </el-tabs>
         <div class="article-list">
-          <data-list :data-source="articleInfoList" :loading="loading" :rows="7" @load-data="loadArticle">
+          <data-list :data-source="articleInfoList" :loading="loading" :rows="7" @load-data="loadArticle" desc="暂无文章">
             <template #default="{ data }">
               <article-list-item :data="data" />
             </template>
@@ -71,6 +75,8 @@
     </div>
     <!--编辑个人信息-->
     <user-info-editor ref="userInfoEditor" />
+    <!--显示积分记录-->
+    <user-integral-record ref="integralRecordRef" />
   </div>
 </template>
 
@@ -82,9 +88,11 @@ import router from '@/router'
 import accountApi from '@/api/account'
 import ArticleListItem from '@/components/ArticleListItem/ArticleListItem.vue'
 import DataList from '@/components/DataList/DataList.vue'
-import UserInfoEditor from '@/views/Account/Center/components/UserInfoEditor.vue'
+import UserInfoEditor from '@/views/User/Center/components/UserInfoEditor.vue'
+import UserIntegralRecord from './components/UserIntegralRecord.vue'
 
 const { proxy } = getCurrentInstance()
+const integralRecordRef = ref(null)
 const route = useRoute()
 const currentUserId = ref(null)
 const userId = ref(null)
@@ -94,7 +102,7 @@ const articleInfoList = ref([])
 const activeTagName = ref(0)
 const userInfoEditor = ref(null)
 const loadUserInfo = async () => {
-  const result = await proxy.$Api.user.getUserInfo(userId.value, () => {
+  const result = await proxy.$api.user.getUserInfo(userId.value, () => {
     setTimeout(() => {
       router.push('/')
     }, 1500)
@@ -111,7 +119,7 @@ const changeTab = () => {
 // 加载文章
 const loadArticle = async () => {
   loading.value = true
-  const result = await proxy.$Api.user.getUserArticleList(userId.value, activeTagName.value, articleInfoList.value.pageNo)
+  const result = await proxy.$api.user.getUserArticleList(userId.value, activeTagName.value, articleInfoList.value.pageNo)
   if (!result) {
     return
   }
@@ -121,6 +129,9 @@ const loadArticle = async () => {
 // 更新用户信息
 const updateUserInfo = () => {
   userInfoEditor.value.showEditUserInfoDialog(userInfo.value)
+}
+const showIntegralRecord = () => {
+  integralRecordRef.value.showIntegralRecordDialog()
 }
 onMounted(() => {
   userId.value = route.params.userId

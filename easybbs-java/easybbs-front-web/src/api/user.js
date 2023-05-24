@@ -4,7 +4,8 @@ import { mergeParams } from '@/utils/Utils'
 const apis = {
   getUserInfo: '/user/getUserInfo',
   getUserArticleList: '/user/getUserArticleList',
-  updateUserInfo: '/user/updateUserInfo'
+  updateUserInfo: '/user/updateUserInfo',
+  getUserIntegralRecord: '/user/getUserIntegralRecord'
 }
 /**
  * 获取用户信息
@@ -37,11 +38,42 @@ const getUserArticleList = (userId, type, pageNo) => {
     showLoading: false
   })
 }
-
-
+/**
+ * 更新用户信息
+ * @param sex 性别
+ * @param description 个人描述
+ * @param avatar 头像
+ * @returns {*}
+ */
+const updateUserInfo = (sex, description, avatar) => {
+  const params = mergeParams({ sex, description, avatar })
+  return request({
+    url: apis.updateUserInfo,
+    method: 'put',
+    params
+  })
+}
+/**
+ * 获取用户积分记录
+ * @param pageNo 页码
+ * @param createTimeStart 开始时间
+ * @param createTimeEnd 结束时间
+ * @returns {*}
+ */
+const getUserIntegralRecord = (pageNo, createTimeStart, createTimeEnd) => {
+  const params = mergeParams({ pageNo, createTimeStart, createTimeEnd })
+  return request({
+    url: apis.getUserIntegralRecord,
+    method: 'post',
+    params,
+    showLoading: false
+  })
+}
 
 const userApi = {
   getUserInfo,
-  getUserArticleList
+  getUserArticleList,
+  updateUserInfo,
+  getUserIntegralRecord
 }
 export default userApi

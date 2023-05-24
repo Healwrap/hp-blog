@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from '@/router'
 //引入cookies
 import VueCookies from 'vue-cookies'
 //引入element plus
@@ -31,13 +31,14 @@ const app = createApp(App)
 
 app.use(router)
 app.use(ElementPlus)
+app.config.globalProperties.$router = router
 app.config.globalProperties.$Verify = Verify
 app.config.globalProperties.$Toast = Toast
 app.config.globalProperties.$Request = Request
 app.config.globalProperties.$Confirm = Confirm
 app.config.globalProperties.$store = store
 app.config.globalProperties.$VueCookies = VueCookies
-app.config.globalProperties.$Api = Api
+app.config.globalProperties.$api = Api
 
 app.component('HtmlEditor', HtmlEditor)
 app.component('MarkdownEditor', MarkdownEditor)

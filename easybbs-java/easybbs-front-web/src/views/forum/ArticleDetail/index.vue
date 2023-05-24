@@ -143,7 +143,7 @@ const quickPanelLeft = ref('0')
 const anchorId = ref(null)
 // 点赞
 const handleGoodClick = async () => {
-  const result = await proxy.$Api.forum.doLike(articleInfo.value.articleId)
+  const result = await proxy.$api.forum.doLike(articleInfo.value.articleId)
   if (!result) {
     return
   }
@@ -156,7 +156,7 @@ const handleGoodClick = async () => {
 }
 // 处理下载附件
 const handleAttachmentDownload = async () => {
-  const result = await proxy.$Api.forum.getUserDownloadInfo(attachment.value.fileId)
+  const result = await proxy.$api.forum.getUserDownloadInfo(attachment.value.fileId)
   if (!result) {
     return
   }
@@ -167,12 +167,12 @@ const handleAttachmentDownload = async () => {
   }
   // 积分为0或者是自己的文章或者已经下载过了
   if (attachment.value.integral === 0 || currentUserinfo.value.userId === articleInfo.value.userId || result.data.havaDownload) {
-    window.open(proxy.$Api.forum.attachmentDownload(attachment.value.fileId), '_blank')
+    window.open(proxy.$api.forum.attachmentDownload(attachment.value.fileId), '_blank')
     attachment.value.downloadCount++
     return
   }
   proxy.$Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
-    window.open(proxy.$Api.forum.attachmentDownload(attachment.value.fileId), '_blank')
+    window.open(proxy.$api.forum.attachmentDownload(attachment.value.fileId), '_blank')
     attachment.value.downloadCount++
   })
 }
@@ -285,7 +285,7 @@ const getTocPanelLeft = () => {
   tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
 }
 onMounted(async () => {
-  let result = await proxy.$Api.forum.getArticleDetail(route.params.articleId)
+  let result = await proxy.$api.forum.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
   attachment.value = result.data.forumArticleAttachmentVO
   havaLike.value = result.data.havaLike

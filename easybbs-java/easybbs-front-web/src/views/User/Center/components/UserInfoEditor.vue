@@ -1,12 +1,20 @@
 <template>
   <div class="user-info-editor">
-    <Dialog :show="dialogConfig.show" :title="dialogConfig.title" :buttons="dialogConfig.buttons">
+    <Dialog
+      :show="dialogConfig.show"
+      :title="dialogConfig.title"
+      :width="dialogConfig.width"
+      :buttons="dialogConfig.buttons"
+      :show-close="dialogConfig.showClose"
+      :draggable="dialogConfig.draggable"
+      @close="close"
+    >
       <el-form ref="formDataRef" :model="formData" :rules="rules">
         <el-form-item label="昵称" prop="nickName">
           {{ formData.nickName }}
         </el-form-item>
         <el-form-item label="头像" prop="avatar">
-          <image-upload :model-value="formData.avatar" type="avatar" />
+          <image-upload v-model:model-value="formData.avatar" type="avatar" />
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="formData.sex">
@@ -24,8 +32,7 @@
 
 <script setup>
 // 弹窗配置
-import { getCurrentInstance, nextTick, onMounted, reactive, ref } from 'vue'
-import ImageUpload from '@/components/ImageUpload/ImageUpload.vue'
+import { getCurrentInstance, nextTick, reactive, ref, watch } from 'vue'
 
 const { proxy } = getCurrentInstance()
 const props = defineProps({})
@@ -35,6 +42,9 @@ const rules = ref()
 const dialogConfig = reactive({
   show: false,
   title: '编辑个人信息',
+  showClose: false,
+  width: '28%',
+  draggable: false,
   buttons: [
     {
       type: 'primary',
@@ -45,13 +55,33 @@ const dialogConfig = reactive({
     }
   ]
 })
-const updateUserInfoHandler = () => {}
+const close = () => {
+  dialogConfig.show = false
+}
+// 更新用户信息
+const updateUserInfoHandler = () => {
+  formDataRef.value.validate(async valid => {
+    if (!valid) {
+      return
+    }
+    let params = {}
+    Object.assign(params, formData.value)
+    const result = await proxy.$api.user.updateUserInfo(params.sex, params.personDescription, params.avatar)
+    if (!result) {
+      return
+    }
+    console.log(params.avatar)
+    console.log(params.avatar instanceof File)
+    dialogConfig.show = false
+    // proxy.$router.go(0)
+  })
+}
+// 显示编辑个人信息弹窗
 const showEditUserInfoDialog = userInfo => {
   dialogConfig.show = true
   nextTick(() => {
     formDataRef.value.resetFields()
     const dataInfo = JSON.parse(JSON.stringify(userInfo))
-    debugger
     dataInfo.avatar = {
       userId: userInfo.userId
     }
@@ -61,7 +91,16 @@ const showEditUserInfoDialog = userInfo => {
 defineExpose({
   showEditUserInfoDialog
 })
-onMounted(() => {})
+watch(
+  () => formData.value.avatar,
+  newVal => {
+    console.log('user-editor:', newVal)
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style lang="scss" scoped></style>

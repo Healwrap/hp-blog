@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="comment-list-panel">
-      <data-list :data-source="commentListInfo" :loading="loading" @load-data="loadComment">
+      <data-list :data-source="commentListInfo" :loading="loading" @load-data="loadComment" desc="暂无评论">
         <template #default="{ data }">
           <CommentItem
             :comment-data="data"

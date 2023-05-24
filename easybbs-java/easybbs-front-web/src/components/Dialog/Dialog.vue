@@ -2,7 +2,7 @@
   <div class="cust-dialog">
     <el-dialog
       :model-value="show"
-      :draggable="true"
+      :draggable="draggable"
       :close-on-click-modal="false"
       :show-close="showClose"
       :title="title"
@@ -63,6 +63,10 @@ const props = defineProps({
     default: () => []
   },
   showCancel: {
+    type: Boolean,
+    default: true
+  },
+  draggable: {
     type: Boolean,
     default: true
   }

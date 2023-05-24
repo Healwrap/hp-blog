@@ -1,7 +1,7 @@
 <template>
   <div class="data-list">
     <div class="no-data">
-      <el-empty v-if="!loading && dataSource.list.length === 0" />
+      <el-empty v-if="!loading && dataSource.list.length === 0" :description="desc" />
     </div>
     <div v-if="loading" class="skeleton">
       <el-skeleton :rows="rows" animated />
@@ -32,6 +32,10 @@ const props = defineProps({
   rows: {
     type: Number,
     default: 4
+  },
+  desc: {
+    type: String,
+    default: '暂无数据'
   }
 })
 const emit = defineEmits(['loadData'])
