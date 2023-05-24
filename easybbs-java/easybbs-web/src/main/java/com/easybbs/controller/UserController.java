@@ -23,10 +23,7 @@ import com.easybbs.entity.vo.web.ForumArticleVO;
 import com.easybbs.exception.BusinessException;
 import com.easybbs.service.*;
 import com.easybbs.utils.CopyTools;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -162,8 +159,14 @@ public class UserController extends ABaseController {
     return getSuccessResponseVO(resultVO);
   }
 
-  @PostMapping("getMessageCount")
-  @GlobalIntercepter(checkLogin = true, checkParams = true)
+  /**
+   * 获取用户消息数量
+   *
+   * @param session 会话
+   * @return ResponseVO
+   */
+  @GetMapping("getMessageCount")
+  @GlobalIntercepter(checkLogin = true)
   public ResponseVO getMessageCount(HttpSession session) {
     SessionWebUserDto userDto = getUserInfoFromSession(session);
     return getSuccessResponseVO(userMessageService.getUserMessageCountDto(userDto.getUserId()));
@@ -173,7 +176,7 @@ public class UserController extends ABaseController {
    * 获取用户消息列表
    *
    * @param session 会话
-   * @param code    消息类型
+   * @param code    消息类型 0:系统消息 1:评论 2:文章点赞  3:评论点赞 4:附件下载
    * @param pageNo  页码
    * @return ResponseVO
    */
@@ -196,4 +199,6 @@ public class UserController extends ABaseController {
     }
     return getSuccessResponseVO(resultVO);
   }
+
+
 }

@@ -60,7 +60,7 @@ const formDataRef = ref(null)
 const rules = {
   content: [
     { required: true, message: '请输入评论内容', trigger: 'blur', validator: checkPostComment },
-    { min: 5, max: 800, message: '评论内容长度在 5 到 800 个字符', trigger: 'blur' }
+    { min: 3, max: 800, message: '评论内容长度在 3 到 800 个字符', trigger: 'blur' }
   ]
 }
 // 提交评论

@@ -473,7 +473,7 @@
         update user_message set status = #{status}
         <where>
             <if test="receiveUserId!=null and receiveUserId!=''">
-                and receive_user_id = #{receiveUserId}
+                and received_user_id = #{receiveUserId}
             </if>
             <if test="messageType!=null">
                 and message_type = #{messageType}

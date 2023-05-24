@@ -87,7 +87,6 @@ import { useRoute } from 'vue-router'
 import router from '@/router'
 import accountApi from '@/api/account'
 import ArticleListItem from '@/components/ArticleListItem/ArticleListItem.vue'
-import DataList from '@/components/DataList/DataList.vue'
 import UserInfoEditor from '@/views/User/Center/components/UserInfoEditor.vue'
 import UserIntegralRecord from './components/UserIntegralRecord.vue'
 

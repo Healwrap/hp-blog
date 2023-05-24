@@ -5,7 +5,9 @@ const apis = {
   getUserInfo: '/user/getUserInfo',
   getUserArticleList: '/user/getUserArticleList',
   updateUserInfo: '/user/updateUserInfo',
-  getUserIntegralRecord: '/user/getUserIntegralRecord'
+  getUserIntegralRecord: '/user/getUserIntegralRecord',
+  getMessageList: '/user/getMessageList',
+  getMessageCount: '/user/getMessageCount'
 }
 /**
  * 获取用户信息
@@ -70,10 +72,42 @@ const getUserIntegralRecord = (pageNo, createTimeStart, createTimeEnd) => {
   })
 }
 
+/**
+ * 获取消息数量
+ * @returns {*}
+ */
+
+const getMessageCount = () => {
+  return request({
+    url: apis.getMessageCount,
+    method: 'get',
+    showLoading: false
+  })
+}
+
+/**
+ * 获取用户消息列表
+ * @param code 消息类型
+ * @param pageNo 页码
+ * @returns {*}
+ */
+
+const getMessageList = (code, pageNo) => {
+  const params = mergeParams({ code, pageNo })
+  return request({
+    url: apis.getMessageList,
+    method: 'post',
+    params,
+    showLoading: false
+  })
+}
+
 const userApi = {
   getUserInfo,
   getUserArticleList,
   updateUserInfo,
-  getUserIntegralRecord
+  getUserIntegralRecord,
+  getMessageList,
+  getMessageCount
 }
 export default userApi

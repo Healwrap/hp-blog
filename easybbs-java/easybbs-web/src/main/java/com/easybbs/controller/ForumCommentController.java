@@ -142,7 +142,7 @@ public class ForumCommentController extends ABaseController {
   public ResponseVO postComment(HttpSession session,
                                 @VerifyParams(required = true) String articleId,
                                 @VerifyParams(required = true) Integer pCommentId,
-                                @VerifyParams(min = 5, max = 800) String content,
+                                @VerifyParams(min = 3, max = 800) String content,
                                 MultipartFile image,
                                 String replyUserId) {
     if (!SysCacheUtils.getSysSetting().getCommentSetting().getCommentEnable()) {

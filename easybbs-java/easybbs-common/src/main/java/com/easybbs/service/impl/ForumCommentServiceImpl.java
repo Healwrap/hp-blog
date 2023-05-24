@@ -2,7 +2,10 @@ package com.easybbs.service.impl;
 
 import com.easybbs.entity.constants.Constants;
 import com.easybbs.entity.dto.FileUploadDto;
-import com.easybbs.entity.enums.*;
+import com.easybbs.entity.enums.PageSize;
+import com.easybbs.entity.enums.ResponseCodeEnum;
+import com.easybbs.entity.enums.UserIntegralChangeTypeEnum;
+import com.easybbs.entity.enums.UserIntegralOperTypeEnum;
 import com.easybbs.entity.enums.article.ArticleStatusEnum;
 import com.easybbs.entity.enums.article.UpdateArticleCountTypeEnum;
 import com.easybbs.entity.enums.comment.CommentStatusEnum;
@@ -258,6 +261,7 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     userMessage.setCommentId(comment.getCommentId());
     userMessage.setSendUserId(comment.getUserId());
     userMessage.setSendNickName(comment.getNickName());
+    userMessage.setMessageContent(comment.getContent());
     userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessage.setArticleTitle(forumArticle.getTitle());
     if (comment.getPCommentId() == 0) {

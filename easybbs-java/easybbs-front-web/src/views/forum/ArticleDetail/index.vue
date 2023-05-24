@@ -171,7 +171,7 @@ const handleAttachmentDownload = async () => {
     attachment.value.downloadCount++
     return
   }
-  proxy.$Confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
+  proxy.$confirm(`你还有${result.data.userIntegral}积分，当前下载会扣除${attachment.value.integral}`, () => {
     window.open(proxy.$api.forum.attachmentDownload(attachment.value.fileId), '_blank')
     attachment.value.downloadCount++
   })
@@ -513,7 +513,7 @@ watch(
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.6s;
+    transition: all 0.4s;
     overflow: auto;
 
     &:hover {
@@ -561,7 +561,7 @@ watch(
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: all 0.6s;
+    transition: all 0.4s;
 
     .quick-item {
       width: 40px;

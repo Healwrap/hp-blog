@@ -21,6 +21,7 @@ import store from '@/store'
 import Api from '@/api'
 // 全局组件
 import Dialog from '@/components/Dialog/Dialog.vue'
+import DataList from '@/components/DataList/DataList.vue'
 import ImageViewer from '@/components/ImageViewer/ImageViewer.vue'
 import ImageUpload from '@/components/ImageUpload/ImageUpload.vue'
 import FileUpload from '@/components/FileUpload/FileUpload.vue'
@@ -35,7 +36,7 @@ app.config.globalProperties.$router = router
 app.config.globalProperties.$Verify = Verify
 app.config.globalProperties.$Toast = Toast
 app.config.globalProperties.$Request = Request
-app.config.globalProperties.$Confirm = Confirm
+app.config.globalProperties.$confirm = Confirm
 app.config.globalProperties.$store = store
 app.config.globalProperties.$VueCookies = VueCookies
 app.config.globalProperties.$api = Api
@@ -43,6 +44,7 @@ app.config.globalProperties.$api = Api
 app.component('HtmlEditor', HtmlEditor)
 app.component('MarkdownEditor', MarkdownEditor)
 app.component('Dialog', Dialog)
+app.component('DataList', DataList)
 app.component('ImageViewer', ImageViewer)
 app.component('ImageUpload', ImageUpload)
 app.component('FileUpload', FileUpload)

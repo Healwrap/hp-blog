@@ -7,11 +7,11 @@ package com.easybbs.entity.enums.message;
  * @Date 2023/4/12 14:46
  */
 public enum MessageTypeEnum {
-  SYS(0, "sys", "系统消息"),
+  SYS(0, "system", "系统消息"),
   COMMENT(1, "reply", "回复我的"),
-  ARTICLE_LIKE(2, "article_like", "文章被点赞"),
-  COMMENT_LIKE(3, "comment_like", "评论被点赞"),
-  ATTACHMENT_DOWNLOAD(4, "attachment_download", "下载附件");
+  ARTICLE_LIKE(2, "articleLike", "文章被点赞"),
+  COMMENT_LIKE(3, "commentLike", "评论被点赞"),
+  ATTACHMENT_DOWNLOAD(4, "attachmentDownload", "下载附件");
   private final Integer type;
   private final String code;
   private final String desc;

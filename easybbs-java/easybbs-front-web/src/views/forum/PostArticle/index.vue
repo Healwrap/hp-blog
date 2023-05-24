@@ -183,7 +183,7 @@ const postHandler = () => {
 }
 // 切换编辑器
 const changeEditor = () => {
-  proxy.$Confirm('切换编辑器后，内容将不会保留，确定要切换吗？', () => {
+  proxy.$confirm('切换编辑器后，内容将不会保留，确定要切换吗？', () => {
     editorType.value = editorType.value === 0 ? 1 : 0
     formData.value.content = ''
     formData.value.markdownContent = ''

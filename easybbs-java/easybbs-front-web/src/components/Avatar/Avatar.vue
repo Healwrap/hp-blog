@@ -14,9 +14,7 @@
 
 <script setup>
 import { defineProps, getCurrentInstance } from 'vue'
-import accountApi from '@/api/account'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
-import router from '@/router'
 
 const { proxy } = getCurrentInstance()
 defineProps({
@@ -33,14 +31,16 @@ defineProps({
   }
 })
 const handleLogout = () => {
-  accountApi.logout().then(() => {
-    proxy.$VueCookies.remove('loginInfo')
-    proxy.$store.commit('UPDATE_USER_INFO', {})
-    router.push('/')
+  proxy.$confirm('确定要退出吗？', () => {
+    proxy.$api.account.logout().then(() => {
+      proxy.$VueCookies.remove('loginInfo')
+      proxy.$store.commit('UPDATE_USER_INFO', {})
+      proxy.$router.go(0)
+    })
   })
 }
 const goToAccountCenter = () => {
-  router.push(`/user/${proxy.$store.getters.userId}`)
+  proxy.$router.push(`/user/${proxy.$store.getters.userId}`)
 }
 </script>
 

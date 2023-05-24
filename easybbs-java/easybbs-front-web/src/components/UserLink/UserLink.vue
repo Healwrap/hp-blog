@@ -20,7 +20,7 @@ const src = ref('/user/' + props.userId)
 
 <style lang="scss" scoped>
 .user-link {
-  color: #409eff;
+  color: #1890ff;
   text-decoration: none;
 }
 </style>
