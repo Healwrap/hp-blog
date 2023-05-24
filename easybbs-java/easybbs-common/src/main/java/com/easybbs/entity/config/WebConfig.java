@@ -2,6 +2,7 @@ package com.easybbs.entity.config;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @Description web配置
  * @Date 2023/4/11 18:18
  */
-@Data
+@Getter
 @Component
 @EqualsAndHashCode(callSuper = true)
 public class WebConfig extends AppConfig {

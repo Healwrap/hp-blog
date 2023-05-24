@@ -1,6 +1,6 @@
 package com.easybbs.entity.config;
 
-import lombok.Data;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Description 应用配置
  * @Date 2023/4/11 18:16
  */
-@Data
+@Getter
 @Component
 public class AppConfig {
   /**
@@ -26,4 +26,6 @@ public class AppConfig {
 
   @Value("${project.folder:}")
   private String projectFolder;
+  @Value("${development:}")
+  private Boolean dev;
 }

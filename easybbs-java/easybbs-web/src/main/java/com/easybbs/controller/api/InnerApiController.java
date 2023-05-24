@@ -45,6 +45,6 @@ public class InnerApiController extends ABaseController {
       throw new BusinessException(ResponseCodeEnum.CODE_600);
     }
     sysSettingService.refreshCache();
-    return new ResponseVO();
+    return getSuccessResponseVO(null);
   }
 }

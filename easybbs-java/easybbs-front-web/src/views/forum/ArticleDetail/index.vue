@@ -5,11 +5,10 @@
       <div class="article-detail-info">
         <el-breadcrumb :separator-icon="ArrowRight">
           <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-          >{{ articleInfo.pBoardName }}
+            >{{ articleInfo.pBoardName }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="articleInfo.boardId"
-                              :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-          >{{ articleInfo.boardName }}
+          <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+            >{{ articleInfo.boardName }}
           </el-breadcrumb-item>
           <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
         </el-breadcrumb>
@@ -23,7 +22,7 @@
         </div>
         <!--用户信息-->
         <div class="user-info">
-          <user-avatar :user-id="articleInfo.userId"/>
+          <user-avatar :user-id="articleInfo.userId" />
           <div class="user-info-detail">
             <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
             <div class="info">
@@ -32,8 +31,7 @@
               <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
                 {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
               </span>
-              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId"
-                           :to="`/postArticle/${articleInfo.articleId}`">
+              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId" :to="`/postArticle/${articleInfo.articleId}`">
                 <span class="iconfont icon-edit">&nbsp;编辑</span>
               </router-link>
             </div>
@@ -51,7 +49,7 @@
           <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
           <div>
             需要<span class="integral">{{ attachment.integral }}</span
-          >积分
+            >积分
           </div>
           <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
           <div class="download-btn">
@@ -62,10 +60,10 @@
       <!--评论-->
       <div class="comment-panel block" id="comment">
         <CommentList
-            v-if="Object.keys(articleInfo).length !== 0"
-            :article-id="articleInfo.articleId"
-            :article-userid="articleInfo.userId"
-            @updateCommentCount="updateCommentCount"
+          v-if="Object.keys(articleInfo).length !== 0"
+          :article-id="articleInfo.articleId"
+          :article-userid="articleInfo.userId"
+          @updateCommentCount="updateCommentCount"
         />
       </div>
     </div>
@@ -77,11 +75,11 @@
           <div class="no-toc" v-if="tocList.length === 0">未解析到目录</div>
           <div class="toc" v-else>
             <div
-                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
-                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
-                v-for="toc in tocList"
-                :key="toc"
-                @click="gotoAnchor(toc.id)"
+              :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+              :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
+              v-for="toc in tocList"
+              :key="toc"
+              @click="gotoAnchor(toc.id)"
             >
               {{ toc.title }}
             </div>
@@ -109,22 +107,22 @@
       </div>
     </div>
     <!--图片预览-->
-    <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
+    <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
   </div>
 </template>
 
 <script setup>
-import {getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
-import {ArrowRight} from '@element-plus/icons-vue'
-import {useRoute} from 'vue-router'
+import { getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { useRoute } from 'vue-router'
 import router from '@/router'
-import {formatFileSize} from '@/utils/Utils'
+import { formatFileSize } from '@/utils/Utils'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
@@ -258,10 +256,10 @@ const listenScroll = () => {
   const currentScrollTop = getScrollTop()
   tocList.value.forEach((item, index) => {
     if (
-        (index < tocList.value.length - 1 &&
-            currentScrollTop > tocList.value[index].offsetTop &&
-            currentScrollTop < tocList.value[index + 1].offsetTop) ||
-        (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
+      (index < tocList.value.length - 1 &&
+        currentScrollTop > tocList.value[index].offsetTop &&
+        currentScrollTop < tocList.value[index + 1].offsetTop) ||
+      (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
     ) {
       anchorId.value = item.id
     }
@@ -328,14 +326,14 @@ onUnmounted(() => {
 })
 // 监听用户信息变化
 watch(
-    () => proxy.$store.getters.userInfo,
-    newVal => {
-      currentUserinfo.value = newVal
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => proxy.$store.getters.userInfo,
+  newVal => {
+    currentUserinfo.value = newVal
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 )
 </script>
 

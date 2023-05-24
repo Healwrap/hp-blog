@@ -78,4 +78,4 @@ inner:
     url: http://localhost:7070/api/inner/refresSysSetting
 
 # 是否是开发环境
-isDev: true
+development: true
