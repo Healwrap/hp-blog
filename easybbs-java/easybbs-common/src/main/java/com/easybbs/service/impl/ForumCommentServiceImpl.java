@@ -271,8 +271,8 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     } else if (comment.getPCommentId() != 0 && !StringTools.isEmpty(comment.getReplyUserId())) {
       userMessage.setReceivedUserId(comment.getReplyUserId());
     }
-    if (comment.getUserId().equals(userMessage.getReceivedUserId())) {
-      userMessageService.add(userMessage);
-    }
+//    if (comment.getUserId().equals(userMessage.getReceivedUserId())) {
+//    }
+    userMessageService.add(userMessage);
   }
 }

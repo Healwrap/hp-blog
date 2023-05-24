@@ -5,10 +5,11 @@
       <div class="article-detail-info">
         <el-breadcrumb :separator-icon="ArrowRight">
           <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-            >{{ articleInfo.pBoardName }}
+          >{{ articleInfo.pBoardName }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-            >{{ articleInfo.boardName }}
+          <el-breadcrumb-item v-if="articleInfo.boardId"
+                              :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+          >{{ articleInfo.boardName }}
           </el-breadcrumb-item>
           <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
         </el-breadcrumb>
@@ -22,7 +23,7 @@
         </div>
         <!--用户信息-->
         <div class="user-info">
-          <user-avatar :user-id="articleInfo.userId" />
+          <user-avatar :user-id="articleInfo.userId"/>
           <div class="user-info-detail">
             <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
             <div class="info">
@@ -31,7 +32,8 @@
               <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
                 {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
               </span>
-              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId" :to="`/postArticle/${articleInfo.articleId}`">
+              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId"
+                           :to="`/postArticle/${articleInfo.articleId}`">
                 <span class="iconfont icon-edit">&nbsp;编辑</span>
               </router-link>
             </div>
@@ -49,7 +51,7 @@
           <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
           <div>
             需要<span class="integral">{{ attachment.integral }}</span
-            >积分
+          >积分
           </div>
           <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
           <div class="download-btn">
@@ -60,10 +62,10 @@
       <!--评论-->
       <div class="comment-panel block" id="comment">
         <CommentList
-          v-if="Object.keys(articleInfo).length !== 0"
-          :article-id="articleInfo.articleId"
-          :article-userid="articleInfo.userId"
-          @updateCommentCount="updateCommentCount"
+            v-if="Object.keys(articleInfo).length !== 0"
+            :article-id="articleInfo.articleId"
+            :article-userid="articleInfo.userId"
+            @updateCommentCount="updateCommentCount"
         />
       </div>
     </div>
@@ -75,11 +77,11 @@
           <div class="no-toc" v-if="tocList.length === 0">未解析到目录</div>
           <div class="toc" v-else>
             <div
-              :class="['toc-item', anchorId === toc.id ? 'active' : '']"
-              :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
-              v-for="toc in tocList"
-              :key="toc"
-              @click="gotoAnchor(toc.id)"
+                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
+                v-for="toc in tocList"
+                :key="toc"
+                @click="gotoAnchor(toc.id)"
             >
               {{ toc.title }}
             </div>
@@ -107,22 +109,22 @@
       </div>
     </div>
     <!--图片预览-->
-    <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
+    <ImageViewer ref="imageViewerRef" :image-list="previewImgList"/>
   </div>
 </template>
 
 <script setup>
-import { getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useRoute } from 'vue-router'
+import {getCurrentInstance, nextTick, onMounted, onUnmounted, ref, watch} from 'vue'
+import {ArrowRight} from '@element-plus/icons-vue'
+import {useRoute} from 'vue-router'
 import router from '@/router'
-import { formatFileSize } from '@/utils/Utils'
+import {formatFileSize} from '@/utils/Utils'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-light.css' // 样式文件
 import CommentList from './components/CommentList.vue'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
@@ -208,7 +210,6 @@ const highlightCode = () => {
 }
 // 左侧快捷操作 点击
 const handleLeftPanelClick = anchor => {
-  console.log(anchor)
   window.scrollTo(0, document.querySelector(anchor).offsetTop - 50)
 }
 // 更新评论数
@@ -217,7 +218,6 @@ const updateCommentCount = count => {
 }
 const makeToc = () => {
   nextTick(() => {
-    console.log('makeToc')
     const tocTags = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6']
     // 获取所有H标签
     const content = document.querySelector('#detail')
@@ -258,14 +258,27 @@ const listenScroll = () => {
   const currentScrollTop = getScrollTop()
   tocList.value.forEach((item, index) => {
     if (
-      (index < tocList.value.length - 1 &&
-        currentScrollTop > tocList.value[index].offsetTop &&
-        currentScrollTop < tocList.value[index + 1].offsetTop) ||
-      (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
+        (index < tocList.value.length - 1 &&
+            currentScrollTop > tocList.value[index].offsetTop &&
+            currentScrollTop < tocList.value[index + 1].offsetTop) ||
+        (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
     ) {
       anchorId.value = item.id
     }
   })
+  // const toc = document.querySelector('.toc-panel')
+  // const footer = document.querySelector('.footer')
+  // // 当两者距离大于-40px时，toc-panel 固定
+  // console.log(toc.getBoundingClientRect().bottom - footer.getBoundingClientRect().top)
+  // if (toc.getBoundingClientRect().bottom - footer.getBoundingClientRect().top >= 50) {
+  //   toc.style.position = 'absolute'
+  //   toc.style.top = ''
+  //   toc.style.bottom = '210px'
+  // } else {
+  //   toc.style.position = 'fixed'
+  //   toc.style.top = '14%'
+  //   toc.style.bottom = ''
+  // }
 }
 // 计算左侧快捷操作位置，位于article-detail-content左侧
 const getQuickPanelLeft = () => {
@@ -281,7 +294,6 @@ const getTocPanelLeft = () => {
   if (!content) {
     return '0px'
   }
-  console.log()
   tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
 }
 onMounted(async () => {
@@ -316,14 +328,14 @@ onUnmounted(() => {
 })
 // 监听用户信息变化
 watch(
-  () => proxy.$store.getters.userInfo,
-  newVal => {
-    currentUserinfo.value = newVal
-  },
-  {
-    immediate: true,
-    deep: true
-  }
+    () => proxy.$store.getters.userInfo,
+    newVal => {
+      currentUserinfo.value = newVal
+    },
+    {
+      immediate: true,
+      deep: true
+    }
 )
 </script>
 

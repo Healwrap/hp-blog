@@ -291,7 +291,7 @@ public class ForumArticleController extends ABaseController {
    *
    * @param session   会话
    * @param articleId 文章id
-   * @return
+   * @return ResponseVO
    */
   @RequestMapping("articleDetail4Update")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
@@ -314,6 +314,24 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(articleDetailVO);
   }
 
+  /**
+   * 更新文章
+   *
+   * @param session         会话
+   * @param articleId       文章id
+   * @param title           标题
+   * @param pBoardId        父板块
+   * @param summary         摘要
+   * @param editorType      编辑器类型
+   * @param attachmentType  附件类型
+   * @param content         内容
+   * @param markdownContent markdown内容
+   * @param boardId         子板块id
+   * @param cover           封面
+   * @param attachment      附件
+   * @param integral        附件下载所需积分
+   * @return ResponseVO
+   */
   @PostMapping("/updateArticle")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO updateArticle(HttpSession session,
@@ -355,6 +373,12 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(forumArticle.getArticleId());
   }
 
+  /**
+   * 搜索文章
+   *
+   * @param keyword 关键字
+   * @return ResponseVO
+   */
   @GetMapping("/search")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO search(@VerifyParams(required = true, min = 3) String keyword) {

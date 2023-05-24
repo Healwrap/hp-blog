@@ -135,6 +135,9 @@ public class UserMessageServiceImpl implements UserMessageService {
     return this.userMessageMapper.deleteByArticleIdAndCommentIdAndSendUserIdAndMessageType(articleId, commentId, sendUserId, messageType);
   }
 
+  /**
+   * 获取消息数量Dto
+   */
   @Override
   public UserMessageCountDto getUserMessageCountDto(String userId) {
     List<Map> list = userMessageMapper.selectUserMessageCount(userId);
@@ -167,6 +170,11 @@ public class UserMessageServiceImpl implements UserMessageService {
     return messageCountDto;
   }
 
+  /**
+   * 更新消息阅读状态
+   * @param receiveUserId 接收用户id
+   * @param messageType 消息类型
+   */
   @Override
   public void readMessageByType(String receiveUserId, Integer messageType) {
     userMessageMapper.updateMessageStatusBatch(receiveUserId, messageType, MessageStatusEnum.READ.getStatus());

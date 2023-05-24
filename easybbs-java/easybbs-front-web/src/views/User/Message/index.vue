@@ -84,7 +84,7 @@
               <div class="message-content">
                 <div>
                   <router-link class="link" :to="`/user/${data.sendUserId}`"
-                    >{{ currentUserId === data.receivedUserId ? '我' : `@${data.sendNickName}` }}
+                    >{{ currentUserId === data.sendUserId ? '我' : `@${data.sendNickName}` }}
                   </router-link>
                   <span>对我的文章</span>
                   <span>【</span>
@@ -102,7 +102,7 @@
               <div class="message-content">
                 <div>
                   <router-link class="link" :to="`/user/${data.sendUserId}`"
-                    >{{ currentUserId === data.receivedUserId ? '我' : `@${data.sendNickName}` }}
+                    >{{ currentUserId === data.sendUserId ? '我' : `@${data.sendNickName}` }}
                   </router-link>
                   <span>赞了我的文章</span>
                   <span>【</span>
@@ -118,7 +118,7 @@
               <div class="message-content">
                 <div>
                   <router-link class="link" :to="`/user/${data.sendUserId}`"
-                    >{{ currentUserId === data.receivedUserId ? '我' : `@${data.sendNickName}` }}
+                    >{{ currentUserId === data.sendUserId ? '我' : `@${data.sendNickName}` }}
                   </router-link>
                   <span>在</span>
                   <span>【</span>
@@ -135,7 +135,7 @@
               <div class="message-content">
                 <div>
                   <router-link class="link" :to="`/user/${data.sendUserId}`"
-                    >{{ currentUserId === data.receivedUserId ? '我' : `@${data.sendNickName}` }}
+                    >{{ currentUserId === data.sendUserId ? '我' : `@${data.sendNickName}` }}
                   </router-link>
                   <span>在</span>
                   <span>【</span>
