@@ -30,6 +30,7 @@ import com.easybbs.service.UserMessageService;
 import com.easybbs.utils.StringTools;
 import com.easybbs.utils.SysCacheUtils;
 import com.easybbs.utils.file.FileUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,6 +58,9 @@ public class ForumCommentServiceImpl implements ForumCommentService {
   private UserMessageService userMessageService;
   @Resource
   private FileUtils fileUtils;
+  @Lazy
+  @Resource
+  private ForumCommentService forumCommentService;
 
   /**
    * 根据条件查询列表
@@ -274,5 +278,50 @@ public class ForumCommentServiceImpl implements ForumCommentService {
 //    if (comment.getUserId().equals(userMessage.getReceivedUserId())) {
 //    }
     userMessageService.add(userMessage);
+  }
+
+  @Override
+  public void delComment(String commentIds) {
+    String[] commentIdArr = commentIds.split(",");
+    for (String commentId : commentIdArr) {
+      forumCommentService.delCommentSingle(commentId);
+    }
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void delCommentSingle(String commentId) {
+    ForumComment comment = forumCommentMapper.selectByCommentId(Integer.parseInt(commentId));
+    if (null == comment || CommentStatusEnum.DEL.getStatus().equals(comment.getStatus())) {
+      throw new BusinessException("评论不存在");
+    }
+    ForumComment updateInfo = new ForumComment();
+    updateInfo.setStatus(CommentStatusEnum.DEL.getStatus());
+    forumCommentMapper.updateByCommentId(updateInfo, Integer.parseInt(commentId));
+    // 删除已审核的文章，更新文章数量
+    if (CommentStatusEnum.AUDIT.getStatus().equals(comment.getStatus())) {
+      forumArticleMapper.updateArticleCount(UpdateArticleCountTypeEnum.COMMENT_COUNT.getType(), -1, comment.getArticleId());
+
+      Integer integral = SysCacheUtils.getSysSetting().getCommentSetting().getCommentIntegral();
+      userInfoService.updateUserIntegral(comment.getUserId(), UserIntegralOperTypeEnum.DEL_COMMENT, UserIntegralChangeTypeEnum.REDUCE.getChangeType(), integral);
+    }
+    UserMessage userMessage = new UserMessage();
+    userMessage.setReceivedUserId(comment.getUserId());
+    userMessage.setMessageType(MessageTypeEnum.SYS.getType());
+    userMessage.setCreateTime(new Date());
+    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
+    userMessage.setMessageContent("您的评论" + comment.getContent() + "已被删除");
+    userMessageService.add(userMessage);
+  }
+
+  @Override
+  public void auditComment(String commentIds) {
+
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void auditCommentSingle(String commentId) {
+
   }
 }

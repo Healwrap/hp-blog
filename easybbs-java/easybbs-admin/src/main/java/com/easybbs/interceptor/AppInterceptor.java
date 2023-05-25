@@ -36,7 +36,7 @@ public class AppInterceptor implements HandlerInterceptor {
     /**
      * 全局拦截器
      */
-    if (request.getRequestURI().indexOf("checkCode") != -1 || request.getRequestURI().indexOf("login") != -1) {
+    if (request.getRequestURI().contains("checkCode") || request.getRequestURI().contains("login")) {
       return true;
     }
     checkLogin();

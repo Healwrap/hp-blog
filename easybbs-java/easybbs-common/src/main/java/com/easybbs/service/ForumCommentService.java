@@ -60,7 +60,21 @@ public interface ForumCommentService {
    */
   Integer deleteForumCommentByCommentId(Integer commentId);
 
+  /**
+   * 评论置顶
+   */
   void changeTopType(String userId, Integer commentId, Integer topType);
 
+  /**
+   * 发布评论
+   */
   void postComment(ForumComment comment, MultipartFile image);
+
+  void delComment(String commentIds);
+
+  void delCommentSingle(String commentId);
+
+  void auditComment(String commentIds);
+
+  void auditCommentSingle(String commentId);
 }

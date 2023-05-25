@@ -70,8 +70,32 @@ public interface ForumArticleService {
    * 发表文章
    */
   void postArticle(Boolean isAdmin, ForumArticle article, ForumArticleAttachment forumArticleAttachment, MultipartFile cover, MultipartFile attachment);
+
   /**
    * 更新文章
    */
   void updateArticle(Boolean isAdmin, ForumArticle article, ForumArticleAttachment forumArticleAttachment, MultipartFile cover, MultipartFile attachment);
+
+  /**
+   * 删除文章
+   */
+  void delArticle(String articleIds);
+
+  /**
+   * 删除单个文章
+   */
+  void delArticleSingle(String articleId);
+
+  /**
+   * 重置板块
+   */
+  void updateBoard(String articleId, Integer pBoardId, Integer boardId);
+  /**
+   * 审核文章
+   */
+  void auditArticle(String articleIds);
+  /**
+   * 审核单篇文章
+   */
+  void auditArticleSingle(String articleId);
 }

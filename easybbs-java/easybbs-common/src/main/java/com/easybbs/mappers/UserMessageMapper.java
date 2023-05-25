@@ -47,5 +47,5 @@ public interface UserMessageMapper<T, P> extends BaseMapper<T, P> {
 
   List<Map> selectUserMessageCount(String userId);
 
-  void updateMessageStatusBatch(@Param("receiveUserId") String receiveUserId, @Param("messageType") Integer messageType, @Param("status") Integer status);
+  void updateMessageStatusBatch(@Param("receivedUserId") String receivedUserId, @Param("messageType") Integer messageType, @Param("status") Integer status);
 }

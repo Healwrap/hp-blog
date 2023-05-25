@@ -13,9 +13,12 @@ import com.easybbs.entity.enums.article.UpdateArticleCountTypeEnum;
 import com.easybbs.entity.enums.attachment.ArticleAttachmentTypeEnum;
 import com.easybbs.entity.enums.attachment.AttachmentFileTypeEnum;
 import com.easybbs.entity.enums.file.FileUploadTypeEnum;
+import com.easybbs.entity.enums.message.MessageStatusEnum;
+import com.easybbs.entity.enums.message.MessageTypeEnum;
 import com.easybbs.entity.po.ForumArticle;
 import com.easybbs.entity.po.ForumArticleAttachment;
 import com.easybbs.entity.po.ForumBoard;
+import com.easybbs.entity.po.UserMessage;
 import com.easybbs.entity.query.ForumArticleAttachmentQuery;
 import com.easybbs.entity.query.ForumArticleQuery;
 import com.easybbs.entity.query.SimplePage;
@@ -26,11 +29,14 @@ import com.easybbs.mappers.ForumArticleMapper;
 import com.easybbs.service.ForumArticleService;
 import com.easybbs.service.ForumBoardService;
 import com.easybbs.service.UserInfoService;
+import com.easybbs.service.UserMessageService;
 import com.easybbs.utils.StringTools;
 import com.easybbs.utils.SysCacheUtils;
 import com.easybbs.utils.file.FileUtils;
 import com.easybbs.utils.file.ImageUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -54,11 +60,17 @@ public class ForumArticleServiceImpl implements ForumArticleService {
   @Resource
   private ForumArticleAttachmentMapper<ForumArticleAttachment, ForumArticleAttachmentQuery> forumArticleAttachmentMapper;
   @Resource
+  private UserMessageService userMessageService;
+  @Resource
   private UserInfoService userInfoService;
   @Resource
   private ImageUtils imageUtils;
   @Resource
   private AppConfig appConfig;
+
+  @Lazy
+  @Resource
+  private ForumArticleService forumArticleService;
 
   /**
    * 根据条件查询列表
@@ -337,5 +349,69 @@ public class ForumArticleServiceImpl implements ForumArticleService {
     }
   }
 
+  @Override
+  public void delArticle(String articleIds) {
+    String[] articleIdArr = articleIds.split(",");
+    for (String articleId : articleIdArr) {
+      forumArticleService.delArticleSingle(articleId);
+    }
+  }
 
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void delArticleSingle(String articleId) {
+    ForumArticle article = getForumArticleByArticleId(articleId);
+    if (article == null || ArticleStatusEnum.DEL.getStatus().equals(article.getStatus())) {
+      throw new BusinessException("文章不存在");
+    }
+    ForumArticle updateInfo = new ForumArticle();
+    updateInfo.setStatus(ArticleStatusEnum.DEL.getStatus());
+    forumArticleMapper.updateByArticleId(updateInfo, articleId);
+
+    Integer integral = SysCacheUtils.getSysSetting().getPostSetting().getPostIntegral();
+    if (integral > 0 && ArticleStatusEnum.AUDIT.getStatus().equals(article.getStatus())) {
+      userInfoService.updateUserIntegral(article.getUserId(), UserIntegralOperTypeEnum.DEL_ARTICLE, UserIntegralChangeTypeEnum.REDUCE.getChangeType(), integral);
+    }
+    // 添加消息
+    UserMessage userMessage = new UserMessage();
+    userMessage.setReceivedUserId(article.getUserId());
+    userMessage.setMessageType(MessageTypeEnum.SYS.getType());
+    userMessage.setCreateTime(new Date());
+    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
+    userMessage.setMessageContent("您的文章《" + article.getTitle() + "》已被管理员删除");
+    userMessageService.add(userMessage);
+  }
+
+  @Override
+  public void updateBoard(String articleId, Integer pBoardId, Integer boardId) {
+    ForumArticle article = new ForumArticle();
+    article.setPBoardId(pBoardId);
+    article.setBoardId(boardId);
+    resetBoardInfo(true, article);
+    forumArticleMapper.updateByArticleId(article, articleId);
+  }
+
+  @Override
+  public void auditArticle(String articleIds) {
+    String[] articleIdArr = articleIds.split(",");
+    for (String articleId : articleIdArr) {
+      forumArticleService.auditArticleSingle(articleId);
+    }
+  }
+
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void auditArticleSingle(String articleId) {
+    ForumArticle article = getForumArticleByArticleId(articleId);
+    if (article == null || ArticleStatusEnum.AUDIT.getStatus().equals(article.getStatus())) {
+      throw new BusinessException("文章不存在");
+    }
+    ForumArticle updateInfo = new ForumArticle();
+    updateInfo.setStatus(ArticleStatusEnum.AUDIT.getStatus());
+    forumArticleMapper.updateByArticleId(updateInfo, articleId);
+    Integer integral = SysCacheUtils.getSysSetting().getPostSetting().getPostIntegral();
+    if (integral > 0 && ArticleStatusEnum.AUDIT.getStatus().equals(article.getStatus())) {
+      userInfoService.updateUserIntegral(article.getUserId(), UserIntegralOperTypeEnum.POST_ARTICLE, UserIntegralChangeTypeEnum.ADD.getChangeType(), integral);
+    }
+  }
 }

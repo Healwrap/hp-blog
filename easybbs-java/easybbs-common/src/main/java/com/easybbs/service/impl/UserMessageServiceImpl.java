@@ -172,11 +172,11 @@ public class UserMessageServiceImpl implements UserMessageService {
 
   /**
    * 更新消息阅读状态
-   * @param receiveUserId 接收用户id
+   * @param receivedUserId 接收用户id
    * @param messageType 消息类型
    */
   @Override
-  public void readMessageByType(String receiveUserId, Integer messageType) {
-    userMessageMapper.updateMessageStatusBatch(receiveUserId, messageType, MessageStatusEnum.READ.getStatus());
+  public void readMessageByType(String receivedUserId, Integer messageType) {
+    userMessageMapper.updateMessageStatusBatch(receivedUserId, messageType, MessageStatusEnum.READ.getStatus());
   }
 }

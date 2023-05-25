@@ -208,7 +208,11 @@ const highlightCode = () => {
 }
 // 左侧快捷操作 点击
 const handleLeftPanelClick = anchor => {
-  window.scrollTo(0, document.querySelector(anchor).offsetTop - 50)
+  const element = document.querySelector(anchor)
+  if (element === null) {
+    return
+  }
+  window.scrollTo(0, element.offsetTop - 50)
 }
 // 更新评论数
 const updateCommentCount = count => {
