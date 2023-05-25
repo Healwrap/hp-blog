@@ -18,10 +18,9 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
-const { proxy } = getCurrentInstance()
 defineProps({
   headerWidth: {
     type: Number

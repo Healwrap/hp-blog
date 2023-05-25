@@ -5,12 +5,12 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
-import zhCN from 'element-plus/lib/locale/lang/zh-cn'
+import { reactive } from "vue";
+import zhCN from "element-plus/lib/locale/lang/zh-cn";
 
-const locale = zhCN
+const locale = zhCN;
 const config = reactive({
-  max: 1
-})
+  max: 1,
+});
 </script>
 <style lang="scss" scoped></style>

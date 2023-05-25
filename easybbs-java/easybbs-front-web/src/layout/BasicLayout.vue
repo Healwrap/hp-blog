@@ -36,25 +36,25 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item class="message-item" @click="goToMessage('reply')"
-                  >回复我的<span class="tag" v-if="messageCount.reply > 0">{{ messageCount.reply <= 99 ? messageCount.reply : '99+' }}</span>
+                  >回复我的<span v-if="messageCount.reply > 0" lass="tag">{{ messageCount.reply <= 99 ? messageCount.reply : '99+' }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('articleLike')"
-                  >赞了我的文章<span class="tag" v-if="messageCount.likePost > 0">{{
+                  >赞了我的文章<span v-if="messageCount.likePost > 0" class="tag">{{
                     messageCount.likePost <= 99 ? messageCount.likePost : '99+'
                   }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('attachmentDownload')"
-                  >下载了我的附件<span class="tag" v-if="messageCount.attachmentDownload > 0">{{
+                  >下载了我的附件<span v-if="messageCount.attachmentDownload > 0" class="tag">{{
                     messageCount.attachmentDownload <= 99 ? messageCount.attachmentDownload : '99+'
                   }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('commentLike')"
-                  >赞了我的评论<span class="tag" v-if="messageCount.likeComment > 0">{{
+                  >赞了我的评论<span v-if="messageCount.likeComment > 0" class="tag">{{
                     messageCount.likeComment <= 99 ? messageCount.likeComment : '99+'
                   }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('system')"
-                  >系统消息<span class="tag" v-if="messageCount.sys > 0">{{ messageCount.sys <= 99 ? messageCount.sys : '99+' }}</span>
+                  >系统消息<span v-if="messageCount.sys > 0" class="tag">{{ messageCount.sys <= 99 ? messageCount.sys : '99+' }}</span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
