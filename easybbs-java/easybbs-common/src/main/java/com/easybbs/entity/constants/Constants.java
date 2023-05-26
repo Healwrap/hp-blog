@@ -8,6 +8,14 @@ package com.easybbs.entity.constants;
  */
 public class Constants {
   /**
+   * 本地IP
+   */
+  public static final String LOCAL_IP_REGEX = "^127\\.0\\.0\\.1$|^::1$|^0\\.0\\.0\\.0$";
+  /**
+   * 本地IP地址
+   */
+  public static final String LOCAL_ADDRESS = "内网IP";
+  /**
    * http请求
    */
   public static final String HTTP = "http://";

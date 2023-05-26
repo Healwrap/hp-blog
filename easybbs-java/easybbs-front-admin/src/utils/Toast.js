@@ -1,24 +1,24 @@
-import { ElMessage } from "element-plus";
+import { ElMessage } from 'element-plus'
 
 const showToast = (msg, callback, type) => {
   ElMessage({
-    type: type || "normal",
+    type: type || 'normal',
     message: msg,
     duration: 2000,
-    onClose: callback,
-  });
-};
+    onClose: callback
+  })
+}
 
 const Toast = {
   error: (msg, callback) => {
-    showToast(msg, callback, "error");
+    showToast(msg, callback, 'error')
   },
   success: (msg, callback) => {
-    showToast(msg, callback, "success");
+    showToast(msg, callback, 'success')
   },
   warning: (msg, callback) => {
-    showToast(msg, callback, "warning");
-  },
-};
+    showToast(msg, callback, 'warning')
+  }
+}
 
-export default Toast;
+export default Toast

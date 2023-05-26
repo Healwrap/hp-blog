@@ -1,13 +1,13 @@
-import { ElMessageBox } from "element-plus";
+import { ElMessageBox } from 'element-plus'
 
 export default (message, okfun) => {
-  ElMessageBox.confirm(message, "提示", {
-    "confirm-button-text": "确定",
-    "cancel-button-text": "取消",
-    type: "info",
+  ElMessageBox.confirm(message, '提示', {
+    'confirm-button-text': '确定',
+    'cancel-button-text': '取消',
+    type: 'info'
   })
     .then(() => {
-      okfun();
+      okfun()
     })
-    .catch(() => {});
-};
+    .catch(() => {})
+}

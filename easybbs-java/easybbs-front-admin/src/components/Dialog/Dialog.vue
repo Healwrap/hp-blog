@@ -40,41 +40,41 @@
 defineProps({
   show: {
     type: Boolean,
-    default: false,
+    default: false
   },
   title: {
     type: String,
-    default: "title",
+    default: 'title'
   },
   showClose: {
     type: Boolean,
-    default: true,
+    default: true
   },
   width: {
     type: String,
-    default: "35%",
+    default: '35%'
   },
   top: {
     type: String,
-    default: "15vh",
+    default: '15vh'
   },
   buttons: {
     type: Array,
-    default: () => [],
+    default: () => []
   },
   showCancel: {
     type: Boolean,
-    default: true,
+    default: true
   },
   draggable: {
     type: Boolean,
-    default: true,
-  },
-});
-const emit = defineEmits();
+    default: true
+  }
+})
+const emit = defineEmits()
 const close = () => {
-  emit("close");
-};
+  emit('close')
+}
 </script>
 
 <style lang="scss" scoped>

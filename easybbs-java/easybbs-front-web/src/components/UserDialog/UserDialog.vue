@@ -170,8 +170,8 @@ const sendFormDataRef = ref(null)
 // 操作类型 0-登录 1-注册 2-忘记密码
 const opType = ref(0)
 // 验证码 0:登录/注册验证码 1:发送邮箱验证码
-const checkCodeUrl = ref(accountApi.checkCode(0))
-const sendCheckCodeUrl = ref(accountApi.checkCode(1))
+const checkCodeUrl = ref(proxy.$api.account.checkCode(0))
+const sendCheckCodeUrl = ref(proxy.$api.account.checkCode(1))
 // 显示密码
 const showPassword = ref({
   login: false,

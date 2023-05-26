@@ -1,10 +1,7 @@
 <template>
   <div class="data-list">
     <div class="no-data">
-      <el-empty
-        v-if="!loading && dataSource.list.length === 0"
-        :description="desc"
-      />
+      <el-empty v-if="!loading && dataSource.list.length === 0" :description="desc" />
     </div>
     <div v-if="loading" class="skeleton">
       <el-skeleton :rows="rows" animated />
@@ -26,27 +23,27 @@
 <script setup>
 const props = defineProps({
   dataSource: {
-    type: Object,
+    type: Object
   },
   loading: {
     type: Boolean,
-    required: true,
+    required: true
   },
   rows: {
     type: Number,
-    default: 4,
+    default: 4
   },
   desc: {
     type: String,
-    default: "暂无数据",
-  },
-});
-const emit = defineEmits(["loadData"]);
-const handlePageNoChange = (pageNo) => {
+    default: '暂无数据'
+  }
+})
+const emit = defineEmits(['loadData'])
+const handlePageNoChange = pageNo => {
   // eslint-disable-next-line vue/no-mutating-props
-  props.dataSource.pageNo = pageNo; // TODO 修改了父组件的值，不推荐
-  emit("loadData");
-};
+  props.dataSource.pageNo = pageNo // TODO 修改了父组件的值，不推荐
+  emit('loadData')
+}
 </script>
 
 <style lang="scss" scoped>

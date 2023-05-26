@@ -294,7 +294,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     UserInfo tmpInfo = new UserInfo();
     tmpInfo.setLastLoginTime(new Date());
     tmpInfo.setLastLoginIp(ip);
-    tmpInfo.setLastLoginIp(ipAddress);
+    tmpInfo.setLastLoginIpAddress(ipAddress);
     this.userInfoMapper.updateByUserId(tmpInfo, userInfo.getUserId());
 
     SessionWebUserDto sessionWebUserDto = new SessionWebUserDto();
@@ -316,6 +316,10 @@ public class UserInfoServiceImpl implements UserInfoService {
    * @return 位置信息
    */
   public String getIpAddress(String ip) {
+    // 使用正则判断是否是本地IP
+    if (ip.matches(Constants.LOCAL_IP_REGEX)) {
+      return Constants.LOCAL_ADDRESS;
+    }
     try {
       String url = "http://whois.pconline.com.cn/ipJson.jsp?ip=" + ip + "&json=true";
       String responseJson = OkHttpUtils.getRequest(url);

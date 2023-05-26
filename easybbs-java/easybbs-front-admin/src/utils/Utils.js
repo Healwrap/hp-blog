@@ -5,13 +5,13 @@
  */
 export function formatFileSize(size) {
   if (size < 1024) {
-    return size + " B";
+    return size + ' B'
   } else if (size < 1024 * 1024) {
-    return (size / 1024).toFixed(2) + " KB";
+    return (size / 1024).toFixed(2) + ' KB'
   } else if (size < 1024 * 1024 * 1024) {
-    return (size / (1024 * 1024)).toFixed(2) + " MB";
+    return (size / (1024 * 1024)).toFixed(2) + ' MB'
   }
-  return (size / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+  return (size / (1024 * 1024 * 1024)).toFixed(2) + ' GB'
 }
 
 /**
@@ -20,22 +20,20 @@ export function formatFileSize(size) {
  * @returns {{}}
  */
 export function mergeParams(params) {
-  let result = {};
+  let result = {}
   for (const key in params) {
-    const value = params[key];
+    const value = params[key]
     if (value !== null && value !== undefined) {
-      if (typeof value === "object") {
+      if (typeof value === 'object') {
         if (Array.isArray(value)) {
-          result[key] = value.filter(
-            (item) => item !== null && item !== undefined
-          );
+          result[key] = value.filter(item => item !== null && item !== undefined)
         } else {
-          result[key] = mergeParams(value);
+          result[key] = mergeParams(value)
         }
       } else {
-        result[key] = value;
+        result[key] = value
       }
     }
   }
-  return result;
+  return result
 }

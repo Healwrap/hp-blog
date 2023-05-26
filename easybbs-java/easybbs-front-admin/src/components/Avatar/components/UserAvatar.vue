@@ -1,34 +1,29 @@
 <template>
-  <el-avatar
-    :src="accountApi.avatarUrl(userId)"
-    :size="size"
-    style="cursor: pointer"
-    @click="gotoAccountCenter"
-  />
+  <el-avatar :src="accountApi.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter" />
 </template>
 
 <script setup>
-import router from "@/router";
-import accountApi from "@/api/account";
+import router from '@/router'
+import accountApi from '@/api/account'
 
 const props = defineProps({
   userId: {
-    type: String,
+    type: String
   },
   addLink: {
     type: Boolean,
-    default: true,
+    default: true
   },
   size: {
     type: String,
-    default: "",
-  },
-});
+    default: ''
+  }
+})
 const gotoAccountCenter = () => {
   if (props.addLink) {
-    router.push("/user/" + props.userId);
+    router.push('/user/' + props.userId)
   }
-};
+}
 </script>
 
 <style scoped></style>

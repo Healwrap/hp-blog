@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -26,10 +27,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author pepedd
  * @ClassName AccountController
  * @Description 登录、注册等的控制器
  * @Date 2023/4/11 10:09
- * @author pepedd
  */
 @RestController
 public class AccountController extends ABaseController {
@@ -140,6 +141,7 @@ public class AccountController extends ABaseController {
   @RequestMapping("/login")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO login(HttpSession session,
+                          HttpServletRequest request,
                           @VerifyParams(required = true) String email,
                           @VerifyParams(required = true) String password,
                           @VerifyParams(required = true) String checkCode) {
@@ -147,7 +149,7 @@ public class AccountController extends ABaseController {
       if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY))) {
         throw new BusinessException("图片验证码错误");
       }
-      SessionWebUserDto sessionWebUserDto = userInfoService.login(email, password, "");
+      SessionWebUserDto sessionWebUserDto = userInfoService.login(email, password, getIpAddr(request));
       session.setAttribute(Constants.SESSIONS_KEY, sessionWebUserDto);
       return getSuccessResponseVO(getUserInfoFromSession(session));
     } finally {
@@ -184,6 +186,7 @@ public class AccountController extends ABaseController {
 
   /**
    * 获取系统设置
+   *
    * @param session 会话
    * @return 返回值封装 系统设置
    */
@@ -202,9 +205,10 @@ public class AccountController extends ABaseController {
 
   /**
    * 重置密码
-   * @param session 会话
-   * @param email 邮箱
-   * @param password 密码
+   *
+   * @param session   会话
+   * @param email     邮箱
+   * @param password  密码
    * @param checkCode 验证码
    * @param emailCode 邮箱验证码
    * @return
