@@ -31,7 +31,6 @@ const change = (markdownContent, htmlContent) => {
   emit('htmlContent', htmlContent)
 }
 const uploadImageHandler = async (event, insertImage, files) => {
-  debugger
   const result = await filesApi.uploadImage(files[0])
   if (!result) {
     return

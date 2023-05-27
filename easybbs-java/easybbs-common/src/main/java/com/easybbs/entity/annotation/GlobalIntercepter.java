@@ -5,10 +5,10 @@ import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
 import java.lang.annotation.*;
 
 /**
+ * @author pepedd
  * @ClassName GloabalIntercepter
  * @Description TODO
  * @Date 2023/4/13 9:58
- * @author pepedd
  */
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

@@ -245,7 +245,7 @@ public class ForumArticleController extends ABaseController {
    */
 
   @RequestMapping("/postArticle")
-  @GlobalIntercepter(checkLogin = true, checkParams = true, frequencyType = UserOperFrequencyTypeEnum.POST_ARTICLE)
+  @GlobalIntercepter(checkLogin = true, checkUserStatus = true, checkParams = true, frequencyType = UserOperFrequencyTypeEnum.POST_ARTICLE)
   public ResponseVO postArticle(HttpSession session,
                                 @VerifyParams(required = true, max = 150) String title,
                                 @VerifyParams(required = true) Integer pBoardId,

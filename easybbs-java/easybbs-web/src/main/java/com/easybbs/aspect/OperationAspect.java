@@ -8,6 +8,8 @@ import com.easybbs.entity.dto.SysSettingDto;
 import com.easybbs.entity.enums.DateTimePatternEnum;
 import com.easybbs.entity.enums.ResponseCodeEnum;
 import com.easybbs.entity.enums.UserOperFrequencyTypeEnum;
+import com.easybbs.entity.enums.UserStatusEnum;
+import com.easybbs.entity.po.UserInfo;
 import com.easybbs.entity.query.ForumArticleQuery;
 import com.easybbs.entity.query.ForumCommentQuery;
 import com.easybbs.entity.query.LikeRecordQuery;
@@ -16,6 +18,7 @@ import com.easybbs.exception.BusinessException;
 import com.easybbs.service.ForumArticleService;
 import com.easybbs.service.ForumCommentService;
 import com.easybbs.service.LikeRecordService;
+import com.easybbs.service.UserInfoService;
 import com.easybbs.utils.DateUtils;
 import com.easybbs.utils.StringTools;
 import com.easybbs.utils.SysCacheUtils;
@@ -61,6 +64,8 @@ public class OperationAspect {
   private ForumCommentService forumCommentService;
   @Resource
   private LikeRecordService likeRecordService;
+  @Resource
+  private UserInfoService userInfoService;
 
 
   /**
@@ -264,6 +269,9 @@ public class OperationAspect {
     }
   }
 
+  /**
+   * 检查登录状态
+   */
   private void checkLogin() {
     HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
