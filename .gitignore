@@ -1,7 +1,7 @@
 .idea
 *.iml
-easybbs-jar
-easybbs-log
+healwrap-jar
+healwrap-log
 target
 jar
 接口文档
