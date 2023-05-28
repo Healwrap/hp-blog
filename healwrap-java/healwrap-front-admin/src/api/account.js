@@ -122,7 +122,7 @@ const login = (email, password, checkCode, errorCallback) => {
       checkCode
     },
     errorCallback() {
-      errorCallback(0)
+      errorCallback()
     }
   })
 }

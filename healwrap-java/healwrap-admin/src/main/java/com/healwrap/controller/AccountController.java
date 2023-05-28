@@ -1,5 +1,6 @@
 package com.healwrap.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.annotation.VerifyParams;
@@ -65,71 +66,6 @@ public class AccountController extends ABaseController {
     vCode.write(response.getOutputStream());
   }
 
-  /***
-   * 发送邮箱验证码
-   * @param session 会话
-   * @param email 邮箱
-   * @param checkCode 验证码
-   * @param type 0: 未使用 1: 已使用
-   * @return 返回值封装
-   * @throws IOException IO异常
-   */
-  @RequestMapping("/sendEmailCode")
-  @GlobalIntercepter(checkParams = true)
-  public ResponseVO sendEmailCode(HttpSession session,
-                                  @VerifyParams(required = true, regex = VerifyRegexEnum.EMAIL) String email,
-                                  @VerifyParams(required = true) String checkCode,
-                                  @VerifyParams(required = true) Integer type) {
-
-    try {
-      if (StringTools.isEmpty(email) || StringTools.isEmpty(checkCode) || type == null) {
-        throw new BusinessException(ResponseCodeEnum.CODE_600);
-      }
-      if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY_EMAIL))) {
-        throw new BusinessException("图片验证码错误");
-      }
-      emailCodeService.sendEmailCode(email, type);
-      return getSuccessResponseVO(null);
-    } finally {
-      session.removeAttribute(Constants.CHECK_CODE_KEY_EMAIL);
-    }
-  }
-
-  /**
-   * 注册
-   *
-   * @param session   会话
-   * @param email     邮箱
-   * @param emailCode 邮箱验证码
-   * @param nickName  昵称
-   * @param password  密码
-   * @param checkCode 验证码
-   * @return 返回值封装
-   */
-
-  @RequestMapping("/register")
-  @GlobalIntercepter(checkParams = true)
-  public ResponseVO register(HttpSession session,
-                             @VerifyParams(required = true, regex = VerifyRegexEnum.EMAIL, max = 150) String email,
-                             @VerifyParams(required = true, max = 20) String nickName,
-                             @VerifyParams(required = true, regex = VerifyRegexEnum.PASSWORD) String password,
-                             @VerifyParams(required = true) String checkCode,
-                             @VerifyParams(required = true) String emailCode) {
-    try {
-
-      if (StringTools.isEmpty(email) || StringTools.isEmpty(emailCode) || StringTools.isEmpty(nickName) || StringTools.isEmpty(password) || StringTools.isEmpty(checkCode)) {
-        throw new BusinessException(ResponseCodeEnum.CODE_600);
-      }
-      if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY))) {
-        throw new BusinessException("图片验证码错误");
-      }
-      userInfoService.register(email, emailCode, nickName, password);
-      return getSuccessResponseVO(null);
-    } finally {
-      session.removeAttribute(Constants.CHECK_CODE_KEY);
-    }
-  }
-
   /**
    * 登录
    *
@@ -150,12 +86,16 @@ public class AccountController extends ABaseController {
       if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY))) {
         throw new BusinessException("图片验证码错误");
       }
-      if (!adminConfig.getAdminAccount().equals(email) || !StringTools.encodeMd5(adminConfig.getAdminPassword()).equals(password)) {
+      if (!adminConfig.getAdminAccount().equals(email)) {
+        throw new BusinessException("当前账号不是管理员账号");
+      }
+      if (!StringTools.encodeMd5(adminConfig.getAdminPassword()).equals(password)) {
         throw new BusinessException("账号或密码错误");
       }
       SessionAdminUserDto adminUserDto = new SessionAdminUserDto();
       adminUserDto.setAccount(email);
       session.setAttribute(Constants.SESSIONS_KEY, adminUserDto);
+      System.out.println(session.getAttribute(Constants.SESSIONS_KEY));
       return getSuccessResponseVO(getUserInfoFromSession(session));
     } finally {
       session.removeAttribute(Constants.CHECK_CODE_KEY);
@@ -208,31 +148,4 @@ public class AccountController extends ABaseController {
     return getSuccessResponseVO(result);
   }
 
-  /**
-   * 重置密码
-   *
-   * @param session   会话
-   * @param email     邮箱
-   * @param password  密码
-   * @param checkCode 验证码
-   * @param emailCode 邮箱验证码
-   * @return
-   */
-  @RequestMapping("/resetPwd")
-  @GlobalIntercepter(checkParams = true)
-  public ResponseVO resetPwd(HttpSession session,
-                             @VerifyParams(required = true, regex = VerifyRegexEnum.EMAIL) String email,
-                             @VerifyParams(required = true, min = 8, max = 18, regex = VerifyRegexEnum.PASSWORD) String password,
-                             @VerifyParams(required = true) String checkCode,
-                             @VerifyParams(required = true) String emailCode) {
-    try {
-      if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY))) {
-        throw new BusinessException("图片验证码错误");
-      }
-      userInfoService.resetPwd(email, password, emailCode);
-      return getSuccessResponseVO(null);
-    } finally {
-      session.removeAttribute(Constants.CHECK_CODE_KEY);
-    }
-  }
 }

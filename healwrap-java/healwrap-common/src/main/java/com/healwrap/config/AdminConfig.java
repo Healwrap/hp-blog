@@ -16,7 +16,7 @@ public class AdminConfig extends AppConfig {
   /**
    * 管理员账号
    */
-  @Value("${admin.account:}")
+  @Value("${admin.email:}")
   private String adminAccount;
   @Value("${admin.password:}")
   private String adminPassword;

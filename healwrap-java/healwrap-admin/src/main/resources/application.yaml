@@ -1,7 +1,7 @@
 # 项目相关配置
-easybbs:
+healwrap:
   # 名称
-  name: easybbs
+  name: healwrap
   # 版本
   version: 1.0.0
 
@@ -16,66 +16,10 @@ server:
   port: 7071
 
 spring:
-  mvc:
-    # 处理 favicon
-    favicon:
-      enable: false
-    # 错误页处理
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
-  # 数据库配置
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/easybbs?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      pool-name: HikariCPDatasource
-      minimum-idle: 5
-      idle-timeout: 180000
-      maximum-pool-size: 10
-      auto-commit: true
-      max-lifetime: 1800000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
-  # 发送邮件配置相关
-  mail:
-    host: smtp.qq.com
-    port: 465
-    username: 179763003@qq.com
-    password: icokywqucbkkcbed
-    default-encoding: UTF-8
-    properties:
-      mail:
-        smtp:
-          socketFactory:
-            class: javax.net.ssl.SSLSocketFactory
-        debug: true
+  profiles:
+    active: @profileActive@
 
 # 配置管理员账号密码邮箱
 admin:
-  account: admin
-  password: admin123
-  emails: test@qq.com
-
-# 项目目录
-project:
-  folder: C:/Users/admin/Desktop/workspace/IDEA-Workplace/easybbs/easybbs-java/easybbs-web/src/main/resources/files/
-
-# 日志级别配置
-log:
-  root:
-    level: info
-
-# 内部接口相关
-inner:
-  api:
-    appKey: easybbs
-    appSecret: easybbs_key
-    # web 端接口地址
-    url: http://localhost:7070/api/inner/refresSysSetting
-
-# 是否是开发环境
-development: true
+  email: pepedd@qq.com
+  password: 12345678

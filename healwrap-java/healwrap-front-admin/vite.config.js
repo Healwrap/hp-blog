@@ -2,8 +2,12 @@ import {fileURLToPath, URL} from 'node:url'
 import {defineConfig, loadEnv} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import eslintPlugin from 'vite-plugin-eslint'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
+const getEnvFn = (mode, target) => {
+  return loadEnv(mode, process.cwd())[target]
+}
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
@@ -13,6 +17,14 @@ export default defineConfig(({ command, mode }) => {
       // 增加下面的配置项,这样在运行时就能检查eslint规范
       eslintPlugin({
         include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue']
+      }),
+      // 添加注入标题的插件
+      createHtmlPlugin({
+        inject: {
+          data: {
+            title: getEnvFn(mode, "VITE_APP_NAME")
+          }
+        }
       })
     ],
     resolve: {

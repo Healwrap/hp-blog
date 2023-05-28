@@ -18,6 +18,7 @@ export default defineConfig(({ command, mode }) => {
       eslintPlugin({
         include: ['src/**/*.js', 'src/**/*.vue', 'src/*.js', 'src/*.vue']
       }),
+      // 添加注入标题的插件
       createHtmlPlugin({
         inject: {
           data: {

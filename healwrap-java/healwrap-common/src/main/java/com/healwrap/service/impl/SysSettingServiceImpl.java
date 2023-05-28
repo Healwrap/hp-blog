@@ -121,7 +121,7 @@ public class SysSettingServiceImpl implements SysSettingService {
    */
   @Override
   public void refreshCache() {
-    try {
+    try  {
       SysSettingDto sysSettingDto = new SysSettingDto();
       List<SysSetting> sysSettingList = this.sysSettingMapper.selectList(new SysSettingQuery());
       for (SysSetting sysSetting : sysSettingList) {
