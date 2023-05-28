@@ -1,4 +1,4 @@
-import { createApp, createVNode } from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router'
 //引入cookies
@@ -22,6 +22,7 @@ import Api from '@/api'
 // 全局组件
 import Dialog from '@/components/Dialog/Dialog.vue'
 import DataList from '@/components/DataList/DataList.vue'
+import Table from '@/components/Table/Table.vue'
 
 const app = createApp(App)
 
@@ -37,6 +38,7 @@ app.config.globalProperties.$api = Api
 
 app.component('Dialog', Dialog)
 app.component('DataList', DataList)
+app.component('Table', Table)
 // 注册全局组件
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key])

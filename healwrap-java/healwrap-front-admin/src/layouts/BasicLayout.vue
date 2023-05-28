@@ -18,7 +18,7 @@ import Layout from '@/components/Layout/Layout.vue'
 
 <style lang="scss" scoped>
 .animate {
-  position: absolute;
+  position: relative;
   animation-duration: 0.5s;
 }
 </style>
