@@ -75,10 +75,27 @@ body {
     padding: 0 !important;
   }
 }
+
 // el-input
 div.el-input__wrapper {
   border-radius: 10px;
   backdrop-filter: blur(10px);
+}
+
+// el-popper
+.el-popper {
+  @apply border-none;
+  .el-menu-item.is-active {
+    @apply bg-[#1890ff];
+  }
+
+  .el-menu-item:hover {
+    @apply bg-[#1890ff];
+  }
+
+  .el-menu--popup {
+    @apply p-0;
+  }
 }
 
 .link {

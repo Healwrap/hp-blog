@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, createVNode } from 'vue'
 import App from './App.vue'
 import router from '@/router'
 //引入cookies
@@ -7,6 +7,7 @@ import VueCookies from 'vue-cookies'
 import '@/assets/base.scss' // 在element-plus之前引入，防止tailwind覆盖element-plus样式
 //引入element plus
 import ElementPlus from 'element-plus'
+import * as Icons from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 //图标 图标在附件中
 import '@/assets/icon/iconfont.css'
@@ -36,5 +37,8 @@ app.config.globalProperties.$api = Api
 
 app.component('Dialog', Dialog)
 app.component('DataList', DataList)
-
+// 注册全局组件
+Object.keys(Icons).forEach(key => {
+  app.component(key, Icons[key])
+})
 app.mount('#app')
