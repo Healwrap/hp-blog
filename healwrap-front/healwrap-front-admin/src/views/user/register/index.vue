@@ -1,10 +1,7 @@
 <template>
-<h1>register</h1>
+  <h1>register</h1>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -39,7 +39,7 @@ spring:
 
 # 项目目录
 project:
-  folder: C:/Users/admin/Desktop/workspace/IDEA-Workplace/healwrap/healwrap-java/healwrap-admin/src/main/resources/files/
+  folder: C:/Users/admin/Desktop/workspace/IDEA-Workplace/healwrap/healwrap-java/healwrap-web/src/main/resources/files/
 
 # 日志级别配置
 log:

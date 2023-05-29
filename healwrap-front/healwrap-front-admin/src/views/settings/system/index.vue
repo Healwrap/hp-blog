@@ -1,10 +1,7 @@
 <template>
-<h1>system-setting</h1>
+  <h1>system-setting</h1>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -5,7 +5,6 @@ import { asyncRouterMap, constantRouterMap } from '@/config/router.config'
 asyncRouterMap.forEach(item => {
   constantRouterMap[0].children.push(item)
 })
-console.log(constantRouterMap)
 // 创建路由
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

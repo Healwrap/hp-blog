@@ -100,7 +100,7 @@
         </el-form-item>
         <el-form-item prop="checkCode">
           <div style="width: 100%; display: flex; justify-content: space-between">
-            <el-input v-model="formData.checkCode" placeholder="请输入验证码" size="large" clearable>
+            <el-input v-model="formData.checkCode" placeholder="请输入验证码" size="large" clearable @keyup.enter="handleBtnClick">
               <template #prefix>
                 <span class="iconfont icon-checkCode"></span>
               </template>

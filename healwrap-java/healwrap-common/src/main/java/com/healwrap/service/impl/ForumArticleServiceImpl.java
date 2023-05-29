@@ -193,7 +193,9 @@ public class ForumArticleServiceImpl implements ForumArticleService {
     Date currDate = new Date();
     article.setPostTime(currDate);
     article.setLastUpdateTime(currDate);
-    if (cover != null) {
+    if (cover == null) {
+      article.setCover(appConfig.getDefaultCover());
+    } else {
       FileUploadDto uploadDto = fileUtils.uploadFile2Local(cover, Constants.FILE_FOLDER_IMAGE, FileUploadTypeEnum.ARTICLE_COVER);
       article.setCover(uploadDto.getLocalPath());
     }

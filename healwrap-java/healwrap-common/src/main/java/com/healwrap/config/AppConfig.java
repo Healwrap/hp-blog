@@ -26,6 +26,10 @@ public class AppConfig {
 
   @Value("${project.folder:}")
   private String projectFolder;
+  @Value("${project.defaultAvatar:}")
+  private String defaultAvatar;
+  @Value("${project.defaultCover:}")
+  private String defaultCover;
   @Value("${development:}")
   private Boolean dev;
 }

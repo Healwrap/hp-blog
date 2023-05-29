@@ -1,6 +1,11 @@
 <template>
   <div class="table">
-    <el-table ref="dataTableRef" :style="{ height: `calc(100% - ${extHeight})` }" :data="dataSource.list || []" highlight-current-row>
+    <el-table
+      ref="dataTableRef"
+      :style="{ height: `calc(100% - ${extHeight})` }"
+      :data="dataSource.list || []"
+      highlight-current-row
+    >
       <!--选择框-->
       <el-table-column v-if="options.selectType && options.selectType === 'checkbox'" type="selection" width="50" align="center" />
       <!--序号-->

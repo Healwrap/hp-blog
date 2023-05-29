@@ -3,7 +3,6 @@
 </template>
 
 <script setup>
-import router from '@/router'
 import accountApi from '@/api/account'
 
 const props = defineProps({
@@ -21,7 +20,8 @@ const props = defineProps({
 })
 const gotoAccountCenter = () => {
   if (props.addLink) {
-    router.push('/user/' + props.userId)
+    // 跳转外部链接
+    window.open(import.meta.env.VITE_APP_URL + '/user/' + props.userId)
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div id="user-layout">
     <div class="container">
-      <router-view class="user-form"/>
+      <router-view class="user-form" />
     </div>
   </div>
 </template>
@@ -12,7 +12,7 @@
 #user-layout {
   @apply flex justify-center items-center h-screen;
   .container {
-    @apply w-[350px] mx-[auto] ;
+    @apply w-[350px] mx-[auto];
     .user-form {
       @apply p-[20px] bg-white rounded-[10px];
     }

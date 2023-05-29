@@ -53,7 +53,7 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        name: '帖子管理',
+        name: '文章管理',
         path: '/forum/article',
         component: () => import('@/views/forum/article/index.vue')
       },

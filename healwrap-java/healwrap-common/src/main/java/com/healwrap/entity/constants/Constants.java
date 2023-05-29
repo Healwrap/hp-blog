@@ -79,10 +79,6 @@ public class Constants {
    */
   public static final String AVATAR_SUFFIX = ".jpg";
   /**
-   * 默认头像文件名
-   */
-  public static final String AVATAR_DEFAULT = "default_avatar.jpg";
-  /**
    * 允许的图片后缀
    */
   public static final String[] IMAGE_SUFFIX = new String[]{".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG", ".gif", ".GIF", ".bmp", ".BMP"};

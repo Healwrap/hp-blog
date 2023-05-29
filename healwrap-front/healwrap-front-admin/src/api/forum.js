@@ -4,7 +4,7 @@ import { ElMessageBox } from 'element-plus'
 import router from '@/router'
 
 const apis = {
-  loadArticle: '/forum/loadArticle',
+  loadArticleList: '/forum/loadArticleList',
   getArticleDetail: '/forum/getArticleDetail',
   doLike: '/forum/doLike',
   getUserDownloadInfo: '/forum/getUserDownloadInfo',
@@ -17,16 +17,14 @@ const apis = {
 /**
  * 获取文章列表
  * @param pageNo 页码
- * @param orderType 排序类型
- * @param boardId 板块id
- * @param pBoardId 父板块id
+ * @param pageSize 每页条数
  * @returns {*}
  */
-const loadArticle = (pageNo, orderType, boardId, pBoardId) => {
-  const params = mergeParams({ pageNo, orderType, boardId, pBoardId })
+const loadArticleList = (pageNo, pageSize) => {
+  const params = mergeParams({ pageNo, pageSize })
   return request({
-    url: apis.loadArticle,
-    method: 'get',
+    url: apis.loadArticleList,
+    method: 'post',
     params,
     showLoading: false
   })
@@ -199,7 +197,7 @@ const updateArticle = (
 }
 
 const forumApi = {
-  loadArticle,
+  loadArticleList,
   getArticleDetail,
   doLike,
   getUserDownloadInfo,

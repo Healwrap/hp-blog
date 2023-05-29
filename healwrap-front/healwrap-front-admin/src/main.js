@@ -25,6 +25,7 @@ import Api from '@/api'
 import Dialog from '@/components/Dialog/Dialog.vue'
 import DataList from '@/components/DataList/DataList.vue'
 import Table from '@/components/Table/Table.vue'
+import Alink from '@/components/UserLink/Alink/Alink.vue'
 
 const app = createApp(App)
 
@@ -41,6 +42,7 @@ app.config.globalProperties.$api = Api
 app.component('Dialog', Dialog)
 app.component('DataList', DataList)
 app.component('Table', Table)
+app.component('Alink', Alink)
 // 注册全局组件
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key])

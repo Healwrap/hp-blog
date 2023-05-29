@@ -40,6 +40,8 @@ spring:
 # 项目目录
 project:
   folder: C:/Users/admin/Desktop/workspace/IDEA-Workplace/healwrap/healwrap-java/healwrap-web/src/main/resources/files/
+  defaultAvatar: default_avatar.jpg
+  defaultCover: default/default_cover.jpeg
 
 # 内部接口相关
 inner:

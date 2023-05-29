@@ -40,6 +40,8 @@ spring:
 # 项目目录
 project:
   folder: /www/wwwroot/HealWrap-Backend/files/
+  defaultAvatar: default_avatar.jpg
+  defaultCover: default/default_cover.jpeg
 
 # 日志级别配置
 log:
