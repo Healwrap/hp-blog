@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router'
+// 引入katex
+import katex from '@/plugins/Katex'
 //引入cookies
 import VueCookies from 'vue-cookies'
 //引入element plus
@@ -48,5 +50,5 @@ app.component('DataList', DataList)
 app.component('ImageViewer', ImageViewer)
 app.component('ImageUpload', ImageUpload)
 app.component('FileUpload', FileUpload)
-
+app.directive('katex', katex)
 app.mount('#app')

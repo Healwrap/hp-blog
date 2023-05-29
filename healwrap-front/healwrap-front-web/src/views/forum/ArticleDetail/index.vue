@@ -31,17 +31,17 @@
               <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
                 {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
               </span>
-              <router-link class="edit-btn" v-if="articleInfo.userId === currentUserinfo.userId" :to="`/postArticle/${articleInfo.articleId}`">
+              <router-link v-if="articleInfo.userId === currentUserinfo.userId" class="edit-btn" :to="`/postArticle/${articleInfo.articleId}`">
                 <span class="iconfont icon-edit">&nbsp;编辑</span>
               </router-link>
             </div>
           </div>
         </div>
         <!--文章内容-->
-        <div id="detail" class="detail" v-html="articleInfo.content"></div>
+        <div id="detail" v-katex class="detail" v-html="articleInfo.content"></div>
       </div>
       <!--附件-->
-      <div v-if="attachment" class="attachment-panel block" id="attachment">
+      <div v-if="attachment" id="attachment" class="attachment-panel block">
         <div class="title">附件</div>
         <div class="attachment-info">
           <div class="iconfont icon-zip"></div>
@@ -58,12 +58,12 @@
         </div>
       </div>
       <!--评论-->
-      <div class="comment-panel block" id="comment">
+      <div id="comment" class="comment-panel block">
         <CommentList
           v-if="Object.keys(articleInfo).length !== 0"
           :article-id="articleInfo.articleId"
           :article-userid="articleInfo.userId"
-          @updateCommentCount="updateCommentCount"
+          @update-comment-count="updateCommentCount"
         />
       </div>
     </div>
@@ -72,13 +72,13 @@
       <div class="toc-container">
         <div class="toc-title">目录</div>
         <div class="toc-list">
-          <div class="no-toc" v-if="tocList.length === 0">未解析到目录</div>
-          <div class="toc" v-else>
+          <div v-if="tocList.length === 0" class="no-toc">未解析到目录</div>
+          <div v-else class="toc">
             <div
-              :class="['toc-item', anchorId === toc.id ? 'active' : '']"
-              :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 3 + 'px' }"
               v-for="toc in tocList"
               :key="toc"
+              :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+              :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 2 + 'px', 'font-weight': 900 - toc.level * 100 }"
               @click="gotoAnchor(toc.id)"
             >
               {{ toc.title }}
@@ -187,6 +187,8 @@ const handleImagePreview = () => {
       item.style.cursor = 'pointer'
       item.style.width = '100%'
       item.style.height = 'auto'
+      item.style.maxHeight = '600px'
+      item.style.objectFit = 'contain'
       item.addEventListener('click', () => {
         imageViewerRef.value.show(index)
       })
@@ -241,6 +243,7 @@ const makeToc = () => {
       })
     })
   })
+  console.log(tocList.value)
 }
 // 定位到锚点
 const gotoAnchor = id => {
@@ -260,10 +263,9 @@ const listenScroll = () => {
   const currentScrollTop = getScrollTop()
   tocList.value.forEach((item, index) => {
     if (
-      (index < tocList.value.length - 1 &&
-        currentScrollTop > tocList.value[index].offsetTop &&
-        currentScrollTop < tocList.value[index + 1].offsetTop) ||
-      (index === tocList.value.length - 1 && currentScrollTop < tocList.value[index].offsetTop)
+      index < tocList.value.length - 1 &&
+      currentScrollTop > tocList.value[index].offsetTop &&
+      currentScrollTop < tocList.value[index + 1].offsetTop
     ) {
       anchorId.value = item.id
     }
