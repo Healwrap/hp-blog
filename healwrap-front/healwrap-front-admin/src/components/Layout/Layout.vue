@@ -1,30 +1,31 @@
 <template>
   <div class="basic-layout">
     <el-container>
-      <el-aside class="aside" :style="{ width: elMenuConfig.collapse ? '65px' : '240px' }" style="transition: width 0.3s">
+      <el-aside class="aside" :style="{ width: elMenuConfig.collapse ? '65px' : '240px' }"
+                style="transition: width 0.3s">
         <logo
-          color="#fff"
-          :show-rain-bow="false"
-          :text="elMenuConfig.collapse ? 'HW' : 'HealWrap管理后台'"
-          font-size="24px"
-          style="text-align: center; padding: 15px 0"
+            color="#fff"
+            :show-rain-bow="false"
+            :text="elMenuConfig.collapse ? 'HW' : 'HealWrap管理后台'"
+            font-size="24px"
+            style="text-align: center; padding: 15px 0"
         />
         <el-menu
-          class="menu"
-          :default-openeds="elMenuConfig.defaultOpeneds"
-          :default-active="elMenuConfig.defaultActive"
-          :collapse="elMenuConfig.collapse"
-          :active-text-color="elMenuConfig.activeTextColor"
-          :text-color="elMenuConfig.textColor"
-          :background-color="elMenuConfig.backgroundColor"
-          router
-          @open="handleOpen"
-          @close="handleClose"
+            class="menu"
+            :default-openeds="elMenuConfig.defaultOpeneds"
+            :default-active="elMenuConfig.defaultActive"
+            :collapse="elMenuConfig.collapse"
+            :active-text-color="elMenuConfig.activeTextColor"
+            :text-color="elMenuConfig.textColor"
+            :background-color="elMenuConfig.backgroundColor"
+            router
+            @open="handleOpen"
+            @close="handleClose"
         >
           <template v-for="item in menuList" :key="item.name">
             <el-sub-menu v-if="'children' in item" :index="item.path">
               <template #title>
-                <Icon :icon="item.meta.icon" />
+                <Icon :icon="item.meta.icon"/>
                 <span>{{ item.name }}</span>
               </template>
               <el-menu-item v-for="subItem in item.children" :key="subItem.name" :index="subItem.path">
@@ -32,7 +33,7 @@
               </el-menu-item>
             </el-sub-menu>
             <el-menu-item v-else :index="item.path">
-              <Icon :icon="item.meta.icon" />
+              <Icon :icon="item.meta.icon"/>
               <span>{{ item.name }}</span>
             </el-menu-item>
           </template>
@@ -41,13 +42,13 @@
       <el-container>
         <el-header class="header">
           <span class="op-menu" @click="collapseMenu">
-            <Icon :icon="elMenuConfig.collapse ? 'Expand' : 'Fold'" :size="18" />
+            <Icon :icon="elMenuConfig.collapse ? 'Expand' : 'Fold'" :size="18"/>
           </span>
           <div class="menu-breadcrumb">
             <el-breadcrumb>
               <el-breadcrumb-item v-for="item in route.matched" :key="item.path">
                 <div style="display: flex; align-items: center">
-                  <Icon v-if="item.meta.icon" :icon="item.meta.icon" />
+                  <Icon v-if="item.meta.icon" :icon="item.meta.icon"/>
                   <span>{{ item.name }}</span>
                 </div>
               </el-breadcrumb-item>
@@ -59,7 +60,7 @@
             <div class="tab-group">
               <el-tabs v-model="elMenuConfig.defaultActive" type="border-card" @tab-change="tabChange" @edit="editTab">
                 <div v-for="item in tabList" :key="item">
-                  <el-tab-pane v-if="item" :name="item.path" :label="item.name" :closable="tabList.length > 1" />
+                  <el-tab-pane v-if="item" :name="item.path" :label="item.name" :closable="tabList.length > 1"/>
                 </div>
               </el-tabs>
             </div>
@@ -72,13 +73,13 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, ref, watch } from 'vue'
+import {getCurrentInstance, ref, watch} from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
-import { asyncRouterMap } from '@/config/router.config'
-import { useRoute } from 'vue-router'
+import {asyncRouterMap} from '@/config/router.config'
+import {useRoute} from 'vue-router'
 import Icon from '@/components/Icon/Icon.vue'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 const route = useRoute()
 const elMenuConfig = ref({
   defaultOpeneds: [],
@@ -105,8 +106,10 @@ const init = () => {
   })
 }
 init()
-const handleOpen = () => {}
-const handleClose = () => {}
+const handleOpen = () => {
+}
+const handleClose = () => {
+}
 const collapseMenu = () => {
   elMenuConfig.value.collapse = !elMenuConfig.value.collapse
 }
@@ -136,16 +139,16 @@ const editTab = (targetKey, action) => {
   }
 }
 watch(
-  () => route,
-  to => {
-    elMenuConfig.value.defaultActive = to.path
-    const curTab = tabList.value.find(item => item.path === to.path)
-    if (curTab || to.path === undefined) {
-      return
-    }
-    tabList.value.push(menuMap[to.path])
-  },
-  { immediate: true, deep: true }
+    () => route,
+    to => {
+      elMenuConfig.value.defaultActive = to.path
+      const curTab = tabList.value.find(item => item.path === to.path)
+      if (curTab || to.path === undefined) {
+        return
+      }
+      tabList.value.push(menuMap[to.path])
+    },
+    {immediate: true, deep: true}
 )
 </script>
 

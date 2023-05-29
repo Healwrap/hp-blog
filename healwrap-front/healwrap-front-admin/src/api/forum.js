@@ -1,27 +1,21 @@
 import request from '@/utils/Request'
-import { mergeParams } from '@/utils/Utils'
 import { ElMessageBox } from 'element-plus'
 import router from '@/router'
 
 const apis = {
   loadArticleList: '/forum/loadArticleList',
   getArticleDetail: '/forum/getArticleDetail',
-  doLike: '/forum/doLike',
   getUserDownloadInfo: '/forum/getUserDownloadInfo',
   attachmentDownload: '/api/forum/attachmentDownload',
-  postArticle: '/forum/postArticle',
   getArticleDetail4Update: '/forum/articleDetail4Update',
-  updateArticle: '/forum/updateArticle'
 }
 
 /**
  * 获取文章列表
- * @param pageNo 页码
- * @param pageSize 每页条数
+ * @param params 参数列表
  * @returns {*}
  */
-const loadArticleList = (pageNo, pageSize) => {
-  const params = mergeParams({ pageNo, pageSize })
+const loadArticleList = params => {
   return request({
     url: apis.loadArticleList,
     method: 'post',
@@ -47,21 +41,6 @@ const getArticleDetail = articleId => {
 }
 
 /**
- * 点赞
- * @param articleId 文章id
- * @returns {*}
- */
-const doLike = articleId => {
-  return request({
-    url: apis.doLike,
-    method: 'get',
-    params: {
-      articleId
-    },
-    showLoading: false
-  })
-}
-/**
  * 获取用户积分
  * @param fileId 文件id
  * @returns {*}
@@ -84,6 +63,7 @@ const getUserDownloadInfo = fileId => {
 const attachmentDownload = fileId => {
   return `${apis.attachmentDownload}?fileId=${fileId}`
 }
+
 /**
  * 更新时获取文章详情
  * @param articleId 文章id
@@ -107,103 +87,12 @@ const getArticleDetail4Update = articleId => {
     }
   })
 }
-/**
- * 发布文章
- * @param title 标题
- * @param pBoardId 父板块id
- * @param summary 摘要
- * @param editorType 编辑器类型
- * @param content html内容
- * @param markdownContent markdown内容
- * @param boardId 板块id
- * @param cover 封面
- * @param attachment 附件
- * @param integral 积分
- * @returns {*}
- */
-const postArticle = (title, pBoardId, summary, editorType, content, markdownContent, boardId, cover, attachment, integral) => {
-  const params = mergeParams({
-    title,
-    pBoardId,
-    summary,
-    editorType,
-    content,
-    markdownContent,
-    boardId,
-    cover,
-    attachment,
-    integral
-  })
-  return request({
-    url: apis.postArticle,
-    method: 'post',
-    params,
-    dataType: 'file'
-  })
-}
-/**
- * 更新文章
- * @param articleId 文章id
- * @param title 标题
- * @param pBoardId 父板块id
- * @param summary 摘要
- * @param editorType 编辑器类型
- * @param attachmentType 附件类型
- * @param content html内容
- * @param markdownContent markdown内容
- * @param boardId 板块id
- * @param cover 封面
- * @param attachment 附件
- * @param integral 积分
- * @returns {*}
- */
-const updateArticle = (
-  articleId,
-  title,
-  pBoardId,
-  summary,
-  editorType,
-  attachmentType,
-  content,
-  markdownContent,
-  boardId,
-  cover,
-  attachment,
-  integral
-) => {
-  if (articleId === null) {
-    throw new Error('articleId不能为空')
-  }
-  const params = mergeParams({
-    articleId,
-    title,
-    pBoardId,
-    summary,
-    editorType,
-    attachmentType,
-    content,
-    markdownContent,
-    boardId,
-    cover,
-    attachment,
-    integral
-  })
-  return request({
-    url: apis.updateArticle,
-    method: 'post',
-    params,
-    dataType: 'file'
-  })
-}
 
 const forumApi = {
   loadArticleList,
   getArticleDetail,
-  doLike,
   getUserDownloadInfo,
   attachmentDownload,
-  getArticleDetail4Update,
-  postArticle,
-  updateArticle
+  getArticleDetail4Update
 }
 export default forumApi

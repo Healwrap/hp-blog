@@ -1,11 +1,6 @@
 <template>
   <div class="table">
-    <el-table
-      ref="dataTableRef"
-      :style="{ height: `calc(100% - ${extHeight})` }"
-      :data="dataSource.list || []"
-      highlight-current-row
-    >
+    <el-table ref="dataTableRef" :style="{ height: `calc(100% - ${extHeight})` }" :data="dataSource.list || []" highlight-current-row>
       <!--选择框-->
       <el-table-column v-if="options.selectType && options.selectType === 'checkbox'" type="selection" width="50" align="center" />
       <!--序号-->
@@ -39,9 +34,7 @@
         style="text-align: right"
         :total="dataSource.totalCount"
         :page-size="dataSource.pageSize"
-        :page-sizes="[15, 30, 50, 100]"
-        layout="total,sizes,prev,pager,next,jumper"
-        @size-change="handlePageSizeChange"
+        layout="total,prev,pager,next,jumper"
         @current-change="handlePageNoChange"
       />
     </div>
@@ -114,12 +107,6 @@ const handleRowClick = row => {
 // 多选
 const handleSelectionChange = row => {
   emit('rowSelected', row)
-}
-// 切换每页大小
-const handlePageSizeChange = size => {
-  props.dataSource.pageSize = size
-  props.dataSource.pageNo = 1
-  props.fetch()
 }
 // 切换页码
 const handlePageNoChange = pageNo => {

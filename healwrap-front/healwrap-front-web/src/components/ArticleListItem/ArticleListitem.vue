@@ -10,7 +10,7 @@
           <div class="post-time">{{ data.postTime }}</div>
           <div class="address">{{ data.userIpAddress }}</div>
           <el-divider direction="vertical" />
-          <router-link to="/">{{ data.pBoardName }}</router-link>
+          <router-link to="/">{{ data.pboardName }}</router-link>
           <template v-if="data.boardName">
             <span style="color: #999; font-size: 14px">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
             <router-link to="/">{{ data.boardName }}</router-link>

@@ -1,5 +1,72 @@
 <template>
   <div class="article-panel">
+    <div class="search-form">
+      <el-form :model="searchFormData" label-width="50px">
+        <el-row>
+          <el-col :span="4">
+            <el-form-item label="标题" prop="titleFuzzy">
+              <el-input v-model="searchFormData.titleFuzzy" placeholder="请输入标题" clearable
+                        @change="loadArticleList"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="昵称" prop="nickNameFuzzy">
+              <el-input v-model="searchFormData.nickNameFuzzy" placeholder="请输入昵称" clearable
+                        @change="loadArticleList"/>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="板块" prop="board">
+              <el-cascader
+                  v-model="searchFormData.boardIds"
+                  :options="boardList"
+                  :props="boardProps"
+                  placeholder="请选择板块"
+                  clearable
+                  @change="loadArticleList"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="附件" prop="attachmentType">
+              <el-select v-model="searchFormData.attachmentType" placeholder="请选择" clearable
+                         @change="loadArticleList">
+                <el-option label="有附件" :value="1"/>
+                <el-option label="无附件" :value="0"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="状态" prop="status">
+              <el-select v-model="searchFormData.status" placeholder="请选择" clearable @change="loadArticleList">
+                <el-option label="待审核" :value="0"/>
+                <el-option label="已审核" :value="1"/>
+                <el-option label="已删除" :value="-1"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="4">
+            <el-form-item label="置顶" prop="topType">
+              <el-select v-model="searchFormData.topType" placeholder="请选择" clearable @change="loadArticleList">
+                <el-option label="未置顶" :value="0"/>
+                <el-option label="已置顶" :value="1"/>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6" style="padding-left: 10px">
+            <el-button-group>
+              <!--<el-button type="primary" @click="loadArticleList">搜索</el-button>-->
+              <el-button type="success" :disabled="selectBatchList.length === 0" @click="auditBatch"> 批量审核
+              </el-button>
+              <el-button type="danger" :disabled="selectBatchList.length === 0" @click="deleteBatch"> 批量删除
+              </el-button>
+            </el-button-group>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
     <div class="data-list">
       <Table
           ref="tableRef"
@@ -82,6 +149,17 @@ import Icon from '@/components/Icon/Icon.vue'
 
 const appUrl = import.meta.env.VITE_APP_URL
 const {proxy} = getCurrentInstance()
+const boardList = ref([])
+const boardProps = {
+  multiple: false,
+  checkStrictly: true,
+  value: 'boardId',
+  label: 'boardName'
+}
+const selectBatchList = ref([])
+const searchFormData = ref({})
+const tableData = ref({})
+const tableOptions = ref()
 const columns = ref([
   {
     label: '用户信息',
@@ -133,10 +211,32 @@ const columns = ref([
     scopedSlots: 'option'
   }
 ])
-const tableData = ref({})
-const tableOptions = ref()
+// 加载板块列表
+const loadBoardList = async () => {
+  const result = await proxy.$api.board.loadBoard()
+  if (!result) {
+    return
+  }
+  boardList.value = result.data
+}
+loadBoardList()
+// 加载文章列表
 const loadArticleList = async () => {
-  const result = await proxy.$api.forum.loadArticleList(tableData.value.pageNo, tableData.value.pageSize)
+  const params = {
+    pageNo: tableData.value.pageNo,
+    pageSize: tableData.value.pageSize
+  }
+  Object.assign(params, searchFormData.value)
+  if (params.boardIds) {
+    if (params.boardIds.length === 1) {
+      params.pboardId = params.boardIds[0]
+    } else if (params.boardIds.length === 2) {
+      params.pboardId = params.boardIds[0]
+      params.boardId = params.boardIds[1]
+    }
+  }
+  delete params.boardIds
+  const result = await proxy.$api.forum.loadArticleList(params)
   if (!result) {
     return
   }
@@ -145,11 +245,15 @@ const loadArticleList = async () => {
 // 设置行多选
 const setRowSelected = rows => {
 }
+const auditBatch = () => {
+}
+const deleteBatch = () => {
+}
 </script>
 
 <style lang="scss" scoped>
 .article-panel {
-  @apply h-[calc(100%-39px)];
+  @apply h-[calc(100%-140px)] pt-[10px] px-6;
   .data-list {
     @apply h-full;
     .table {

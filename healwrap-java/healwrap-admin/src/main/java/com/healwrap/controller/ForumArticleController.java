@@ -56,6 +56,7 @@ public class ForumArticleController extends ABaseController {
   @PostMapping("/loadArticleList")
   public ResponseVO loadArticleList(ForumArticleQuery articleQuery) {
     articleQuery.setOrderBy("post_time desc");
+    articleQuery.setPageSize(5);
     return getSuccessResponseVO(forumArticleService.findListByPage(articleQuery));
   }
 

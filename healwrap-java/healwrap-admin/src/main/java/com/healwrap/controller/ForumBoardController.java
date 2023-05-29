@@ -3,6 +3,7 @@ package com.healwrap.controller;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.service.ForumBoardService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class ForumBoardController extends ABaseController {
   @Resource
   private ForumBoardService forumBoardService;
 
-  @PostMapping("/loadBoard")
+  @GetMapping("/loadBoard")
   public ResponseVO loadBoard() {
     return getSuccessResponseVO(forumBoardService.getBoardTree(null));
   }

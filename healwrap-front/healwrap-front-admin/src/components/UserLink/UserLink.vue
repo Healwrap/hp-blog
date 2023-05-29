@@ -1,9 +1,9 @@
 <template>
-  <Alink :src="src" :content="`@${username}`" :isOuter="true"/>
+  <Alink :src="src" :content="`@${username}`" :isOuter="true" />
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   userId: {
