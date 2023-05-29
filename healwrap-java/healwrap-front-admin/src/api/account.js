@@ -13,11 +13,11 @@ const apis = {
 
 /**
  * 获取验证码
- * @param opType 类型 0:登录/注册验证码 1:发送邮箱验证码
- * @returns {`/api/checkCode?type=${string}&time=${number}`}
+ * @param opType 类型 0:登录
+ * @returns {`/api/checkCode?time=${number}`}
  */
-const checkCode = opType => {
-  return `${apis.checkCode}?type=${opType}&time=${new Date().getTime()}`
+const checkCode = () => {
+  return `${apis.checkCode}?time=${new Date().getTime()}`
 }
 
 /**

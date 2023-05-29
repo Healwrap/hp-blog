@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from '@/router'
 //引入cookies
 import VueCookies from 'vue-cookies'
+// 引入permission
+import '@/permission/index.js'
 // 引入全局样式
 import '@/assets/base.scss' // 在element-plus之前引入，防止tailwind覆盖element-plus样式
 //引入element plus

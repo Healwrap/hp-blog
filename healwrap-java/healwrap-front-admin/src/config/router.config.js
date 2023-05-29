@@ -7,6 +7,7 @@ import { BasicLayout, UserLayout } from '@/layouts'
 export const constantRouterMap = [
   {
     path: '/',
+    redirect: '/index',
     component: BasicLayout,
     children: []
   },
@@ -18,20 +19,19 @@ export const constantRouterMap = [
     children: [
       {
         name: 'login',
-        path: '/login',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/login')
+        path: '/user/login',
+        component: () => import(/* webpackChunkName: "user" */ '@/views/user/login/index.vue')
       },
       {
         name: 'register',
-        path: '/register',
-        component: () => import(/* webpackChunkName: "user" */ '@/views/user/register')
+        path: '/user/register',
+        component: () => import(/* webpackChunkName: "user" */ '@/views/user/register/index.vue')
       }
     ]
   },
-
   {
     path: '/404',
-    component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')
+    component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404.vue')
   }
 ]
 
@@ -47,6 +47,7 @@ export const asyncRouterMap = [
   {
     name: '内容管理',
     path: '/forum',
+    redirect: '/forum/article', // TODO 对于空的路由，一定要加上redirect，否则会导致路由无法匹配
     meta: {
       icon: 'Document'
     },
@@ -71,6 +72,7 @@ export const asyncRouterMap = [
   {
     name: '用户管理',
     path: '/user',
+    redirect: '/user/list',
     meta: {
       icon: 'User'
     },
@@ -85,6 +87,7 @@ export const asyncRouterMap = [
   {
     name: '设置',
     path: '/settings',
+    redirect: '/settings/system',
     meta: {
       icon: 'Setting'
     },
