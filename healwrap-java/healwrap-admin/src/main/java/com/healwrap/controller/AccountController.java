@@ -1,16 +1,13 @@
 package com.healwrap.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.healwrap.config.AdminConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.annotation.VerifyParams;
-import com.healwrap.config.AdminConfig;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.dto.CreateImageCode;
 import com.healwrap.entity.dto.SessionAdminUserDto;
 import com.healwrap.entity.dto.SysSettingDto;
-import com.healwrap.entity.enums.ResponseCodeEnum;
-import com.healwrap.entity.enums.VerifyRegexEnum;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.exception.BusinessException;
 import com.healwrap.service.EmailCodeService;
@@ -46,23 +43,17 @@ public class AccountController extends ABaseController {
    * 获取验证码
    * @param response 响应
    * @param session 会话
-   * @param type 0:登录注册 1:邮箱
    * @throws IOException IO异常
    */
   @RequestMapping("/checkCode")
-  public void checkCode(HttpServletResponse response, HttpSession session, Integer type) throws IOException {
+  public void checkCode(HttpServletResponse response, HttpSession session) throws IOException {
     CreateImageCode vCode = new CreateImageCode(130, 38, 5, 10);
     response.setHeader("Pragma", "no-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setContentType("image/jpeg");
     String code = vCode.getCode();
     // 登录注册
-    if (type == null || type == 0) {
-      session.setAttribute(Constants.CHECK_CODE_KEY, code);
-    } else {
-      // 获取邮箱
-      session.setAttribute(Constants.CHECK_CODE_KEY_EMAIL, code);
-    }
+    session.setAttribute(Constants.CHECK_CODE_KEY, code);
     vCode.write(response.getOutputStream());
   }
 
@@ -83,6 +74,8 @@ public class AccountController extends ABaseController {
                           @VerifyParams(required = true) String password,
                           @VerifyParams(required = true) String checkCode) {
     try {
+      System.out.println("code:" + session.getAttribute(Constants.CHECK_CODE_KEY));
+      System.out.println("checkCode:" + checkCode);
       if (!checkCode.equalsIgnoreCase((String) session.getAttribute(Constants.CHECK_CODE_KEY))) {
         throw new BusinessException("图片验证码错误");
       }
@@ -95,8 +88,7 @@ public class AccountController extends ABaseController {
       SessionAdminUserDto adminUserDto = new SessionAdminUserDto();
       adminUserDto.setAccount(email);
       session.setAttribute(Constants.SESSIONS_KEY, adminUserDto);
-      System.out.println(session.getAttribute(Constants.SESSIONS_KEY));
-      return getSuccessResponseVO(getUserInfoFromSession(session));
+      return getSuccessResponseVO(adminUserDto);
     } finally {
       session.removeAttribute(Constants.CHECK_CODE_KEY);
     }

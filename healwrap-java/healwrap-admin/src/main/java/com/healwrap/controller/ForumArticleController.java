@@ -1,9 +1,9 @@
 package com.healwrap.controller;
 
+import com.healwrap.config.AdminConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.annotation.VerifyParams;
-import com.healwrap.config.AdminConfig;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.po.ForumArticle;
 import com.healwrap.entity.po.ForumArticleAttachment;
@@ -190,6 +190,12 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(null);
   }
 
+  /**
+   * 加载评论列表
+   *
+   * @param commentQuery 查询条件
+   * @return ResponseVO
+   */
   @PostMapping("/loadCommentList")
   public ResponseVO loadCommentList(ForumCommentQuery commentQuery) {
     commentQuery.setLoadChildren(true);
@@ -197,6 +203,12 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(forumCommentService.findListByParam(commentQuery));
   }
 
+  /**
+   * 加载文章评论列表
+   *
+   * @param commentQuery 查询条件
+   * @return ResponseVO
+   */
   @PostMapping("/loadComment4Article")
   public ResponseVO loadComment4Article(ForumCommentQuery commentQuery) {
     commentQuery.setLoadChildren(true);
@@ -205,6 +217,12 @@ public class ForumArticleController extends ABaseController {
     return getSuccessResponseVO(forumCommentService.findListByParam(commentQuery));
   }
 
+  /**
+   * 删除评论
+   *
+   * @param commentIds 评论id数组
+   * @return ResponseVO
+   */
   @DeleteMapping("/deleteComment")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO deleteComment(@VerifyParams(required = true) String commentIds) {
