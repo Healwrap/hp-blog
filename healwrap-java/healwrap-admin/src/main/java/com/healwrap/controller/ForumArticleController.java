@@ -77,21 +77,20 @@ public class ForumArticleController extends ABaseController {
    * 更新文章板块信息
    *
    * @param articleId 文章id
-   * @param pBoardId  父板块id
+   * @param pboardId  父板块id
    * @param boardId   板块id
    * @return ResponseVO
    */
-  @PutMapping("/updateBoard")
+  @PatchMapping("/updateBoard")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO updateBoard(@VerifyParams(required = true) String articleId,
-                                @VerifyParams(required = true) Integer pBoardId,
-                                @VerifyParams(required = true) Integer boardId) {
-
+                                @VerifyParams(required = true) Integer pboardId,
+                                Integer boardId) {
     boardId = boardId == null ? 0 : boardId;
     ForumArticle article = new ForumArticle();
-    article.setPBoardId(pBoardId);
+    article.setPBoardId(pboardId);
     article.setBoardId(boardId);
-    forumArticleService.updateBoard(articleId, pBoardId, boardId);
+    forumArticleService.updateBoard(articleId, pboardId, boardId);
     return getSuccessResponseVO(null);
   }
 
@@ -170,8 +169,8 @@ public class ForumArticleController extends ABaseController {
    * @param topType   置顶类型
    * @return ResponseVO
    */
-  @PutMapping("/topArticle")
-  public ResponseVO topArticle(@VerifyParams(required = true) String articleId, Integer topType) {
+  @PatchMapping("/changeTopType")
+  public ResponseVO changeTopType(@VerifyParams(required = true) String articleId, Integer topType) {
     ForumArticle article = new ForumArticle();
     article.setTopType(topType);
     forumArticleService.updateForumArticleByArticleId(article, articleId);
@@ -184,7 +183,7 @@ public class ForumArticleController extends ABaseController {
    * @param articleIds 文章id
    * @return ResponseVO
    */
-  @DeleteMapping("/auditArticle")
+  @PatchMapping("/auditArticle")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO auditArticle(@VerifyParams(required = true) String articleIds) {
     forumArticleService.auditArticle(articleIds);

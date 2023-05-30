@@ -1,8 +1,21 @@
 <template>
   <div class="table">
-    <el-table ref="dataTableRef" :style="{ height: `calc(100% - ${extHeight})` }" :data="dataSource.list || []" highlight-current-row>
+    <el-table
+      ref="dataTableRef"
+      :style="{ height: `calc(100% - ${extHeight})` }"
+      :data="dataSource.list || []"
+      highlight-current-row
+      @row-click="handleRowClick"
+      @selection-change="handleSelectionChange"
+    >
       <!--选择框-->
-      <el-table-column v-if="options.selectType && options.selectType === 'checkbox'" type="selection" width="50" align="center" />
+      <el-table-column
+        v-if="options.selectType && options.selectType === 'checkbox'"
+        type="selection"
+        width="50"
+        align="center"
+        @change="handleSelectionChange"
+      />
       <!--序号-->
       <el-table-column v-if="options.showIndex" label="序号" type="index" width="60" align="center" />
       <!--数据列-->

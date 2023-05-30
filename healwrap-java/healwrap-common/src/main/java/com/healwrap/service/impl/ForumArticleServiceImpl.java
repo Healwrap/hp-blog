@@ -405,8 +405,8 @@ public class ForumArticleServiceImpl implements ForumArticleService {
   @Transactional(rollbackFor = Exception.class)
   public void auditArticleSingle(String articleId) {
     ForumArticle article = getForumArticleByArticleId(articleId);
-    if (article == null || ArticleStatusEnum.AUDIT.getStatus().equals(article.getStatus())) {
-      throw new BusinessException("文章不存在");
+    if (article == null || ArticleStatusEnum.DEL.getStatus().equals(article.getStatus()) || ArticleStatusEnum.AUDIT.getStatus().equals(article.getStatus())) {
+      throw new BusinessException("文章不存在或已审核");
     }
     ForumArticle updateInfo = new ForumArticle();
     updateInfo.setStatus(ArticleStatusEnum.AUDIT.getStatus());
@@ -416,4 +416,5 @@ public class ForumArticleServiceImpl implements ForumArticleService {
       userInfoService.updateUserIntegral(article.getUserId(), UserIntegralOperTypeEnum.POST_ARTICLE, UserIntegralChangeTypeEnum.ADD.getChangeType(), integral);
     }
   }
+
 }

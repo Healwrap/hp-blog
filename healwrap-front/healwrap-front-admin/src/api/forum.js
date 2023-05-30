@@ -8,6 +8,12 @@ const apis = {
   getUserDownloadInfo: '/forum/getUserDownloadInfo',
   attachmentDownload: '/api/forum/attachmentDownload',
   getArticleDetail4Update: '/forum/articleDetail4Update',
+  updateBoard: '/forum/updateBoard',
+  auditArticle: '/forum/auditArticle',
+  deleteArticle: '/forum/deleteArticle',
+  changeTopType: 'forum/changeTopType',
+  getAttachment: 'forum/getAttachment',
+  loadCommentList: '/forum/loadCommentList'
 }
 
 /**
@@ -88,11 +94,81 @@ const getArticleDetail4Update = articleId => {
   })
 }
 
+const updateBoard = params => {
+  return request({
+    url: apis.updateBoard,
+    method: 'patch',
+    params
+  })
+}
+
+const auditArticle = articleIds => {
+  return request({
+    url: apis.auditArticle,
+    method: 'patch',
+    params: {
+      articleIds
+    },
+    showLoading: false
+  })
+}
+
+const deleteArticle = articleIds => {
+  return request({
+    url: apis.deleteArticle,
+    method: 'delete',
+    params: {
+      articleIds
+    },
+    showLoading: false
+  })
+}
+
+const changeTopType = (articleId, topType) => {
+  return request({
+    url: apis.changeTopType,
+    method: 'patch',
+    params: {
+      articleId,
+      topType
+    },
+    showLoading: false
+  })
+}
+
+const getAttachment = articleId => {
+  return request({
+    url: apis.getAttachment,
+    method: 'post',
+    params: {
+      articleId
+    },
+    showLoading: false
+  })
+}
+
+const loadCommentList = articleId => {
+  return request({
+    url: apis.loadCommentList,
+    method: 'post',
+    params: {
+      articleId
+    },
+    showLoading: false
+  })
+}
+
 const forumApi = {
   loadArticleList,
   getArticleDetail,
   getUserDownloadInfo,
   attachmentDownload,
-  getArticleDetail4Update
+  getArticleDetail4Update,
+  updateBoard,
+  auditArticle,
+  deleteArticle,
+  changeTopType,
+  getAttachment,
+  loadCommentList
 }
 export default forumApi
