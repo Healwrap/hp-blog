@@ -158,7 +158,7 @@ const postHandler = () => {
       if (!result) {
         return
       }
-      proxy.$Toast.success('更新成功')
+      proxy.$message.success('更新成功')
       router.push({ path: `/article/${result.data}` })
     } else {
       const result = await forumApi.postArticle(
@@ -176,7 +176,7 @@ const postHandler = () => {
       if (!result) {
         return
       }
-      proxy.$Toast.success('发布成功')
+      proxy.$message.success('发布成功')
       router.push({ path: `/article/${result.data}` })
     }
   })

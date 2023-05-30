@@ -54,7 +54,6 @@
           </el-col>
           <el-col :span="6" style="padding-left: 10px">
             <el-button-group>
-              <!--<el-button type="primary" @click="loadArticleList">搜索</el-button>-->
               <el-button type="success" :disabled="selectBatchList.length === 0" @click="auditBatch"> 批量审核 </el-button>
               <el-button type="danger" :disabled="selectBatchList.length === 0" @click="deleteBatch"> 批量删除 </el-button>
             </el-button-group>
@@ -66,6 +65,7 @@
       <Table
         ref="tableRef"
         class="table"
+        :loading="tableLoading"
         :columns="columns"
         :data-source="tableData"
         :fetch="loadArticleList"
@@ -111,6 +111,7 @@
           <el-tag v-if="row.status === 0" type="info">待审核</el-tag>
           <el-tag v-if="row.status === 1" type="success">已审核</el-tag>
         </template>
+        <!--附件-->
         <template #attachment="{ row }">
           <span v-if="row.attachmentType === 0">无附件</span>
           <span v-else class="link" @click="showAttachmentPanel(row.nickName, row.articleId)">查看</span>
@@ -155,6 +156,7 @@ import CommentPanel from '@/views/forum/article/components/CommentPanel.vue'
 const boardPanelRef = ref(null)
 const attachmentPanelRef = ref(null)
 const commentPanelRef = ref(null)
+const tableRef = ref(null)
 const appUrl = import.meta.env.VITE_APP_URL
 const { proxy } = getCurrentInstance()
 const boardList = ref([])
@@ -167,7 +169,7 @@ const boardProps = {
 const selectBatchList = ref([])
 const searchFormData = ref({})
 const tableData = ref({})
-const tableRef = ref(null)
+const tableLoading = ref(false)
 const tableOptions = ref({
   selectType: 'checkbox'
 })
@@ -233,6 +235,7 @@ const loadBoardList = async () => {
 loadBoardList()
 // 加载文章列表
 const loadArticleList = async () => {
+  tableLoading.value = true
   const params = {
     pageNo: tableData.value.pageNo,
     pageSize: tableData.value.pageSize
@@ -252,6 +255,7 @@ const loadArticleList = async () => {
     return
   }
   tableData.value = result.data
+  tableLoading.value = false
 }
 // 设置行多选
 const setRowSelected = rows => {
@@ -269,7 +273,7 @@ const auditBatch = () => {
     }
     tableRef.value.clearSelection()
     loadArticleList()
-    proxy.$Toast.success('审核成功')
+    proxy.$message.success('审核成功')
   })
 }
 // 批量删除
@@ -281,7 +285,7 @@ const deleteBatch = () => {
     }
     tableRef.value.clearSelection()
     loadArticleList()
-    proxy.$Toast.success('删除成功')
+    proxy.$message.success('删除成功')
   })
 }
 // 审核单个文章
@@ -292,7 +296,7 @@ const auditSingle = row => {
       return
     }
     loadArticleList()
-    proxy.$Toast.success('审核成功')
+    proxy.$message.success('审核成功')
   })
 }
 // 删除单个文章
@@ -303,7 +307,7 @@ const deleteSingle = row => {
       return
     }
     loadArticleList()
-    proxy.$Toast.success('删除成功')
+    proxy.$message.success('删除成功')
   })
 }
 // 修改文章置顶状态
@@ -314,7 +318,7 @@ const changeTopType = row => {
       return
     }
     loadArticleList()
-    proxy.$Toast.success(`${row.topType === 0 ? '置顶' : '取消置顶'}成功`)
+    proxy.$message.success(`${row.topType === 0 ? '置顶' : '取消置顶'}成功`)
   })
 }
 // 显示板块编辑器

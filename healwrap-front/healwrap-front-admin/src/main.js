@@ -26,6 +26,7 @@ import Dialog from '@/components/Dialog/Dialog.vue'
 import DataList from '@/components/DataList/DataList.vue'
 import Table from '@/components/Table/Table.vue'
 import Alink from '@/components/UserLink/Alink/Alink.vue'
+import Icon from '@/components/Icon/Icon.vue'
 
 const app = createApp(App)
 
@@ -33,7 +34,7 @@ app.use(router)
 app.use(ElementPlus)
 app.config.globalProperties.$router = router
 app.config.globalProperties.$Verify = Verify
-app.config.globalProperties.$Toast = Toast
+app.config.globalProperties.$message = Toast
 app.config.globalProperties.$Request = Request
 app.config.globalProperties.$confirm = Confirm
 app.config.globalProperties.$VueCookies = VueCookies
@@ -43,6 +44,7 @@ app.component('Dialog', Dialog)
 app.component('DataList', DataList)
 app.component('Table', Table)
 app.component('Alink', Alink)
+app.component('Icon', Icon)
 // 注册全局组件
 Object.keys(Icons).forEach(key => {
   app.component(key, Icons[key])

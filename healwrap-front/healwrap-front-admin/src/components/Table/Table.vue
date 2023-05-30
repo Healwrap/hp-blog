@@ -2,6 +2,7 @@
   <div class="table">
     <el-table
       ref="dataTableRef"
+      v-loading="loading"
       :style="{ height: `calc(100% - ${extHeight})` }"
       :data="dataSource.list || []"
       highlight-current-row
@@ -84,6 +85,10 @@ const props = defineProps({
   columns: {
     type: Array,
     default: () => []
+  },
+  loading: {
+    type: Boolean,
+    default: false
   },
   fetch: {
     type: Function

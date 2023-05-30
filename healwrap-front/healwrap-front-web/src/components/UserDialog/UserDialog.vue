@@ -305,7 +305,7 @@ const getEmailCode = () => {
       return
     }
     sendDialogConfig.show = false
-    proxy.$Toast.success('发送成功')
+    proxy.$message.success('发送成功')
   })
 }
 // 切换验证码
@@ -373,18 +373,18 @@ const handleBtnClick = () => {
       }
       resetForm()
       dialogConfig.show = false
-      proxy.$Toast.success('登录成功')
+      proxy.$message.success('登录成功')
       proxy.$store.commit('UPDATE_USER_INFO', result.data)
       return
     }
     // 去登录
     if (opType.value === 1) {
       showPanel(0)
-      proxy.$Toast.success('注册成功')
+      proxy.$message.success('注册成功')
     }
     if (opType.value === 2) {
       showPanel(0)
-      proxy.$Toast.success('重置密码成功')
+      proxy.$message.success('重置密码成功')
     }
   })
 }

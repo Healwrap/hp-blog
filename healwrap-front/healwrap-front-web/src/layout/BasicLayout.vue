@@ -133,7 +133,7 @@ const handleTopButtonClick = type => {
   if (type === 0) {
     if (!proxy.$store.getters.userId) {
       showUserDialog(0)
-      proxy.$Toast.warning('请先登录')
+      proxy.$message.warning('请先登录')
     } else {
       proxy.$router.push('/postArticle')
     }
@@ -190,7 +190,7 @@ watch(
   newVal => {
     if (newVal) {
       showUserDialog(0)
-      proxy.$Toast.warning('请先登录')
+      proxy.$message.warning('请先登录')
     }
   },
   { immediate: true, deep: true }

@@ -86,7 +86,7 @@ const submitForm = () => {
       return
     }
     dialogConfig.show = false
-    proxy.$Toast.success('修改成功')
+    proxy.$message.success('修改成功')
     emit('update')
   })
 }

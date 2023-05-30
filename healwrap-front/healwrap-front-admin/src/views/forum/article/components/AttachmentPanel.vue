@@ -27,7 +27,7 @@
         {{ formData.downloadCount }}
       </el-form-item>
       <el-form-item label="下载">
-        <Alink :src="`/api/forum/attachmentDownload?fileId=${formData.fileId}`" :is-outer="true" content="下载" />
+        <Alink :src="proxy.$api.forum.attachmentDownload(formData.fileId)" :is-outer="true" content="下载" />
       </el-form-item>
     </el-form>
   </Dialog>

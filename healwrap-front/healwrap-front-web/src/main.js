@@ -36,7 +36,7 @@ app.use(router)
 app.use(ElementPlus)
 app.config.globalProperties.$router = router
 app.config.globalProperties.$Verify = Verify
-app.config.globalProperties.$Toast = Toast
+app.config.globalProperties.$message = Toast
 app.config.globalProperties.$Request = Request
 app.config.globalProperties.$confirm = Confirm
 app.config.globalProperties.$store = store

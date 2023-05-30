@@ -74,7 +74,7 @@ const handleCommentSubmit = () => {
     if (!result) {
       return
     }
-    proxy.$Toast.success('评论成功')
+    proxy.$message.success('评论成功')
     formDataRef.value.resetField()
     emit('postCommentFinish', result.data)
   })

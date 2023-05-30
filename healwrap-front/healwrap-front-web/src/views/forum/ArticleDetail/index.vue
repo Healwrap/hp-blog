@@ -162,7 +162,7 @@ const handleAttachmentDownload = async () => {
   }
   // 积分不够
   if (result.data.userIntegral < attachment.value.integral && currentUserinfo.value.userId !== articleInfo.value.userId) {
-    proxy.$Toast.warning('你的积分不够，无法下载')
+    proxy.$message.warning('你的积分不够，无法下载')
     return
   }
   // 积分为0或者是自己的文章或者已经下载过了
