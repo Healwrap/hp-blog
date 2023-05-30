@@ -60,7 +60,7 @@ instance.interceptors.response.use(
       return responseData
     } else if (responseData.code === 901) {
       setTimeout(() => {
-        router.push('/login')
+        router.push('/user/login')
       }, 1500)
       return Promise.reject({ showError: true, msg: '登录超时，请重新登录' })
     }

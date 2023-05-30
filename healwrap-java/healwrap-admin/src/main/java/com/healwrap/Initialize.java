@@ -4,6 +4,7 @@ import com.healwrap.service.SysSettingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  * @Date 2023/5/25 7:00
  */
 @Component()
-public class Initialize {
+public class Initialize implements ApplicationRunner {
   private static final Logger logger = LoggerFactory.getLogger(Initialize.class);
   @Resource
   private SysSettingService sysSettingService;

@@ -2,7 +2,7 @@
   <layout>
     <router-view v-slot="{ Component }">
       <transition name="fade-transform" mode="out-in">
-        <component :is="Component"/>
+        <component :is="Component" />
       </transition>
     </router-view>
   </layout>
@@ -12,6 +12,4 @@
 import Layout from '@/components/Layout/Layout.vue'
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
