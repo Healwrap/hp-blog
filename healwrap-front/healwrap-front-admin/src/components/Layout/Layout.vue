@@ -161,7 +161,7 @@ watch(
         }
 
         &:hover {
-          @apply bg-[#1890ff];
+          @apply bg-[#319bff70];
         }
 
         &.is-active {
@@ -182,7 +182,7 @@ watch(
             }
 
             &:hover {
-              @apply bg-[#1890ff];
+              @apply bg-[#319bff70];
             }
 
             &.is-active {

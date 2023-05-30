@@ -169,7 +169,7 @@ const boardProps = {
 const selectBatchList = ref([])
 const searchFormData = ref({})
 const tableData = ref({})
-const tableLoading = ref(false)
+const tableLoading = ref(true)
 const tableOptions = ref({
   selectType: 'checkbox'
 })

@@ -30,6 +30,10 @@ public class ForumComment implements Serializable {
    * 文章ID
    */
   private String articleId;
+  /**
+   * 文章标题
+   */
+  private String articleTitle;
 
   /**
    * 回复内容

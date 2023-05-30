@@ -131,6 +131,13 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     SimplePage page = new SimplePage(param.getPageNo(), total, pageSize);
     param.setSimplePage(page);
     list = list.subList((page.getPageNo() - 1) * pageSize, (Math.min(page.getPageNo() * pageSize, total)));
+    // 加入评论文章标题
+    for (ForumComment item : list) {
+      ForumArticle article = this.forumArticleMapper.selectByArticleId(item.getArticleId());
+      if (article != null) {
+        item.setArticleTitle(article.getTitle());
+      }
+    }
     PaginationResultVO<ForumComment> result = new PaginationResultVO(total, page.getPageSize(), page.getPageNo(), page.getPageTotal(), list);
     return result;
   }

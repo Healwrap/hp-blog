@@ -56,8 +56,7 @@
         </template>
         <!--文章标题-->
         <template #articleTitle="{ row }">
-          {{ row.articleId }}
-          <alink :is-outer="true" :src="`${appUrl}/article/${row.articleId}`" content="查看文章"/>
+          <alink :is-outer="true" :src="`${appUrl}/article/${row.articleId}`" :content="row.articleTitle"/>
         </template>
         <!--评论内容-->
         <template #content="{ row }">
@@ -118,7 +117,7 @@ const columns = [
   {
     label: '文章标题',
     prop: 'articleTitle',
-    width: 230,
+    width: 180,
     scopedSlots: 'articleTitle'
   },
   {
@@ -155,7 +154,7 @@ const columns = [
   }
 ]
 const tableData = ref([])
-const tableLoading = ref(false)
+const tableLoading = ref(true)
 const tableOptions = {selectType: 'checkbox'}
 // 加载数据列表
 const loadDataList = async () => {
