@@ -58,7 +58,7 @@
 import { getCurrentInstance, reactive, ref } from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import UserLink from '@/components/UserLink/UserLink.vue'
-import CommentImage from '@/views/forum/article/components/CommentImage.vue'
+import CommentImage from '@/components/CommentImage/CommentImage.vue'
 
 const { proxy } = getCurrentInstance()
 const commentList = ref([])
@@ -87,7 +87,7 @@ const close = () => {
 const show = async articleId => {
   dialogConfig.show = true
   // 加载评论列表
-  const result = await proxy.$api.forum.loadCommentList(articleId)
+  const result = await proxy.$api.forum.loadComment4Article({ articleId })
   if (!result) {
     return
   }
@@ -127,7 +127,7 @@ defineExpose({
         .comment-info {
           @apply flex;
           .reply-info {
-            @apply mb-2 text-gray-400;
+            @apply mb-2 text-gray-400 text-xs;
             .ulink {
               @apply text-blue-500;
             }

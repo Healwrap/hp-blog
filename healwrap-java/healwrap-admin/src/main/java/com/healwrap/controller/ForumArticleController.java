@@ -196,37 +196,10 @@ public class ForumArticleController extends ABaseController {
    * @param commentQuery 查询条件
    * @return ResponseVO
    */
-  @PostMapping("/loadCommentList")
-  public ResponseVO loadCommentList(ForumCommentQuery commentQuery) {
-    commentQuery.setLoadChildren(true);
-    commentQuery.setOrderBy("post_time desc");
-    return getSuccessResponseVO(forumCommentService.findListByParam(commentQuery));
-  }
-
-  /**
-   * 加载文章评论列表
-   *
-   * @param commentQuery 查询条件
-   * @return ResponseVO
-   */
   @PostMapping("/loadComment4Article")
   public ResponseVO loadComment4Article(ForumCommentQuery commentQuery) {
     commentQuery.setLoadChildren(true);
     commentQuery.setOrderBy("post_time desc");
-    commentQuery.setPCommentId(0);
     return getSuccessResponseVO(forumCommentService.findListByParam(commentQuery));
-  }
-
-  /**
-   * 删除评论
-   *
-   * @param commentIds 评论id数组
-   * @return ResponseVO
-   */
-  @DeleteMapping("/deleteComment")
-  @GlobalIntercepter(checkParams = true)
-  public ResponseVO deleteComment(@VerifyParams(required = true) String commentIds) {
-    forumCommentService.delComment(commentIds);
-    return getSuccessResponseVO(null);
   }
 }

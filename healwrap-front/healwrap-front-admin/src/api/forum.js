@@ -1,19 +1,16 @@
 import request from '@/utils/Request'
-import { ElMessageBox } from 'element-plus'
-import router from '@/router'
 
 const apis = {
   loadArticleList: '/forum/loadArticleList',
   getArticleDetail: '/forum/getArticleDetail',
   getUserDownloadInfo: '/forum/getUserDownloadInfo',
   attachmentDownload: '/api/forum/attachmentDownload',
-  getArticleDetail4Update: '/forum/articleDetail4Update',
   updateBoard: '/forum/updateBoard',
   auditArticle: '/forum/auditArticle',
   deleteArticle: '/forum/deleteArticle',
   changeTopType: 'forum/changeTopType',
   getAttachment: 'forum/getAttachment',
-  loadCommentList: '/forum/loadCommentList'
+  loadComment4Article: '/forum/loadComment4Article'
 }
 
 /**
@@ -47,7 +44,7 @@ const getArticleDetail = articleId => {
 }
 
 /**
- * 获取用户积分
+ * 获取用户下载信息
  * @param fileId 文件id
  * @returns {*}
  */
@@ -61,6 +58,7 @@ const getUserDownloadInfo = fileId => {
     showLoading: false
   })
 }
+
 /**
  * 下载附件
  * @param fileId
@@ -68,30 +66,6 @@ const getUserDownloadInfo = fileId => {
  */
 const attachmentDownload = fileId => {
   return `${apis.attachmentDownload}?fileId=${fileId}`
-}
-
-/**
- * 更新时获取文章详情
- * @param articleId 文章id
- * @returns {*}
- */
-const getArticleDetail4Update = articleId => {
-  return request({
-    url: apis.getArticleDetail4Update,
-    method: 'post',
-    params: {
-      articleId
-    },
-    showError: false,
-    errorCallback: response => {
-      ElMessageBox.alert(response.info, '错误', {
-        showClose: false,
-        callback: () => {
-          router.go(-1)
-        }
-      })
-    }
-  })
 }
 
 const updateBoard = params => {
@@ -147,13 +121,11 @@ const getAttachment = articleId => {
   })
 }
 
-const loadCommentList = articleId => {
+const loadComment4Article = params => {
   return request({
-    url: apis.loadCommentList,
+    url: apis.loadComment4Article,
     method: 'post',
-    params: {
-      articleId
-    },
+    params,
     showLoading: false
   })
 }
@@ -163,12 +135,11 @@ const forumApi = {
   getArticleDetail,
   getUserDownloadInfo,
   attachmentDownload,
-  getArticleDetail4Update,
   updateBoard,
   auditArticle,
   deleteArticle,
   changeTopType,
   getAttachment,
-  loadCommentList
+  loadComment4Article
 }
 export default forumApi

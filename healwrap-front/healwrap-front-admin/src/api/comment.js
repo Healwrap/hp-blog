@@ -2,34 +2,18 @@ import request from '@/utils/request'
 import { mergeParams } from '@/utils/Utils'
 
 const apis = {
-  loadComment: '/comment/loadComment',
-  postComment: '/comment/postComment',
-  doLike: '/comment/doLike',
-  changeTopType: '/comment/changeTopType'
-}
-/**
- * 加载评论
- * @param articleId 文章id
- * @param pageNo 页码
- * @param orderType 排序类型
- * @returns {*}
- */
-const loadComment = (articleId, pageNo, orderType) => {
-  const params = mergeParams({ articleId: articleId, pageNo: pageNo, orderType: orderType })
-  return request({
-    url: apis.loadComment,
-    method: 'get',
-    params,
-    showLoading: false
-  })
+  loadCommentList: '/comment/loadCommentList',
+  changeTopType: '/comment/changeTopType',
+  deleteComment: '/comment/deleteComment',
+  auditComment: '/comment/auditComment'
 }
 
-const postComment = (articleId, pCommentId, replyUserId, content) => {
-  const params = mergeParams({ articleId: articleId, pCommentId: pCommentId, replyUserId: replyUserId, content: content })
+const loadCommentList = params => {
   return request({
-    url: apis.postComment,
+    url: apis.loadCommentList,
     method: 'post',
-    params
+    params,
+    showLoading: false
   })
 }
 
@@ -42,21 +26,29 @@ const changeTopType = (commentId, topType) => {
   })
 }
 
-const doLike = commentId => {
-  const params = mergeParams({ commentId: commentId })
+const deleteComment = params => {
   return request({
-    url: apis.doLike,
-    method: 'post',
+    url: apis.deleteComment,
+    method: 'delete',
+    params,
+    showLoading: false
+  })
+}
+
+const auditComment = params => {
+  return request({
+    url: apis.auditComment,
+    method: 'patch',
     params,
     showLoading: false
   })
 }
 
 const commentApis = {
-  loadComment,
-  postComment,
+  loadCommentList,
   changeTopType,
-  doLike
+  deleteComment,
+  auditComment
 }
 
 export default commentApis

@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +107,31 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     param.setSimplePage(page);
     List<ForumComment> list = this.findListByParam(param);
     PaginationResultVO<ForumComment> result = new PaginationResultVO(count, page.getPageSize(), page.getPageNo(), page.getPageTotal(), list);
+    return result;
+  }
+
+  /**
+   * 分页查询，线性结构
+   */
+  public PaginationResultVO<ForumComment> findListByPageLinear(ForumCommentQuery param) {
+    List<ForumComment> list = this.findListByParam(param);
+    // 将评论列表转换为线性结构
+    List<ForumComment> temp = new ArrayList<>();
+    for (ForumComment item : list) {
+      if (item.getChildren() != null && !item.getChildren().isEmpty()) {
+        temp.addAll(item.getChildren());
+      }
+    }
+    list.addAll(temp);
+    // 排序
+    list.sort((o1, o2) -> o2.getPostTime().compareTo(o1.getPostTime()));
+    // 分页
+    int total = list.size();
+    int pageSize = param.getPageSize() == null ? PageSize.SIZE10.getSize() : param.getPageSize();
+    SimplePage page = new SimplePage(param.getPageNo(), total, pageSize);
+    param.setSimplePage(page);
+    list = list.subList((page.getPageNo() - 1) * pageSize, (Math.min(page.getPageNo() * pageSize, total)));
+    PaginationResultVO<ForumComment> result = new PaginationResultVO(total, page.getPageSize(), page.getPageNo(), page.getPageTotal(), list);
     return result;
   }
 
@@ -316,12 +342,28 @@ public class ForumCommentServiceImpl implements ForumCommentService {
 
   @Override
   public void auditComment(String commentIds) {
-
+    String[] commentIdArr = commentIds.split(",");
+    for (String commentId : commentIdArr) {
+      forumCommentService.auditCommentSingle(commentId);
+    }
   }
 
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void auditCommentSingle(String commentId) {
-
+    ForumComment comment = forumCommentMapper.selectByCommentId(Integer.parseInt(commentId));
+    if (null == comment || CommentStatusEnum.DEL.getStatus().equals(Integer.parseInt(commentId)) || CommentStatusEnum.AUDIT.getStatus().equals(comment.getStatus())) {
+      throw new BusinessException("评论不存在或已审核");
+    }
+    ForumComment updateInfo = new ForumComment();
+    updateInfo.setStatus(CommentStatusEnum.AUDIT.getStatus());
+    forumCommentMapper.updateByCommentId(updateInfo, Integer.parseInt(commentId));
+    // 更新文章评论数量
+    ForumArticle forumArticle = forumArticleMapper.selectByArticleId(comment.getArticleId());
+    ForumComment pComment = null;
+    if (comment.getPCommentId() != 0 && StringTools.isEmpty(comment.getReplyUserId())) {
+      pComment = forumCommentMapper.selectByCommentId(comment.getPCommentId());
+    }
+    updateCommentInfo(comment, pComment, forumArticle);
   }
 }

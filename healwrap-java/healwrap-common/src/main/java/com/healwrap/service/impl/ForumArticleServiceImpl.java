@@ -355,7 +355,7 @@ public class ForumArticleServiceImpl implements ForumArticleService {
   public void delArticle(String articleIds) {
     String[] articleIdArr = articleIds.split(",");
     for (String articleId : articleIdArr) {
-      forumArticleService.delArticleSingle(articleId);
+      forumArticleService.delArticleSingle(articleId); // TODO 同一个类中方法调用，导致@Transactional失效，用Spring AOP代理造成，有当事务方法被当前类以外的代码调用时，才会由Spring生成的代理对象来管理
     }
   }
 
