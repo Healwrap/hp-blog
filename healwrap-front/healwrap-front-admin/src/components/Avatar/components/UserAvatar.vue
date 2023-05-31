@@ -1,10 +1,11 @@
 <template>
-  <el-avatar :src="accountApi.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter" />
+  <el-avatar :src="proxy.$api.account.avatarUrl(userId)" :size="size" style="cursor: pointer" @click="gotoAccountCenter" />
 </template>
 
 <script setup>
-import accountApi from '@/api/account'
+import { getCurrentInstance } from 'vue'
 
+const { proxy } = getCurrentInstance()
 const props = defineProps({
   userId: {
     type: String

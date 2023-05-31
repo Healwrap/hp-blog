@@ -1,4 +1,5 @@
 import request from '@/utils/Request'
+import { mergeParams } from '@/utils/Utils'
 
 const apis = {
   loadArticleList: '/forum/loadArticleList',
@@ -22,7 +23,7 @@ const loadArticleList = params => {
   return request({
     url: apis.loadArticleList,
     method: 'post',
-    params,
+    params: mergeParams(params),
     showLoading: false
   })
 }
@@ -72,7 +73,7 @@ const updateBoard = params => {
   return request({
     url: apis.updateBoard,
     method: 'patch',
-    params
+    params: mergeParams(params)
   })
 }
 
@@ -125,7 +126,7 @@ const loadComment4Article = params => {
   return request({
     url: apis.loadComment4Article,
     method: 'post',
-    params,
+    params: mergeParams(params),
     showLoading: false
   })
 }

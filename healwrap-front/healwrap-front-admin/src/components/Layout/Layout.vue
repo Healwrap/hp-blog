@@ -38,7 +38,7 @@
           </template>
         </el-menu>
       </el-aside>
-      <el-container>
+      <el-container class="inner-container">
         <el-header class="header">
           <span class="op-menu" @click="collapseMenu">
             <Icon :icon="elMenuConfig.collapse ? 'Expand' : 'Fold'" :size="18" />
@@ -194,22 +194,24 @@ watch(
     }
   }
 
-  .header {
-    @apply flex items-center bg-white border-b-2 border-[#1890ff];
-    .op-menu {
-      @apply flex items-center cursor-pointer text-black;
+  .inner-container {
+    .header {
+      @apply flex items-center bg-white border-b-2 border-[#1890ff];
+      .op-menu {
+        @apply flex items-center cursor-pointer text-black;
+      }
     }
-  }
 
-  .main {
-    @apply p-0;
-    .content {
-      @apply h-full bg-white;
-      .tab-group {
-        .el-tabs {
-          @apply border-none;
-          ::v-deep(.el-tabs__content) {
-            @apply p-0;
+    .main {
+      @apply p-0;
+      .content {
+        @apply h-full bg-white;
+        .tab-group {
+          .el-tabs {
+            @apply border-none;
+            ::v-deep(.el-tabs__content) {
+              @apply p-0;
+            }
           }
         }
       }
