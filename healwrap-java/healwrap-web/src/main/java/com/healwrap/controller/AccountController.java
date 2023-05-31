@@ -8,7 +8,9 @@ import com.healwrap.entity.dto.CreateImageCode;
 import com.healwrap.entity.dto.SessionWebUserDto;
 import com.healwrap.entity.dto.SysSettingDto;
 import com.healwrap.entity.enums.ResponseCodeEnum;
+import com.healwrap.entity.enums.UserStatusEnum;
 import com.healwrap.entity.enums.VerifyRegexEnum;
+import com.healwrap.entity.po.UserInfo;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.exception.BusinessException;
 import com.healwrap.service.EmailCodeService;
@@ -167,6 +169,16 @@ public class AccountController extends ABaseController {
   @RequestMapping("/getUserInfo")
   @GlobalIntercepter()
   public ResponseVO getUserInfo(HttpSession session) {
+    // 判断用户状态
+    if (session.getAttribute(Constants.SESSIONS_KEY) == null) {
+      return getSuccessResponseVO(null);
+    }
+    SessionWebUserDto userDto = getUserInfoFromSession(session);
+    UserInfo userInfo = userInfoService.getUserInfoByUserId(userDto.getUserId());
+    if (userInfo == null || userInfo.getStatus().equals(UserStatusEnum.DISABLE.getStatus())) {
+      session.invalidate();
+      return getSuccessResponseVO(ResponseCodeEnum.CODE_901);
+    }
     return getSuccessResponseVO(getUserInfoFromSession(session));
   }
 

@@ -349,9 +349,15 @@ public class UserInfoServiceImpl implements UserInfoService {
   @Override
   @Transactional(rollbackFor = Exception.class)
   public void updateUserStatus(String userId, Integer status) {
+    // 禁用用户
     if (UserStatusEnum.DISABLE.getStatus().equals(status)) {
       forumArticleMapper.updateStatusBatchByUserId(userId, ArticleStatusEnum.DEL.getStatus());
       forumCommentMapper.updateStatusBatchByUserId(userId, CommentStatusEnum.DEL.getStatus());
+    }
+    // 恢复用户
+    if (UserStatusEnum.ENABLE.getStatus().equals(status)) {
+      forumArticleMapper.updateStatusBatchByUserId(userId, ArticleStatusEnum.AUDIT.getStatus());
+      forumCommentMapper.updateStatusBatchByUserId(userId, CommentStatusEnum.AUDIT.getStatus());
     }
     UserInfo userInfo = new UserInfo();
     userInfo.setStatus(status);

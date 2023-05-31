@@ -1,15 +1,12 @@
 package com.healwrap.controller;
 
+import com.healwrap.config.WebConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.annotation.VerifyParams;
-import com.healwrap.config.WebConfig;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.dto.SessionWebUserDto;
-import com.healwrap.entity.enums.EditorTypeEnum;
-import com.healwrap.entity.enums.OperRecordOpTypeEnum;
-import com.healwrap.entity.enums.ResponseCodeEnum;
-import com.healwrap.entity.enums.UserOperFrequencyTypeEnum;
+import com.healwrap.entity.enums.*;
 import com.healwrap.entity.enums.article.ArticleOrderTypeEnum;
 import com.healwrap.entity.enums.article.ArticleStatusEnum;
 import com.healwrap.entity.po.*;
@@ -259,6 +256,12 @@ public class ForumArticleController extends ABaseController {
                                 Integer integral
   ) {
     SessionWebUserDto userDto = getUserInfoFromSession(session);
+    // 判断用户状态
+    UserInfo userInfo = userInfoService.getUserInfoByUserId(userDto.getUserId());
+    if (userInfo == null || userInfo.getStatus().equals(UserStatusEnum.DISABLE.getStatus())) {
+      session.invalidate();
+      throw new BusinessException(ResponseCodeEnum.CODE_901);
+    }
     ForumArticle forumArticle = new ForumArticle();
     forumArticle.setTitle(EscapeUtil.escapeHtml(title));
     forumArticle.setSummary(EscapeUtil.escapeHtml(summary));
