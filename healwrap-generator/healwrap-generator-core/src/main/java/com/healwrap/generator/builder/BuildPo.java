@@ -1,8 +1,8 @@
-package com.easyjava.builder;
+package com.healwrap.generator.builder;
 
-import com.easyjava.bean.Constants;
-import com.easyjava.bean.FieldInfo;
-import com.easyjava.bean.TableInfo;
+import com.healwrap.generator.bean.Constants;
+import com.healwrap.generator.bean.FieldInfo;
+import com.healwrap.generator.bean.TableInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

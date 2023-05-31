@@ -1,4 +1,4 @@
-package com.easyjava.bean;
+package com.healwrap.generator.bean;
 
 import java.util.LinkedHashMap;
 import java.util.List;

@@ -1,11 +1,10 @@
-package com.easyjava.builder;
+package com.healwrap.generator.builder;
 
-import com.easyjava.bean.Constants;
-import com.easyjava.bean.FieldInfo;
-import com.easyjava.bean.TableInfo;
-import com.easyjava.utils.JsonUtils;
-import com.easyjava.utils.PropertiesUtils;
-import com.easyjava.utils.StringUtils;
+import com.healwrap.generator.bean.Constants;
+import com.healwrap.generator.bean.FieldInfo;
+import com.healwrap.generator.bean.TableInfo;
+import com.healwrap.generator.utils.PropertiesUtils;
+import com.healwrap.generator.utils.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

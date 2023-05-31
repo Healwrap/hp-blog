@@ -1,6 +1,6 @@
-package com.easyjava.builder;
+package com.healwrap.generator.builder;
 
-import com.easyjava.utils.DateUtils;
+import com.healwrap.generator.utils.DateUtils;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

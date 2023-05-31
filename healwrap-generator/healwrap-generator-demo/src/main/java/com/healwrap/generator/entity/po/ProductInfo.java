@@ -1,4 +1,4 @@
-package com.easyjava.entity.po;
+package com.healwrap.generator.entity.po;
 
 import java.io.Serializable;
 import java.util.Date;

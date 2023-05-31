@@ -1,4 +1,4 @@
-package com.easyjava.utils;
+package com.healwrap.generator.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

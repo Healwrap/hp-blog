@@ -1,4 +1,4 @@
-package com.easyjava.bean;
+package com.healwrap.generator.bean;
 
 /**
  * &#064;ClassName  FieldInfo

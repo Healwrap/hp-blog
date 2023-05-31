@@ -1,4 +1,4 @@
-package com.easyjava.utils;
+package com.healwrap.generator.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

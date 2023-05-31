@@ -1,9 +1,8 @@
-package com.easyjava;
+package com.healwrap.generator;
 
-import com.easyjava.bean.TableInfo;
-import com.easyjava.builder.BuildPo;
-import com.easyjava.builder.BuildTable;
-import com.easyjava.utils.JsonUtils;
+import com.healwrap.generator.bean.TableInfo;
+import com.healwrap.generator.builder.BuildPo;
+import com.healwrap.generator.builder.BuildTable;
 
 import java.util.List;
 

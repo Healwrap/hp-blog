@@ -1,10 +1,9 @@
-package com.easyjava.utils;
+package com.healwrap.generator.utils;
 
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * &#064;ClassName  PropertiesUtils

@@ -37,10 +37,10 @@ suffix:
 
 # 生成文件的路径
 path:
-  base: C:/Users/admin/Desktop/workspace/IDEA-Workplace/easyJava/easyJava-demo/src/main
+  base: C:/Users/admin/Desktop/workspace/IDEA-Workplace/healwrap/healwrap-generator/healwrap-generator-demo/src/main/java/
 
 # 包名
 package:
-  base: com.easyjava
+  base: com.healwrap.generator
   po: entity.po
   param: entity.query

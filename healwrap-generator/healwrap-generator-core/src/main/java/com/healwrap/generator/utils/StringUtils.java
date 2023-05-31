@@ -1,4 +1,4 @@
-package com.easyjava.utils;
+package com.healwrap.generator.utils;
 
 /**
  * &#064;ClassName  StringUtils

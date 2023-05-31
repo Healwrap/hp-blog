@@ -1,6 +1,6 @@
-package com.easyjava.bean;
+package com.healwrap.generator.bean;
 
-import com.easyjava.utils.PropertiesUtils;
+import com.healwrap.generator.utils.PropertiesUtils;
 
 /**
  * &#064;ClassName  Constants
