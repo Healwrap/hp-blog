@@ -541,4 +541,10 @@
         set top_type = 0
         where article_id = #{articleId}
     </update>
+
+	<update id="updateStatusBatchByUserId">
+        update forum_comment
+        set status = #{status}
+        where user_id = #{userId}
+    </update>
 </mapper>

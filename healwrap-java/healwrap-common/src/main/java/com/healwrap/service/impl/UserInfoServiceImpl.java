@@ -7,23 +7,18 @@ import com.healwrap.entity.enums.PageSize;
 import com.healwrap.entity.enums.UserIntegralChangeTypeEnum;
 import com.healwrap.entity.enums.UserIntegralOperTypeEnum;
 import com.healwrap.entity.enums.UserStatusEnum;
+import com.healwrap.entity.enums.article.ArticleStatusEnum;
+import com.healwrap.entity.enums.comment.CommentStatusEnum;
 import com.healwrap.entity.enums.file.FileUploadTypeEnum;
-import com.healwrap.entity.enums.message.MessageStatusEnum;
 import com.healwrap.entity.enums.message.MessageTypeEnum;
-import com.healwrap.entity.po.UserInfo;
-import com.healwrap.entity.po.UserIntegralRecord;
-import com.healwrap.entity.po.UserMessage;
-import com.healwrap.entity.query.SimplePage;
-import com.healwrap.entity.query.UserInfoQuery;
-import com.healwrap.entity.query.UserIntegralRecordQuery;
-import com.healwrap.entity.query.UserMessageQuery;
+import com.healwrap.entity.po.*;
+import com.healwrap.entity.query.*;
 import com.healwrap.entity.vo.PaginationResultVO;
 import com.healwrap.exception.BusinessException;
-import com.healwrap.mappers.UserInfoMapper;
-import com.healwrap.mappers.UserIntegralRecordMapper;
-import com.healwrap.mappers.UserMessageMapper;
+import com.healwrap.mappers.*;
 import com.healwrap.service.EmailCodeService;
 import com.healwrap.service.UserInfoService;
+import com.healwrap.service.UserMessageService;
 import com.healwrap.utils.IpAddressTools;
 import com.healwrap.utils.StringTools;
 import com.healwrap.utils.SysCacheUtils;
@@ -57,6 +52,12 @@ public class UserInfoServiceImpl implements UserInfoService {
   private UserMessageMapper<UserMessage, UserMessageQuery> userMessageMapper;
   @Resource
   private UserIntegralRecordMapper<UserIntegralRecord, UserIntegralRecordQuery> userIntegralRecordMapper;
+  @Resource
+  private ForumArticleMapper<ForumArticle, ForumArticleQuery> forumArticleMapper;
+  @Resource
+  private ForumCommentMapper<ForumComment, ForumCommentQuery> forumCommentMapper;
+  @Resource
+  private UserMessageService userMessageService;
   @Resource
   private FileUtils fileUtils;
   @Resource
@@ -235,7 +236,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     userMessage.setReceivedUserId(userId);
     userMessage.setMessageType(MessageTypeEnum.SYS.getType());
     userMessage.setCreateTime(new Date());
-    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessage.setMessageContent(SysCacheUtils.getSysSetting().getRegisterSetting().getRegisterWelcome());
     userMessageMapper.insert(userMessage);
   }
@@ -327,11 +327,61 @@ public class UserInfoServiceImpl implements UserInfoService {
     this.userInfoMapper.updateByEmail(tmpInfo, email);
   }
 
+  /***
+   * 更新用户信息
+   * @param userInfo 用户信息
+   * @param avatar 头像
+   */
   @Override
   public void updateUserInfo(UserInfo userInfo, MultipartFile avatar) {
     userInfoMapper.updateByUserId(userInfo, userInfo.getUserId());
     if (avatar != null) {
       fileUtils.uploadFile2Local(avatar, userInfo.getUserId(), FileUploadTypeEnum.AVATAR);
+    }
+  }
+
+  /**
+   * 更新用户状态
+   *
+   * @param userId 用户id
+   * @param status 状态
+   */
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void updateUserStatus(String userId, Integer status) {
+    if (UserStatusEnum.DISABLE.getStatus().equals(status)) {
+      forumArticleMapper.updateStatusBatchByUserId(userId, ArticleStatusEnum.DEL.getStatus());
+      forumCommentMapper.updateStatusBatchByUserId(userId, CommentStatusEnum.DEL.getStatus());
+    }
+    UserInfo userInfo = new UserInfo();
+    userInfo.setStatus(status);
+    userInfoMapper.updateByUserId(userInfo, userId);
+  }
+
+  /**
+   * 发送消息
+   *
+   * @param userId   用户id
+   * @param message  消息
+   * @param integral 积分
+   */
+  @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void sendMessage(String userId, String message, Integer integral) {
+    UserMessage userMessage = new UserMessage();
+    userMessage.setReceivedUserId(userId);
+    userMessage.setMessageType(MessageTypeEnum.SYS.getType());
+    userMessage.setCreateTime(new Date());
+    userMessage.setMessageContent(message);
+    userMessageService.add(userMessage);
+
+    UserIntegralChangeTypeEnum changeTypeEnum = UserIntegralChangeTypeEnum.ADD;
+    if (integral != null && integral != 0) {
+      if (integral < 0) {
+        integral *= -1;
+        changeTypeEnum = UserIntegralChangeTypeEnum.REDUCE;
+      }
+      updateUserIntegral(userId, UserIntegralOperTypeEnum.ADMIN, changeTypeEnum.getChangeType(), integral);
     }
   }
 }

@@ -299,7 +299,6 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     userMessage.setSendUserId(comment.getUserId());
     userMessage.setSendNickName(comment.getNickName());
     userMessage.setMessageContent(comment.getContent());
-    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessage.setArticleTitle(forumArticle.getTitle());
     if (comment.getPCommentId() == 0) {
       userMessage.setReceivedUserId(forumArticle.getUserId());
@@ -342,7 +341,6 @@ public class ForumCommentServiceImpl implements ForumCommentService {
     userMessage.setReceivedUserId(comment.getUserId());
     userMessage.setMessageType(MessageTypeEnum.SYS.getType());
     userMessage.setCreateTime(new Date());
-    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessage.setMessageContent("您的评论" + comment.getContent() + "已被删除");
     userMessageService.add(userMessage);
   }

@@ -177,7 +177,6 @@ public class ForumArticleAttachmentServiceImpl implements ForumArticleAttachment
     userMessage.setSendUserId(sessionWebUserDto.getUserId());
     userMessage.setSendNickName(sessionWebUserDto.getNickName());
     userMessage.setReceivedUserId(forumArticleAttachment.getUserId());
-    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessageMapper.insert(userMessage);
     return forumArticleAttachment;
   }

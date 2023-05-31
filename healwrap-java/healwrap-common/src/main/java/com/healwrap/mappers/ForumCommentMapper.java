@@ -24,7 +24,15 @@ public interface ForumCommentMapper<T, P> extends BaseMapper<T, P> {
    */
   T selectByCommentId(@Param("commentId") Integer commentId);
 
+  /**
+   * 根据CommentId更新评论点赞数
+   */
   void updateCommentGoodCount(@Param("changeCount") Integer changeCount, @Param("commentId") Integer commentId);
 
+  /**
+   * 更新置顶状态
+   */
   void updateTopTypeByArticleId(@Param("articleId") String articleId);
+
+  void updateStatusBatchByUserId(@Param("userId") String userId, @Param("status") Integer status);
 }

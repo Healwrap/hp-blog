@@ -117,5 +117,19 @@ public interface UserInfoService {
    * 重置密码
    */
   void resetPwd(String email, String password, String emailCode);
+
+  /**
+   * 更新用户信息
+   */
   void updateUserInfo(UserInfo userInfo, MultipartFile avatar);
+
+  /**
+   * 更新用户状态
+   */
+  void updateUserStatus(String userId, Integer status);
+
+  /**
+   * 发送消息
+   */
+  void sendMessage(String userId, String message, Integer integral);
 }

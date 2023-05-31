@@ -379,7 +379,6 @@ public class ForumArticleServiceImpl implements ForumArticleService {
     userMessage.setReceivedUserId(article.getUserId());
     userMessage.setMessageType(MessageTypeEnum.SYS.getType());
     userMessage.setCreateTime(new Date());
-    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     userMessage.setMessageContent("您的文章《" + article.getTitle() + "》已被管理员删除");
     userMessageService.add(userMessage);
   }

@@ -815,4 +815,10 @@
         </where>
         where article_id = #{articleId}
     </update>
+
+	<update id="updateStatusBatchByUserId">
+		update forum_article
+		set status = #{status}
+		where user_id = #{userId}
+	</update>
 </mapper>
