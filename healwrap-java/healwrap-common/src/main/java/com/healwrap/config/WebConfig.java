@@ -29,5 +29,4 @@ public class WebConfig extends AppConfig {
 
   @Value("${inner.api.appSecret:}")
   private String innerApiAppSecret;
-
 }

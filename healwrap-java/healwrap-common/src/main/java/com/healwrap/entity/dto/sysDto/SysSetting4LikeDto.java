@@ -1,5 +1,6 @@
 package com.healwrap.entity.dto.sysDto;
 
+import com.healwrap.entity.annotation.VerifyParams;
 import lombok.Data;
 
 /**
@@ -13,5 +14,6 @@ public class SysSetting4LikeDto {
   /**
    * 点赞阈值
    */
+  @VerifyParams(required = true)
   private Integer likeDayCountThreshold;
 }

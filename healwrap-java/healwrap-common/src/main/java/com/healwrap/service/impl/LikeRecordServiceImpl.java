@@ -192,7 +192,6 @@ public class LikeRecordServiceImpl implements LikeRecordService {
     }
     userMessage.setSendUserId(userId);
     userMessage.setSendNickName(nickName);
-    userMessage.setStatus(MessageStatusEnum.NO_READ.getStatus());
     if (!userId.equals(userMessage.getReceivedUserId())) {
       UserMessage dbInfo = userMessageMapper.selectByArticleIdAndCommentIdAndSendUserIdAndMessageType(userMessage.getArticleId(), userMessage.getCommentId(), userMessage.getSendUserId(), userMessage.getMessageType());
       if (dbInfo == null) {

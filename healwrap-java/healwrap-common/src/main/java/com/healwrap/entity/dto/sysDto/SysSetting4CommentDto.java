@@ -1,5 +1,6 @@
 package com.healwrap.entity.dto.sysDto;
 
+import com.healwrap.entity.annotation.VerifyParams;
 import lombok.Data;
 
 /**
@@ -13,13 +14,16 @@ public class SysSetting4CommentDto {
   /**
    * 评论积分
    */
+  @VerifyParams(required = true)
   private Integer commentIntegral;
   /**
    * 评论数量阈值
    */
+  @VerifyParams(required = true)
   private Integer commentDayCountThreshold;
   /**
    * 开启评论
    */
+  @VerifyParams(required = true)
   private Boolean commentEnable;
 }
