@@ -43,10 +43,6 @@ project:
   defaultAvatar: default_avatar.jpg
   defaultCover: default/default_cover.jpeg
 
-# 日志级别配置
-log:
-  root:
-    level: info
 
 # 内部接口相关
 inner:

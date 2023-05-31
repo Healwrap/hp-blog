@@ -1,8 +1,8 @@
 package com.healwrap.controller;
 
+import com.healwrap.config.WebConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
-import com.healwrap.config.WebConfig;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.enums.ResponseCodeEnum;
 import com.healwrap.entity.enums.UserOperFrequencyTypeEnum;
@@ -115,7 +115,7 @@ public class FileController extends ABaseController {
     String imageName = userId + Constants.AVATAR_SUFFIX;
     File file = new File(avatarPath);
     if (!file.exists()) {
-      imageName = Constants.AVATAR_DEFAULT;
+      imageName = webConfig.getDefaultAvatar();
     }
     readImage(response, Constants.FILE_FOLDER_AVATAR_NAME, imageName);
   }

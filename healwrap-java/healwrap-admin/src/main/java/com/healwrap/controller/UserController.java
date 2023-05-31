@@ -57,11 +57,11 @@ public class UserController extends ABaseController {
    * @param integral 积分
    * @return ResponseVO
    */
-  @PostMapping("sendMessage")
+  @PostMapping("/sendMessage")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO sendMessage(@VerifyParams(required = true) String userId,
                                 @VerifyParams(required = true) String message,
-                                @VerifyParams(required = true) Integer integral) {
+                                Integer integral) {
     userInfoService.sendMessage(userId, message, integral);
     return getSuccessResponseVO(null);
   }
