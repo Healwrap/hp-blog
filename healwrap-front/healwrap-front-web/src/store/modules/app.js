@@ -4,7 +4,7 @@ const app = {
   state: {
     isMobile: false,
     theme: 'light',
-    contentWidth: 1200,
+    contentWidth: 1100,
     headerHeight: 60,
     messageCount: {}
   },

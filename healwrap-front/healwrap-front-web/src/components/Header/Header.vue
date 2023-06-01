@@ -52,7 +52,7 @@ const handleScroll = () => {
   position: fixed;
   top: 0;
   width: 100%;
-  height: 60px;
+  height: 45px;
   box-shadow: 0 2px 8px #aaaaaa;
   transition: all 0.3s;
   // 模糊颗粒效果
@@ -79,7 +79,7 @@ const handleScroll = () => {
       display: flex;
       align-items: center;
       justify-content: right;
-      width: 500px;
+      width: 300px;
       height: 100%;
       // 发帖搜索
       .box {

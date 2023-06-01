@@ -6,7 +6,8 @@
           <!--板块信息-->
           <el-menu class="board-menu" mode="horizontal" @select="handleSelect">
             <template v-for="nav in boardList">
-              <el-menu-item v-if="Array.prototype.isPrototypeOf(nav.children) && nav.children.length === 0" :index="String(nav.boardId)">
+              <el-menu-item v-if="Array.prototype.isPrototypeOf(nav.children) && nav.children.length === 0"
+                            :index="String(nav.boardId)">
                 {{ nav.boardName }}
               </el-menu-item>
               <el-sub-menu v-else :index="String(nav.boardId)">
@@ -23,12 +24,15 @@
       </template>
       <template #user>
         <!-- 发帖搜索 -->
-        <div class="box">
-          <el-button type="primary" @click="handleTopButtonClick(0)"><span class="iconfont icon-add"></span>&nbsp; 发帖 </el-button>
-          <el-button type="primary"><span class="iconfont icon-search"></span>&nbsp; 搜索</el-button>
+        <div class="box" style="">
+          <custom-button name="postArticle"/>
+          <custom-button name="search"/>
+          <!--<el-button type="primary" @click="handleTopButtonClick(0)"></el-button>-->
+          <!--<el-button type="primary"><span class="iconfont icon-search"></span>&nbsp; 搜索</el-button>-->
         </div>
         <!--用户信息-->
-        <div v-if="userInfo !== null" class="user-info" style="width: 150px; display: flex; align-items: center; justify-content: center">
+        <div v-if="userInfo !== null" class="user-info"
+             style="width: 150px; display: flex; align-items: center; justify-content: center">
           <el-dropdown trigger="click">
             <el-badge :value="messageCount.total" :hidden="messageCount.total === null || messageCount.total === 0">
               <div class="iconfont icon-message" style="margin: 0 15px; font-size: 25px; cursor: pointer"></div>
@@ -36,63 +40,71 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item class="message-item" @click="goToMessage('reply')"
-                  >回复我的<span v-if="messageCount.reply > 0" lass="tag">{{ messageCount.reply <= 99 ? messageCount.reply : '99+' }}</span>
+                >回复我的<span v-if="messageCount.reply > 0"
+                               lass="tag">{{ messageCount.reply <= 99 ? messageCount.reply : '99+' }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('articleLike')"
-                  >赞了我的文章<span v-if="messageCount.likePost > 0" class="tag">{{
+                >赞了我的文章<span v-if="messageCount.likePost > 0" class="tag">{{
                     messageCount.likePost <= 99 ? messageCount.likePost : '99+'
                   }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('attachmentDownload')"
-                  >下载了我的附件<span v-if="messageCount.attachmentDownload > 0" class="tag">{{
+                >下载了我的附件<span v-if="messageCount.attachmentDownload > 0" class="tag">{{
                     messageCount.attachmentDownload <= 99 ? messageCount.attachmentDownload : '99+'
                   }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('commentLike')"
-                  >赞了我的评论<span v-if="messageCount.likeComment > 0" class="tag">{{
+                >赞了我的评论<span v-if="messageCount.likeComment > 0" class="tag">{{
                     messageCount.likeComment <= 99 ? messageCount.likeComment : '99+'
                   }}</span>
                 </el-dropdown-item>
                 <el-dropdown-item class="message-item" @click="goToMessage('system')"
-                  >系统消息<span v-if="messageCount.sys > 0" class="tag">{{ messageCount.sys <= 99 ? messageCount.sys : '99+' }}</span>
+                >系统消息<span v-if="messageCount.sys > 0"
+                               class="tag">{{ messageCount.sys <= 99 ? messageCount.sys : '99+' }}</span>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
           <!--头像-->
-          <Avatar user-id="8743908827" :src="accountApi.avatarUrl(8743908827)" style="margin-left: 25px" />
+          <Avatar user-id="8743908827" :src="accountApi.avatarUrl(8743908827)" style="margin-left: 25px"/>
         </div>
-        <!-- 登录、注册、退出 -->
-        <el-button-group v-else style="margin-left: 10px">
-          <el-button type="primary" plain @click="showUserDialog(0)"><span class="iconfont icon-login"></span>&nbsp; 登录 </el-button>
-          <el-button type="primary" plain @click="showUserDialog(1)"><span class="iconfont icon-register"></span>&nbsp; 注册 </el-button>
-        </el-button-group>
+        <!-- 登录、注册 -->
+        <custom-button name="loginAndRegister" :config="{ text1: '注册', text2: '登录' }"/>
+        <!--<el-button type="primary" plain @click="showUserDialog(0)"><span class="iconfont icon-login"></span>&nbsp; 登录 </el-button>-->
+        <!--<el-button type="primary" plain @click="showUserDialog(1)"><span class="iconfont icon-register"></span>&nbsp; 注册 </el-button>-->
       </template>
     </Header>
     <!--body-->
-    <div class="content" :style="{ width: proxy.$store.getters.contentWidth + 'px', top: proxy.$store.getters.headerHeight + 'px' }">
-      <router-view />
+    <div class="content"
+         :style="{ width: proxy.$store.getters.contentWidth + 'px', top: proxy.$store.getters.headerHeight + 'px' }">
+      <router-view/>
     </div>
-    <UserDialog ref="userDialog" />
+    <!--左侧板块选择-->
+    <board-select/>
+    <!--用户登录注册-->
+    <UserDialog ref="userDialog"/>
+    <!--右侧工具-->
     <div class="side-tools">
-      <el-backtop :right="30" :bottom="30" />
+      <el-backtop :right="30" :bottom="30"/>
     </div>
-    <Footer />
+    <!--底部-->
+    <Footer/>
   </div>
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, ref, watch } from 'vue'
+import {getCurrentInstance, onMounted, ref, watch} from 'vue'
 import accountApi from '@/api/account'
 import boardApi from '@/api/board'
 import Header from '@/components/Header/Header.vue'
 import UserDialog from '@/components/UserDialog/UserDialog.vue'
 import Avatar from '@/components/Avatar/Avatar.vue'
 import Footer from '@/components/Footer/Footer.vue'
-import { useRoute } from 'vue-router'
-import { TOGGLE_CONTENT_WIDTH, UPDATE_MESSAGE_COUNT } from '@/store/mutation-types'
+import {useRoute} from 'vue-router'
+import {TOGGLE_CONTENT_WIDTH, UPDATE_MESSAGE_COUNT} from '@/store/mutation-types'
+import CustomButton from '@/components/CustomButton/CustomButton.vue'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 const route = useRoute()
 // 消息数量
 const messageCount = ref({})
@@ -165,47 +177,47 @@ onMounted(() => {
 })
 // 监听用户信息
 watch(
-  () => proxy.$store.getters.userId,
-  newVal => {
-    if (!newVal) {
-      userInfo.value = null
-      return
-    }
-    userInfo.value = newVal
-    getMessageCount()
-  },
-  { immediate: true, deep: true }
+    () => proxy.$store.getters.userId,
+    newVal => {
+      if (!newVal) {
+        userInfo.value = null
+        return
+      }
+      userInfo.value = newVal
+      getMessageCount()
+    },
+    {immediate: true, deep: true}
 )
 // 监听消息数量
 watch(
-  () => proxy.$store.getters.messageCount,
-  newVal => {
-    messageCount.value = newVal || {}
-  },
-  { immediate: true, deep: true }
+    () => proxy.$store.getters.messageCount,
+    newVal => {
+      messageCount.value = newVal || {}
+    },
+    {immediate: true, deep: true}
 )
 // 监听是否展示登录框
 watch(
-  () => proxy.$store.state.showLoginDialog,
-  newVal => {
-    if (newVal) {
-      showUserDialog(0)
-      proxy.$message.warning('请先登录')
-    }
-  },
-  { immediate: true, deep: true }
+    () => proxy.$store.state.showLoginDialog,
+    newVal => {
+      if (newVal) {
+        showUserDialog(0)
+        proxy.$message.warning('请先登录')
+      }
+    },
+    {immediate: true, deep: true}
 )
 // 监听是否需要切换屏幕宽度 (path == /postArticle/:articleId || /postArticle)
 watch(
-  () => route.path,
-  newVal => {
-    if (newVal === '/postArticle' || newVal.indexOf('/postArticle/') !== -1) {
-      headerWidth.value = 1200
-      proxy.$store.commit(TOGGLE_CONTENT_WIDTH, document.body.clientWidth)
-    } else {
-      proxy.$store.commit(TOGGLE_CONTENT_WIDTH, 1200)
+    () => route.path,
+    newVal => {
+      if (newVal === '/postArticle' || newVal.indexOf('/postArticle/') !== -1) {
+        headerWidth.value = 1200
+        proxy.$store.commit(TOGGLE_CONTENT_WIDTH, document.body.clientWidth)
+      } else {
+        proxy.$store.commit(TOGGLE_CONTENT_WIDTH, 1200)
+      }
     }
-  }
 )
 </script>
 
@@ -214,17 +226,30 @@ watch(
   .header {
     .user-info {
     }
+
+    .menu {
+      ::v-deep(.board-menu) {
+        height: 45px;
+        background: transparent;
+        overflow: hidden;
+        border: none;
+      }
+    }
+
+    .box {
+      display: flex;
+      width: 190px;
+      height: 100%;
+      margin-right: 10px;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
   .content {
     position: relative;
     margin: 0 auto;
     min-height: 93vh;
-  }
-
-  .board-menu {
-    background: transparent;
-    border: none;
   }
 }
 
