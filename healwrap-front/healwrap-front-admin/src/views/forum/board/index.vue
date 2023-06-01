@@ -1,5 +1,7 @@
 <template>
-  <h1>board</h1>
+  <div class="top-panel">
+    <el-button type="primary">新增板块</el-button>
+  </div>
 </template>
 
 <script setup></script>

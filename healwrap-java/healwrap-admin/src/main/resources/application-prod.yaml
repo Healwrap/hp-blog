@@ -43,19 +43,13 @@ project:
   defaultAvatar: default_avatar.jpg
   defaultCover: default/default_cover.jpeg
 
-# 日志级别配置
-log:
-  root:
-    level: info
-  path: /www/wwwroot/HealWrap-Backend/files/
-
 # 内部接口相关
 inner:
   api:
     appKey: healwrap
     appSecret: healwrap_key
     # web 端接口地址
-    url: http://52.253.118.106:3306:7070/api/inner/refreshSysSetting
+    url: http://52.253.118.106:7070/api/inner/refreshSysSetting
 
 # 是否是开发环境
 development: false

@@ -43,13 +43,6 @@ project:
   defaultAvatar: default_avatar.jpg
   defaultCover: default/default_cover.jpeg
 
-# 日志级别配置
-log:
-  root:
-    level: info
-  path: C:/Users/admin/Desktop/workspace/IDEA-Workplace/healwrap/healwrap-java/healwrap-web/src/main/resources/files/
-
-
 # 内部接口相关
 inner:
   api:

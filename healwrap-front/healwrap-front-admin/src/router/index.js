@@ -7,6 +7,7 @@ asyncRouterMap.forEach(item => {
 })
 // 创建路由
 const router = createRouter({
+  mode: 'history',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: constantRouterMap
 })

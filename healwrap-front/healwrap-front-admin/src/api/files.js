@@ -9,9 +9,12 @@ const apis = {
 /**
  * 获取图片
  * @param cover 图片路径
- * @returns {`/api/files/getImage/${string}`}
+ * @returns {string}
  */
 const getImage = cover => {
+  if (cover === null || cover === undefined || cover === '') {
+    return ''
+  }
   const trimmedCover = cover.trim().replace(/^\/|\/$/g, '') // 删除开头和结尾处的斜杠
   return `${apis.getImage}/${trimmedCover}`
 }

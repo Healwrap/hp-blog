@@ -224,6 +224,7 @@ watch(
 
   .board-menu {
     background: transparent;
+    border: none;
   }
 }
 

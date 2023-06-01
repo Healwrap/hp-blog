@@ -19,6 +19,12 @@ spring:
   profiles:
     active: @profileActive@
 
+# 日志级别配置
+log:
+  root:
+    level: info
+
+
 # 配置管理员账号密码邮箱
 admin:
   email: pepedd@qq.com
