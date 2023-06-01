@@ -9,6 +9,7 @@ import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.exception.BusinessException;
 import com.healwrap.service.SysSettingService;
 import com.healwrap.utils.StringTools;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class InnerApiController extends ABaseController {
   @Resource
   private SysSettingService sysSettingService;
 
-  @PostMapping("refreshSysSetting")
+  @GetMapping("refreshSysSetting")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO refreshSysSetting(@VerifyParams(required = true) String appKey,
                                       @VerifyParams(required = true) Long timestamp,

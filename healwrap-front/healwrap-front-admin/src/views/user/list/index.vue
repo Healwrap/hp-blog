@@ -167,7 +167,7 @@ const setRowSelected = () => {}
 const updateUserStatus = row => {
   const title = row.status === 1 ? '禁用' : '启用'
   proxy.$confirm(`确定要${title}用户${row.nickName}`, async () => {
-    const result = proxy.$api.user.updateUserStatus(row.userId, row.status === 1 ? 0 : 1)
+    const result = await proxy.$api.user.updateUserStatus(row.userId, row.status === 1 ? 0 : 1)
     if (!result) {
       return
     }

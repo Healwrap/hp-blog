@@ -55,7 +55,7 @@ inner:
     appKey: healwrap
     appSecret: healwrap_key
     # web 端接口地址
-    url: http://52.253.118.106:3306:7070/api/inner/refresSysSetting
+    url: http://52.253.118.106:3306:7070/api/inner/refreshSysSetting
 
 # 是否是开发环境
 development: false

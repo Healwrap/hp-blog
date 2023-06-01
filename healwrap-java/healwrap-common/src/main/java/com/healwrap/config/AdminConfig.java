@@ -20,6 +20,6 @@ public class AdminConfig extends AppConfig {
   private String adminAccount;
   @Value("${admin.password:}")
   private String adminPassword;
-  @Value("${web.api.url:}")
+  @Value("${inner.api.url:}")
   private String webApiUrl;
 }
