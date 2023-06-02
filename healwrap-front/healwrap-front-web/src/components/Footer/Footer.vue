@@ -50,42 +50,32 @@ const { proxy } = getCurrentInstance()
 
 <style lang="scss" scoped>
 .footer {
-  position: relative;
-  top: 10vh;
-  width: 100%;
-  height: 200px;
-  background: #444;
+  @apply relative top-[10vh] w-full h-[200px] bg-[rgba(0,0,0,0.8)] ;
 
   .content {
-    margin: 0 auto;
+    @apply my-0 mx-auto;
 
     .logo {
-      margin-bottom: 10px;
+      @apply mb-[10px];
     }
 
     .item {
-      padding: 20px;
+      @apply p-[20px];
 
       .title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: #fff;
+        @apply text-[20px] text-white font-bold mb-[15px];
       }
 
       .desc {
-        font-size: 14px;
-        margin-bottom: 5px;
-        color: #ddd;
+        @apply text-[14px] text-[#ddd] mb-[5px];
 
         .link {
-          position: relative;
-          color: #409eff;
+          @apply relative text-[#409eff];
         }
       }
 
       span {
-        margin-right: 10px;
+        @apply mr-[10px];
       }
     }
   }

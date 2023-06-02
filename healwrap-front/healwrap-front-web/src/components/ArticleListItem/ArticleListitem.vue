@@ -1,6 +1,6 @@
 <template>
   <div class="article-item">
-    <div class="article-item-inner">
+    <div class="article-item-inner" @click="proxy.$router.push('/article/' + data.articleId)"> <!-- TODO -->
       <div class="list-item">
         <div class="user-info">
           <user-avatar :user-id="data.userId" :src="accountApi.avatarUrl(data.userId)" />
@@ -38,17 +38,18 @@
         </div>
       </div>
       <div v-if="data.cover" class="article-cover">
-        <el-image style="width: 100px; height: 100px" :src="filesApi.getImage(data.cover)" fit="cover" />
+        <el-image style="width: 200px" :src="proxy.$api.files.getImage(data.cover)" fit="cover" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import filesApi from '@/api/files'
+import { defineProps, getCurrentInstance } from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import accountApi from '@/api/account'
 
+const { proxy } = getCurrentInstance()
 defineProps({
   data: {
     type: Object
@@ -59,86 +60,70 @@ defineProps({
 <style lang="scss" scoped>
 .article-item {
   .article-item-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255,255,255,0.8);
-    padding: 5px 20px;
-    margin: 0 0 15px 0;
-    transition: 0.3s all;
-    border-radius: 10px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
+    @apply flex justify-between items-center bg-[rgba(255,255,255,0.8)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] cursor-pointer;
+    transition: all 0.3s;
 
     &:hover {
-      background: rgba(255,255,255,0.65);
+      @apply bg-[rgba(255,255,255,0.65)];
     }
 
     .list-item {
-      padding: 10px 5px;
+      @apply m-[10px];
 
       .user-info {
-        display: flex;
-        align-items: center;
+        @apply flex items-center;
 
         .post-time {
-          margin-left: 10px;
-          color: #999;
+          @apply ml-[10px] text-[#999];
         }
 
         .address {
-          margin-left: 10px;
-          color: #999;
+          @apply ml-[10px] text-[#999];
         }
 
         a {
-          color: #333;
-          text-decoration: none;
+          @apply text-[#333] decoration-0;
           transition: 0.3s all;
 
           &:hover {
-            color: #1e88e5;
+            @apply text-[#1e88e5];
           }
         }
       }
 
       .article-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin: 10px 5px;
+        @apply text-[22px] font-bold m-[10px];
 
         a {
-          color: #333;
-          text-decoration: none;
+          @apply text-[#333] decoration-0;
           transition: 0.3s all;
 
           &:hover {
-            color: #1e88e5;
+            @apply text-[#1e88e5];
           }
         }
       }
 
       .article-summary {
-        color: #666;
-        font-size: 15px;
+        @apply text-[#666] text-[15px];
       }
 
       .article-info {
-        margin-top: 10px;
-        color: #999;
-        font-size: 12px;
+        @apply mt-[10px] text-[#999] text-[12px];
 
         .iconfont {
-          margin-right: 10px;
-          font-size: 14px;
-          cursor: pointer;
+          @apply mr-[10px] text-[14px] cursor-pointer;
           transition: 0.3s all;
 
           &:hover {
-            color: #1e88e5;
+            @apply text-[#1e88e5];
           }
         }
       }
+    }
+
+    .article-cover {
+      @apply h-full;
     }
   }
 }

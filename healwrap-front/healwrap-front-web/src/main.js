@@ -1,15 +1,17 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router'
+// 引入permission
+import '@/permission/index.js'
 // 引入katex
 import katex from '@/plugins/Katex'
 //引入cookies
 import VueCookies from 'vue-cookies'
+// 引入全局样式
+import '@/assets/base.scss'
 //引入element plus
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-// 引入全局样式
-import '@/assets/base.scss'
 //图标 图标在附件中
 import '@/assets/icon/iconfont.css'
 // animate.css
@@ -29,6 +31,7 @@ import ImageUpload from '@/components/ImageUpload/ImageUpload.vue'
 import FileUpload from '@/components/FileUpload/FileUpload.vue'
 import HtmlEditor from '@/components/HtmlEditor/HtmlEditor.vue'
 import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue'
+import Echarts from '@/components/Echarts/Echarts.vue'
 
 const app = createApp(App)
 
@@ -50,5 +53,6 @@ app.component('DataList', DataList)
 app.component('ImageViewer', ImageViewer)
 app.component('ImageUpload', ImageUpload)
 app.component('FileUpload', FileUpload)
+app.component('Echarts', Echarts)
 app.directive('katex', katex)
 app.mount('#app')

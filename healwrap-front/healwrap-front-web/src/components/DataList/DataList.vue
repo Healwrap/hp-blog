@@ -46,5 +46,19 @@ const handlePageNoChange = pageNo => {
 <style lang="scss" scoped>
 .data-list {
   transition: all 0.3s;
+
+  ::v-deep(.el-pagination) {
+    @apply bg-transparent;
+    button {
+      @apply bg-transparent;
+    }
+
+    .el-pager {
+      @apply bg-transparent;
+      li {
+        @apply bg-transparent;
+      }
+    }
+  }
 }
 </style>

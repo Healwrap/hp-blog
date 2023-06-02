@@ -85,7 +85,13 @@
           </div>
         </div>
         <div v-if="sub.showReply" class="reply-panel">
-          <PostComment :placeholder="placeholderInfo" :article-id="sub.articleId" :user-id="currentUserId" :reply-user-id="sub.userId" />
+          <PostComment
+            :placeholder="placeholderInfo"
+            :article-id="sub.articleId"
+            :user-id="currentUserId"
+            :reply-user-id="sub.userId"
+            @post-comment-finish="postChildCommentFinish"
+          />
         </div>
       </div>
     </div>
@@ -148,86 +154,75 @@ const commentDoLike = async commentData => {
   }
   commentData.goodCount++
 }
+const postChildCommentFinish = data => {
+  props.commentData.children.push(data)
+}
 </script>
 
 <style lang="scss" scoped>
 .comment-item {
-  padding: 10px 0 0 0;
+  @apply pt-[10px];
   border-bottom: 1px solid #c7c7c7;
 
   .comment-info {
-    display: flex;
-    align-items: center;
-    padding: 10px 0 10px 10px;
-    margin-bottom: 10px;
+    @apply flex items-center p-[10px] pr-[0] mb-[10px];
     transition: all 0.3s;
 
     &:hover {
-      background: #f0f2f5;
+      @apply bg-[#f0f2f5];
     }
 
     .inner {
-      margin-left: 10px;
+      @apply ml-[10px];
 
       .user-info {
-        display: flex;
-        align-items: center;
+        @apply flex items-center;
 
         .avatar {
-          margin-right: 10px;
+          @apply mr-[10px];
         }
 
         .nick-name {
-          display: flex;
-          align-items: center;
+          @apply flex items-center;
 
           .name {
-            font-size: 14px;
-            font-weight: 500;
+            @apply text-[14px] font-bold;
           }
 
           .tag-author {
-            margin-left: 10px;
+            @apply ml-[10px];
           }
         }
       }
 
       .bottom {
-        margin: 5px 0 5px 50px;
+        @apply my-[5px] ml-[50px];
 
         .comment-content {
-          font-size: 14px;
-          line-height: 1.5;
-          word-break: break-all;
+          @apply text-[14px] leading-[1.5] break-all;
 
           .content {
-            padding: 7px 0;
+            @apply py-[7px];
           }
         }
 
         .op-panel {
-          display: flex;
-          align-items: center;
-          margin-top: 10px;
+          @apply flex items-center mt-[10px];
 
           .time {
-            font-size: 12px;
-            color: #999;
+            @apply text-[12px] text-[#999];
 
             .address {
-              color: #999;
+              @apply text-[#999];
             }
           }
 
           .iconfont {
-            margin-left: 10px;
-            font-size: 14px;
-            color: #999;
+            @apply ml-[10px] text-[14px] text-[#999] cursor-pointer;
             transition: all 0.3s;
-            cursor: pointer;
 
             &:hover {
-              color: #409eff;
+              @apply text-[#409eff];
             }
           }
         }
@@ -236,78 +231,67 @@ const commentDoLike = async commentData => {
   }
 
   .comment-sub-list {
-    margin-top: 10px;
+    @apply mt-[10px];
 
     .comment-sub-item {
-      padding: 5px 0 5px 50px;
+      @apply py-[5px] pl-[50px];
       transition: all 0.3s;
 
       &:hover {
-        background: #f0f2f5;
+        @apply bg-[#f0f2f5];
       }
 
       .inner {
-        margin-left: 10px;
+        @apply ml-[10px];
 
         .user-info {
-          display: flex;
-          align-items: center;
+          @apply flex items-center;
 
           .avatar {
-            margin-right: 10px;
+            @apply mr-[10px];
           }
 
           .nick-name {
-            display: flex;
-            align-items: center;
+            @apply flex items-center;
 
             .name {
-              font-size: 14px;
-              font-weight: 500;
+              @apply text-[14px] font-bold;
             }
 
             .tag-author {
-              margin-left: 10px;
+              @apply ml-[10px];
             }
           }
         }
 
         .bottom {
-          margin: 5px 0 5px 35px;
+          @apply my-[5px] ml-[35px];
 
           .comment-content {
-            font-size: 14px;
-            line-height: 1.5;
-            word-break: break-all;
+            @apply text-[14px] leading-[1.5] break-all;
 
             .content {
-              padding: 7px 0;
+              @apply py-[7px];
             }
           }
 
           .op-panel {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
+            @apply flex items-center mt-[10px];
 
             .time {
-              font-size: 12px;
-              color: #999;
+              @apply text-[12px] text-[#999];
 
               .address {
-                color: #999;
+                @apply text-[#999];
               }
             }
 
             .iconfont {
-              margin-left: 10px;
-              font-size: 14px;
-              color: #999;
+              @apply ml-[10px] text-[14px] text-[#999] cursor-pointer;
               transition: all 0.3s;
-              cursor: pointer;
 
               &:hover {
-                color: #409eff;
+                @apply text-[#409eff];
               }
             }
           }
@@ -315,13 +299,13 @@ const commentDoLike = async commentData => {
       }
 
       .reply-panel {
-        margin: 10px 10px 10px 10px;
+        @apply m-[10px];
       }
     }
   }
 
   .reply-panel {
-    margin-left: 20px;
+    @apply ml-[20px];
   }
 }
 </style>

@@ -346,57 +346,44 @@ watch(
 <style lang="scss" scoped>
 .article {
   .article-detail {
-    position: relative;
-    padding: 10px;
-    margin: 10px;
+    @apply relative p-[10px] m-[10px];
 
     .article-detail-info {
-      margin-bottom: 20px;
+      @apply mb-[20px];
     }
 
     .article-detail-content {
-      padding: 10px;
+      @apply p-[10px];
 
       .title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 10px;
+        @apply text-[20px] font-bold mb-[10px];
       }
 
       .user-info {
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
+        @apply flex items-center py-[10px];
         border-bottom: 1px solid #eee;
 
         .user-info-detail {
-          margin-left: 10px;
+          @apply ml-[10px];
 
           .nick-name {
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
+            @apply text-[16px] font-bold cursor-pointer;
 
             &:hover {
+              @apply text-[#1e88e5];
               text-decoration: underline;
-              color: #1e88e5;
             }
           }
 
           .info {
-            margin-top: 5px;
-            color: #999;
-            font-size: 12px;
+            @apply mt-[5px] text-[#999] text-[12px];
           }
 
           .edit-btn {
-            margin-left: 10px;
-            color: #1e88e5;
-            cursor: pointer;
-            text-decoration: none;
+            @apply ml-[10px] text-[#1e88e5] cursor-pointer decoration-0;
 
             &:hover {
-              color: #1976d2;
+              @apply text-[#1976d2];
             }
           }
         }

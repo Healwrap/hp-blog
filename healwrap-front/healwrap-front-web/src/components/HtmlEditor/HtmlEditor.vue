@@ -65,11 +65,10 @@ const handleCreated = editor => {
 
 <style lang="scss" scoped>
 .html-editor {
-  height: 79vh;
+  @apply h-[79vh];
 
   ::v-deep(.v-md-editor) {
-    box-shadow: none;
-    height: 100%;
+    @apply h-full shadow-none;
   }
 }
 </style>

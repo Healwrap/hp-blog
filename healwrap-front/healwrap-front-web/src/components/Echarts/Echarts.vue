@@ -64,7 +64,6 @@ export default {
 
 <style lang="scss" scoped>
 .box {
-  display: flex;
-  justify-content: flex-start;
+  @apply flex justify-items-start;
 }
 </style>

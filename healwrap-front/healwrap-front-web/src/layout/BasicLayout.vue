@@ -1,5 +1,6 @@
 <template>
   <div class="basic-layout">
+    <background/>
     <Header class="header" :header-width="headerWidth">
       <template #menu>
         <div class="menu">
@@ -25,7 +26,7 @@
       <template #user>
         <!-- 发帖搜索 -->
         <div class="box" style="">
-          <custom-button name="postArticle" @click="handleTopButtonClick(0)"/>
+          <custom-button v-if="userInfo !== null" name="postArticle" @click="handleTopButtonClick(0)"/>
           <custom-button name="search"/>
         </div>
         <!--用户信息-->
@@ -100,6 +101,7 @@ import Footer from '@/components/Footer/Footer.vue'
 import {useRoute} from 'vue-router'
 import {TOGGLE_CONTENT_WIDTH, UPDATE_MESSAGE_COUNT} from '@/store/mutation-types'
 import CustomButton from '@/components/CustomButton/CustomButton.vue'
+import Background from '@/components/Background/Background.vue'
 
 const {proxy} = getCurrentInstance()
 const route = useRoute()
@@ -226,47 +228,25 @@ watch(
 
     .menu {
       ::v-deep(.board-menu) {
-        height: 45px;
-        background: transparent;
-        overflow: hidden;
-        border: none;
+        @apply h-[45px] bg-transparent overflow-hidden border-none;
       }
     }
 
     .box {
-      display: flex;
-      width: 190px;
-      height: 100%;
-      margin-right: 10px;
-      justify-content: space-between;
-      align-items: center;
+      @apply flex w-[190px] h-full mr-[10px] justify-items-end items-center;
     }
   }
 
   .content {
-    position: relative;
-    margin: 0 auto;
-    min-height: 93vh;
+    @apply relative mx-auto min-h-[93vh];
   }
 }
 
 .message-item {
-  display: flex;
-  justify-content: space-around;
+  @apply flex justify-around;
 
   .tag {
-    position: relative;
-    top: -5px;
-    min-width: 16px;
-    min-height: 16px;
-    display: inline-block;
-    margin-left: 5px;
-    line-height: 16px;
-    border-radius: 50%;
-    background: #ff4d4f;
-    color: #fff;
-    font-size: 12px;
-    text-align: center;
+    @apply relative top-[-5px] min-w-[16px] min-h-[16px] inline-block ml-[5px] leading-[10px] rounded-full bg-[#ff4d4f] text-white text-[12px] text-center;
   }
 }
 </style>

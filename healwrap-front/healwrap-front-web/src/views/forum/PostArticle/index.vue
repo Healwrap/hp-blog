@@ -267,39 +267,34 @@ watch(
 <style lang="scss" scoped>
 .post-article {
   .article-panel {
-    display: flex;
+    @apply flex;
 
     .box {
-      margin: 10px 5px;
+      @apply my-[10px] mx-[5px];
 
       ::v-deep(.el-card) {
-        height: 90vh;
-        padding: 0;
-        overflow: auto;
+        @apply h-[90vh] p-0 overflow-auto;
 
         .el-card__header {
-          display: flex;
-          justify-content: space-between;
-          padding: 10px;
+          @apply flex justify-between p-[10px];
           // 切换编辑器按钮样式
           span:nth-child(2) {
-            color: #1e88e5;
-            cursor: pointer;
+            @apply text-[#1e88e5] cursor-pointer;
           }
         }
       }
     }
 
     .article-editor {
-      flex: 1;
+      @apply flex-1;
 
       ::v-deep(.el-card__body) {
-        padding: 0;
+        @apply p-0;
       }
     }
 
     .article-setting {
-      width: 300px;
+      @apply w-[300px];
     }
   }
 }

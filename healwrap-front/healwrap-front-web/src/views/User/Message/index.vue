@@ -88,7 +88,7 @@
                   </router-link>
                   <span>对我的文章</span>
                   <span>【</span>
-                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }} </router-link>
+                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }}</router-link>
                   <span>】</span>
                   <span>发表了评论</span>
                   <span class="create-time">{{ data.createTime }}</span>
@@ -106,7 +106,7 @@
                   </router-link>
                   <span>赞了我的文章</span>
                   <span>【</span>
-                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }} </router-link>
+                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }}</router-link>
                   <span>】</span>
                   <span class="create-time">{{ data.createTime }}</span>
                 </div>
@@ -122,7 +122,7 @@
                   </router-link>
                   <span>在</span>
                   <span>【</span>
-                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }} </router-link>
+                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }}</router-link>
                   <span>】</span>
                   <span>中赞了我的评论</span>
                   <span class="create-time">{{ data.createTime }}</span>
@@ -139,7 +139,7 @@
                   </router-link>
                   <span>在</span>
                   <span>【</span>
-                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }} </router-link>
+                  <router-link class="link" :to="`/article/${data.articleId}`">{{ data.articleTitle }}</router-link>
                   <span>】</span>
                   <span>中下载了我的附件</span>
                   <span class="create-time">{{ data.createTime }}</span>
@@ -207,79 +207,53 @@ watch(
 
 <style lang="scss" scoped>
 .message-center {
-  padding: 20px 0;
+  @apply py-[20px];
 
   .top-banner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @apply flex justify-between items-center;
 
     .user-banner {
-      padding: 10px 20px;
+      @apply py-[10px] px-[20px];
     }
 
     .nav-link {
-      display: flex;
-      align-items: center;
-      margin-top: 10px;
+      @apply flex items-center mt-[10px];
 
       .icon {
-        margin-right: 5px;
+        @apply mr-[5px];
       }
     }
   }
 
   .message-panel {
-    margin: 10px 0;
-    padding: 10px 5px;
-    border-radius: 10px;
+    @apply my-[10px] py-[10px] px-[5px] rounded-[10px] bg-[rgba(255,255,255,0.8)];
     box-shadow: 0 0 10px #ddd;
-    background: #fff;
 
     .tabs-panel {
-      margin: 5px 10px;
+      @apply my-[5px] mx-[10px];
 
       .tag {
-        position: relative;
-        top: -5px;
-        min-width: 16px;
-        min-height: 16px;
-        display: inline-block;
-        margin-left: 5px;
-        line-height: 16px;
-        border-radius: 50%;
-        background: #ff4d4f;
-        color: #fff;
-        font-size: 12px;
-        text-align: center;
+        @apply relative inline-block top-[-5px] min-w-[16px] min-h-[16px] ml-[5px] leading-[16px] rounded-full bg-[#ff4d4f] text-[#fff] text-[12px] text-center;
       }
     }
 
     .message-list {
-      min-height: 340px;
+      @apply min-h-[340px];
 
       .message-item {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        padding: 10px 0 10px 20px;
+        @apply flex justify-start items-center py-[10px] pb-[20px];
         border-bottom: 1px solid #ddd;
 
         .message-content {
-          width: 100%;
-          margin-left: 10px;
-          font-size: 14px;
+          @apply w-full ml-[10px] text-[14px];
 
           .create-time {
-            margin-left: 20px;
-            color: #999;
+            @apply ml-[20px] text-[#999];
           }
 
           .reply-content {
-            margin-top: 5px;
-            padding: 5px 10px;
+            @apply mt-[5px] py-[5px] px-[10px] bg-[#f5f5f580];
             border-left: 2px solid #1890ff;
-            background: #f5f5f5;
           }
         }
       }

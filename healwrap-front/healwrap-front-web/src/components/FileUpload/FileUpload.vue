@@ -30,23 +30,14 @@ const handleRemove = () => {
 
 <style lang="scss" scoped>
 .file-upload {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+  @apply flex justify-between w-full;
 
   .file-name {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #1e88e5;
+    @apply flex-1 overflow-hidden overflow-ellipsis whitespace-nowrap text-[#1e88e5];
   }
 
   .icon-del {
-    font-size: 20px;
-    color: #ff4d4f;
-    margin-left: 10px;
-    cursor: pointer;
+    @apply text-[20px] text-[#ff4d4f] ml-[10px] cursor-pointer;
   }
 }
 </style>

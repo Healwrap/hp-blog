@@ -160,69 +160,51 @@ watch(
 
 <style lang="scss" scoped>
 .comment-list {
-  margin-top: 20px;
-  padding: 20px;
+  @apply mt-[10px] p-[20px];
 
   .comment-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @apply flex justify-between items-center;
 
     .title {
-      font-size: 18px;
-      font-weight: bold;
+      @apply text-[18px] font-bold;
 
       .count {
-        margin-left: 10px;
-        font-size: 14px;
-        color: #999;
+        @apply ml-[10px] text-[14px] text-[#999];
       }
     }
 
     .tab {
-      display: flex;
-      align-items: center;
+      @apply flex items-center;
 
       span {
-        font-size: 14px;
-        color: #999;
-        cursor: pointer;
+        @apply text-[14px] text-[#999] cursor-pointer;
         transition: all 0.3s;
 
         &:hover {
-          color: #32c5ff;
+          @apply text-[#32c5ff];
         }
       }
     }
   }
 
   .comment-form-panel {
-    margin-top: 20px;
-    display: flex;
+    @apply flex mt-[20px];
 
     .comment-form {
-      flex: 1;
-      margin-left: 20px;
+      @apply flex-1 ml-[20px];
 
       .comment-form-btn {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin-top: 20px;
+        @apply flex justify-end items-center mt-[20px];
 
         .insert-img {
-          flex: 1;
-          display: flex;
-          align-items: center;
+          @apply flex flex-1 items-center;
 
           .icon-image {
-            font-size: 20px;
-            color: #999;
-            cursor: pointer;
+            @apply text-[20px] text-[#999] cursor-pointer;
             transition: all 0.3s;
 
             &:hover {
-              color: #1e88e5;
+              @apply text-[#1e88e5];
             }
           }
         }

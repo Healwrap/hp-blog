@@ -25,7 +25,6 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .comment-img {
-  width: 80px;
-  height: 80px;
+  @apply w-[80px] h-[80px];
 }
 </style>

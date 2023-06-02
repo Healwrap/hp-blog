@@ -75,7 +75,7 @@ const handleCommentSubmit = () => {
       return
     }
     proxy.$message.success('评论成功')
-    formDataRef.value.resetField()
+    formDataRef.value.resetFields()
     emit('postCommentFinish', result.data)
   })
 }
@@ -87,27 +87,20 @@ const selectImg = () => {
 
 <style lang="scss" scoped>
 .comment-form {
-  flex: 1;
+  @apply flex-1;
 
   .comment-form-btn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 20px;
+    @apply flex justify-end items-center mt-[20px];
 
     .insert-img {
-      flex: 1;
-      display: flex;
-      align-items: center;
+      @apply flex flex-1 items-center;
 
       .icon-image {
-        font-size: 20px;
-        color: #999;
-        cursor: pointer;
+        @apply text-[20px] text-[#999] cursor-pointer;
         transition: all 0.3s;
 
         &:hover {
-          color: #1e88e5;
+          @apply text-[#1e88e5];
         }
       }
     }

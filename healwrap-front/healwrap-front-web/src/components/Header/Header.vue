@@ -52,7 +52,7 @@ const handleScroll = () => {
   position: fixed;
   top: 0;
   width: 100%;
-  height: 45px;
+  height: 50px;
   box-shadow: 0 2px 8px #aaaaaa;
   transition: all 0.3s;
   // 模糊颗粒效果

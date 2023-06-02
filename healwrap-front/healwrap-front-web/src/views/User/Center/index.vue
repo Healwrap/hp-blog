@@ -17,7 +17,7 @@
               <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
             </div>
             <div class="avatar">
-              <img :src="accountApi.avatarUrl(userId)" />
+              <img :src="accountApi.avatarUrl(userId)"/>
             </div>
             <div class="nickname">
               <span>{{ userInfo.nickName }}</span>
@@ -34,9 +34,10 @@
           <div class="info-panel">
             <div class="info-item">
               <span class="label iconfont icon-integral">&nbsp;积分</span>
-              <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer" @click="showIntegralRecord">{{
-                userInfo.currentIntegral
-              }}</span>
+              <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer"
+                    @click="showIntegralRecord">{{
+                  userInfo.currentIntegral
+                }}</span>
               <span class="value" v-else>{{ userInfo.currentIntegral }}</span>
             </div>
             <div class="info-item">
@@ -59,38 +60,75 @@
         </div>
       </el-affix>
       <div class="article-side">
-        <el-tabs v-model:model-value="activeTagName" @tab-change="changeTab">
-          <el-tab-pane label="发帖" :name="0" />
-          <el-tab-pane label="评论" :name="1" />
-          <el-tab-pane label="点赞" :name="2" />
+        <!--发文详情图表-->
+        <div class="profile-panel">
+          <div class="desc">简介.........简介</div>
+          <echarts class="echarts" :option="option"/>
+        </div>
+        <el-tabs class="tabs" v-model:model-value="activeTagName" @tab-change="changeTab">
+          <el-tab-pane label="发帖" :name="0"/>
+          <el-tab-pane label="评论" :name="1"/>
+          <el-tab-pane label="点赞" :name="2"/>
         </el-tabs>
         <div class="article-list">
-          <data-list :data-source="articleInfoList" :loading="loading" :rows="7" @load-data="loadArticle" desc="暂无文章">
+          <data-list :data-source="articleInfoList" :loading="loading" :rows="7" @load-data="loadArticle"
+                     desc="暂无文章">
             <template #default="{ data }">
-              <article-list-item :data="data" />
+              <article-list-item :data="data"/>
             </template>
           </data-list>
         </div>
       </div>
     </div>
     <!--编辑个人信息-->
-    <user-info-editor ref="userInfoEditor" />
+    <user-info-editor ref="userInfoEditor"/>
     <!--显示积分记录-->
-    <user-integral-record ref="integralRecordRef" />
+    <user-integral-record ref="integralRecordRef"/>
   </div>
 </template>
 
 <script setup>
-import { ArrowRight } from '@element-plus/icons-vue'
-import { getCurrentInstance, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import {ArrowRight} from '@element-plus/icons-vue'
+import {getCurrentInstance, onMounted, reactive, ref, watch} from 'vue'
+import {useRoute} from 'vue-router'
 import router from '@/router'
 import accountApi from '@/api/account'
 import ArticleListItem from '@/components/ArticleListItem/ArticleListItem.vue'
 import UserInfoEditor from '@/views/User/Center/components/UserInfoEditor.vue'
 import UserIntegralRecord from './components/UserIntegralRecord.vue'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
+const option = reactive({
+  title: {
+    text: '积分变化',
+    left: 'center'
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  xAxis: {
+    type: 'category',
+    data: []
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      name: '积分变化',
+      type: 'line',
+      data: [],
+      markLine: {
+        silent: true,
+        data: [
+          {
+            yAxis: 0
+          }
+        ]
+      }
+    }
+  ]
+})
 const integralRecordRef = ref(null)
 const route = useRoute()
 const currentUserId = ref(null)
@@ -139,113 +177,98 @@ onMounted(() => {
 })
 // 监听用户id变化
 watch(
-  () => proxy.$store.getters.userId,
-  newVal => {
-    currentUserId.value = newVal
-  },
-  {
-    immediate: true,
-    deep: true
-  }
+    () => proxy.$store.getters.userId,
+    newVal => {
+      currentUserId.value = newVal
+    },
+    {
+      immediate: true,
+      deep: true
+    }
 )
 </script>
 
 <style lang="scss" scoped>
 .user-center {
-  padding: 20px 0;
+  @apply py-[20px];
 
   .user-banner {
-    padding: 10px 20px;
+    @apply py-[10px] px-[20px];
   }
 
   .user-panel {
-    display: flex;
+    @apply flex;
 
     .user-side {
-      width: 200px;
-      height: 300px;
-      margin: 0 10px;
+      @apply w-[200px] h-[300px] mx-[10px];
 
       .avatar-panel {
-        background: #fff;
-        padding: 10px 5px;
-        border-radius: 10px;
+        @apply bg-[rgba(255,255,255,0.8)] p-[10px] rounded-[10px];
 
         .edit-btn {
-          text-align: right;
-          padding: 0 10px 10px 10px;
+          @apply text-right p-[10px] pt-[0];
 
           span {
-            font-size: 12px;
-            color: #999;
+            @apply text-[12px] text-[#999] cursor-pointer;
             transition: color 0.3s;
-            cursor: pointer;
 
             &:hover {
-              color: #1890ff;
+              @apply text-[#1890ff0];
             }
           }
         }
 
         .avatar {
-          width: 100px;
-          height: 100px;
-          margin: 0 auto;
-          border-radius: 50%;
-          overflow: hidden;
+          @apply w-[100px] h-[100px] mx-auto rounded-full overflow-hidden;
 
           img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
+            @apply h-full w-full object-cover;
           }
         }
 
         .nickname {
-          margin-top: 10px;
-          text-align: center;
-          font-size: 16px;
-          font-weight: bold;
+          @apply mt-[10px] text-center text-[16px] font-bold;
         }
 
         .desc {
-          margin: 5px 0 5px 5px;
-          font-size: 12px;
-          color: #999;
+          @apply m-[5px] mr-[0] text-[12px] text-[#999];
         }
       }
 
       .info-panel {
-        margin-top: 10px;
-        background: #fff;
-        padding: 10px 5px;
-        border-radius: 10px;
+        @apply mt-[10px] bg-[rgba(255,255,255,0.8)] p-[10px] rounded-[10px];
 
         .info-item {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 5px 10px;
+          @apply flex items-center justify-between py-[5px] px-[10px];
 
           .label {
-            font-size: 12px;
-            color: #999;
+            @apply text-[12px] text-[#999];
           }
 
           .value {
-            font-size: 14px;
-            color: #333;
+            @apply text-[14px] text-[#333];
           }
         }
       }
     }
 
     .article-side {
-      flex: 1;
-      margin: 0 10px;
-      padding: 10px;
-      border-radius: 10px;
-      background-color: #fff;
+      @apply flex-1 mx-[10px] p-[10px];
+      .profile-panel {
+        @apply bg-[rgba(255,255,255,0.8)] mb-[15px] p-[10px] rounded-[10px];
+
+        .desc {
+          @apply text-[12px] text-[#999] mb-[10px];
+        }
+
+        .echarts {
+          @apply w-full h-[300px] bg-transparent;
+        }
+      }
+
+      .tabs {
+        @apply bg-[rgba(255,255,255,0.8)] mb-[10px] p-[5px] rounded-[10px];
+      }
     }
   }
 }

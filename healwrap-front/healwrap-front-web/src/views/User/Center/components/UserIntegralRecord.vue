@@ -53,7 +53,6 @@
 // 弹窗配置
 import { getCurrentInstance, reactive, ref } from 'vue'
 import DataList from '@/components/DataList/DataList.vue'
-import Echarts from '@/components/Echarts/Echarts.vue'
 
 const { proxy } = getCurrentInstance()
 const loading = ref(true)
@@ -146,50 +145,43 @@ defineExpose({
 <style lang="scss" scoped>
 .user-integral-record {
   .data-title {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    margin-bottom: 10px;
+    @apply flex justify-between px-[20px] mb-[10px];
 
     .record-type {
-      width: 30%;
+      @apply w-[30%];
     }
 
     .integral {
-      width: 30%;
+      @apply w-[30%];
     }
 
     .create-type {
-      width: 30%;
+      @apply w-[30%];
     }
   }
 
   .echarts {
-    width: 100%;
-    height: 300px;
+    @apply w-full h-[300px];
   }
 
   .data-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 10px;
+    @apply flex justify-between px-[20px] py-[10px] cursor-pointer;
     transition: background-color 0.3s;
-    cursor: pointer;
 
     &:hover {
-      background-color: #f5f5f5;
+      @apply bg-[#f5f5f5];
     }
 
     .record-type {
-      width: 30%;
+      @apply w-[30%];
     }
 
     .integral {
-      width: 20%;
+      @apply w-[20%];
     }
 
     .create-type {
-      width: 50%;
+      @apply w-[50%];
     }
   }
 }

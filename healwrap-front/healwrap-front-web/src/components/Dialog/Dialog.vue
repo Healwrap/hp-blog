@@ -81,15 +81,12 @@ const close = () => {
 // 自定义弹窗
 .cust-dialog {
   .dialog-body {
+    @apply p-[20px] max-h-[calc(100vh-200px)] overflow-y-auto;
     border-top: 1px #ddd solid;
-    padding: 20px;
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
   }
 
   .dialog-footer {
-    text-align: right;
-    padding: 10px 20px;
+    @apply text-right py-[10px] px-[20px];
   }
 }
 </style>

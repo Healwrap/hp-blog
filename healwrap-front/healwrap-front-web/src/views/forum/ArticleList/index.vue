@@ -59,32 +59,26 @@ watch(
 
 <style lang="scss" scoped>
 .article-list {
-  position: relative;
-  margin: 12px auto;
-  padding: 5px;
-  //background: #fff;
-  border-radius: 10px;
+  @apply relative my-[12px] mx-auto p-[5px] rounded-[10px];
 
   .article-list-panel {
-    padding: 5px 5px;
+    @apply p-[5px];
   }
 
   .top-tab {
-    padding: 5px 10px;
+    @apply py-[5px] px-[10px];
 
     span {
-      color: #333;
-      font-size: 15px;
+      @apply text-[#333] text-[15px] cursor-pointer;
       transition: 0.3s all;
-      cursor: pointer;
 
       &:hover {
-        color: #409eff;
+        @apply text-[#409eff];
       }
     }
 
     span.active {
-      color: #409eff;
+      @apply text-[#409eff];
     }
   }
 }

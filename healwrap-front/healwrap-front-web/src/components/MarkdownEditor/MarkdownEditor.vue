@@ -42,11 +42,10 @@ const uploadImageHandler = async (event, insertImage, files) => {
 
 <style lang="scss" scoped>
 .markdown-editor {
-  height: 83vh;
+  @apply h-[83vh];
 
   ::v-deep(.v-md-editor) {
-    box-shadow: none;
-    height: 100%;
+    @apply h-full shadow-none;
   }
 }
 </style>

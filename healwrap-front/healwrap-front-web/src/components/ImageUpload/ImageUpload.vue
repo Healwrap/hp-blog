@@ -63,37 +63,24 @@ watch(
 
 <style lang="scss" scoped>
 .image-upload {
-  position: relative;
-  width: 100px;
-  height: 100px;
+  @apply relative w-[100px] h-[100px] rounded-[4px] flex justify-center items-center cursor-pointer;
   border: 1px dashed #ccc;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   transition: all 0.3s;
-  cursor: pointer;
 
   &:hover {
-    border-color: #409eff;
+    @apply border-[#409eff];
   }
 
   img {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    @apply absolute top-0 w-full h-full object-cover;
   }
 
   ::v-deep(.el-icon) {
-    font-size: 30px;
-    color: #999;
+    @apply text-[30px] text-[#999];
   }
 
   ::v-deep(.el-image) {
-    width: 100px;
-    height: 100px;
+    @apply w-[100px] h-[100px];
   }
 }
 </style>

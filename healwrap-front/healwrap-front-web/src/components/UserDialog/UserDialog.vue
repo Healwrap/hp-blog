@@ -395,7 +395,6 @@ defineExpose({
 
 <style lang="scss" scoped>
 img {
-  margin-left: 5px;
-  cursor: pointer;
+  @apply ml-[5px] cursor-pointer;
 }
 </style>
