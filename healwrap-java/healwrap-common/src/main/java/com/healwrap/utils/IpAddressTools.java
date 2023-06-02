@@ -4,7 +4,6 @@ import com.healwrap.entity.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.Map;
 
 /**
@@ -34,7 +33,14 @@ public class IpAddressTools {
         return Constants.NO_ADDRESS;
       }
       Map<String, String> addressInfo = JsonUtils.convertJson2Object(responseJson, Map.class);
-      return addressInfo.get("addr");
+      String addr = addressInfo.get("addr");
+      if (StringTools.isEmpty(addr)) {
+        return Constants.NO_ADDRESS;
+      }
+      if (addr.split(" ").length > 1) {
+        return addr.split(" ")[0];
+      }
+      return addr;
     } catch (Exception e) {
       logger.error("获取ip地址异常");
     }
