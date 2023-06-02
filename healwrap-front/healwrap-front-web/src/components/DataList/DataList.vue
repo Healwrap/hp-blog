@@ -3,10 +3,7 @@
     <div class="no-data">
       <el-empty v-if="!loading && dataSource.list.length === 0" :description="desc" />
     </div>
-    <div v-if="loading" class="skeleton">
-      <el-skeleton :rows="rows" animated />
-    </div>
-    <div v-for="item in dataSource.list" v-else :key="item.articleId">
+    <div v-for="item in dataSource.list" :key="item.articleId">
       <slot :data="item"></slot>
     </div>
     <el-pagination

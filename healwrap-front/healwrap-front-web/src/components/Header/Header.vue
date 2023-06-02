@@ -79,7 +79,7 @@ const handleScroll = () => {
       display: flex;
       align-items: center;
       justify-content: right;
-      width: 300px;
+      width: 330px;
       height: 100%;
       // 发帖搜索
       .box {

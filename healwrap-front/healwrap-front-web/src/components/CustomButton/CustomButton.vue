@@ -113,11 +113,8 @@ defineProps({
       background-color: #212121;
     }
 
-    .btn:hover {
-      transform: scale(1.1);
-    }
-
     .btn:active {
+      transform: scale(1.05);
       border: double 4px #fe53bb;
       background-origin: border-box;
       background-clip: content-box, border-box;
@@ -207,7 +204,7 @@ defineProps({
       }
 
       70% {
-        transform: scale(0.85);
+        transform: scale(1);
         box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
       }
 

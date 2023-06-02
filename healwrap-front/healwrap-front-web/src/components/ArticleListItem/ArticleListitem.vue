@@ -62,14 +62,16 @@ defineProps({
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
+    background: rgba(255,255,255,0.8);
     padding: 5px 20px;
+    margin: 0 0 15px 0;
     transition: 0.3s all;
+    border-radius: 10px;
     border-bottom: 1px solid #eee;
     cursor: pointer;
 
     &:hover {
-      background: #f5f5f5;
+      background: rgba(255,255,255,0.65);
     }
 
     .list-item {

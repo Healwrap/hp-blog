@@ -62,7 +62,7 @@ watch(
   position: relative;
   margin: 12px auto;
   padding: 5px;
-  background: #fff;
+  //background: #fff;
   border-radius: 10px;
 
   .article-list-panel {

@@ -25,10 +25,8 @@
       <template #user>
         <!-- 发帖搜索 -->
         <div class="box" style="">
-          <custom-button name="postArticle"/>
+          <custom-button name="postArticle" @click="handleTopButtonClick(0)"/>
           <custom-button name="search"/>
-          <!--<el-button type="primary" @click="handleTopButtonClick(0)"></el-button>-->
-          <!--<el-button type="primary"><span class="iconfont icon-search"></span>&nbsp; 搜索</el-button>-->
         </div>
         <!--用户信息-->
         <div v-if="userInfo !== null" class="user-info"
@@ -69,9 +67,8 @@
           <Avatar user-id="8743908827" :src="accountApi.avatarUrl(8743908827)" style="margin-left: 25px"/>
         </div>
         <!-- 登录、注册 -->
-        <custom-button name="loginAndRegister" :config="{ text1: '注册', text2: '登录' }"/>
-        <!--<el-button type="primary" plain @click="showUserDialog(0)"><span class="iconfont icon-login"></span>&nbsp; 登录 </el-button>-->
-        <!--<el-button type="primary" plain @click="showUserDialog(1)"><span class="iconfont icon-register"></span>&nbsp; 注册 </el-button>-->
+        <custom-button v-else name="loginAndRegister" :config="{ text1: '未登录', text2: '去注册' }"
+                       @click="showUserDialog(1)"/>
       </template>
     </Header>
     <!--body-->
