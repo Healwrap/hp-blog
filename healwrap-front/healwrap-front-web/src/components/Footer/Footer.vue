@@ -50,7 +50,7 @@ const { proxy } = getCurrentInstance()
 
 <style lang="scss" scoped>
 .footer {
-  @apply relative top-[10vh] w-full h-[200px] bg-[rgba(0,0,0,0.8)] ;
+  @apply relative top-[10vh] w-full h-[200px] bg-[rgba(0,0,0,0.8)];
 
   .content {
     @apply my-0 mx-auto;

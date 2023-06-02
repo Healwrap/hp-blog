@@ -90,7 +90,7 @@ instance.interceptors.response.use(
 )
 
 const request = config => {
-  let { url, method, params, dataType, showLoading = true, errorCallback, showError = true } = config
+  let { url, method, params, dataType, showLoading = false, errorCallback, showError = true } = config
   let contentType = requestContentType.form
   let headers = {
     'Content-Type': contentType,

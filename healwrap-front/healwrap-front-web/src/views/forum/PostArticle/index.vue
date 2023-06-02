@@ -177,7 +177,7 @@ const postHandler = () => {
         return
       }
       proxy.$message.success('发布成功')
-      router.push({ path: `/article/${result.data}` })
+      await router.push({ path: `/article/${result.data}` })
     }
   })
 }
@@ -254,9 +254,7 @@ watch(
 )
 watch(
   () => formData.value.cover,
-  newVal => {
-    console.log('post-article: ', newVal)
-  },
+  newVal => {},
   {
     immediate: true,
     deep: true

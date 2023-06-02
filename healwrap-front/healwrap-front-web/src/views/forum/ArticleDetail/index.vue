@@ -125,6 +125,7 @@ import CommentList from './components/CommentList.vue'
 const { proxy } = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
+const loading = ref(true)
 const previewImgList = ref([])
 const currentUserinfo = ref({})
 // 文章详情
@@ -301,6 +302,7 @@ const getTocPanelLeft = () => {
   tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
 }
 onMounted(async () => {
+  loading.value = true
   let result = await proxy.$api.forum.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
   attachment.value = result.data.forumArticleAttachmentVO
@@ -310,6 +312,7 @@ onMounted(async () => {
   getQuickPanelLeft()
   getTocPanelLeft()
   makeToc()
+  // loading.value = false
 })
 // 监听窗口大小变化
 onMounted(() => {

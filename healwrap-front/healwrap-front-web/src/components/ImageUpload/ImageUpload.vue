@@ -50,12 +50,10 @@ const uploadFile = file => {
 watch(
   () => props.modelValue,
   () => {
-    if (props.modelValue instanceof String) {
-      if (props.type === 'image') {
-        imageUrl.value = proxy.$api.files.getImage(props.modelValue.imageUrl)
-      } else if (props.type === 'avatar') {
-        imageUrl.value = proxy.$api.account.avatarUrl(props.modelValue.userId)
-      }
+    if (props.type === 'image') {
+      imageUrl.value = proxy.$api.files.getImage(props.modelValue.imageUrl)
+    } else if (props.type === 'avatar') {
+      imageUrl.value = proxy.$api.account.avatarUrl(props.modelValue.userId)
     }
   }
 )

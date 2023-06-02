@@ -70,8 +70,6 @@ const updateUserInfoHandler = () => {
     if (!result) {
       return
     }
-    console.log(params.avatar)
-    console.log(params.avatar instanceof File)
     dialogConfig.show = false
     // proxy.$router.go(0)
   })
@@ -93,9 +91,7 @@ defineExpose({
 })
 watch(
   () => formData.value.avatar,
-  newVal => {
-    console.log('user-editor:', newVal)
-  },
+  newVal => {},
   {
     immediate: true,
     deep: true

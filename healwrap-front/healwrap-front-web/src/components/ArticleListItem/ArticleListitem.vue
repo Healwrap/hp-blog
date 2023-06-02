@@ -1,6 +1,7 @@
 <template>
   <div class="article-item">
-    <div class="article-item-inner" @click="proxy.$router.push('/article/' + data.articleId)"> <!-- TODO -->
+    <div class="article-item-inner" @click="proxy.$router.push('/article/' + data.articleId)">
+      <!-- TODO -->
       <div class="list-item">
         <div class="user-info">
           <user-avatar :user-id="data.userId" :src="accountApi.avatarUrl(data.userId)" />
