@@ -71,7 +71,7 @@ const updateUserInfoHandler = () => {
       return
     }
     dialogConfig.show = false
-    // proxy.$router.go(0)
+    proxy.$router.go(0)
   })
 }
 // 显示编辑个人信息弹窗

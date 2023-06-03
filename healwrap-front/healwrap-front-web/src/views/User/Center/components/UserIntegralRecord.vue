@@ -117,6 +117,7 @@ const close = () => {
 const showIntegralRecordDialog = () => {
   dialogConfig.show = true
   loadRecord()
+  loadRecordAll()
 }
 // 加载用户积分记录
 const loadRecord = async () => {
@@ -133,9 +134,16 @@ const loadRecord = async () => {
     return
   }
   recordInfo.value = result.data
-  option.xAxis.data = result.data.list.map(item => item.createTime.substr(0, 10))
-  option.series[0].data = result.data.list.map(item => item.integral)
   loading.value = false
+}
+// 加载积分变化图表
+const loadRecordAll = async () => {
+  const result = await proxy.$api.data.getIntegralCount()
+  if (!result) {
+    return
+  }
+  option.xAxis.data = result.data.map(item => item.createTime.substr(0, 10))
+  option.series[0].data = result.data.map(item => item.integral)
 }
 defineExpose({
   showIntegralRecordDialog

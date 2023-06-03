@@ -1,10 +1,10 @@
 <template>
   <div class="chart">
-    <v-echart class="chart" :option="option" autoresize />
+    <v-echart class="chart" :option="option" autoresize :style="{ height: height + 'px' }" />
   </div>
 </template>
 
-<script>
+<script setup>
 // ------基础文件---------
 import VEchart from 'vue-echarts'
 import { use } from 'echarts/core'
@@ -12,6 +12,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 // ------可选文件---------
 import { BarChart, BoxplotChart, CandlestickChart, HeatmapChart, LineChart, RadarChart, SankeyChart, ScatterChart } from 'echarts/charts'
 import {
+  CalendarComponent,
   GridComponent,
   LegendComponent,
   MarkLineComponent,
@@ -37,19 +38,19 @@ use([
   TitleComponent,
   LegendComponent,
   ToolboxComponent,
-  MarkLineComponent
+  MarkLineComponent,
+  CalendarComponent
 ])
-export default {
-  components: {
-    VEchart
+defineProps({
+  option: {
+    type: Object,
+    default: () => {}
   },
-  props: {
-    option: {
-      type: Object,
-      default: () => {}
-    }
+  height: {
+    type: Number,
+    default: 300
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>
