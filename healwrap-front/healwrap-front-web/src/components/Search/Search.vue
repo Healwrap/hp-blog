@@ -21,7 +21,8 @@
     </el-form>
     <data-list :loading="loading" :data-source="dataList" desc="未搜索到结果" @load-data="search">
       <template #default="{ data }">
-        <article-list-item :data="data" />
+        {{ data }}
+        <div class="title">{{ data.title }}</div>
       </template>
     </data-list>
   </Dialog>
@@ -30,7 +31,6 @@
 <script setup>
 import { getCurrentInstance, reactive, ref } from 'vue'
 import DataList from '@/components/DataList/DataList.vue'
-import ArticleListItem from '@/components/ArticleListItem/ArticleListitem.vue'
 
 const { proxy } = getCurrentInstance()
 const formData = ref({})

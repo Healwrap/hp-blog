@@ -7,35 +7,22 @@
 * {
   padding: 0;
   margin: 0;
-}
-
-/**
-* 引入字体
-*/
-@font-face {
-  font-family: '思源黑体';
-  src: url('./fonts/思源黑体/SourceHanSansCN-Normal.otf');
-}
-
-@font-face {
-  font-family: '思源黑体 Bold';
-  src: url('./fonts/思源黑体/SourceHanSansCN-Bold.otf');
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', STHeiti,
+  'Microsoft YaHei', 'Microsoft JhengHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Source Han Sans TC', 'Noto Sans CJK TC',
+  'WenQuanYi Micro Hei', SimSun, sans-serif;
 }
 
 // 设置全局字体
 body {
-  font-family: '思源黑体', serif;
+  background: #eee;
   color: var(--text-color);
 }
 
 html {
   scroll-behavior: auto;
   scroll-behavior: smooth;
-}
-
-body {
-  background: #eee;
-  font-family: 思源黑体, serif;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 // scoller
