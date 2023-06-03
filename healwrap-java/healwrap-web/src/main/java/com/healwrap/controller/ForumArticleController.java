@@ -383,9 +383,10 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @GetMapping("/search")
-  @GlobalIntercepter(checkParams = true)
-  public ResponseVO search(@VerifyParams(required = true, min = 3) String keyword) {
+  public ResponseVO search(String keyword, Integer pageNo) {
     ForumArticleQuery query = new ForumArticleQuery();
+    query.setPageNo(pageNo);
+    query.setPageSize(PageSize.SIZE10.getSize());
     query.setTitleFuzzy(keyword);
     PaginationResultVO<ForumArticle> resultVO = forumArticleService.findListByPage(query);
     return getSuccessResponseVO(resultVO);

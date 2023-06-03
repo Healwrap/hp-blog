@@ -11,7 +11,8 @@ const apis = {
   attachmentDownload: '/api/forum/attachmentDownload',
   postArticle: '/forum/postArticle',
   getArticleDetail4Update: '/forum/articleDetail4Update',
-  updateArticle: '/forum/updateArticle'
+  updateArticle: '/forum/updateArticle',
+  search: '/forum/search'
 }
 
 /**
@@ -198,6 +199,14 @@ const updateArticle = (
   })
 }
 
+const search = (keyword, pageNo) => {
+  return request({
+    url: apis.search,
+    method: 'get',
+    params: mergeParams({ keyword, pageNo })
+  })
+}
+
 const forumApi = {
   loadArticle,
   getArticleDetail,
@@ -206,6 +215,7 @@ const forumApi = {
   attachmentDownload,
   getArticleDetail4Update,
   postArticle,
-  updateArticle
+  updateArticle,
+  search
 }
 export default forumApi
