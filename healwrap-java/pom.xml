@@ -35,6 +35,7 @@
         <lombok.version>1.18.20</lombok.version>
         <logback.version>1.2.10</logback.version>
         <mysql.version>8.0.23</mysql.version>
+        <druid.version>1.2.16</druid.version>
         <aspectjweaver.version>1.9.4</aspectjweaver.version>
         <okhttp3.version>3.2.0</okhttp3.version>
         <fastjson.version>1.2.83</fastjson.version>
@@ -86,7 +87,12 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-
+            <!--druid-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
             <!--日志-->
             <dependency>
                 <groupId>ch.qos.logback</groupId>

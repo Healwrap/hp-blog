@@ -78,6 +78,13 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!--druid-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
         <!--日志-->
         <dependency>
             <groupId>ch.qos.logback</groupId>

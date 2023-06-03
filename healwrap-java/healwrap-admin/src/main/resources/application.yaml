@@ -9,9 +9,9 @@ server:
   servlet:
     # 配置 API 路径
     context-path: /api
-    # session 过期时间 60M 一个小时
+    # session 过期时间 30M 半个小时
     session:
-      timeout: PT60M
+      timeout: PT30M
   # 配置端口
   port: 7071
 
