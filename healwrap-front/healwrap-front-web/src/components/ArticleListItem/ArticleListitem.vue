@@ -4,7 +4,7 @@
       <!-- TODO -->
       <div class="list-item">
         <div class="user-info">
-          <user-avatar :user-id="data.userId" :src="accountApi.avatarUrl(data.userId)" />
+          <user-avatar :user-id="data.userId" :src="proxy.$api.account.avatarUrl(data.userId)" />
           <router-link :to="'/user/' + data.userId">
             {{ data.nickName }}
           </router-link>
@@ -48,7 +48,6 @@
 <script setup>
 import { defineProps, getCurrentInstance } from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
-import accountApi from '@/api/account'
 
 const { proxy } = getCurrentInstance()
 defineProps({
@@ -61,11 +60,11 @@ defineProps({
 <style lang="scss" scoped>
 .article-item {
   .article-item-inner {
-    @apply flex justify-between items-center bg-[rgba(255,255,255,0.8)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] cursor-pointer;
+    @apply flex justify-between items-center bg-[var(--bg-transparency)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] cursor-pointer;
     transition: all 0.3s;
 
     &:hover {
-      @apply bg-[rgba(255,255,255,0.65)];
+      @apply bg-[var(--bg-transparency-hover)];
     }
 
     .list-item {
@@ -75,19 +74,19 @@ defineProps({
         @apply flex items-center;
 
         .post-time {
-          @apply ml-[10px] text-[#999];
+          @apply ml-[10px] text-[var(--text-color-1)];
         }
 
         .address {
-          @apply ml-[10px] text-[#999];
+          @apply ml-[10px] text-[var(--text-color-1)];
         }
 
         a {
-          @apply text-[#333] decoration-0;
+          @apply text-[var(--text-color-3)] decoration-0;
           transition: 0.3s all;
 
           &:hover {
-            @apply text-[#1e88e5];
+            @apply text-[var(--color-primary)];
           }
         }
       }
@@ -96,28 +95,28 @@ defineProps({
         @apply text-[22px] font-bold m-[10px];
 
         a {
-          @apply text-[#333] decoration-0;
+          @apply text-[var(--text-color)] decoration-0;
           transition: 0.3s all;
 
           &:hover {
-            @apply text-[#1e88e5];
+            @apply text-[var(--color-primary)];
           }
         }
       }
 
       .article-summary {
-        @apply text-[#666] text-[15px];
+        @apply text-[var(--text-color-2)] text-[15px];
       }
 
       .article-info {
-        @apply mt-[10px] text-[#999] text-[12px];
+        @apply mt-[10px] text-[var(--text-color-1)] text-[12px];
 
         .iconfont {
           @apply mr-[10px] text-[14px] cursor-pointer;
           transition: 0.3s all;
 
           &:hover {
-            @apply text-[#1e88e5];
+            @apply text-[var(--color-primary)];
           }
         }
       }

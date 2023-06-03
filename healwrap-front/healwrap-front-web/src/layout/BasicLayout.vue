@@ -26,7 +26,7 @@
         <!-- 发帖搜索 -->
         <div class="box" style="">
           <custom-button v-if="userInfo !== null" name="postArticle" @click="handleTopButtonClick(0)" />
-          <custom-button name="search" />
+          <custom-button name="search" @click="searchRef.show()" />
         </div>
         <!--用户信息-->
         <div v-if="userInfo !== null" class="user-info" style="width: 120px; display: flex; align-items: center; justify-content: center">
@@ -79,6 +79,8 @@
     <div class="side-tools">
       <el-backtop :right="30" :bottom="30" />
     </div>
+    <!--搜索-->
+    <search ref="searchRef" />
     <!--底部-->
     <Footer />
   </div>
@@ -96,9 +98,11 @@ import { useRoute } from 'vue-router'
 import { TOGGLE_CONTENT_WIDTH, UPDATE_MESSAGE_COUNT } from '@/store/mutation-types'
 import CustomButton from '@/components/CustomButton/CustomButton.vue'
 import Background from '@/components/Background/Background.vue'
+import Search from '@/components/Search/Search.vue'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
+const searchRef = ref(null)
 // 消息数量
 const messageCount = ref({})
 // 头部宽度

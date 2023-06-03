@@ -4,7 +4,8 @@
       <el-row>
         <el-col :span="6" class="item">
           <Logo class="logo" :show-rain-bow="false" color="white" />
-          <div class="desc">一个分享知识的博客</div>
+          <div class="desc">愈屋</div>
+          <div class="author">@He_Atom</div>
         </el-col>
         <el-col :span="6" class="item">
           <div class="title">技术栈</div>
@@ -67,11 +68,15 @@ const { proxy } = getCurrentInstance()
       }
 
       .desc {
-        @apply text-[14px] text-[#ddd] mb-[5px];
+        @apply text-[14px] text-[var(--text-color-1)] mb-[5px];
 
         .link {
-          @apply relative text-[#409eff];
+          @apply relative text-[var(--color-primary)];
         }
+      }
+
+      .author {
+        @apply text-[14px] text-[var(--text-color-1)] mb-[5px];
       }
 
       span {

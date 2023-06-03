@@ -7,6 +7,7 @@ import forum from './forum'
 import files from './files'
 import board from './board'
 import comment from './comment'
+import data from './data'
 
 export default {
   account,
@@ -14,5 +15,6 @@ export default {
   forum,
   files,
   board,
-  comment
+  comment,
+  data
 }

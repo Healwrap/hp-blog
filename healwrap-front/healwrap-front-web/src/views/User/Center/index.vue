@@ -17,7 +17,7 @@
               <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
             </div>
             <div class="avatar">
-              <img :src="accountApi.avatarUrl(userId)" />
+              <img :src="proxy.$api.account.avatarUrl(userId)" />
             </div>
             <div class="nickname">
               <span>{{ userInfo.nickName }}</span>
@@ -62,7 +62,7 @@
         <!--发文详情图表-->
         <div class="profile-panel">
           <div class="desc">简介.........简介</div>
-          <echarts class="echarts" :option="option" />
+          <echarts class="echarts" :option="option" :height="200" />
         </div>
         <el-tabs class="tabs" v-model:model-value="activeTagName" @tab-change="changeTab">
           <el-tab-pane label="发帖" :name="0" />
@@ -90,42 +90,72 @@ import { ArrowRight } from '@element-plus/icons-vue'
 import { getCurrentInstance, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import router from '@/router'
-import accountApi from '@/api/account'
+import { getCssVar } from '@/utils/Utils'
 import ArticleListItem from '@/components/ArticleListItem/ArticleListItem.vue'
 import UserInfoEditor from '@/views/User/Center/components/UserInfoEditor.vue'
 import UserIntegralRecord from './components/UserIntegralRecord.vue'
 
 const { proxy } = getCurrentInstance()
+
+function getVirtualData(year) {
+  const startDate = new Date(`${year}-01-01`)
+  const endDate = new Date(`${+year + 1}-01-01`)
+  const dayTime = 3600 * 24 * 1000
+  const data = []
+  for (let time = startDate.getTime(); time < endDate.getTime(); time += dayTime) {
+    const date = new Date(time)
+    const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
+    data.push([formattedDate, Math.floor(Math.random() * 10)])
+  }
+  return data
+}
+// 图表配置
 const option = reactive({
   title: {
-    text: '积分变化',
-    left: 'center'
+    top: 10,
+    text: '发文详情',
+    textStyle: {
+      color: getCssVar('--text-color')
+    }
   },
   tooltip: {
-    trigger: 'axis'
+    trigger: 'item'
   },
-  xAxis: {
-    type: 'category',
-    data: []
+  visualMap: {
+    min: 0,
+    max: 10,
+    type: 'piecewise',
+    orient: 'horizontal',
+    left: 'center',
+    bottom: 20,
+    inRange: {
+      color: [getCssVar('--heatmap-color-01'), getCssVar('--heatmap-color-02'), getCssVar('--heatmap-color-03')]
+    },
+    textStyle: {
+      color: getCssVar('--text-color')
+    }
   },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      name: '积分变化',
-      type: 'line',
-      data: [],
-      markLine: {
-        silent: true,
-        data: [
-          {
-            yAxis: 0
-          }
-        ]
+  calendar: {
+    top: 60,
+    left: 30,
+    right: 30,
+    cellSize: ['auto', 13],
+    range: '2022',
+    itemStyle: {
+      borderWidth: 0.5
+    },
+    yearLabel: {
+      show: false,
+      textStyle: {
+        color: getCssVar('--text-color')
       }
     }
-  ]
+  },
+  series: {
+    type: 'heatmap',
+    coordinateSystem: 'calendar',
+    data: getVirtualData('2022')
+  }
 })
 const integralRecordRef = ref(null)
 const route = useRoute()
@@ -201,7 +231,7 @@ watch(
       @apply w-[200px] h-[300px] mx-[10px];
 
       .avatar-panel {
-        @apply bg-[rgba(255,255,255,0.8)] p-[10px] rounded-[10px];
+        @apply bg-[var(--bg-transparency)] p-[10px] rounded-[10px];
 
         .edit-btn {
           @apply text-right p-[10px] pt-[0];
@@ -234,7 +264,7 @@ watch(
       }
 
       .info-panel {
-        @apply mt-[10px] bg-[rgba(255,255,255,0.8)] p-[10px] rounded-[10px];
+        @apply mt-[10px] bg-[var(--bg-transparency)] p-[10px] rounded-[10px];
 
         .info-item {
           @apply flex items-center justify-between py-[5px] px-[10px];
@@ -253,19 +283,19 @@ watch(
     .article-side {
       @apply flex-1 mx-[10px] p-[10px];
       .profile-panel {
-        @apply bg-[rgba(255,255,255,0.8)] mb-[15px] p-[10px] rounded-[10px];
+        @apply bg-[var(--bg-transparency)] mb-[15px] p-[10px] rounded-[10px];
 
         .desc {
           @apply text-[12px] text-[#999] mb-[10px];
         }
 
         .echarts {
-          @apply w-full h-[300px] bg-transparent;
+          @apply w-full bg-transparent;
         }
       }
 
       .tabs {
-        @apply bg-[rgba(255,255,255,0.8)] mb-[10px] p-[5px] rounded-[10px];
+        @apply bg-[var(--bg-transparency)] mb-[10px] p-[5px] rounded-[10px];
       }
     }
   }

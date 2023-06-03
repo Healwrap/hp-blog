@@ -51,7 +51,7 @@
                 :user-id="currentUserinfo.userId"
                 :p-comment-id="data.commentId"
                 :reply-user-id="data.userId"
-                @postCommentFinish="postCommentFinish"
+                @post-comment-finish="postCommentFinish"
               />
             </template>
           </CommentItem>

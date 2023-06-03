@@ -37,3 +37,12 @@ export function mergeParams(params) {
   }
   return result
 }
+
+/**
+ * 获取css变量
+ * @param name 变量名
+ * @returns {string}
+ */
+export function getCssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name)
+}

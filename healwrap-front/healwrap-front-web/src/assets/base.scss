@@ -2,6 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 引入sass变量 */
+@import '@/assets/variables.css';
 * {
   padding: 0;
   margin: 0;
@@ -18,6 +20,12 @@
 @font-face {
   font-family: '思源黑体 Bold';
   src: url('./fonts/思源黑体/SourceHanSansCN-Bold.otf');
+}
+
+// 设置全局字体
+body {
+  font-family: '思源黑体', serif;
+  color: var(--text-color);
 }
 
 html {
@@ -51,8 +59,7 @@ body {
 */
 // el-dialog
 .el-dialog {
-  border-radius: 10px;
-  backdrop-filter: blur(10px);
+  border-radius: 10px !important;
 
   .el-dialog__header {
     display: flex;
@@ -79,10 +86,15 @@ body {
 div.el-input__wrapper {
   border-radius: 10px;
   backdrop-filter: blur(10px);
+  letter-spacing: normal;
+
+  input[type='password'] {
+    font-family: Arial, serif;
+  }
 }
 
 .link {
-  color: #1890ff;
+  color: var(--color-primary);
   text-decoration: none;
   cursor: pointer;
 }

@@ -20,7 +20,8 @@
 <script setup>
 const props = defineProps({
   dataSource: {
-    type: Object
+    type: Object,
+    required: true
   },
   loading: {
     type: Boolean,

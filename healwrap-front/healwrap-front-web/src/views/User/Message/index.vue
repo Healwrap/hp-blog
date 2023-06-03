@@ -226,8 +226,7 @@ watch(
   }
 
   .message-panel {
-    @apply my-[10px] py-[10px] px-[5px] rounded-[10px] bg-[rgba(255,255,255,0.8)];
-    box-shadow: 0 0 10px #ddd;
+    @apply my-[10px] py-[10px] px-[5px] rounded-[10px] bg-[var(--bg-transparency)] shadow-2xl;
 
     .tabs-panel {
       @apply my-[5px] mx-[10px];
@@ -253,7 +252,7 @@ watch(
 
           .reply-content {
             @apply mt-[5px] py-[5px] px-[10px] bg-[#f5f5f580];
-            border-left: 2px solid #1890ff;
+            border-left: 2px solid var(--color-primary);
           }
         }
       }

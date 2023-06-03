@@ -41,12 +41,11 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/variables.scss';
-
 .custom-button {
   display: flex;
   align-items: center;
   height: 100%;
+
   .post-article {
     .btn {
       display: flex;
@@ -227,7 +226,7 @@ defineProps({
       width: 100px;
       height: 45px;
       background: transparent;
-      color: #000000;
+      color: var(--text-color);
       position: relative;
       overflow: hidden;
       font-size: 14px;
@@ -247,7 +246,7 @@ defineProps({
       position: absolute;
       width: 0;
       height: 3px;
-      background-color: $color-primary;
+      background-color: var(--color-primary);
       transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
     }
 
@@ -311,7 +310,7 @@ defineProps({
     .buttons button p:after {
       content: attr(data-text);
       top: 150%;
-      color: $color-primary;
+      color: var(--color-primary);
     }
 
     .buttons button:hover:before,
@@ -339,7 +338,7 @@ defineProps({
     }
 
     .buttons button.start {
-      background-color: $color-primary;
+      background-color: var(--color-primary);
       box-shadow: 0px 5px 10px -10px rgba(0, 0, 0, 0.2);
       transition: all 0.2s ease;
     }
@@ -400,7 +399,7 @@ defineProps({
       bottom: 0;
       width: 0;
       height: 3px;
-      background-color: $color-primary;
+      background-color: var(--color-primary);
       transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
     }
 

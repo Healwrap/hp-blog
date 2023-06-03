@@ -125,7 +125,6 @@ import CommentList from './components/CommentList.vue'
 const { proxy } = getCurrentInstance()
 const route = useRoute()
 const imageViewerRef = ref(null)
-const loading = ref(true)
 const previewImgList = ref([])
 const currentUserinfo = ref({})
 // 文章详情
@@ -301,8 +300,8 @@ const getTocPanelLeft = () => {
   }
   tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
 }
-onMounted(async () => {
-  loading.value = true
+// 初始化
+const init = async () => {
   let result = await proxy.$api.forum.getArticleDetail(route.params.articleId)
   articleInfo.value = result.data.forumArticleVO
   attachment.value = result.data.forumArticleAttachmentVO
@@ -312,7 +311,9 @@ onMounted(async () => {
   getQuickPanelLeft()
   getTocPanelLeft()
   makeToc()
-  // loading.value = false
+}
+onMounted(() => {
+  init()
 })
 // 监听窗口大小变化
 onMounted(() => {
@@ -339,6 +340,15 @@ watch(
   newVal => {
     currentUserinfo.value = newVal
   },
+  {
+    immediate: true,
+    deep: true
+  }
+)
+// 监听路由变化
+watch(
+  () => route.params.articleId,
+  newVal => {},
   {
     immediate: true,
     deep: true
@@ -393,9 +403,7 @@ watch(
       }
 
       .detail {
-        padding: 5px 15px;
-        letter-spacing: 1.1px;
-        line-height: 25px;
+        @apply py-[5px] px-[15px] leading-[25px] tracking-[1.1px];
         //处理文章内的标签
         ::v-deep(h1),
         ::v-deep(h2),
@@ -403,187 +411,135 @@ watch(
         ::v-deep(h4),
         ::v-deep(h5),
         ::v-deep(h6) {
-          margin: 20px 0 10px;
-          font-weight: bold;
+          @apply font-bold mt-[20px] mb-[10px];
         }
 
         ::v-deep(table) {
-          margin: 20px 0;
-          border-collapse: collapse;
-          border-spacing: 0;
-          width: 100%;
-          table-layout: fixed;
-          overflow: auto;
-          display: block;
-          font-size: 14px;
+          @apply my-[20px] border-collapse border-spacing-0 w-full table-fixed overflow-auto text-[14px];
 
           th,
           td {
-            padding: 8px;
+            @apply p-[8px];
             border: 1px solid #ddd;
           }
 
           th {
-            background-color: #f5f5f5;
+            @apply bg-[#f5f5f5];
           }
         }
 
         ::v-deep(ul) {
-          margin-left: 25px;
+          @apply ml-[25px];
         }
 
         ::v-deep(ol) {
-          margin-left: 25px;
+          @apply ml-[25px];
         }
 
         ::v-deep(code) {
-          margin: 10px 0;
-          background-color: #f1f1f1;
-          border-radius: 5px;
+          @apply my-[10px] mx-1 p-1 bg-[var(--bg-code)] rounded-md border border-gray-300 text-[14px] leading-[20px] tracking-[1.1px];
         }
 
         img {
-          width: 90%;
+          @apply w-[90%];
         }
       }
     }
 
     .attachment-panel {
-      margin-top: 20px;
-      padding: 10px;
+      @apply mt-[20px] p-[10px];
       border: 1px solid #eee;
 
       .title {
-        font-size: 16px;
-        font-weight: bold;
-        margin-bottom: 10px;
+        @apply text-[16px] font-bold mb-[10px];
       }
 
       .attachment-info {
-        display: flex;
-        align-items: center;
+        @apply flex items-center;
 
         .iconfont {
-          font-size: 30px;
-          color: #1e88e5;
+          @apply text-[30px] text-[$color-primary];
         }
 
         .file-name {
-          margin-left: 10px;
-          font-size: 16px;
-          font-weight: bold;
+          @apply ml-[10px] text-[16px] font-bold;
         }
 
         .size {
-          margin: 0 10px;
-          font-size: 12px;
-          color: #999;
+          @apply mx-[10px] text-[12px] text-[#999];
         }
 
         .integral {
-          font-size: 12px;
-          color: #f56c6c;
+          @apply text-[12px] text-[#f56c6c];
         }
 
         .download-count {
-          margin-left: 10px;
-          font-size: 12px;
-          color: #999;
+          @apply ml-[10px] text-[12px] text-[#999];
         }
 
         .download-btn {
-          margin-left: 10px;
+          @apply ml-[10px];
         }
       }
     }
 
     .block {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      @apply bg-[var(--bg-color)] rounded-2xl shadow-md;
       transition: all 0.3s;
 
       &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        @apply shadow-2xl;
       }
     }
   }
 
   .toc-panel {
-    position: fixed;
-    top: 14%;
-    width: 200px;
-    min-height: 300px;
-    max-height: 80%;
-    padding: 10px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    @apply fixed top-[14%] w-[200px] min-h-[300px] max-h-[80%] p-[10px] bg-[var(--bg-color)] rounded-[10px] shadow-md overflow-auto;
     transition: all 0.4s;
-    overflow: auto;
 
     &:hover {
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      @apply shadow-2xl;
     }
 
     .toc-container {
       .toc-title {
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 10px;
+        @apply text-[20px] font-bold mb-[10px];
       }
 
       .toc-list {
         .no-toc {
-          font-size: 12px;
-          color: #999;
+          @apply text-[12px] text-[var(--text-color-1)];
         }
 
         .toc-item {
-          margin-bottom: 5px;
-          padding: 5px 0 5px 10px;
-          border-left: 2px solid #fff;
-          cursor: pointer;
+          @apply mb-[5px] py-[5px] cursor-pointer;
+          border-left: 2px solid var(--bg-color);
           transition: all 0.3s;
 
           &:hover {
-            background: #eee;
+            @apply bg-[var(--bg-color-hover)];
           }
         }
 
         .active {
-          color: #1e88e5;
-          background: #eee;
-          border-left: 2px solid #1e88e5;
+          @apply text-[var(--color-primary)] bg-[var(--bg-color-active)];
+          border-left: 2px solid var(--color-primary);
         }
       }
     }
   }
 
   .article-quick-panel {
-    position: fixed;
-    top: 50%;
+    @apply fixed flex top-[50%]  flex-col items-center;
     transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     transition: all 0.4s;
 
     .quick-item {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 10px;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      @apply w-[40px] h-[40px] rounded-full bg-[var(--bg-color)] flex justify-center items-center mb-[10px] cursor-pointer shadow-md;
       transition: all 0.3s;
 
       &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        @apply shadow-2xl;
       }
     }
   }
