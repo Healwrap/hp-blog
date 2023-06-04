@@ -1,3 +1,15 @@
+<p align="center">
+	<img width="200" height="200" alt="logo" src="https://picgo-img-repo.oss-cn-beijing.aliyuncs.com/img/b642e602fc8e728cf6139b095d27f365.png">
+</p>
+
+<p align="center">
+	<a href="https://vuejs.org/"><img src="https://img.shields.io/badge/Vue-3.2.47-green.svg?logo=Vue.js"></a>
+    <a href="https://github.com/pepedd864/HealWrap"><img src="https://img.shields.io/badge/Github-HealWrap-181717.svg?logo=GitHub"/></a>
+    <a href=""><img src="https://img.shields.io/badge/Gitee-HealWrap-323717.svg?logo=Gitee"/></a>
+    <a href="https://github.com/pepedd864/HealWrap"><img src="https://img.shields.io/github/license/mashape/apistatus.svg"></a>
+	<a href="https://spring.io/"><img src="https://img.shields.io/badge/Springboot-2.5.14-green.svg?logo=Spring"></a>
+</p>
+
 # HealWrap · 愈屋
 
 ## 项目简介
