@@ -1,6 +1,7 @@
 <template>
   <div class="image-upload">
     <el-upload
+      class="upload"
       name="file"
       :show-file-list="false"
       accept=".png, .PNG, .jpg, .JPG, .jpeg, .JPEG, .gif, .GIF, .bmp, .BMP"
@@ -11,7 +12,7 @@
         <img :src="localFile" alt="image" />
       </template>
       <template v-else>
-        <el-image v-if="modelValue" :src="imageUrl" alt="image" width="100" height="100" fit="cover" />
+        <el-image v-if="modelValue" :src="imageUrl" alt="image" height="96" fit="cover" />
         <el-icon v-else style="position: absolute">
           <Plus />
         </el-icon>
@@ -61,9 +62,13 @@ watch(
 
 <style lang="scss" scoped>
 .image-upload {
-  @apply relative w-[100px] h-[100px] rounded-[4px] flex justify-center items-center cursor-pointer;
+  @apply relative w-[100px] h-[100px] p-[1px] rounded-[4px] flex justify-center items-center cursor-pointer;
   border: 1px dashed #ccc;
   transition: all 0.3s;
+
+  .upload {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
 
   &:hover {
     @apply border-[#409eff];
@@ -73,12 +78,17 @@ watch(
     @apply absolute top-0 w-full h-full object-cover;
   }
 
+  ::v-deep(.el-upload) {
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
   ::v-deep(.el-icon) {
-    @apply text-[30px] text-[#999];
+    @apply absolute top-1/2 left-1/2 text-[var(--text-color-1)] text-[40px];
+    transform: translate(-50%, -50%);
   }
 
   ::v-deep(.el-image) {
-    @apply w-[100px] h-[100px];
+    @apply absolute top-0 left-0 w-full h-full;
   }
 }
 </style>

@@ -84,7 +84,7 @@
         </template>
         <!--封面-->
         <template #cover="{ row }">
-          <el-image style="width: 80px; height: 80px" :src="proxy.$api.files.getImage(row.cover)" fit="cover" />
+          <Image :src="proxy.$api.files.getImage(row.cover)" fit="cover" width="80px" />
         </template>
         <!--标题-->
         <template #title="{ row }">
@@ -152,6 +152,7 @@ import Icon from '@/components/Icon/Icon.vue'
 import BoardPanel from './components/BoardPanel.vue'
 import AttachmentPanel from '@/views/forum/article/components/AttachmentPanel.vue'
 import CommentPanel from '@/views/forum/article/components/CommentPanel.vue'
+import Image from '@/components/Image/Image.vue'
 
 const boardPanelRef = ref(null)
 const attachmentPanelRef = ref(null)

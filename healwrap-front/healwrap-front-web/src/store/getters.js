@@ -3,6 +3,7 @@ const getters = {
   theme: state => state.app.theme,
   contentWidth: state => state.app.contentWidth,
   headerHeight: state => state.app.headerHeight,
+  enterApp: state => state.app.enterApp,
   messageCount: state => state.app.messageCount,
   userInfo: state => {
     return {

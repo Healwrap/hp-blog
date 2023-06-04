@@ -3,9 +3,11 @@
     <div class="no-data">
       <el-empty v-if="!loading && dataSource.list.length === 0" :description="desc" />
     </div>
-    <div v-for="item in dataSource.list" :key="item.articleId">
-      <slot :data="item"></slot>
-    </div>
+    <transition-group enter-active-class="animate__animated animate__fadeInUp">
+      <div v-for="item in dataSource.list" :key="item[ikey]">
+        <slot :data="item"></slot>
+      </div>
+    </transition-group>
     <el-pagination
       :current-page="dataSource.pageNo"
       :total="dataSource.totalCount"
@@ -22,6 +24,10 @@ const props = defineProps({
   dataSource: {
     type: Object,
     required: true
+  },
+  ikey: {
+    type: String,
+    default: 'articleId'
   },
   loading: {
     type: Boolean,

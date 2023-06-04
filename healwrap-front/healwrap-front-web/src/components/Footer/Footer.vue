@@ -1,6 +1,6 @@
 <template>
-  <div class="footer">
-    <div class="content" :style="{ width: proxy.$store.getters.contentWidth + 'px' }">
+  <div v-if="show" class="footer">
+    <div class="content" :style="{ width: proxy.$store.getters.contentWidth }">
       <el-row>
         <el-col :span="6" class="item">
           <Logo class="logo" :show-rain-bow="false" color="white" />
@@ -43,10 +43,27 @@
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
+import { getCurrentInstance, nextTick, ref, watch } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
 const { proxy } = getCurrentInstance()
+const show = ref(false)
+watch(
+  () => proxy.$store.getters.enterApp,
+  e => {
+    nextTick(() => {
+      if (!e) {
+        show.value = false
+      } else {
+        show.value = true
+      }
+    })
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style lang="scss" scoped>

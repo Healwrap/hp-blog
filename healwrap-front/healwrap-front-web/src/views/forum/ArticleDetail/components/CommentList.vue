@@ -5,9 +5,9 @@
         评论<span class="count">{{ commentListInfo.totalCount }}</span>
       </div>
       <div class="tab">
-        <span @click="changeOrderType(0)" :style="`color: ${orderType === 0 ? '#1e88e5' : '#999'}`">热榜</span>
+        <span :style="`color: ${orderType === 0 ? '#1e88e5' : '#999'}`" @click="changeOrderType(0)">热榜</span>
         <el-divider direction="vertical" />
-        <span @click="changeOrderType(1)" :style="`color: ${orderType === 1 ? '#1e88e5' : '#999'}`">最新</span>
+        <span :style="`color: ${orderType === 1 ? '#1e88e5' : '#999'}`" @click="changeOrderType(1)">最新</span>
       </div>
     </div>
     <div class="comment-form-panel">
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="comment-list-panel">
-      <data-list :data-source="commentListInfo" :loading="loading" @load-data="loadComment" desc="暂无评论">
+      <data-list :data-source="commentListInfo" :loading="loading" ikey="commentId" desc="暂无评论" @load-data="loadComment">
         <template #default="{ data }">
           <CommentItem
             :comment-data="data"

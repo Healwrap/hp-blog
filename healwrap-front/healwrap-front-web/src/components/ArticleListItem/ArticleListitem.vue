@@ -39,7 +39,7 @@
         </div>
       </div>
       <div v-if="data.cover" class="article-cover">
-        <el-image style="width: 200px" :src="proxy.$api.files.getImage(data.cover)" fit="cover" />
+        <Image :src="proxy.$api.files.getImage(data.cover)" width="200px" fit="cover" />
       </div>
     </div>
   </div>
@@ -48,6 +48,7 @@
 <script setup>
 import { defineProps, getCurrentInstance } from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
+import Image from '@/components/Image/Image.vue'
 
 const { proxy } = getCurrentInstance()
 defineProps({
@@ -60,7 +61,7 @@ defineProps({
 <style lang="scss" scoped>
 .article-item {
   .article-item-inner {
-    @apply flex justify-between items-center bg-[var(--bg-transparency)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] cursor-pointer;
+    @apply flex justify-between items-center bg-[var(--bg-transparency)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] overflow-hidden cursor-pointer;
     transition: all 0.3s;
 
     &:hover {

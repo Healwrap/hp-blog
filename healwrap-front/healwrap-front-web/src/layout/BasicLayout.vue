@@ -68,13 +68,13 @@
       </template>
     </Header>
     <!--body-->
-    <div class="content" :style="{ width: proxy.$store.getters.contentWidth + 'px', top: proxy.$store.getters.headerHeight + 'px' }">
+    <div class="content" :style="{ width: proxy.$store.getters.contentWidth, top: proxy.$store.getters.headerHeight }">
       <router-view />
     </div>
     <!--左侧板块选择-->
     <board-select />
     <!--用户登录注册-->
-    <UserDialog ref="userDialog" />
+    <user-dialog ref="userDialog" />
     <!--右侧工具-->
     <div class="side-tools">
       <el-backtop :right="30" :bottom="30" />
@@ -99,6 +99,7 @@ import { TOGGLE_CONTENT_WIDTH, UPDATE_MESSAGE_COUNT } from '@/store/mutation-typ
 import CustomButton from '@/components/CustomButton/CustomButton.vue'
 import Background from '@/components/Background/Background.vue'
 import Search from '@/components/Search/Search.vue'
+import BoardSelect from '@/components/BoardSelect/BoardSelect.vue'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
@@ -168,8 +169,8 @@ loadBoard()
 // Mounted
 onMounted(() => {
   if (route.path === '/postArticle' || route.path.indexOf('/postArticle/') !== -1) {
-    headerWidth.value = 1200
-    proxy.$store.commit(TOGGLE_CONTENT_WIDTH, document.body.clientWidth)
+    headerWidth.value = '1100px'
+    proxy.$store.commit(TOGGLE_CONTENT_WIDTH, '100vw')
   }
 })
 // 监听用户信息
@@ -208,11 +209,15 @@ watch(
 watch(
   () => route.path,
   newVal => {
+    if (newVal != '/') {
+      proxy.$store.commit('enter_app', true)
+      proxy.$store.commit('content_width', '1100px')
+    }
     if (newVal === '/postArticle' || newVal.indexOf('/postArticle/') !== -1) {
-      headerWidth.value = 1200
-      proxy.$store.commit(TOGGLE_CONTENT_WIDTH, document.body.clientWidth)
+      headerWidth.value = '1100px'
+      proxy.$store.commit(TOGGLE_CONTENT_WIDTH, '100vw')
     } else {
-      proxy.$store.commit(TOGGLE_CONTENT_WIDTH, 1200)
+      proxy.$store.commit(TOGGLE_CONTENT_WIDTH, '1100px')
     }
   }
 )

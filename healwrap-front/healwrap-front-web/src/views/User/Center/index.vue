@@ -9,62 +9,64 @@
     </div>
     <!--个人中心-->
     <div class="user-panel">
-      <el-affix :offset="30">
-        <div class="user-side">
-          <!--头像-->
-          <div class="avatar-panel">
-            <div class="edit-btn" v-if="userId === currentUserId">
-              <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
+      <div class="user-info animate__animated animate__fadeIn">
+        <el-affix :offset="30">
+          <div class="user-side">
+            <!--头像-->
+            <div class="avatar-panel">
+              <div class="edit-btn" v-if="userId === currentUserId">
+                <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
+              </div>
+              <div class="avatar">
+                <img :src="proxy.$api.account.avatarUrl(userId)" />
+              </div>
+              <div class="nickname">
+                <span>{{ userInfo.nickName }}</span>
+                <span class="sex">
+                  <span v-if="userInfo.sex === 0" class="iconfont icon-woman" style="color: #ff006a"></span>
+                  <span v-if="userInfo.sex === 1" class="iconfont icon-man" style="color: #0080ff"></span>
+                </span>
+              </div>
+              <div class="desc">
+                <span>{{ userInfo.personDescription }}</span>
+              </div>
             </div>
-            <div class="avatar">
-              <img :src="proxy.$api.account.avatarUrl(userId)" />
-            </div>
-            <div class="nickname">
-              <span>{{ userInfo.nickName }}</span>
-              <span class="sex">
-                <span v-if="userInfo.sex === 0" class="iconfont icon-woman" style="color: #ff006a"></span>
-                <span v-if="userInfo.sex === 1" class="iconfont icon-man" style="color: #0080ff"></span>
-              </span>
-            </div>
-            <div class="desc">
-              <span>{{ userInfo.personDescription }}</span>
+            <!--信息-->
+            <div class="info-panel">
+              <div class="info-item">
+                <span class="label iconfont icon-integral">&nbsp;积分</span>
+                <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer" @click="showIntegralRecord">{{
+                  userInfo.currentIntegral
+                }}</span>
+                <span class="value" v-else>{{ userInfo.currentIntegral }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label iconfont icon-like">&nbsp;获赞</span>
+                <span class="value">{{ userInfo.likeCount }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label iconfont icon-edit">&nbsp;发帖</span>
+                <span class="value">{{ userInfo.postCount }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label iconfont icon-register">&nbsp;加入</span>
+                <span class="value">{{ userInfo.joinTime }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label iconfont icon-login">&nbsp;最后登录</span>
+                <span class="value">{{ userInfo.lastLoginTime }}</span>
+              </div>
             </div>
           </div>
-          <!--信息-->
-          <div class="info-panel">
-            <div class="info-item">
-              <span class="label iconfont icon-integral">&nbsp;积分</span>
-              <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer" @click="showIntegralRecord">{{
-                userInfo.currentIntegral
-              }}</span>
-              <span class="value" v-else>{{ userInfo.currentIntegral }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label iconfont icon-like">&nbsp;获赞</span>
-              <span class="value">{{ userInfo.likeCount }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label iconfont icon-edit">&nbsp;发帖</span>
-              <span class="value">{{ userInfo.postCount }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label iconfont icon-register">&nbsp;加入</span>
-              <span class="value">{{ userInfo.joinTime }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label iconfont icon-login">&nbsp;最后登录</span>
-              <span class="value">{{ userInfo.lastLoginTime }}</span>
-            </div>
-          </div>
-        </div>
-      </el-affix>
+        </el-affix>
+      </div>
       <div class="article-side">
         <!--发文详情图表-->
-        <div class="profile-panel">
+        <div class="profile-panel animate__animated animate__fadeIn">
           <div class="desc">简介.........简介</div>
           <echarts class="echarts" :option="option" :height="200" />
         </div>
-        <el-tabs class="tabs" v-model:model-value="activeTagName" @tab-change="changeTab">
+        <el-tabs class="tabs animate__animated animate__fadeIn" v-model:model-value="activeTagName" @tab-change="changeTab">
           <el-tab-pane label="发帖" :name="0" />
           <el-tab-pane label="评论" :name="1" />
           <el-tab-pane label="点赞" :name="2" />
@@ -109,6 +111,7 @@ function getVirtualData(year) {
   }
   return data
 }
+
 // 图表配置
 const option = reactive({
   title: {

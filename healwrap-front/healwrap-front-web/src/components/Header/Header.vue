@@ -1,6 +1,6 @@
 <template>
   <div ref="header" class="header">
-    <div class="header-content" :style="{ width: headerWidth + 'px' }">
+    <div class="header-content" :style="{ width: headerWidth }">
       <!-- Logo -->
       <slot name="logo">
         <Logo />
@@ -18,12 +18,13 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
+const { proxy } = getCurrentInstance()
 defineProps({
   headerWidth: {
-    type: Number
+    type: String
   }
 })
 // 获取头部元素
@@ -40,10 +41,26 @@ const handleScroll = () => {
   // 向下滚动
   if (window.scrollY >= 70) {
     header.value.classList.add('header-up')
-  } else {
+  } else if (proxy.$store.getters.enterApp) {
     header.value.classList.remove('header-up')
   }
 }
+watch(
+  () => proxy.$store.getters.enterApp,
+  e => {
+    nextTick(() => {
+      if (!e) {
+        header.value.classList.add('header-up')
+      } else {
+        header.value.classList.remove('header-up')
+      }
+    })
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+)
 </script>
 
 <style lang="scss" scoped>

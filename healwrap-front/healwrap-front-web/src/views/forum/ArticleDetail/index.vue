@@ -1,114 +1,116 @@
 <template>
-  <div class="article">
-    <div class="article-detail" :style="{ width: proxy.$store.getters.contentWidth - 300 + 'px' }">
-      <!--顶部面包屑-->
-      <div class="article-detail-info">
-        <el-breadcrumb :separator-icon="ArrowRight">
-          <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
-            >{{ articleInfo.pBoardName }}
-          </el-breadcrumb-item>
-          <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
-            >{{ articleInfo.boardName }}
-          </el-breadcrumb-item>
-          <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
-      <!--文章内容-->
-      <div class="article-detail-content block">
-        <!--标题-->
-        <div class="title">
-          {{ articleInfo.title }}
-          <el-tag v-if="articleInfo.status === 0">待审核</el-tag>
-        </div>
-        <!--用户信息-->
-        <div class="user-info">
-          <user-avatar :user-id="articleInfo.userId" />
-          <div class="user-info-detail">
-            <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
-            <div class="info">
-              <span>{{ articleInfo.postTime }}</span>
-              <span class="address">&nbsp;·&nbsp;{{ articleInfo.userIpAddress }}</span>
-              <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
-                {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
-              </span>
-              <router-link v-if="articleInfo.userId === currentUserinfo.userId" class="edit-btn" :to="`/postArticle/${articleInfo.articleId}`">
-                <span class="iconfont icon-edit">&nbsp;编辑</span>
-              </router-link>
-            </div>
-          </div>
+  <transition enter-active-class="animate__animated animate__fadeIn" mode="in-out">
+    <div v-if="Object.keys(articleInfo).length !== 0" class="article">
+      <div class="article-detail" :style="{ width: `${parseInt(proxy.$store.getters.contentWidth) - 300}px` }">
+        <!--顶部面包屑-->
+        <div class="article-detail-info">
+          <el-breadcrumb :separator-icon="ArrowRight">
+            <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
+              >{{ articleInfo.pBoardName }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item v-if="articleInfo.boardId" :to="{ path: `/forum/${articleInfo.pBoardId}/${articleInfo.boardId}` }"
+              >{{ articleInfo.boardName }}
+            </el-breadcrumb-item>
+            <el-breadcrumb-item>{{ articleInfo.title }}</el-breadcrumb-item>
+          </el-breadcrumb>
         </div>
         <!--文章内容-->
-        <div id="detail" v-katex class="detail" v-html="articleInfo.content"></div>
-      </div>
-      <!--附件-->
-      <div v-if="attachment" id="attachment" class="attachment-panel block">
-        <div class="title">附件</div>
-        <div class="attachment-info">
-          <div class="iconfont icon-zip"></div>
-          <div class="file-name">{{ attachment.fileName }}</div>
-          <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
-          <div>
-            需要<span class="integral">{{ attachment.integral }}</span
-            >积分
+        <div class="article-detail-content block">
+          <!--标题-->
+          <div class="title">
+            {{ articleInfo.title }}
+            <el-tag v-if="articleInfo.status === 0">待审核</el-tag>
           </div>
-          <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
-          <div class="download-btn">
-            <el-button type="primary" size="small" @click="handleAttachmentDownload">下载</el-button>
+          <!--用户信息-->
+          <div class="user-info">
+            <user-avatar :user-id="articleInfo.userId" />
+            <div class="user-info-detail">
+              <div class="nick-name" @click="router.push(`/user/${articleInfo.userId}`)">{{ articleInfo.nickName }}</div>
+              <div class="info">
+                <span>{{ articleInfo.postTime }}</span>
+                <span class="address">&nbsp;·&nbsp;{{ articleInfo.userIpAddress }}</span>
+                <span class="iconfont icon-eye-solid" style="font-size: 12px; margin-left: 10px">
+                  {{ articleInfo.readCount === 0 ? '阅读' : articleInfo.readCount }}
+                </span>
+                <router-link v-if="articleInfo.userId === currentUserinfo.userId" class="edit-btn" :to="`/postArticle/${articleInfo.articleId}`">
+                  <span class="iconfont icon-edit">&nbsp;编辑</span>
+                </router-link>
+              </div>
+            </div>
+          </div>
+          <!--文章内容-->
+          <div id="detail" v-katex class="detail" v-html="articleInfo.content"></div>
+        </div>
+        <!--附件-->
+        <div v-if="attachment" id="attachment" class="attachment-panel block">
+          <div class="title">附件</div>
+          <div class="attachment-info">
+            <div class="iconfont icon-zip"></div>
+            <div class="file-name">{{ attachment.fileName }}</div>
+            <div class="size">{{ formatFileSize(attachment.fileSize) }}</div>
+            <div>
+              需要<span class="integral">{{ attachment.integral }}</span
+              >积分
+            </div>
+            <div class="download-count">已下载{{ attachment.downloadCount }}次</div>
+            <div class="download-btn">
+              <el-button type="primary" size="small" @click="handleAttachmentDownload">下载</el-button>
+            </div>
           </div>
         </div>
+        <!--评论-->
+        <div id="comment" class="comment-panel block">
+          <CommentList
+            v-if="Object.keys(articleInfo).length !== 0"
+            :article-id="articleInfo.articleId"
+            :article-userid="articleInfo.userId"
+            @update-comment-count="updateCommentCount"
+          />
+        </div>
       </div>
-      <!--评论-->
-      <div id="comment" class="comment-panel block">
-        <CommentList
-          v-if="Object.keys(articleInfo).length !== 0"
-          :article-id="articleInfo.articleId"
-          :article-userid="articleInfo.userId"
-          @update-comment-count="updateCommentCount"
-        />
-      </div>
-    </div>
-    <!--文章目录-->
-    <div class="toc-panel" :style="{ left: tocPanelLeft }">
-      <div class="toc-container">
-        <div class="toc-title">目录</div>
-        <div class="toc-list">
-          <div v-if="tocList.length === 0" class="no-toc">未解析到目录</div>
-          <div v-else class="toc">
-            <div
-              v-for="toc in tocList"
-              :key="toc"
-              :class="['toc-item', anchorId === toc.id ? 'active' : '']"
-              :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 2 + 'px', 'font-weight': 900 - toc.level * 100 }"
-              @click="gotoAnchor(toc.id)"
-            >
-              {{ toc.title }}
+      <!--文章目录-->
+      <div class="toc-panel" :style="{ left: tocPanelLeft }">
+        <div class="toc-container">
+          <div class="toc-title">目录</div>
+          <div class="toc-list">
+            <div v-if="tocList.length === 0" class="no-toc">未解析到目录</div>
+            <div v-else class="toc">
+              <div
+                v-for="toc in tocList"
+                :key="toc"
+                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 2 + 'px', 'font-weight': 900 - toc.level * 100 }"
+                @click="gotoAnchor(toc.id)"
+              >
+                {{ toc.title }}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!--左侧快捷操作-->
-    <div class="article-quick-panel" :style="{ left: quickPanelLeft }">
-      <!--点赞-->
-      <el-badge :value="articleInfo.goodCount" type="info" :hidden="articleInfo.goodCount <= 0">
-        <div class="quick-item" @click="handleGoodClick">
-          <div class="iconfont icon-good" :style="{ color: havaLike ? '#409eff' : '' }"></div>
+      <!--左侧快捷操作-->
+      <div class="article-quick-panel" :style="{ left: quickPanelLeft }">
+        <!--点赞-->
+        <el-badge :value="articleInfo.goodCount" type="info" :hidden="articleInfo.goodCount <= 0">
+          <div class="quick-item" @click="handleGoodClick">
+            <div class="iconfont icon-good" :style="{ color: havaLike ? '#409eff' : '' }"></div>
+          </div>
+        </el-badge>
+        <!--评论-->
+        <el-badge :value="articleInfo.commentCount" type="info" :hidden="articleInfo.commentCount <= 0">
+          <div class="quick-item" @click="handleLeftPanelClick('#comment')">
+            <div class="iconfont icon-comment"></div>
+          </div>
+        </el-badge>
+        <!--附件-->
+        <div class="quick-item" @click="handleLeftPanelClick('#attachment')">
+          <div class="iconfont icon-zip"></div>
         </div>
-      </el-badge>
-      <!--评论-->
-      <el-badge :value="articleInfo.commentCount" type="info" :hidden="articleInfo.commentCount <= 0">
-        <div class="quick-item" @click="handleLeftPanelClick('#comment')">
-          <div class="iconfont icon-comment"></div>
-        </div>
-      </el-badge>
-      <!--附件-->
-      <div class="quick-item" @click="handleLeftPanelClick('#attachment')">
-        <div class="iconfont icon-zip"></div>
       </div>
+      <!--图片预览-->
+      <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
     </div>
-    <!--图片预览-->
-    <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
-  </div>
+  </transition>
 </template>
 
 <script setup>
@@ -189,9 +191,9 @@ const handleImagePreview = () => {
       item.style.height = 'auto'
       item.style.maxHeight = '600px'
       item.style.objectFit = 'contain'
-      item.addEventListener('click', () => {
-        imageViewerRef.value.show(index)
-      })
+      item.onclick = () => {
+        imageViewerRef.value.show(index) // TODO Katex公式渲染后，图片绑定事件出现问题
+      }
     })
     previewImgList.value = imageList
   })
@@ -210,11 +212,13 @@ const highlightCode = () => {
 }
 // 左侧快捷操作 点击
 const handleLeftPanelClick = anchor => {
-  const element = document.querySelector(anchor)
-  if (element === null) {
-    return
-  }
-  window.scrollTo(0, element.offsetTop - 50)
+  nextTick(() => {
+    const element = document.querySelector(anchor)
+    if (element === null) {
+      return
+    }
+    window.scrollTo(0, element.offsetTop - 50)
+  })
 }
 // 更新评论数
 const updateCommentCount = count => {
@@ -286,19 +290,23 @@ const listenScroll = () => {
 }
 // 计算左侧快捷操作位置，位于article-detail-content左侧
 const getQuickPanelLeft = () => {
-  const content = document.querySelector('.article-detail-content')
-  if (!content) {
-    return '0px'
-  }
-  quickPanelLeft.value = content.getBoundingClientRect().left - 50 + 'px'
+  nextTick(() => {
+    const content = document.querySelector('.article-detail-content')
+    if (!content) {
+      return '0px'
+    }
+    quickPanelLeft.value = content.getBoundingClientRect().left - 50 + 'px'
+  })
 }
 // 计算目录位置，位于article-detail-content右侧
 const getTocPanelLeft = () => {
-  const content = document.querySelector('.article-detail-content')
-  if (!content) {
-    return '0px'
-  }
-  tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
+  nextTick(() => {
+    const content = document.querySelector('.article-detail-content')
+    if (!content) {
+      return '0px'
+    }
+    tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
+  })
 }
 // 初始化
 const init = async () => {
@@ -348,7 +356,12 @@ watch(
 // 监听路由变化
 watch(
   () => route.params.articleId,
-  newVal => {},
+  (newVal, oldVal) => {
+    if (newVal === oldVal || newVal === undefined || oldVal === undefined) {
+      return
+    }
+    proxy.$router.go(0)
+  },
   {
     immediate: true,
     deep: true

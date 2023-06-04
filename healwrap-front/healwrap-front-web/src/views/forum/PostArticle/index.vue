@@ -1,5 +1,5 @@
 <template>
-  <div class="post-article">
+  <div class="post-article animate__animated animate__fadeIn">
     <el-form class="article-panel" ref="formDataRef" :model="formData" :rules="rules" label-width="60px">
       <div class="article-editor box">
         <el-card>
@@ -198,6 +198,7 @@ const loadBoardList = async () => {
   boardList.value = result.data
 }
 loadBoardList()
+// 获取文章详情
 const getArticleDetail = () => {
   nextTick(async () => {
     formDataRef.value.resetFields()

@@ -8,6 +8,9 @@
     </template>
     <el-upload v-else name="file" :multiple="false" :show-file-list="false" accept=".zip,.rar" :http-request="uploadFile">
       <el-button type="primary">添加文件</el-button>
+      <template #tip>
+        <div class="el-upload__tip">只能上传zip/rar文件</div>
+      </template>
     </el-upload>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="article-list">
+  <div v-if="articleInfo" class="article-list">
     <div class="top-tab">
       <span :class="['tab', orderType === 0 ? 'active' : '']" @click="orderType = 0">热榜</span>
       <el-divider direction="vertical" />
@@ -40,7 +40,6 @@ const loadArticle = async () => {
   articleInfo.value = result.data
   loading.value = false
 }
-loadArticle()
 // 监听排序方式
 watch(orderType, () => {
   loadArticle()

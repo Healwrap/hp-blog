@@ -13,7 +13,6 @@ import com.healwrap.entity.enums.article.UpdateArticleCountTypeEnum;
 import com.healwrap.entity.enums.attachment.ArticleAttachmentTypeEnum;
 import com.healwrap.entity.enums.attachment.AttachmentFileTypeEnum;
 import com.healwrap.entity.enums.file.FileUploadTypeEnum;
-import com.healwrap.entity.enums.message.MessageStatusEnum;
 import com.healwrap.entity.enums.message.MessageTypeEnum;
 import com.healwrap.entity.po.ForumArticle;
 import com.healwrap.entity.po.ForumArticleAttachment;
@@ -77,6 +76,9 @@ public class ForumArticleServiceImpl implements ForumArticleService {
    */
   @Override
   public List<ForumArticle> findListByParam(ForumArticleQuery param) {
+    if (param.getPBoardId() != null && param.getPBoardId() == 10000) {
+      param.setPBoardId(null);
+    }
     return this.forumArticleMapper.selectList(param);
   }
 
@@ -85,6 +87,9 @@ public class ForumArticleServiceImpl implements ForumArticleService {
    */
   @Override
   public Integer findCountByParam(ForumArticleQuery param) {
+    if (param.getPBoardId() != null && param.getPBoardId() == 10000) {
+      param.setPBoardId(null);
+    }
     return this.forumArticleMapper.selectCount(param);
   }
 

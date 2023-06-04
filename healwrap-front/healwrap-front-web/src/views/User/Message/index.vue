@@ -69,17 +69,17 @@
         </el-tab-pane>
       </el-tabs>
       <div class="message-list">
-        <data-list :loading="loading" :data-source="messageListInfo" :rows="7" desc="暂无消息" @load-data="loadMessage">
+        <data-list :loading="loading" :data-source="messageListInfo" ikey="messageId" :rows="7" desc="暂无消息" @load-data="loadMessage">
           <template #default="{ data }">
             <!--系统消息-->
-            <div class="message-item" v-if="data.messageType === 0">
+            <div v-if="data.messageType === 0" class="message-item">
               <div class="message-content">
                 <span v-html="data.messageContent"></span>
                 <span class="create-time">{{ data.createTime }}</span>
               </div>
             </div>
             <!--回复我的-->
-            <div class="message-item" v-if="data.messageType === 1">
+            <div v-if="data.messageType === 1" class="message-item">
               <user-avatar :user="data.sendUserId" />
               <div class="message-content">
                 <div>
@@ -97,7 +97,7 @@
               </div>
             </div>
             <!--赞了我的文章-->
-            <div class="message-item" v-if="data.messageType === 2">
+            <div v-if="data.messageType === 2" class="message-item">
               <user-avatar :user="data.sendUserId" />
               <div class="message-content">
                 <div>
@@ -113,7 +113,7 @@
               </div>
             </div>
             <!--赞了我的评论-->
-            <div class="message-item" v-if="data.messageType === 3">
+            <div v-if="data.messageType === 3" class="message-item">
               <user-avatar :user="data.sendUserId" />
               <div class="message-content">
                 <div>
@@ -130,7 +130,7 @@
               </div>
             </div>
             <!--下载了我的附件-->
-            <div class="message-item" v-if="data.messageType === 4">
+            <div v-if="data.messageType === 4" class="message-item">
               <user-avatar :user="data.sendUserId" />
               <div class="message-content">
                 <div>
