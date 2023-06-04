@@ -1,5 +1,5 @@
 <p align="center">
-	<img width="200" height="200" alt="logo" src="https://picgo-img-repo.oss-cn-beijing.aliyuncs.com/img/57308b89bd0532a511dce4c6a9d91c51.png">
+	<img width="200" height="200" alt="logo" src="https://picgo-img-repo.oss-cn-beijing.aliyuncs.com/img/b642e602fc8e728cf6139b095d27f365.png">
 </p>
 
 <p align="center">
