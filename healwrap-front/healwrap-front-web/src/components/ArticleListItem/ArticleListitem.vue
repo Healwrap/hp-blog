@@ -4,18 +4,22 @@
       <!-- TODO -->
       <div class="list-item">
         <div class="user-info">
-          <user-avatar :user-id="data.userId" :src="proxy.$api.account.avatarUrl(data.userId)" />
-          <router-link :to="'/user/' + data.userId">
-            {{ data.nickName }}
-          </router-link>
+          <div class="user">
+            <user-avatar :user-id="data.userId" :src="proxy.$api.account.avatarUrl(data.userId)"/>
+            <router-link :to="'/user/' + data.userId">
+              {{ data.nickName }}
+            </router-link>
+          </div>
           <div class="post-time">{{ data.postTime }}</div>
           <div class="address">{{ data.userIpAddress }}</div>
-          <el-divider direction="vertical" />
-          <router-link to="/">{{ data.pboardName }}</router-link>
-          <template v-if="data.boardName">
-            <span style="color: #999; font-size: 14px">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
-            <router-link to="/">{{ data.boardName }}</router-link>
-          </template>
+          <div class="board">
+            <el-divider direction="vertical"/>
+            <router-link to="/">{{ data.pboardName }}</router-link>
+            <template v-if="data.boardName">
+              <span style="color: #999; font-size: 14px">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+              <router-link to="/">{{ data.boardName }}</router-link>
+            </template>
+          </div>
         </div>
         <div class="article-title">
           <router-link :to="'/article/' + data.articleId">
@@ -36,21 +40,22 @@
           <span class="iconfont icon-comment">
             {{ data.commentCount === 0 ? '评论' : data.commentCount }}
           </span>
+          <div class="post-time">发布于：{{ data.postTime }}</div>
         </div>
       </div>
       <div v-if="data.cover" class="article-cover">
-        <Image :src="proxy.$api.files.getImage(data.cover)" width="200px" fit="cover" />
+        <Image :src="proxy.$api.files.getImage(data.cover)" width="200px" fit="cover"/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, getCurrentInstance } from 'vue'
+import {defineProps, getCurrentInstance} from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import Image from '@/components/Image/Image.vue'
 
-const { proxy } = getCurrentInstance()
+const {proxy} = getCurrentInstance()
 defineProps({
   data: {
     type: Object
@@ -61,7 +66,8 @@ defineProps({
 <style lang="scss" scoped>
 .article-item {
   .article-item-inner {
-    @apply flex justify-between items-center bg-[var(--bg-transparency)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] overflow-hidden cursor-pointer;
+    @apply flex flex-col-reverse items-center bg-[var(--bg-transparency)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] overflow-hidden cursor-pointer;
+    @apply md:flex-row md:justify-between;
     transition: all 0.3s;
 
     &:hover {
@@ -69,31 +75,41 @@ defineProps({
     }
 
     .list-item {
-      @apply m-[10px];
+      @apply my-2 mx-4 w-full;
 
       .user-info {
-        @apply flex items-center;
+        @apply flex mx-3 items-center;
+        .user {
+          @apply flex items-center justify-around w-32;
+        }
 
         .post-time {
-          @apply ml-[10px] text-[var(--text-color-1)];
+          @apply hidden ml-[10px] text-[var(--text-color-1)];
+          @apply md:block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         .address {
-          @apply ml-[10px] text-[var(--text-color-1)];
+          @apply ml-[10px] w-16 text-[var(--text-color-1)];
         }
 
-        a {
-          @apply text-[var(--text-color-3)] decoration-0;
-          transition: 0.3s all;
+        .board {
+          @apply w-48;
+          a {
+            @apply text-[var(--text-color-3)] decoration-0;
+            transition: 0.3s all;
 
-          &:hover {
-            @apply text-[var(--color-primary)];
+            &:hover {
+              @apply text-[var(--color-primary)];
+            }
           }
         }
       }
 
       .article-title {
-        @apply text-[22px] font-bold m-[10px];
+        @apply text-xl font-bold m-[10px];
 
         a {
           @apply text-[var(--text-color)] decoration-0;
@@ -106,11 +122,11 @@ defineProps({
       }
 
       .article-summary {
-        @apply text-[var(--text-color-2)] text-[15px];
+        @apply ml-2 text-[var(--text-color-2)] text-sm;
       }
 
       .article-info {
-        @apply mt-[10px] text-[var(--text-color-1)] text-[12px];
+        @apply mt-3 ml-2 text-[var(--text-color-1)] text-[12px];
 
         .iconfont {
           @apply mr-[10px] text-[14px] cursor-pointer;
@@ -120,11 +136,18 @@ defineProps({
             @apply text-[var(--color-primary)];
           }
         }
+        .post-time {
+          @apply ml-2 my-1 block;
+          @apply md:hidden;
+        }
       }
     }
 
     .article-cover {
-      @apply h-full;
+      @apply flex w-full h-auto justify-center;
+      @apply md:h-full md:w-auto;
+      img {
+      }
     }
   }
 }

@@ -224,7 +224,7 @@ defineProps({
 
     .buttons button {
       width: 100px;
-      height: 45px;
+      height: 50px;
       background: transparent;
       color: var(--text-color);
       position: relative;

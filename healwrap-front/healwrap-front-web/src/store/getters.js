@@ -1,5 +1,6 @@
 const getters = {
   isMobile: state => state.app.isMobile,
+  isEditor: state => state.app.isEditor,
   theme: state => state.app.theme,
   contentWidth: state => state.app.contentWidth,
   headerHeight: state => state.app.headerHeight,

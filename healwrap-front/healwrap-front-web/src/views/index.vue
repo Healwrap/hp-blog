@@ -1,19 +1,24 @@
 <template>
   <div class="index">
-    <Image src="https://picgo-img-repo.oss-cn-beijing.aliyuncs.com/img/b642e602fc8e728cf6139b095d27f365.png" width="200px" fit="cover" />
-    <button class="btn" @click="enterApp">进入HealWrap</button>
+    <Image class="animate__animated animate__fadeIn" :src="getAssetsFile('icon.png')" width="200px" fit="cover" />
+    <button class="btn animate__animated animate__fadeInUp animate__delay-1s" @click="enterApp">进入HealWrap</button>
   </div>
 </template>
 
 <script setup>
 import { getCurrentInstance } from 'vue'
 import Image from '@/components/Image/Image.vue'
+import { getAssetsFile } from '@/utils/Utils'
 
 const { proxy } = getCurrentInstance()
 proxy.$store.commit('enter_app', false)
 proxy.$store.commit('content_width', '100vw')
 const enterApp = () => {
   proxy.$router.push({ path: '/forum/10000' })
+  proxy.$store.commit('enter_app', true)
+  if (document.documentElement.clientWidth > 1100) {
+    proxy.$store.commit('content_width', '1100px')
+  }
 }
 </script>
 

@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, reactive, ref } from 'vue'
+import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 import DataList from '@/components/DataList/DataList.vue'
 
 const { proxy } = getCurrentInstance()
@@ -50,6 +50,7 @@ const dialogConfig = reactive({
   showCancel: false,
   top: '8vh',
   width: '48%',
+  height: 'auto',
   draggable: false,
   buttons: []
 })

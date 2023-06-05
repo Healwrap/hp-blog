@@ -11,6 +11,7 @@ import VueCookies from 'vue-cookies'
 import '@/assets/base.scss'
 //引入element plus
 import ElementPlus from 'element-plus'
+import * as Icons from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 //图标 图标在附件中
 import '@/assets/icon/iconfont.css'
@@ -32,6 +33,7 @@ import FileUpload from '@/components/FileUpload/FileUpload.vue'
 import HtmlEditor from '@/components/HtmlEditor/HtmlEditor.vue'
 import MarkdownEditor from '@/components/MarkdownEditor/MarkdownEditor.vue'
 import Echarts from '@/components/Echarts/Echarts.vue'
+import Icon from '@/components/Icon/Icon.vue'
 
 const app = createApp(App)
 
@@ -54,5 +56,10 @@ app.component('ImageViewer', ImageViewer)
 app.component('ImageUpload', ImageUpload)
 app.component('FileUpload', FileUpload)
 app.component('Echarts', Echarts)
+app.component('Icon', Icon)
+// 注册全局组件
+Object.keys(Icons).forEach(key => {
+  app.component(key, Icons[key])
+})
 app.directive('katex', katex)
 app.mount('#app')

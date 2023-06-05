@@ -46,3 +46,12 @@ export function mergeParams(params) {
 export function getCssVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name)
 }
+
+/**
+ * 获取assets文件
+ * @param url 文件路径
+ * @returns {string}
+ */
+export function getAssetsFile(url) {
+  return new URL(`../assets/${url}`, import.meta.url).href
+}

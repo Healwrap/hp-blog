@@ -266,8 +266,8 @@ watch(
 <style lang="scss" scoped>
 .post-article {
   .article-panel {
-    @apply flex;
-
+    @apply flex flex-row flex-wrap justify-between;
+    //@apply md:flex-nowrap md:flex-row-reverse;
     .box {
       @apply my-[10px] mx-[5px];
 
@@ -293,7 +293,8 @@ watch(
     }
 
     .article-setting {
-      @apply w-[300px];
+      @apply w-full h-[500px];
+      @apply md:w-[300px] md:h-auto;
     }
   }
 }

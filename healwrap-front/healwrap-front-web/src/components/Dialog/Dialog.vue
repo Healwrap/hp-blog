@@ -1,14 +1,17 @@
 <template>
   <div class="cust-dialog">
     <el-dialog
+      class="dialog"
       :model-value="show"
       :draggable="draggable"
       :close-on-click-modal="false"
       :show-close="showClose"
       :title="title"
-      :width="width"
-      :top="top"
+      :top="dialogConfig.top || top"
+      :width="dialogConfig.width || width"
+      :height="dialogConfig.height || height"
       @close="close"
+      :style="{ height: dialogConfig.height || height }"
     >
       <!-- 弹窗标题 -->
       <template #header="{ titleId, titleClass }">
@@ -37,7 +40,14 @@
 </template>
 
 <script setup>
-defineProps({
+import { nextTick, onMounted, reactive } from 'vue'
+
+const dialogConfig = reactive({
+  top: null,
+  width: null,
+  height: null
+})
+const props = defineProps({
   show: {
     type: Boolean,
     default: false
@@ -53,6 +63,10 @@ defineProps({
   width: {
     type: String,
     default: '35%'
+  },
+  height: {
+    type: String,
+    default: 'auto'
   },
   top: {
     type: String,
@@ -75,6 +89,28 @@ const emit = defineEmits()
 const close = () => {
   emit('close')
 }
+// 根据屏幕宽度设定弹窗大小
+const setWidth = () => {
+  nextTick(() => {
+    const width = document.documentElement.clientWidth
+    if (width < 600) {
+      dialogConfig.top = '0'
+      dialogConfig.width = '100vw'
+      dialogConfig.height = '100vh'
+    } else if (width < 768) {
+      dialogConfig.top = '8vh'
+      dialogConfig.width = '80%'
+      dialogConfig.height = 'auto'
+    } else {
+      dialogConfig.top = null
+      dialogConfig.width = null
+    }
+  })
+}
+onMounted(() => {
+  setWidth()
+  window.addEventListener('resize', setWidth)
+})
 </script>
 
 <style lang="scss" scoped>

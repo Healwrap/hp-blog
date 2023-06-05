@@ -1,12 +1,12 @@
 <template>
   <div ref="header" class="header">
-    <div class="header-content" :style="{ width: headerWidth }">
+    <div class="header-content" :style="{ width: proxy.$store.getters.isMobile === false ? '1100px' : headerWidth }">
       <!-- Logo -->
       <slot name="logo">
-        <Logo />
+        <Logo/>
       </slot>
       <!-- 板块信息 -->
-      <div class="menu-panel">
+      <div v-if="proxy.$store.getters.isMobile === false" class="menu-panel">
         <slot name="menu"></slot>
       </div>
       <!-- 用户板块 -->
@@ -18,15 +18,11 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import {getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
-const { proxy } = getCurrentInstance()
-defineProps({
-  headerWidth: {
-    type: String
-  }
-})
+const {proxy} = getCurrentInstance()
+const headerWidth = ref('100%')
 // 获取头部元素
 const header = ref(null)
 // 绑定滚动事件
@@ -46,30 +42,35 @@ const handleScroll = () => {
   }
 }
 watch(
-  () => proxy.$store.getters.enterApp,
-  e => {
-    nextTick(() => {
-      if (!e) {
-        header.value.classList.add('header-up')
-      } else {
-        header.value.classList.remove('header-up')
-      }
-    })
-  },
-  {
-    immediate: true,
-    deep: true
-  }
+    () => proxy.$store.getters.enterApp,
+    e => {
+      nextTick(() => {
+        if (!e) {
+          header.value.classList.add('header-up')
+        } else {
+          header.value.classList.remove('header-up')
+        }
+      })
+    },
+    {
+      immediate: true,
+      deep: true
+    }
+)
+// 监听屏幕宽度变化
+watch(
+    () => proxy.$store.getters.contentWidth,
+    newVal => {
+      headerWidth.value = newVal
+    },
+    {immediate: true, deep: true}
 )
 </script>
 
 <style lang="scss" scoped>
 // 头部
 .header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 50px;
+  @apply sticky top-0 w-full h-12 px-4 bg-white shadow-md transition-all z-10;
   box-shadow: 0 2px 8px #aaaaaa;
   transition: all 0.3s;
   // 模糊颗粒效果
@@ -78,30 +79,21 @@ watch(
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);
-  z-index: 10;
   // 头部内容
   .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 auto;
-    height: 100%;
+    @apply flex items-center justify-between h-full mx-auto;
     // 板块信息
     .menu-panel {
-      flex: 1;
+      @apply flex-1;
     }
 
     // 登录、注册、退出
     .user-info-panel {
-      display: flex;
-      align-items: center;
-      justify-content: right;
-      width: 330px;
-      height: 100%;
+      @apply flex mr-8 items-center justify-end w-[340px] h-full;
       // 发帖搜索
       .box {
         .el-button + .el-button {
-          margin-left: 5px;
+          @apply ml-[5px];
         }
       }
     }

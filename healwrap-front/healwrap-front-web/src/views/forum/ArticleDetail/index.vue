@@ -1,10 +1,55 @@
 <template>
   <transition enter-active-class="animate__animated animate__fadeIn" mode="in-out">
     <div v-if="Object.keys(articleInfo).length !== 0" class="article">
-      <div class="article-detail" :style="{ width: `${parseInt(proxy.$store.getters.contentWidth) - 300}px` }">
+      <!--文章目录-->
+      <div class="toc-panel animate__animated animate__fadeInRight" v-if="proxy.$store.getters.contentWidth !== '100vw'">
+        <div class="toc-container">
+          <div class="toc-title">目录</div>
+          <div class="toc-list">
+            <div v-if="tocList.length === 0" class="no-toc">未解析到目录</div>
+            <div v-else class="toc">
+              <div
+                v-for="toc in tocList"
+                :key="toc"
+                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
+                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 2 + 'px', 'font-weight': 900 - toc.level * 100 }"
+                @click="gotoAnchor(toc.id)"
+              >
+                {{ toc.title }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--左侧快捷操作-->
+      <div class="article-quick-panel animate__animated animate__fadeInLeft">
+        <!--点赞-->
+        <el-badge :value="articleInfo.goodCount" type="info" :hidden="articleInfo.goodCount <= 0">
+          <div class="quick-item" @click="handleGoodClick">
+            <div class="iconfont icon-good" :style="{ color: havaLike ? '#409eff' : '' }"></div>
+          </div>
+        </el-badge>
+        <!--评论-->
+        <el-badge :value="articleInfo.commentCount" type="info" :hidden="articleInfo.commentCount <= 0">
+          <div class="quick-item" @click="handleLeftPanelClick('#comment')">
+            <div class="iconfont icon-comment"></div>
+          </div>
+        </el-badge>
+        <!--附件-->
+        <div class="quick-item" @click="handleLeftPanelClick('#attachment')">
+          <div class="iconfont icon-zip"></div>
+        </div>
+      </div>
+      <div
+        class="article-detail"
+        :style="{
+          display: `${proxy.$store.getters.isMobile === true ? 'block' : 'inline-block'}`,
+          width: `${proxy.$store.getters.isMobile === true ? '' : parseInt(proxy.$store.getters.contentWidth) - 300 + 'px'}`
+        }"
+      >
         <!--顶部面包屑-->
         <div class="article-detail-info">
-          <el-breadcrumb :separator-icon="ArrowRight">
+          <el-breadcrumb :separator-icon="ArrowRight" style="height: 20px">
             <el-breadcrumb-item v-if="articleInfo.pBoardId" :to="{ path: `/forum/${articleInfo.pBoardId}` }"
               >{{ articleInfo.pBoardName }}
             </el-breadcrumb-item>
@@ -68,45 +113,6 @@
           />
         </div>
       </div>
-      <!--文章目录-->
-      <div class="toc-panel" :style="{ left: tocPanelLeft }">
-        <div class="toc-container">
-          <div class="toc-title">目录</div>
-          <div class="toc-list">
-            <div v-if="tocList.length === 0" class="no-toc">未解析到目录</div>
-            <div v-else class="toc">
-              <div
-                v-for="toc in tocList"
-                :key="toc"
-                :class="['toc-item', anchorId === toc.id ? 'active' : '']"
-                :style="{ 'padding-left': toc.level * 10 + 'px', 'font-size': 18 - toc.level * 2 + 'px', 'font-weight': 900 - toc.level * 100 }"
-                @click="gotoAnchor(toc.id)"
-              >
-                {{ toc.title }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--左侧快捷操作-->
-      <div class="article-quick-panel" :style="{ left: quickPanelLeft }">
-        <!--点赞-->
-        <el-badge :value="articleInfo.goodCount" type="info" :hidden="articleInfo.goodCount <= 0">
-          <div class="quick-item" @click="handleGoodClick">
-            <div class="iconfont icon-good" :style="{ color: havaLike ? '#409eff' : '' }"></div>
-          </div>
-        </el-badge>
-        <!--评论-->
-        <el-badge :value="articleInfo.commentCount" type="info" :hidden="articleInfo.commentCount <= 0">
-          <div class="quick-item" @click="handleLeftPanelClick('#comment')">
-            <div class="iconfont icon-comment"></div>
-          </div>
-        </el-badge>
-        <!--附件-->
-        <div class="quick-item" @click="handleLeftPanelClick('#attachment')">
-          <div class="iconfont icon-zip"></div>
-        </div>
-      </div>
       <!--图片预览-->
       <ImageViewer ref="imageViewerRef" :image-list="previewImgList" />
     </div>
@@ -129,6 +135,7 @@ const route = useRoute()
 const imageViewerRef = ref(null)
 const previewImgList = ref([])
 const currentUserinfo = ref({})
+const contentWitdh = ref(0)
 // 文章详情
 const articleInfo = ref({})
 // 附件
@@ -137,10 +144,6 @@ const attachment = ref({})
 const havaLike = ref(false)
 // 目录
 const tocList = ref([])
-//
-const tocPanelLeft = ref('100vw')
-//
-const quickPanelLeft = ref('0')
 //
 const anchorId = ref(null)
 // 点赞
@@ -274,39 +277,6 @@ const listenScroll = () => {
       anchorId.value = item.id
     }
   })
-  // const toc = document.querySelector('.toc-panel')
-  // const footer = document.querySelector('.footer')
-  // // 当两者距离大于-40px时，toc-panel 固定
-  // console.log(toc.getBoundingClientRect().bottom - footer.getBoundingClientRect().top)
-  // if (toc.getBoundingClientRect().bottom - footer.getBoundingClientRect().top >= 50) {
-  //   toc.style.position = 'absolute'
-  //   toc.style.top = ''
-  //   toc.style.bottom = '210px'
-  // } else {
-  //   toc.style.position = 'fixed'
-  //   toc.style.top = '14%'
-  //   toc.style.bottom = ''
-  // }
-}
-// 计算左侧快捷操作位置，位于article-detail-content左侧
-const getQuickPanelLeft = () => {
-  nextTick(() => {
-    const content = document.querySelector('.article-detail-content')
-    if (!content) {
-      return '0px'
-    }
-    quickPanelLeft.value = content.getBoundingClientRect().left - 50 + 'px'
-  })
-}
-// 计算目录位置，位于article-detail-content右侧
-const getTocPanelLeft = () => {
-  nextTick(() => {
-    const content = document.querySelector('.article-detail-content')
-    if (!content) {
-      return '0px'
-    }
-    tocPanelLeft.value = content.getBoundingClientRect().left + content.offsetWidth + 50 + 'px'
-  })
 }
 // 初始化
 const init = async () => {
@@ -316,8 +286,6 @@ const init = async () => {
   havaLike.value = result.data.havaLike
   handleImagePreview()
   highlightCode()
-  getQuickPanelLeft()
-  getTocPanelLeft()
   makeToc()
 }
 onMounted(() => {
@@ -325,19 +293,11 @@ onMounted(() => {
 })
 // 监听窗口大小变化
 onMounted(() => {
-  window.addEventListener('resize', () => {
-    getQuickPanelLeft()
-    getTocPanelLeft()
-  })
   window.addEventListener('scroll', () => {
     listenScroll()
   })
 })
 onUnmounted(() => {
-  window.removeEventListener('resize', () => {
-    getQuickPanelLeft()
-    getTocPanelLeft()
-  })
   window.removeEventListener('scroll', () => {
     listenScroll()
   })
@@ -371,8 +331,9 @@ watch(
 
 <style lang="scss" scoped>
 .article {
+  @apply relative;
   .article-detail {
-    @apply relative p-[10px] m-[10px];
+    @apply relative inline-block ml-10 p-[10px] m-[10px];
 
     .article-detail-info {
       @apply mb-[20px];
@@ -507,7 +468,7 @@ watch(
   }
 
   .toc-panel {
-    @apply fixed top-[14%] w-[200px] min-h-[300px] max-h-[80%] p-[10px] bg-[var(--bg-color)] rounded-[10px] shadow-md overflow-auto;
+    @apply sticky float-right top-28 w-[200px] min-h-[300px] max-h-[80vh] p-[10px] bg-[var(--bg-color)] rounded-[10px] shadow-md overflow-auto;
     transition: all 0.4s;
 
     &:hover {
@@ -543,7 +504,7 @@ watch(
   }
 
   .article-quick-panel {
-    @apply fixed flex top-[50%]  flex-col items-center;
+    @apply sticky float-left flex left-1 top-[50%] flex-col items-center z-10;
     transform: translateY(-50%);
     transition: all 0.4s;
 
