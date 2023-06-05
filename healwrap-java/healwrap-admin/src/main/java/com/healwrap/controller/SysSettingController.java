@@ -1,11 +1,11 @@
 package com.healwrap.controller;
 
-import com.healwrap.config.AdminConfig;
-import com.healwrap.config.WebConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.dto.SysSettingDto;
 import com.healwrap.entity.dto.sysDto.*;
 import com.healwrap.entity.vo.ResponseVO;
+import com.healwrap.framework.config.AdminConfig;
+import com.healwrap.framework.config.WebConfig;
 import com.healwrap.service.SysSettingService;
 import com.healwrap.utils.JsonUtils;
 import com.healwrap.utils.OkHttpUtils;

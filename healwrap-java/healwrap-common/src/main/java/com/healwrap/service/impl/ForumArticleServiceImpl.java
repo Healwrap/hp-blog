@@ -1,6 +1,5 @@
 package com.healwrap.service.impl;
 
-import com.healwrap.config.AppConfig;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.dto.FileUploadDto;
 import com.healwrap.entity.dto.sysDto.SysSetting4AuditDto;
@@ -23,6 +22,7 @@ import com.healwrap.entity.query.ForumArticleQuery;
 import com.healwrap.entity.query.SimplePage;
 import com.healwrap.entity.vo.PaginationResultVO;
 import com.healwrap.exception.BusinessException;
+import com.healwrap.framework.config.AppConfig;
 import com.healwrap.mappers.ForumArticleAttachmentMapper;
 import com.healwrap.mappers.ForumArticleMapper;
 import com.healwrap.service.ForumArticleService;

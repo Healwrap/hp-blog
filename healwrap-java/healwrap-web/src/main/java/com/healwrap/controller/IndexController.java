@@ -1,6 +1,6 @@
 package com.healwrap.controller;
 
-import com.healwrap.config.AppConfig;
+import com.healwrap.framework.config.AppConfig;
 import com.healwrap.utils.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

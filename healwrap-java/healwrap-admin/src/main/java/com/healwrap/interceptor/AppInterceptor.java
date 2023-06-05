@@ -1,8 +1,8 @@
 package com.healwrap.interceptor;
 
-import com.healwrap.config.AdminConfig;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.dto.SessionAdminUserDto;
+import com.healwrap.framework.config.AdminConfig;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

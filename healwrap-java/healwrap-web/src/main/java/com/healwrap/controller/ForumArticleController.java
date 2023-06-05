@@ -1,6 +1,5 @@
 package com.healwrap.controller;
 
-import com.healwrap.config.WebConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.annotation.VerifyParams;
@@ -19,6 +18,7 @@ import com.healwrap.entity.vo.web.ForumArticleDetailVO;
 import com.healwrap.entity.vo.web.ForumArticleVO;
 import com.healwrap.entity.vo.web.UserDownloadInfoVO;
 import com.healwrap.exception.BusinessException;
+import com.healwrap.framework.config.WebConfig;
 import com.healwrap.service.*;
 import com.healwrap.utils.CopyTools;
 import com.healwrap.utils.StringTools;

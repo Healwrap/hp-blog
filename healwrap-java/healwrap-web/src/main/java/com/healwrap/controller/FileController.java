@@ -1,7 +1,5 @@
 package com.healwrap.controller;
 
-import com.healwrap.config.AppConfig;
-import com.healwrap.config.WebConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.constants.Constants;
@@ -9,6 +7,8 @@ import com.healwrap.entity.enums.ResponseCodeEnum;
 import com.healwrap.entity.enums.UserOperFrequencyTypeEnum;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.exception.BusinessException;
+import com.healwrap.framework.config.AppConfig;
+import com.healwrap.framework.config.WebConfig;
 import com.healwrap.utils.StringTools;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;

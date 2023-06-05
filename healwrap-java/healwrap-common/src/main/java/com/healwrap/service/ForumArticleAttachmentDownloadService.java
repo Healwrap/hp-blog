@@ -2,8 +2,8 @@ package com.healwrap.service;
 
 import java.util.List;
 
-import com.healwrap.entity.query.ForumArticleAttachmentDownloadQuery;
 import com.healwrap.entity.po.ForumArticleAttachmentDownload;
+import com.healwrap.entity.query.ForumArticleAttachmentDownloadQuery;
 import com.healwrap.entity.vo.PaginationResultVO;
 
 

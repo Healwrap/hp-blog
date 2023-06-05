@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Date 2023/4/9 10:53
  * @author pepedd
  */
-@SpringBootApplication(scanBasePackages = {"com.healwrap"})
+@SpringBootApplication(scanBasePackages = {"com.healwrap.**"})
 @MapperScan(basePackages = {"com.healwrap.mappers"})
 @EnableTransactionManagement // 启注解事务管理，等同于xml配置方式的 <tx:annotation-driven />
 public class HealWrapWebApplication {

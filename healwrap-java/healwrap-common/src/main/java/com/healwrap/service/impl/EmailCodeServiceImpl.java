@@ -1,6 +1,6 @@
 package com.healwrap.service.impl;
 
-import com.healwrap.config.WebConfig;
+import com.healwrap.exception.BusinessException;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.enums.PageSize;
 import com.healwrap.entity.po.EmailCode;
@@ -9,7 +9,7 @@ import com.healwrap.entity.query.EmailCodeQuery;
 import com.healwrap.entity.query.SimplePage;
 import com.healwrap.entity.query.UserInfoQuery;
 import com.healwrap.entity.vo.PaginationResultVO;
-import com.healwrap.exception.BusinessException;
+import com.healwrap.framework.config.WebConfig;
 import com.healwrap.mappers.EmailCodeMapper;
 import com.healwrap.mappers.UserInfoMapper;
 import com.healwrap.service.EmailCodeService;

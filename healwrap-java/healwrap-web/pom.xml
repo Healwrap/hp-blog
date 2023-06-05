@@ -43,7 +43,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.healwrap</groupId>
+            <groupId>com.healwrap.common</groupId>
             <artifactId>healwrap-common</artifactId>
             <version>1.0</version>
         </dependency>

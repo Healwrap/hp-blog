@@ -1,4 +1,4 @@
-package com.healwrap.config;
+package com.healwrap.framework.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,6 +1,5 @@
 package com.healwrap.controller;
 
-import com.healwrap.config.AdminConfig;
 import com.healwrap.controller.base.ABaseController;
 import com.healwrap.entity.annotation.GlobalIntercepter;
 import com.healwrap.entity.annotation.VerifyParams;
@@ -10,6 +9,7 @@ import com.healwrap.entity.dto.SessionAdminUserDto;
 import com.healwrap.entity.dto.SysSettingDto;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.exception.BusinessException;
+import com.healwrap.framework.config.AdminConfig;
 import com.healwrap.service.EmailCodeService;
 import com.healwrap.service.UserInfoService;
 import com.healwrap.utils.StringTools;

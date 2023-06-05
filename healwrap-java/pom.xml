@@ -20,6 +20,7 @@
         <module>healwrap-common</module>
         <module>healwrap-web</module>
         <module>healwrap-admin</module>
+        <module>healwrap-framework</module>
     </modules>
 
     <properties>
