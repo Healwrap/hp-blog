@@ -25,7 +25,7 @@
       </template>
       <template #user>
         <!-- 发帖搜索 -->
-        <div class="box" style="">
+        <div v-if="proxy.$store.getters.isMobile === false" class="box" style="">
           <custom-button v-if="userInfo !== null" name="postArticle" @click="handleTopButtonClick(0)"/>
           <custom-button name="search" @click="searchRef.show()"/>
         </div>
@@ -68,7 +68,7 @@
           <Avatar user-id="8743908827" :src="accountApi.avatarUrl(8743908827)" style="margin-left: 25px"/>
         </div>
         <!-- 登录、注册 -->
-        <custom-button v-else-if="proxy.$s" name="loginAndRegister" :config="{ text1: '未登录', text2: '去注册' }"
+        <custom-button v-else name="loginAndRegister" :config="{ text1: '未登录', text2: '去注册' }"
                        @click="showUserDialog(1)"/>
 
         <div v-if="proxy.$store.getters.isMobile === true" class="op-menu" @click="collapseMenu">
@@ -93,7 +93,7 @@
     <!--底部-->
     <Footer/>
     <!--侧边栏-->
-    <el-drawer v-model="elMenuConfig.collapse" title="菜单">
+    <Drawer :show="elMenuConfig.collapse" class="drawer" @close="closeMenu">
       <!--板块信息-->
       <el-menu class="board-menu" :mode="elMenuConfig.mode" @select="handleSelect">
         <template v-for="nav in boardList">
@@ -111,7 +111,12 @@
           </el-sub-menu>
         </template>
       </el-menu>
-    </el-drawer>
+      <!-- 发帖搜索 -->
+      <div v-if="proxy.$store.getters.isMobile === true" class="box" style="">
+        <custom-button v-if="userInfo !== null" name="postArticle" @click="handleTopButtonClick(0)"/>
+        <custom-button name="search" @click="searchRef.show()"/>
+      </div>
+    </Drawer>
   </div>
 </template>
 
@@ -134,6 +139,8 @@ import CustomButton from '@/components/CustomButton/CustomButton.vue'
 import Background from '@/components/Background/Background.vue'
 import Search from '@/components/Search/Search.vue'
 import BoardSelect from '@/components/BoardSelect/BoardSelect.vue'
+import Drawer from '@/components/Drawer/Drawer.vue'
+import {changeTheme} from '@/utils/Utils'
 
 const {proxy} = getCurrentInstance()
 const route = useRoute()
@@ -202,8 +209,17 @@ const getMessageCount = async () => {
 }
 const userInfo = ref()
 const collapseMenu = () => {
-  elMenuConfig.mode = elMenuConfig.collapse ? 'horizontal' : 'vertical'
-  elMenuConfig.collapse = !elMenuConfig.collapse
+  if (elMenuConfig.collapse === false) {
+    elMenuConfig.collapse = true
+  }
+  if (proxy.$store.getters.isMobile === true) {
+    elMenuConfig.mode = 'vertical'
+  } else {
+    elMenuConfig.mode = elMenuConfig.collapse ? 'vertical' : 'horizontal'
+  }
+}
+const closeMenu = () => {
+  elMenuConfig.collapse = false
 }
 // beforeCreated
 getUserInfo()
@@ -214,7 +230,6 @@ const getScreenWidth = () => {
     proxy.$store.commit(TOGGLE_CONTENT_WIDTH, '100vw')
     proxy.$store.commit(TOGGLE_MOBILE_TYPE, true)
   } else {
-    console.log('change')
     proxy.$store.commit(TOGGLE_CONTENT_WIDTH, '1100px')
     proxy.$store.commit(TOGGLE_MOBILE_TYPE, false)
   }
@@ -224,6 +239,13 @@ const getScreenWidth = () => {
 }
 // Mounted
 onMounted(() => {
+  // 获取主题
+  const theme = localStorage.getItem('theme')
+  if (theme) {
+    changeTheme(theme)
+  } else {
+    changeTheme('dark')
+  }
   if (route.path === '/postArticle' || route.path.indexOf('/postArticle/') !== -1) {
     proxy.$store.commit(TOGGLE_EDITOR_TYPE, true)
     proxy.$store.commit(TOGGLE_CONTENT_WIDTH, '100vw')
@@ -319,6 +341,12 @@ watch(
 .menu {
   ::v-deep(.board-menu) {
     @apply h-[45px] bg-transparent overflow-hidden border-none;
+  }
+}
+
+.drawer {
+  .box {
+    @apply flex flex-col h-24 justify-between items-center;
   }
 }
 </style>

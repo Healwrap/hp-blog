@@ -55,3 +55,14 @@ export function getCssVar(name) {
 export function getAssetsFile(url) {
   return new URL(`../assets/${url}`, import.meta.url).href
 }
+
+/**
+ * 切换主题
+ * @param theme 主题
+ */
+export function changeTheme(theme) {
+  // 切换主题
+  document.documentElement.setAttribute('data-theme', theme)
+  // 保存主题
+  localStorage.setItem('theme', theme)
+}

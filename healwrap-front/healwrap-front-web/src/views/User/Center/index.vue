@@ -10,55 +10,53 @@
     <!--个人中心-->
     <div class="user-panel">
       <div class="user-info animate__animated animate__fadeIn">
-        <el-affix :offset="30">
-          <div class="user-side">
-            <!--头像-->
-            <div class="avatar-panel">
-              <div class="edit-btn" v-if="userId === currentUserId">
-                <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
-              </div>
-              <div class="avatar">
-                <img :src="proxy.$api.account.avatarUrl(userId)" />
-              </div>
-              <div class="nickname">
-                <span>{{ userInfo.nickName }}</span>
-                <span class="sex">
-                  <span v-if="userInfo.sex === 0" class="iconfont icon-woman" style="color: #ff006a"></span>
-                  <span v-if="userInfo.sex === 1" class="iconfont icon-man" style="color: #0080ff"></span>
-                </span>
-              </div>
-              <div class="desc">
-                <span>{{ userInfo.personDescription }}</span>
-              </div>
+        <div class="user-side">
+          <!--头像-->
+          <div class="avatar-panel">
+            <div v-if="userId === currentUserId" class="edit-btn">
+              <span class="iconfont icon-edit" @click="updateUserInfo">&nbsp;编辑资料</span>
             </div>
-            <!--信息-->
-            <div class="info-panel">
-              <div class="info-item">
-                <span class="label iconfont icon-integral">&nbsp;积分</span>
-                <span class="value" v-if="userId === currentUserId" style="color: #1e88e5; cursor: pointer" @click="showIntegralRecord">{{
-                  userInfo.currentIntegral
-                }}</span>
-                <span class="value" v-else>{{ userInfo.currentIntegral }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label iconfont icon-like">&nbsp;获赞</span>
-                <span class="value">{{ userInfo.likeCount }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label iconfont icon-edit">&nbsp;发帖</span>
-                <span class="value">{{ userInfo.postCount }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label iconfont icon-register">&nbsp;加入</span>
-                <span class="value">{{ userInfo.joinTime }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label iconfont icon-login">&nbsp;最后登录</span>
-                <span class="value">{{ userInfo.lastLoginTime }}</span>
-              </div>
+            <div class="avatar">
+              <img :src="proxy.$api.account.avatarUrl(userId)" />
+            </div>
+            <div class="nickname">
+              <span>{{ userInfo.nickName }}</span>
+              <span class="sex">
+                <span v-if="userInfo.sex === 0" class="iconfont icon-woman" style="color: #ff006a"></span>
+                <span v-if="userInfo.sex === 1" class="iconfont icon-man" style="color: #0080ff"></span>
+              </span>
+            </div>
+            <div class="desc">
+              <span>{{ userInfo.personDescription }}</span>
             </div>
           </div>
-        </el-affix>
+          <!--信息-->
+          <div class="info-panel">
+            <div class="info-item">
+              <span class="label iconfont icon-integral">&nbsp;积分</span>
+              <span v-if="userId === currentUserId" class="value" style="color: #1e88e5; cursor: pointer" @click="showIntegralRecord">{{
+                userInfo.currentIntegral
+              }}</span>
+              <span v-else class="value">{{ userInfo.currentIntegral }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-like">&nbsp;获赞</span>
+              <span class="value">{{ userInfo.likeCount }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-edit">&nbsp;发帖</span>
+              <span class="value">{{ userInfo.postCount }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-register">&nbsp;加入</span>
+              <span class="value">{{ userInfo.joinTime }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label iconfont icon-login">&nbsp;最后登录</span>
+              <span class="value">{{ userInfo.lastLoginTime }}</span>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="article-side">
         <!--发文详情图表-->
@@ -66,13 +64,13 @@
           <div class="desc">简介.........简介</div>
           <echarts class="echarts" :option="option" :height="200" />
         </div>
-        <el-tabs class="tabs animate__animated animate__fadeIn" v-model:model-value="activeTagName" @tab-change="changeTab">
+        <el-tabs v-model:model-value="activeTagName" class="tabs animate__animated animate__fadeIn" @tab-change="changeTab">
           <el-tab-pane label="发帖" :name="0" />
           <el-tab-pane label="评论" :name="1" />
           <el-tab-pane label="点赞" :name="2" />
         </el-tabs>
         <div class="article-list">
-          <data-list :data-source="articleInfoList" :loading="loading" :rows="7" @load-data="loadArticle" desc="暂无文章">
+          <data-list :data-source="articleInfoList" :loading="loading" :rows="7" desc="暂无文章" @load-data="loadArticle">
             <template #default="{ data }">
               <article-list-item :data="data" />
             </template>
@@ -228,56 +226,63 @@ watch(
   }
 
   .user-panel {
-    @apply flex;
+    @apply relative flex flex-col;
+    @apply lg:flex-row;
 
-    .user-side {
-      @apply w-[200px] h-[300px] mx-[10px];
+    .user-info {
+      @apply relative;
+      .user-side {
+        @apply w-full h-[230px] px-2 flex flex-row justify-around;
+        @apply lg:w-[230px] lg:h-auto lg:mx-0 lg:flex-col lg:justify-start lg:items-center;
 
-      .avatar-panel {
-        @apply bg-[var(--bg-transparency)] p-[10px] rounded-[10px];
+        .avatar-panel {
+          @apply bg-[var(--bg-transparency)] w-1/2 h-full p-[10px] mx-2 rounded-[10px];
+          @apply lg:w-full lg:mx-0;
 
-        .edit-btn {
-          @apply text-right p-[10px] pt-[0];
+          .edit-btn {
+            @apply text-right p-[10px] pt-[0];
 
-          span {
-            @apply text-[12px] text-[#999] cursor-pointer;
-            transition: color 0.3s;
+            span {
+              @apply text-[12px] text-[#999] cursor-pointer;
+              transition: color 0.3s;
 
-            &:hover {
-              @apply text-[#1890ff0];
+              &:hover {
+                @apply text-[#1890ff0];
+              }
             }
           }
-        }
 
-        .avatar {
-          @apply w-[100px] h-[100px] mx-auto rounded-full overflow-hidden;
+          .avatar {
+            @apply w-[100px] h-[100px] mx-auto rounded-full overflow-hidden;
 
-          img {
-            @apply h-full w-full object-cover;
+            img {
+              @apply h-full w-full object-cover;
+            }
+          }
+
+          .nickname {
+            @apply mt-[10px] text-center text-[16px] font-bold;
+          }
+
+          .desc {
+            @apply m-[5px] mr-[0] text-[12px] text-[#999];
           }
         }
 
-        .nickname {
-          @apply mt-[10px] text-center text-[16px] font-bold;
-        }
+        .info-panel {
+          @apply w-1/2 h-full mx-2 mr-2 bg-[var(--bg-transparency)] p-[10px] rounded-[10px];
+          @apply lg:w-full lg:h-[230px] lg:mt-[10px] lg:mr-0 lg:mx-0;
 
-        .desc {
-          @apply m-[5px] mr-[0] text-[12px] text-[#999];
-        }
-      }
+          .info-item {
+            @apply flex items-center justify-between py-[5px] px-[10px];
 
-      .info-panel {
-        @apply mt-[10px] bg-[var(--bg-transparency)] p-[10px] rounded-[10px];
+            .label {
+              @apply text-[12px] text-[#999];
+            }
 
-        .info-item {
-          @apply flex items-center justify-between py-[5px] px-[10px];
-
-          .label {
-            @apply text-[12px] text-[#999];
-          }
-
-          .value {
-            @apply text-[14px] text-[#333];
+            .value {
+              @apply text-[14px] text-[#333];
+            }
           }
         }
       }
@@ -286,7 +291,7 @@ watch(
     .article-side {
       @apply flex-1 mx-[10px] p-[10px];
       .profile-panel {
-        @apply bg-[var(--bg-transparency)] mb-[15px] p-[10px] rounded-[10px];
+        @apply bg-[var(--bg-transparency)] mb-[15px] p-[10px] rounded-[10px] overflow-auto;
 
         .desc {
           @apply text-[12px] text-[#999] mb-[10px];

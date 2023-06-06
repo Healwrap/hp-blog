@@ -4,18 +4,22 @@
 @tailwind utilities;
 /* 引入sass变量 */
 @import '@/assets/variables.css';
+//引入theme
+@import "@/assets/theme.scss";
 * {
   padding: 0;
   margin: 0;
   font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', STHeiti,
-    'Microsoft YaHei', 'Microsoft JhengHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Source Han Sans TC', 'Noto Sans CJK TC',
-    'WenQuanYi Micro Hei', SimSun, sans-serif;
+  'Microsoft YaHei', 'Microsoft JhengHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Source Han Sans TC', 'Noto Sans CJK TC',
+  'WenQuanYi Micro Hei', SimSun, sans-serif;
 }
 
 // 设置全局字体
 body {
-  background: #eee;
-  color: var(--text-color);
+  @include useTheme {
+    background: getVar('bgColor');
+    color: getVar('textColor');
+  }
 }
 
 html {
@@ -79,6 +83,25 @@ div.el-input__wrapper {
     font-family: Arial, serif;
   }
 }
+
+// .el-drawer
+.el-drawer {
+  @apply m-0;
+  .el-drawer__header {
+    @apply m-0;
+    border-bottom: 1px #ddd solid;
+  }
+
+  .el-drawer__body {
+    @apply flex flex-col justify-between;
+  }
+}
+
+// .el-menu
+.el-menu {
+  border: none !important;
+}
+
 
 .link {
   color: var(--color-primary);

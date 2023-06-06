@@ -10,8 +10,8 @@
       :top="dialogConfig.top || top"
       :width="dialogConfig.width || width"
       :height="dialogConfig.height || height"
-      @close="close"
       :style="{ height: dialogConfig.height || height }"
+      @close="close"
     >
       <!-- 弹窗标题 -->
       <template #header="{ titleId, titleClass }">

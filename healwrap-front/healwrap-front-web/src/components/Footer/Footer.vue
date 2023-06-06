@@ -2,7 +2,7 @@
   <div v-if="show" class="footer">
     <div class="content" :style="{ width: proxy.$store.getters.contentWidth }">
       <el-row>
-        <el-col :span="6" class="item">
+        <el-col :span="proxy.$store.getters.isMobile ? 8 : 6" class="item">
           <Logo class="logo" :show-rain-bow="false" color="white" />
           <div class="desc">愈屋</div>
           <div class="author">@He_Atom</div>
@@ -14,7 +14,7 @@
           <div class="desc">Redis</div>
           <div class="desc">MySql</div>
         </el-col>
-        <el-col :span="6" class="item">
+        <el-col v-if="proxy.$store.getters.isMobile === false" :span="6" class="item">
           <div class="title">相关链接</div>
           <div class="desc">
             <a class="link" href="https://vuejs.org/" target="_blank">Vue Framework</a>

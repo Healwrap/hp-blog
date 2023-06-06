@@ -1,6 +1,51 @@
 <template>
   <div class="post-article animate__animated animate__fadeIn">
     <el-form class="article-panel" ref="formDataRef" :model="formData" :rules="rules" label-width="60px">
+      <div class="article-setting box">
+        <el-card>
+          <template #header>
+            <span>设置</span>
+          </template>
+          <el-form-item prop="title" label="标题">
+            <el-input v-model="formData.title" placeholder="请输入标题" clearable />
+          </el-form-item>
+          <el-form-item prop="boardIds" label="板块">
+            <el-cascader
+                v-model="formData.boardIds"
+                :options="boardList"
+                :props="boardProps"
+                placeholder="请选择板块"
+                clearable
+                filterable
+                show-all-levels
+                collapse-tags
+            />
+          </el-form-item>
+          <el-form-item prop="cover" label="封面">
+            <image-upload v-model:model-value="formData.cover" />
+          </el-form-item>
+          <el-form-item prop="summary" label="摘要">
+            <el-input
+                v-model="formData.summary"
+                placeholder="请输入摘要"
+                type="textarea"
+                :row="5"
+                maxlength="150"
+                resize="none"
+                show-word-limit
+                clearable
+            />
+          </el-form-item>
+          <el-form-item prop="attachment" label="附件">
+            <file-upload v-model="formData.attachment" />
+          </el-form-item>
+          <el-form-item v-if="formData.attachment" prop="integral" label="积分">
+            <el-input v-model="formData.integral" clearable placeholder="请输入积分" />
+            <div style="font-size: 13px; color: #999">附件下载积分，0表示无需积分即可下载</div>
+          </el-form-item>
+          <el-button type="primary" style="width: 100%" @click="postHandler">发布</el-button>
+        </el-card>
+      </div>
       <div class="article-editor box">
         <el-card>
           <template #header>
@@ -13,51 +58,6 @@
             <html-editor v-if="editorType === 0" v-model:model-value="formData.content" />
             <markdown-editor v-else v-model:model-value="formData.markdownContent" @html-content="setHtmlContent" />
           </div>
-        </el-card>
-      </div>
-      <div class="article-setting box">
-        <el-card>
-          <template #header>
-            <span>设置</span>
-          </template>
-          <el-form-item prop="title" label="标题">
-            <el-input v-model="formData.title" placeholder="请输入标题" clearable />
-          </el-form-item>
-          <el-form-item prop="boardIds" label="板块">
-            <el-cascader
-              v-model="formData.boardIds"
-              :options="boardList"
-              :props="boardProps"
-              placeholder="请选择板块"
-              clearable
-              filterable
-              show-all-levels
-              collapse-tags
-            />
-          </el-form-item>
-          <el-form-item prop="cover" label="封面">
-            <image-upload v-model:model-value="formData.cover" />
-          </el-form-item>
-          <el-form-item prop="summary" label="摘要">
-            <el-input
-              v-model="formData.summary"
-              placeholder="请输入摘要"
-              type="textarea"
-              :row="5"
-              maxlength="150"
-              resize="none"
-              show-word-limit
-              clearable
-            />
-          </el-form-item>
-          <el-form-item prop="attachment" label="附件">
-            <file-upload v-model="formData.attachment" />
-          </el-form-item>
-          <el-form-item v-if="formData.attachment" prop="integral" label="积分">
-            <el-input v-model="formData.integral" clearable placeholder="请输入积分" />
-            <div style="font-size: 13px; color: #999">附件下载积分，0表示无需积分即可下载</div>
-          </el-form-item>
-          <el-button type="primary" style="width: 100%" @click="postHandler">发布</el-button>
         </el-card>
       </div>
     </el-form>
@@ -266,13 +266,12 @@ watch(
 <style lang="scss" scoped>
 .post-article {
   .article-panel {
-    @apply flex flex-row flex-wrap justify-between;
-    //@apply md:flex-nowrap md:flex-row-reverse;
+    @apply flex flex-row-reverse flex-wrap justify-between;
     .box {
-      @apply my-[10px] mx-[5px];
+      @apply my-5 mx-[5px];
 
       ::v-deep(.el-card) {
-        @apply h-[90vh] p-0 overflow-auto;
+        @apply h-[90vh] p-0 overflow-auto shadow-none;
 
         .el-card__header {
           @apply flex justify-between p-[10px];
