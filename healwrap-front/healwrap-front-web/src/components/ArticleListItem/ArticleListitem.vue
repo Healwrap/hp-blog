@@ -5,7 +5,7 @@
       <div class="list-item">
         <div class="user-info">
           <div class="user">
-            <user-avatar :user-id="data.userId" :src="proxy.$api.account.avatarUrl(data.userId)"/>
+            <user-avatar :user-id="data.userId" :src="proxy.$api.account.avatarUrl(data.userId)" />
             <router-link :to="'/user/' + data.userId">
               {{ data.nickName }}
             </router-link>
@@ -13,7 +13,7 @@
           <div class="post-time">{{ data.postTime }}</div>
           <div class="address">{{ data.userIpAddress }}</div>
           <div class="board">
-            <el-divider direction="vertical"/>
+            <el-divider direction="vertical" />
             <router-link to="/">{{ data.pboardName }}</router-link>
             <template v-if="data.boardName">
               <span style="color: #999; font-size: 14px">&nbsp;&nbsp;/&nbsp;&nbsp;</span>
@@ -44,18 +44,18 @@
         </div>
       </div>
       <div v-if="data.cover" class="article-cover">
-        <Image :src="proxy.$api.files.getImage(data.cover)" width="200px" fit="cover"/>
+        <Image :src="proxy.$api.files.getImage(data.cover)" width="200px" fit="cover" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {defineProps, getCurrentInstance} from 'vue'
+import { defineProps, getCurrentInstance } from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import Image from '@/components/Image/Image.vue'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 defineProps({
   data: {
     type: Object

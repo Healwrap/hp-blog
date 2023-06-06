@@ -11,14 +11,14 @@
           </el-form-item>
           <el-form-item prop="boardIds" label="板块">
             <el-cascader
-                v-model="formData.boardIds"
-                :options="boardList"
-                :props="boardProps"
-                placeholder="请选择板块"
-                clearable
-                filterable
-                show-all-levels
-                collapse-tags
+              v-model="formData.boardIds"
+              :options="boardList"
+              :props="boardProps"
+              placeholder="请选择板块"
+              clearable
+              filterable
+              show-all-levels
+              collapse-tags
             />
           </el-form-item>
           <el-form-item prop="cover" label="封面">
@@ -26,14 +26,14 @@
           </el-form-item>
           <el-form-item prop="summary" label="摘要">
             <el-input
-                v-model="formData.summary"
-                placeholder="请输入摘要"
-                type="textarea"
-                :row="5"
-                maxlength="150"
-                resize="none"
-                show-word-limit
-                clearable
+              v-model="formData.summary"
+              placeholder="请输入摘要"
+              type="textarea"
+              :row="5"
+              maxlength="150"
+              resize="none"
+              show-word-limit
+              clearable
             />
           </el-form-item>
           <el-form-item prop="attachment" label="附件">

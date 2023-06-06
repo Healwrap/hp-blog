@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-import {defineProps, nextTick, onMounted, ref, watch} from 'vue'
-import {useRoute} from 'vue-router'
+import { defineProps, nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const width = ref('30%')
@@ -40,12 +40,12 @@ onMounted(() => {
 })
 // 监听路由变化
 watch(
-    () => route.path,
-    () => {
-      console.log('path change')
-      close()
-    },
-    {immediate: true}
+  () => route.path,
+  () => {
+    console.log('path change')
+    close()
+  },
+  { immediate: true }
 )
 </script>
 

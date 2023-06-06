@@ -3,7 +3,7 @@
     <div class="header-content" :style="{ width: proxy.$store.getters.isMobile === false ? '1100px' : headerWidth }">
       <!-- Logo -->
       <slot name="logo">
-        <Logo/>
+        <Logo />
       </slot>
       <!-- 板块信息 -->
       <div v-if="proxy.$store.getters.isMobile === false" class="menu-panel">
@@ -18,10 +18,10 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch} from 'vue'
+import { getCurrentInstance, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import Logo from '@/components/Logo/Logo.vue'
 
-const {proxy} = getCurrentInstance()
+const { proxy } = getCurrentInstance()
 const headerWidth = ref('100%')
 // 获取头部元素
 const header = ref(null)
@@ -42,28 +42,28 @@ const handleScroll = () => {
   }
 }
 watch(
-    () => proxy.$store.getters.enterApp,
-    e => {
-      nextTick(() => {
-        if (!e) {
-          header.value.classList.add('header-up')
-        } else {
-          header.value.classList.remove('header-up')
-        }
-      })
-    },
-    {
-      immediate: true,
-      deep: true
-    }
+  () => proxy.$store.getters.enterApp,
+  e => {
+    nextTick(() => {
+      if (!e) {
+        header.value.classList.add('header-up')
+      } else {
+        header.value.classList.remove('header-up')
+      }
+    })
+  },
+  {
+    immediate: true,
+    deep: true
+  }
 )
 // 监听屏幕宽度变化
 watch(
-    () => proxy.$store.getters.contentWidth,
-    newVal => {
-      headerWidth.value = newVal
-    },
-    {immediate: true, deep: true}
+  () => proxy.$store.getters.contentWidth,
+  newVal => {
+    headerWidth.value = newVal
+  },
+  { immediate: true, deep: true }
 )
 </script>
 
