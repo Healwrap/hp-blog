@@ -2,7 +2,7 @@
   <div class="custom-button">
     <div v-if="name === 'postArticle'" class="post-article">
       <button type="button" class="btn">
-        <strong class="iconfont icon-add"></strong><strong>&nbsp;发帖</strong>
+        <strong class="iconfont icon-add"></strong><strong>&nbsp;发文</strong>
         <div id="container-stars">
           <div id="stars"></div>
         </div>

@@ -1,17 +1,17 @@
 <template>
   <div class="cust-dialog">
     <el-dialog
-      class="dialog"
-      :model-value="show"
-      :draggable="draggable"
-      :close-on-click-modal="false"
-      :show-close="showClose"
-      :title="title"
-      :top="dialogConfig.top || top"
-      :width="dialogConfig.width || width"
-      :height="dialogConfig.height || height"
-      :style="{ height: dialogConfig.height || height }"
-      @close="close"
+        class="dialog"
+        :model-value="show"
+        :draggable="draggable"
+        :close-on-click-modal="false"
+        :show-close="showClose"
+        :title="title"
+        :top="dialogConfig.top || top"
+        :width="dialogConfig.width || width"
+        :height="dialogConfig.height || height"
+        :style="{ height: dialogConfig.height || height }"
+        @close="close"
     >
       <!-- 弹窗标题 -->
       <template #header="{ titleId, titleClass }">
@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted, reactive } from 'vue'
+import {nextTick, onMounted, reactive} from 'vue'
 
 const dialogConfig = reactive({
   top: null,
@@ -100,6 +100,10 @@ const setWidth = () => {
     } else if (width < 768) {
       dialogConfig.top = '8vh'
       dialogConfig.width = '80%'
+      dialogConfig.height = 'auto'
+    } else if (width < 1100) {
+      dialogConfig.top = '8vh'
+      dialogConfig.width = '70%'
       dialogConfig.height = 'auto'
     } else {
       dialogConfig.top = null

@@ -333,7 +333,8 @@ watch(
 .article {
   @apply relative;
   .article-detail {
-    @apply relative inline-block ml-10 p-[10px] m-[10px];
+    @apply relative inline-block  p-[10px] m-[10px];
+    @apply md:ml-10;
 
     .article-detail-info {
       @apply mb-[20px];
@@ -504,8 +505,8 @@ watch(
   }
 
   .article-quick-panel {
-    @apply sticky float-left flex left-1 top-[50%] flex-col items-center z-10;
-    transform: translateY(-50%);
+    @apply fixed flex top-[85vh] right-8 flex-row justify-center items-center z-10;
+    @apply md:sticky md:float-left md:left-1 md:flex-col md:translate-x-0 md:top-1/2 md:translate-y-[-50%];
     transition: all 0.4s;
 
     .quick-item {

@@ -2,12 +2,12 @@
   <div v-if="show" class="footer">
     <div class="content" :style="{ width: proxy.$store.getters.contentWidth }">
       <el-row>
-        <el-col :span="proxy.$store.getters.isMobile ? 8 : 6" class="item">
+        <el-col :span="proxy.$store.getters.isMobile ? 10 : 6" class="item">
           <Logo class="logo" :show-rain-bow="false" color="white" />
           <div class="desc">愈屋</div>
           <div class="author">@He_Atom</div>
         </el-col>
-        <el-col :span="6" class="item">
+        <el-col :span="proxy.$store.getters.isMobile ? 7 : 6" class="item">
           <div class="title">技术栈</div>
           <div class="desc">Vue</div>
           <div class="desc">SpringBoot</div>
@@ -26,7 +26,7 @@
             <a class="link" href="https://www.jxufe.edu.cn/" target="_blank">江西财经大学</a>
           </div>
         </el-col>
-        <el-col :span="6" class="item">
+        <el-col :span="proxy.$store.getters.isMobile ? 7 : 6" class="item">
           <div class="title">关注我</div>
           <div class="desc">
             <span>github</span>

@@ -233,7 +233,7 @@ onMounted(() => {
   if (theme) {
     changeTheme(theme)
   } else {
-    changeTheme('dark')
+    changeTheme('light')
   }
   if (route.path === '/postArticle' || route.path.indexOf('/postArticle/') !== -1) {
     proxy.$store.commit(TOGGLE_EDITOR_TYPE, true)
@@ -303,6 +303,7 @@ watch(
 .basic-layout {
   .header {
     .user-info {
+      @apply flex justify-around items-center;
     }
 
     .op-menu {
