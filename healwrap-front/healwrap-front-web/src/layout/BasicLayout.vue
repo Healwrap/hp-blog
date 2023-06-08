@@ -308,6 +308,10 @@ watch(
 
     .op-menu {
       @apply flex mx-1 items-center cursor-pointer text-black;
+      @include useTheme {
+        color: getVar('textColor');
+        transition: all 2.5s cubic-bezier(0.35, 0.1, 0.25, 1);
+      }
     }
 
     .box {

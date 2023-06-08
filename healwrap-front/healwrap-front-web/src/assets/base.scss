@@ -10,12 +10,14 @@
   padding: 0;
   margin: 0;
   font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', STHeiti,
-    'Microsoft YaHei', 'Microsoft JhengHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Source Han Sans TC', 'Noto Sans CJK TC',
-    'WenQuanYi Micro Hei', SimSun, sans-serif;
+  'Microsoft YaHei', 'Microsoft JhengHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'Source Han Sans CN', 'Source Han Sans TC', 'Noto Sans CJK TC',
+  'WenQuanYi Micro Hei', SimSun, sans-serif;
 }
 
 // 设置全局字体
 body {
+  max-width: 100vw;
+  overflow-x: hidden;
   @include useTheme {
     background: getVar('bgColor');
     color: getVar('textColor');
@@ -25,8 +27,6 @@ body {
 html {
   scroll-behavior: auto;
   scroll-behavior: smooth;
-  max-width: 100vw;
-  overflow-x: hidden;
 }
 
 // scoller
@@ -103,7 +103,9 @@ div.el-input__wrapper {
 }
 
 .link {
-  color: var(--color-primary);
+  @include useTheme {
+    color: getVar('colorPrimary');
+  }
   text-decoration: none;
   cursor: pointer;
 }

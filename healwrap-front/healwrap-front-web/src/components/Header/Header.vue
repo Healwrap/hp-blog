@@ -71,11 +71,13 @@ watch(
 // 头部
 .header {
   @apply sticky top-0 w-full h-12 px-4 bg-white shadow-md transition-all z-10;
-  box-shadow: 0 2px 8px #aaaaaa;
   transition: all 0.3s;
   // 模糊颗粒效果
-  background-color: rgba(255, 255, 255, 0.5);
-  background-image: radial-gradient(transparent 1px, #ffffff 1px);
+  @include useTheme {
+    box-shadow: 0 2px 8px getVar('bgSHeader');
+    background-color: getVar('bgHeader');
+    background-image: radial-gradient(transparent 1px, getVar('bgIHeader') 1px);
+  }
   background-size: 4px 4px;
   backdrop-filter: saturate(50%) blur(4px);
   -webkit-backdrop-filter: saturate(50%) blur(4px);

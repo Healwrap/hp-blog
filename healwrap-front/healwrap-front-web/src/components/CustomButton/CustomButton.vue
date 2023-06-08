@@ -226,7 +226,9 @@ defineProps({
       width: 100px;
       height: 50px;
       background: transparent;
-      color: var(--text-color);
+      @include useTheme {
+        color: getVar('textColor');
+      }
       position: relative;
       overflow: hidden;
       font-size: 14px;
@@ -246,7 +248,9 @@ defineProps({
       position: absolute;
       width: 0;
       height: 3px;
-      background-color: var(--color-primary);
+      @include useTheme {
+        background-color: getVar('colorPrimary');
+      }
       transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
     }
 
@@ -310,7 +314,9 @@ defineProps({
     .buttons button p:after {
       content: attr(data-text);
       top: 150%;
-      color: var(--color-primary);
+      @include useTheme {
+        color: getVar('colorPrimary');
+      }
     }
 
     .buttons button:hover:before,
@@ -338,7 +344,9 @@ defineProps({
     }
 
     .buttons button.start {
-      background-color: var(--color-primary);
+      @include useTheme {
+        background-color: getVar('colorPrimary');
+      }
       box-shadow: 0px 5px 10px -10px rgba(0, 0, 0, 0.2);
       transition: all 0.2s ease;
     }
@@ -399,7 +407,9 @@ defineProps({
       bottom: 0;
       width: 0;
       height: 3px;
-      background-color: var(--color-primary);
+      @include useTheme {
+        background-color: getVar('colorPrimary');
+      }
       transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
     }
 

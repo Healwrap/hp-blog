@@ -22,11 +22,19 @@ export default defineConfig(({ command, mode }) => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: getEnvFn(mode, "VITE_APP_NAME")
+            title: getEnvFn(mode, 'VITE_APP_NAME')
           }
         }
       })
     ],
+    // 配置全局sass样式
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@import "@/assets/theme.scss";'
+        }
+      }
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))

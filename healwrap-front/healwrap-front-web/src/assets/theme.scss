@@ -1,23 +1,41 @@
 //主题切换
 $themes: (
-  light: (
-    bgColor: #eee,
-    bgTransparency: rgba(255, 255, 255, 0.8),
-    bgTransparencyHover: rgba(255, 255, 255, 0.6),
-    textColor: #000,
-    textColor1: #333,
-    textColor2: #666,
-    textColor3: #999
-  ),
-  dark: (
-    bgColor: #222,
-    bgTransparency: rgba(0, 0, 0, 0.8),
-    bgTransparencyHover: rgba(0, 0, 0, 0.6),
-    textColor: #fff,
-    textColor1: #ccc,
-    textColor2: #999,
-    textColor3: #666
-  )
+        light: (
+                colorPrimary: #1890ff,
+                colorPrimaryHover: lighten(#1890ff, 10%),
+                bgColor: #eee,
+                bgCode: #f5f5f5,
+                bgTransparency: rgba(255, 255, 255, 0.8),
+                bgTransparencyHover: darken(rgba(255, 255, 255, 0.8), 10%),
+                bgTransparencyActive: darken(rgba(255, 255, 255, 0.8), 20%),
+                bgHeader:  rgba(255, 255, 255, 0.5),
+                bgIHeader: #ffffff,
+                bgSHeader: lighten(#aaaaaa, 30%),
+                borderColor: #ddd,
+                textColor: #000,
+                textColor1: #333,
+                textColor2: #666,
+                textColor3: #999,
+                codeColor: #333
+        ),
+        dark: (
+                colorPrimary: #1890ff,
+                colorPrimaryHover: lighten(#1890ff, 10%),
+                bgColor: #222,
+                bgCode: #333,
+                bgTransparency: rgba(0, 0, 0, 0.8),
+                bgTransparencyHover: lighten(rgba(0, 0, 0, 0.8), 10%),
+                bgTransparencyActive: lighten(rgba(0, 0, 0, 0.8), 20%),
+                bgHeader: rgba(0, 0, 0, 0.5),
+                bgIHeader: #000000,
+                bgSHeader: darken(#aaaaaa, 30%),
+                borderColor: #666,
+                textColor: #fff,
+                textColor1: #ccc,
+                textColor2: #999,
+                textColor3: #666,
+                codeColor: #ccc
+        )
 );
 
 $curTheme: light;

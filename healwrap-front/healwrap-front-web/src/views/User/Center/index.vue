@@ -227,17 +227,20 @@ watch(
 
   .user-panel {
     @apply relative flex flex-col;
-    @apply lg:flex-row;
+    @apply lg:sticky lg:flex-row;
 
     .user-info {
       @apply relative;
       .user-side {
-        @apply w-full h-[230px] px-2 flex flex-row justify-around;
+        @apply w-full h-[180px] px-2 flex flex-row justify-around;
         @apply lg:w-[230px] lg:h-auto lg:mx-0 lg:flex-col lg:justify-start lg:items-center;
 
         .avatar-panel {
-          @apply bg-[var(--bg-transparency)] w-1/2 h-full p-[10px] mx-2 rounded-[10px];
+          @apply w-1/2 h-full p-[10px] mx-2 rounded-[10px];
           @apply lg:w-full lg:mx-0;
+          @include useTheme {
+            background-color: getVar('bgTransparency');
+          }
 
           .edit-btn {
             @apply text-right p-[10px] pt-[0];
@@ -270,8 +273,11 @@ watch(
         }
 
         .info-panel {
-          @apply w-1/2 h-full mx-2 mr-2 bg-[var(--bg-transparency)] p-[10px] rounded-[10px];
-          @apply lg:w-full lg:h-[230px] lg:mt-[10px] lg:mr-0 lg:mx-0;
+          @apply w-1/2 h-full mx-2 mr-2 p-[10px] rounded-[10px];
+          @apply lg:w-full lg:h-[190px] lg:mt-[10px] lg:mr-0 lg:mx-0;
+          @include useTheme {
+            background: getVar('bgTransparency');
+          }
 
           .info-item {
             @apply flex items-center justify-between py-[5px] px-[10px];
@@ -291,7 +297,10 @@ watch(
     .article-side {
       @apply flex-1 mx-[10px] p-[10px];
       .profile-panel {
-        @apply bg-[var(--bg-transparency)] mb-[15px] p-[10px] rounded-[10px] overflow-auto;
+        @apply mb-[15px] p-[10px] rounded-[10px] overflow-auto;
+        @include useTheme {
+          background: getVar('bgTransparency');
+        }
 
         .desc {
           @apply text-[12px] text-[#999] mb-[10px];
@@ -299,11 +308,18 @@ watch(
 
         .echarts {
           @apply w-full bg-transparent;
+          @include useTheme {
+            color: getVar('textColor');
+          }
         }
       }
 
       .tabs {
-        @apply bg-[var(--bg-transparency)] mb-[10px] p-[5px] rounded-[10px];
+        @apply mb-[10px] p-[5px] rounded-[10px];
+        @include useTheme {
+          background: getVar('bgTransparency');
+          color: getVar('textColor');
+        }
       }
     }
   }

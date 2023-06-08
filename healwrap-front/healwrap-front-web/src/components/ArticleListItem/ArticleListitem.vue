@@ -66,12 +66,18 @@ defineProps({
 <style lang="scss" scoped>
 .article-item {
   .article-item-inner {
-    @apply flex flex-col-reverse items-center bg-[var(--bg-transparency)] mb-[15px] rounded-[10px] border-b-[1px] border-[#eee] overflow-hidden cursor-pointer;
+    @apply flex flex-col-reverse items-center mb-[15px] rounded-[10px] overflow-hidden cursor-pointer;
     @apply md:flex-row md:justify-between;
+    @include useTheme {
+      background: getVar('bgTransparency');
+      color: getVar('textColor');
+    }
     transition: all 0.3s;
 
     &:hover {
-      @apply bg-[var(--bg-transparency-hover)];
+      @include useTheme {
+        background: getVar('bgTransparencyHover');
+      }
     }
 
     .list-item {
@@ -84,25 +90,36 @@ defineProps({
         }
 
         .post-time {
-          @apply hidden ml-[10px] text-[var(--text-color-1)];
+          @apply hidden ml-[10px] text-sm;
           @apply md:block;
+          @include useTheme {
+            color: getVar('textColor2');
+          }
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
         }
 
         .address {
-          @apply ml-[10px] w-16 text-[var(--text-color-1)];
+          @apply ml-[5px] w-[80px] text-xs;
+          @include useTheme {
+            color: getVar('textColor1');
+          }
         }
 
         .board {
           @apply w-48;
           a {
-            @apply text-[var(--text-color-3)] decoration-0;
+            @apply decoration-0;
+            @include useTheme {
+              color: getVar('textColor3');
+            }
             transition: 0.3s all;
 
             &:hover {
-              @apply text-[var(--color-primary)];
+              @include useTheme {
+                color: getVar('colorPrimary');
+              }
             }
           }
         }
@@ -112,30 +129,44 @@ defineProps({
         @apply text-xl font-bold m-[10px];
 
         a {
-          @apply text-[var(--text-color)] decoration-0;
+          @apply decoration-0;
+          @include useTheme {
+            color: getVar('textColor');
+          }
           transition: 0.3s all;
 
           &:hover {
-            @apply text-[var(--color-primary)];
+            @include useTheme {
+              color: getVar('colorPrimary');
+            }
           }
         }
       }
 
       .article-summary {
-        @apply ml-2 text-[var(--text-color-2)] text-sm;
+        @apply ml-2 text-sm;
+        @include useTheme {
+          color: getVar('textColor2');
+        }
       }
 
       .article-info {
-        @apply mt-3 ml-2 text-[var(--text-color-1)] text-[12px];
+        @apply mt-3 ml-2 text-[12px];
+        @include useTheme {
+          color: getVar('textColor3');
+        }
 
         .iconfont {
           @apply mr-[10px] text-[14px] cursor-pointer;
           transition: 0.3s all;
 
           &:hover {
-            @apply text-[var(--color-primary)];
+            @include useTheme {
+              color: getVar('colorPrimary');
+            }
           }
         }
+
         .post-time {
           @apply ml-2 my-1 block;
           @apply md:hidden;

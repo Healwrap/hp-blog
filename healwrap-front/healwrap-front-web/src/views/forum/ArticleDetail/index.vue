@@ -349,7 +349,9 @@ watch(
 
       .user-info {
         @apply flex items-center py-[10px];
-        border-bottom: 1px solid #eee;
+        @include useTheme {
+          border-bottom: 1px solid getVar('borderColor');
+        }
 
         .user-info-detail {
           @apply ml-[10px];
@@ -368,10 +370,15 @@ watch(
           }
 
           .edit-btn {
-            @apply ml-[10px] text-[#1e88e5] cursor-pointer decoration-0;
+            @apply ml-[10px] cursor-pointer decoration-0;
+            @include useTheme {
+              color: getVar('colorPrimary');
+            }
 
             &:hover {
-              @apply text-[#1976d2];
+              @include useTheme {
+                color: getVar('colorPrimaryHover');
+              }
             }
           }
         }
@@ -395,11 +402,15 @@ watch(
           th,
           td {
             @apply p-[8px];
-            border: 1px solid #ddd;
+            @include useTheme {
+              border: 1px solid getVar('borderColor');
+            }
           }
 
           th {
-            @apply bg-[#f5f5f5];
+            @include useTheme {
+              background: getVar('bgColor');
+            }
           }
         }
 
@@ -412,7 +423,10 @@ watch(
         }
 
         ::v-deep(code) {
-          @apply my-[10px] mx-1 p-1 bg-[var(--bg-code)] rounded-md border border-gray-300 text-[14px] leading-[20px] tracking-[1.1px];
+          @apply my-[10px] mx-1 p-1 rounded-md border border-gray-300 text-[14px] leading-[20px] tracking-[1.1px];
+          @include useTheme {
+            background: getVar('bgCode');
+          }
         }
 
         img {
@@ -423,7 +437,9 @@ watch(
 
     .attachment-panel {
       @apply mt-[20px] p-[10px];
-      border: 1px solid #eee;
+      @include useTheme {
+        border-color: getVar('borderColor');
+      }
 
       .title {
         @apply text-[16px] font-bold mb-[10px];
@@ -433,7 +449,10 @@ watch(
         @apply flex items-center;
 
         .iconfont {
-          @apply text-[30px] text-[$color-primary];
+          @apply text-[30px];
+          @include useTheme {
+            color: getVar('colorPrimary');
+          }
         }
 
         .file-name {
@@ -459,7 +478,10 @@ watch(
     }
 
     .block {
-      @apply bg-[var(--bg-color)] rounded-2xl shadow-md;
+      @apply rounded-2xl shadow-md;
+      @include useTheme {
+        background: getVar('bgTransparency');
+      }
       transition: all 0.3s;
 
       &:hover {
@@ -469,7 +491,10 @@ watch(
   }
 
   .toc-panel {
-    @apply sticky float-right top-28 w-[200px] min-h-[300px] max-h-[80vh] p-[10px] bg-[var(--bg-color)] rounded-[10px] shadow-md overflow-auto;
+    @apply sticky float-right top-28 w-[200px] min-h-[300px] max-h-[80vh] p-[10px] rounded-[10px] shadow-md overflow-auto;
+    @include useTheme {
+      background: getVar('bgTransparency');
+    }
     transition: all 0.4s;
 
     &:hover {
@@ -483,34 +508,48 @@ watch(
 
       .toc-list {
         .no-toc {
-          @apply text-[12px] text-[var(--text-color-1)];
+          @apply text-[12px];
+          @include useTheme {
+            color: getVar('textColor1');
+          }
         }
 
         .toc-item {
           @apply mb-[5px] py-[5px] cursor-pointer;
-          border-left: 2px solid var(--bg-color);
+          @include useTheme {
+            border-left: 2px solid getVar('bgTransparency');
+          }
           transition: all 0.3s;
 
           &:hover {
             @apply bg-[var(--bg-color-hover)];
+            @include useTheme {
+              background: getVar('bgTransparencyHover');
+            }
           }
         }
 
         .active {
-          @apply text-[var(--color-primary)] bg-[var(--bg-color-active)];
-          border-left: 2px solid var(--color-primary);
+          @include useTheme {
+            background: getVar('bgTransparencyActive');
+            color: getVar('colorPrimary');
+            border-left: 2px solid getVar('colorPrimary');
+          }
         }
       }
     }
   }
 
   .article-quick-panel {
-    @apply fixed flex top-[85vh] right-8 flex-row justify-center items-center z-10;
+    @apply fixed flex bottom-20 right-8 flex-row justify-center items-center z-10;
     @apply md:sticky md:float-left md:left-1 md:flex-col md:translate-x-0 md:top-1/2 md:translate-y-[-50%];
     transition: all 0.4s;
 
     .quick-item {
-      @apply w-[40px] h-[40px] rounded-full bg-[var(--bg-color)] flex justify-center items-center mb-[10px] cursor-pointer shadow-md;
+      @apply w-[40px] h-[40px] rounded-full flex justify-center items-center mb-[10px] cursor-pointer shadow-md;
+      @include useTheme {
+        background: getVar('bgTransparency');
+      }
       transition: all 0.3s;
 
       &:hover {
