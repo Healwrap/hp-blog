@@ -48,7 +48,7 @@
             <div>
               <p>1、在垃圾箱中查找邮箱验证码</p>
               <p>2、在邮箱中头像->设置->反垃圾->白名单->设置邮件地址白名单</p>
-              <p>3、将邮箱【179763003@qq.com】添加到白名单</p>
+              <p>3、将邮箱【healwrap@foxmail.com】添加到白名单</p>
               <el-link type="primary">不知道怎么设置?</el-link>
             </div>
           </el-popover>

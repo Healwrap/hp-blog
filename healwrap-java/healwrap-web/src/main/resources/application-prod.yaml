@@ -73,7 +73,7 @@ spring:
   mail:
     host: smtp.qq.com
     port: 465
-    username: 179763003@qq.com
+    username: healwrap@foxmail.com
     password: icokywqucbkkcbed
     default-encoding: UTF-8
     properties:
