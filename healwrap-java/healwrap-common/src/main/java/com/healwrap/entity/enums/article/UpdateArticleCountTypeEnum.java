@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums.article;
 
 /**
+ * @author pepedd
  * @ClassName UpdateArticleCountTypeEnum
  * @Description TODO
  * @Date 2023/4/27 20:50
- * @author pepedd
  */
 public enum UpdateArticleCountTypeEnum {
   READ_COUNT(0, "阅读数"),

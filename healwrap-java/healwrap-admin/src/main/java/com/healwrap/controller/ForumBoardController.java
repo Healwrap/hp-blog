@@ -10,6 +10,7 @@ import com.healwrap.entity.po.ForumBoard;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.service.ForumBoardService;
 import com.healwrap.utils.file.FileUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +52,7 @@ public class ForumBoardController extends ABaseController {
    * @return ResponseVO
    */
   @PatchMapping("/saveBoard")
+  @CacheEvict(value = {"boardTree", "boardTree4Post"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO saveBoard(Integer boardId,
                               @VerifyParams(required = true) Integer pBoardId,
@@ -79,6 +81,7 @@ public class ForumBoardController extends ABaseController {
    * @return ResponseVO
    */
   @DeleteMapping("/deleteBoard")
+  @CacheEvict(value = {"boardTree", "boardTree4Post"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO deleteBoard(@VerifyParams(required = true) Integer boardId) {
     forumBoardService.deleteForumBoardByBoardId(boardId);
@@ -92,6 +95,7 @@ public class ForumBoardController extends ABaseController {
    * @return
    */
   @PatchMapping("/changeBoardSort")
+  @CacheEvict(value = {"boardTree", "boardTree4Post"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO changeBoardSort(@VerifyParams(required = true) String boardIds) {
     forumBoardService.changeBoardSort(boardIds);

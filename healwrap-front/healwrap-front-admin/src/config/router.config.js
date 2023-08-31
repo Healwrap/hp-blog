@@ -1,4 +1,4 @@
-import { BasicLayout, UserLayout } from '@/layouts'
+import {BasicLayout, UserLayout} from '@/layouts'
 
 /**
  * 基础路由

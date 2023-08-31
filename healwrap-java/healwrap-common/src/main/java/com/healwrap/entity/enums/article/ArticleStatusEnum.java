@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums.article;
 
 /**
+ * @author pepedd
  * @ClassName ArticleStatusEnum
  * @Description 文章状态枚举
  * @Date 2023/4/25 7:37
- * @author pepedd
  */
 public enum ArticleStatusEnum {
   DEL(-1, "已删除"),

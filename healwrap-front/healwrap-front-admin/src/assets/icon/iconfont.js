@@ -52,9 +52,11 @@
               'complete' == h.readyState && ((h.onreadystatechange = null), d())
             }))
     }
+
     function d() {
       s || ((s = !0), i())
     }
+
     function m() {
       try {
         h.documentElement.doScroll('left')

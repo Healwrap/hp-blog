@@ -87,7 +87,6 @@ import { getCurrentInstance, ref } from 'vue'
 import UserAvatar from '@/components/Avatar/components/UserAvatar.vue'
 import UserLink from '@/components/UserLink/UserLink.vue'
 import Icon from '@/components/Icon/Icon.vue'
-import SendMessage from '@/views/user/list/components/SendMessage.vue'
 
 const { proxy } = getCurrentInstance()
 const sendMessageRef = ref(null)

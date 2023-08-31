@@ -3,7 +3,7 @@ spring:
     # 处理 favicon
     favicon:
       enable: false
-  # 错误页处理
+    # 错误页处理
     throw-exception-if-no-handler-found: true
   web:
     resources:

@@ -8,10 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * @author pepedd
  * @ClassName VerifyParams
  * @Description TODO
  * @Date 2023/4/13 10:25
- * @author pepedd
  */
 @Target({ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

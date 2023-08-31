@@ -1,23 +1,23 @@
 package com.healwrap.service.impl;
 
+import com.healwrap.entity.dto.SessionWebUserDto;
 import com.healwrap.entity.enums.PageSize;
 import com.healwrap.entity.enums.UserIntegralChangeTypeEnum;
 import com.healwrap.entity.enums.UserIntegralOperTypeEnum;
-import com.healwrap.entity.po.*;
-import com.healwrap.exception.BusinessException;
-import com.healwrap.service.ForumArticleAttachmentService;
-import com.healwrap.service.UserInfoService;
-import com.healwrap.entity.dto.SessionWebUserDto;
 import com.healwrap.entity.enums.message.MessageTypeEnum;
+import com.healwrap.entity.po.*;
 import com.healwrap.entity.query.ForumArticleAttachmentDownloadQuery;
 import com.healwrap.entity.query.ForumArticleAttachmentQuery;
 import com.healwrap.entity.query.SimplePage;
 import com.healwrap.entity.query.UserMessageQuery;
 import com.healwrap.entity.vo.PaginationResultVO;
+import com.healwrap.exception.BusinessException;
 import com.healwrap.mappers.ForumArticleAttachmentDownloadMapper;
 import com.healwrap.mappers.ForumArticleAttachmentMapper;
 import com.healwrap.mappers.UserMessageMapper;
+import com.healwrap.service.ForumArticleAttachmentService;
 import com.healwrap.service.ForumArticleService;
+import com.healwrap.service.UserInfoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,7 +130,8 @@ public class ForumArticleAttachmentServiceImpl implements ForumArticleAttachment
 
   /**
    * 下载附件
-   * @param fileId 附件ID
+   *
+   * @param fileId            附件ID
    * @param sessionWebUserDto 当前登录用户
    * @return
    */

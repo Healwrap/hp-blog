@@ -2,11 +2,12 @@ package com.healwrap.entity.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PaginationResultVO<T> {
+public class PaginationResultVO<T> implements Serializable {
   private Integer totalCount;
   private Integer pageSize;
   private Integer pageNo;

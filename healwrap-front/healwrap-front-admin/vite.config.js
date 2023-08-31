@@ -2,7 +2,7 @@ import {fileURLToPath, URL} from 'node:url'
 import {defineConfig, loadEnv} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import eslintPlugin from 'vite-plugin-eslint'
-import { createHtmlPlugin } from 'vite-plugin-html'
+import {createHtmlPlugin} from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 const getEnvFn = (mode, target) => {
@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode }) => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: getEnvFn(mode, "VITE_APP_NAME")
+            title: getEnvFn(mode, 'VITE_APP_NAME')
           }
         }
       })

@@ -1,8 +1,8 @@
-import { fileURLToPath, URL } from 'node:url'
-import { defineConfig, loadEnv } from 'vite'
+import {fileURLToPath, URL} from 'node:url'
+import {defineConfig, loadEnv} from 'vite'
 import vue from '@vitejs/plugin-vue'
 import eslintPlugin from 'vite-plugin-eslint'
-import { createHtmlPlugin } from 'vite-plugin-html'
+import {createHtmlPlugin} from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 const getEnvFn = (mode, target) => {

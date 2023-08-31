@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums.comment;
 
 /**
+ * @author pepedd
  * @ClassName CommentTopTypeEnum
  * @Description TODO
  * @Date 2023/5/5 20:14
- * @author pepedd
  */
 public enum CommentTopTypeEnum {
   NO_TOP(0, "未置顶"),

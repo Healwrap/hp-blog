@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums;
 
 /**
+ * @author pepedd
  * @ClassName OperRecordOpTypeEnum
  * @Description TODO
  * @Date 2023/4/27 23:29
- * @author pepedd
  */
 public enum OperRecordOpTypeEnum {
   ARTICLE_LIKE(0, "文章点赞"),

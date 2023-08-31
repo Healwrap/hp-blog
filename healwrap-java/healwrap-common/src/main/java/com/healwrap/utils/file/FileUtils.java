@@ -1,12 +1,12 @@
 package com.healwrap.utils.file;
 
-import com.healwrap.exception.BusinessException;
-import com.healwrap.utils.DateUtils;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.dto.FileUploadDto;
 import com.healwrap.entity.enums.DateTimePatternEnum;
 import com.healwrap.entity.enums.file.FileUploadTypeEnum;
+import com.healwrap.exception.BusinessException;
 import com.healwrap.framework.config.AppConfig;
+import com.healwrap.utils.DateUtils;
 import com.healwrap.utils.StringTools;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
@@ -19,10 +19,10 @@ import java.io.File;
 import java.util.Date;
 
 /**
+ * @author pepedd
  * @ClassName FileUtils
  * @Description 文件工具类
  * @Date 2023/5/9 20:05
- * @author pepedd
  */
 @Component
 public class FileUtils {
@@ -60,7 +60,7 @@ public class FileUtils {
         targetFileFolder = new File(baseFolder + Constants.FILE_FOLDER_AVATAR_NAME);
 //        targetFile = new File(targetFileFolder.getPath() + "/" + folder + Constants.AVATAR_SUFFIX);
         targetFile = new File(mergePath(targetFile.getPath(), folder + Constants.AVATAR_SUFFIX));
-        localPath = mergePath(folder,Constants.AVATAR_SUFFIX);
+        localPath = mergePath(folder, Constants.AVATAR_SUFFIX);
       }
       file.transferTo(targetFile);
       // 压缩图片

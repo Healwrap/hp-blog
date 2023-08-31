@@ -3,10 +3,10 @@ package com.healwrap.entity.enums.file;
 import com.healwrap.entity.constants.Constants;
 
 /**
+ * @author pepedd
  * @ClassName FileUploadTypeEnum
  * @Description TODO
  * @Date 2023/5/9 20:37
- * @author pepedd
  */
 public enum FileUploadTypeEnum {
   ARTICLE_COVER("文章封面", Constants.IMAGE_SUFFIX),

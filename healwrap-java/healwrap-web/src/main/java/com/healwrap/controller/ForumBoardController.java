@@ -6,6 +6,7 @@ import com.healwrap.entity.dto.SessionWebUserDto;
 import com.healwrap.entity.po.ForumBoard;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.service.ForumBoardService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,7 @@ public class ForumBoardController extends ABaseController {
    * @return 板块树
    */
   @GetMapping("loadBoard")
+  @Cacheable(value = "boardTree", key = "'boardTree'")
   public ResponseVO loadBoard() {
     return getSuccessResponseVO(forumBoardService.getBoardTree(null));
   }
@@ -44,6 +46,7 @@ public class ForumBoardController extends ABaseController {
    */
 
   @GetMapping("/loadBoard4Post")
+  @Cacheable(value = "boardTree4Post", key = "'boardTree4Post'")
   @GlobalIntercepter(checkLogin = true)
   public ResponseVO loadBoard4Post(HttpSession session) {
     SessionWebUserDto webUserDto = getUserInfoFromSession(session);

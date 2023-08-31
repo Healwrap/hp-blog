@@ -119,7 +119,6 @@ import { getCurrentInstance, onMounted, onUnmounted, reactive, ref, watch } from
 import accountApi from '@/api/account'
 import boardApi from '@/api/board'
 import Header from '@/components/Header/Header.vue'
-import UserDialog from '@/components/UserDialog/UserDialog.vue'
 import Avatar from '@/components/Avatar/Avatar.vue'
 import Footer from '@/components/Footer/Footer.vue'
 import { useRoute } from 'vue-router'

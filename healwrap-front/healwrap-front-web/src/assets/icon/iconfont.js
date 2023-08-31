@@ -27,24 +27,24 @@
         let c,
           l = document.createElement('div')
         ;(l.innerHTML = o._iconfont_svg_string_3761635),
-          (l = l.getElementsByTagName('svg')[0]) &&
-            (l.setAttribute('aria-hidden', 'true'),
-            (l.style.position = 'absolute'),
-            (l.style.width = 0),
-            (l.style.height = 0),
-            (l.style.overflow = 'hidden'),
-            (l = l),
-            (c = document.body).firstChild ? e(l, c.firstChild) : c.appendChild(l))
+        (l = l.getElementsByTagName('svg')[0]) &&
+        (l.setAttribute('aria-hidden', 'true'),
+          (l.style.position = 'absolute'),
+          (l.style.width = 0),
+          (l.style.height = 0),
+          (l.style.overflow = 'hidden'),
+          (l = l),
+          (c = document.body).firstChild ? e(l, c.firstChild) : c.appendChild(l))
       }),
         document.addEventListener
           ? ~['complete', 'loaded', 'interactive'].indexOf(document.readyState)
             ? setTimeout(t, 0)
             : ((a = function () {
-                document.removeEventListener('DOMContentLoaded', a, !1), t()
-              }),
+              document.removeEventListener('DOMContentLoaded', a, !1), t()
+            }),
               document.addEventListener('DOMContentLoaded', a, !1))
           : document.attachEvent &&
-            ((i = t),
+          ((i = t),
             (h = o.document),
             (s = !1),
             m(),
@@ -52,9 +52,11 @@
               'complete' == h.readyState && ((h.onreadystatechange = null), d())
             }))
     }
+
     function d() {
       s || ((s = !0), i())
     }
+
     function m() {
       try {
         h.documentElement.doScroll('left')

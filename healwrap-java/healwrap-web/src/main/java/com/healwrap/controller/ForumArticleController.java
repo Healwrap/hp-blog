@@ -25,6 +25,8 @@ import com.healwrap.utils.StringTools;
 import com.healwrap.utils.html.EscapeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,6 +78,7 @@ public class ForumArticleController extends ABaseController {
    * @return 文章列表
    */
   @GetMapping("/loadArticle")
+  @Cacheable(value = "forumArticle", key = "#pageNo + '-' + #boardId + '-' + #pBoardId + '-' + #orderType")
   public ResponseVO loadArticle(HttpSession session, Integer pageNo, Integer boardId, Integer pBoardId, Integer orderType) {
     ForumArticleQuery forumArticleQuery = new ForumArticleQuery();
     forumArticleQuery.setBoardId(boardId == null || boardId == 0 ? null : boardId);
@@ -104,6 +107,7 @@ public class ForumArticleController extends ABaseController {
    */
 
   @GetMapping("/getArticleDetail")
+  @Cacheable(value = "forumArticleDetail", key = "#articleId")
   @GlobalIntercepter(checkParams = true)
   public ResponseVO getArticleDetail(HttpSession session, @VerifyParams(required = true) String articleId) {
     SessionWebUserDto sessionWebUserDto = getUserInfoFromSession(session);
@@ -242,6 +246,7 @@ public class ForumArticleController extends ABaseController {
    */
 
   @RequestMapping("/postArticle")
+  @CacheEvict(value = "forumArticle", allEntries = true)
   @GlobalIntercepter(checkLogin = true, checkParams = true, frequencyType = UserOperFrequencyTypeEnum.POST_ARTICLE)
   public ResponseVO postArticle(HttpSession session,
                                 @VerifyParams(required = true, max = 150) String title,
@@ -297,6 +302,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @RequestMapping("articleDetail4Update")
+  @CacheEvict(value = "articleDetail", key = "#articleId")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO articleDetail4Update(HttpSession session, @VerifyParams(required = true) String articleId) {
     SessionWebUserDto userDto = getUserInfoFromSession(session);
@@ -336,6 +342,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @PostMapping("/updateArticle")
+  @CacheEvict(value = "articleDetail", key = "#articleId")
   @GlobalIntercepter(checkLogin = true, checkParams = true)
   public ResponseVO updateArticle(HttpSession session,
                                   @VerifyParams(required = true) String articleId,
@@ -383,6 +390,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @GetMapping("/search")
+  @Cacheable(value = "forumArticle", key = "#keyword+#pageNo")
   public ResponseVO search(String keyword, Integer pageNo) {
     ForumArticleQuery query = new ForumArticleQuery();
     query.setPageNo(pageNo);

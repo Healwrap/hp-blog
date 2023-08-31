@@ -1,5 +1,5 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { asyncRouterMap, constantRouterMap } from '@/config/router.config'
+import {createRouter, createWebHistory} from 'vue-router'
+import {asyncRouterMap, constantRouterMap} from '@/config/router.config'
 
 // 将asyncRouterMap添加到constantRouterMap的baseLayout的children中
 asyncRouterMap.forEach(item => {

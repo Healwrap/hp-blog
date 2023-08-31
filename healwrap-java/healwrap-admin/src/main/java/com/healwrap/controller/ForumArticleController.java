@@ -17,6 +17,7 @@ import com.healwrap.service.ForumArticleService;
 import com.healwrap.service.ForumCommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -67,6 +68,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @DeleteMapping("/deleteArticle")
+  @CacheEvict(value = {"forumArticle", "forumArticleDetail"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO deleteArticle(@VerifyParams(required = true) String articleIds) {
     forumArticleService.delArticle(articleIds);
@@ -82,6 +84,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @PatchMapping("/updateBoard")
+  @CacheEvict(value = {"boardTree", "boardTree4Post"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO updateBoard(@VerifyParams(required = true) String articleId,
                                 @VerifyParams(required = true) Integer pboardId,
@@ -170,6 +173,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @PatchMapping("/changeTopType")
+  @CacheEvict(value = "forumArticle", allEntries = true)
   public ResponseVO changeTopType(@VerifyParams(required = true) String articleId, Integer topType) {
     ForumArticle article = new ForumArticle();
     article.setTopType(topType);
@@ -184,6 +188,7 @@ public class ForumArticleController extends ABaseController {
    * @return ResponseVO
    */
   @PatchMapping("/auditArticle")
+  @CacheEvict(value = {"forumArticle", "forumArticleDetail"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO auditArticle(@VerifyParams(required = true) String articleIds) {
     forumArticleService.auditArticle(articleIds);

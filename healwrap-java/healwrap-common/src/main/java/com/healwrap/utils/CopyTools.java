@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author pepedd
  * @ClassName CopyTools
  * @Description 复制工具类
  * @Date 2023/4/25 0:49
- * @author pepedd
  */
 public class CopyTools {
   public static <T, S> List<T> copyList(List<S> sList, Class<T> tClass) {

@@ -1,6 +1,7 @@
 import router from '@/router'
 import VueCookies from 'vue-cookies'
 import Toast from '@/utils/Toast'
+
 const vueCookies = VueCookies
 // const allowList = ['login', 'register'] // 无重定向允许列表
 const permissionList = ['postArticle', 'message'] // 权限列表

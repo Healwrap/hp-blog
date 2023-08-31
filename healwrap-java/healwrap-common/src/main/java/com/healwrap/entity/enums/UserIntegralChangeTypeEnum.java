@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums;
 
 /**
+ * @author pepedd
  * @ClassName UserIntegralChangeTypeEnum
  * @Description 用户积分变更类型
  * @Date 2023/4/12 16:05
- * @author pepedd
  */
 public enum UserIntegralChangeTypeEnum {
   ADD(1, "增加"),

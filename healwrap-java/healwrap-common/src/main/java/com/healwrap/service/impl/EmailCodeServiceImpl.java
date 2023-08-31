@@ -1,6 +1,5 @@
 package com.healwrap.service.impl;
 
-import com.healwrap.exception.BusinessException;
 import com.healwrap.entity.constants.Constants;
 import com.healwrap.entity.enums.PageSize;
 import com.healwrap.entity.po.EmailCode;
@@ -9,6 +8,7 @@ import com.healwrap.entity.query.EmailCodeQuery;
 import com.healwrap.entity.query.SimplePage;
 import com.healwrap.entity.query.UserInfoQuery;
 import com.healwrap.entity.vo.PaginationResultVO;
+import com.healwrap.exception.BusinessException;
 import com.healwrap.framework.config.WebConfig;
 import com.healwrap.mappers.EmailCodeMapper;
 import com.healwrap.mappers.UserInfoMapper;
@@ -159,7 +159,8 @@ public class EmailCodeServiceImpl implements EmailCodeService {
 
   /**
    * 验证邮箱验证码
-   * @param email 邮箱
+   *
+   * @param email     邮箱
    * @param emailCode 验证码
    */
   @Override

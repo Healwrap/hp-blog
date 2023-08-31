@@ -4,43 +4,41 @@ import lombok.Data;
 
 
 /**
- *
  * 用户积分记录表参数
- *
  */
 @Data
 public class UserIntegralRecordQuery extends BaseParam {
 
 
-	/**
-	 * 记录ID
-	 */
-	private Integer recordId;
+  /**
+   * 记录ID
+   */
+  private Integer recordId;
 
-	/**
-	 * 用户ID
-	 */
-	private String userId;
+  /**
+   * 用户ID
+   */
+  private String userId;
 
-	private String userIdFuzzy;
+  private String userIdFuzzy;
 
-	/**
-	 * 操作类型
-	 */
-	private Integer operType;
+  /**
+   * 操作类型
+   */
+  private Integer operType;
 
-	/**
-	 * 积分
-	 */
-	private Integer integral;
+  /**
+   * 积分
+   */
+  private Integer integral;
 
-	/**
-	 * 创建时间
-	 */
-	private String createTime;
+  /**
+   * 创建时间
+   */
+  private String createTime;
 
-	private String createTimeStart;
+  private String createTimeStart;
 
-	private String createTimeEnd;
+  private String createTimeEnd;
 
 }

@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums;
 
 /**
+ * @author pepedd
  * @ClassName UserStatusEnum
  * @Description 用户状态
  * @Date 2023/4/11 18:16
- * @author pepedd
  */
 
 public enum UserStatusEnum {

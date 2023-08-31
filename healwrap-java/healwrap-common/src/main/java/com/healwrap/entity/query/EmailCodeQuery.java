@@ -4,40 +4,38 @@ import lombok.Data;
 
 
 /**
- *
  * 邮箱验证码参数
- *
  */
 @Data
 public class EmailCodeQuery extends BaseParam {
 
 
-	/**
-	 * 邮箱
-	 */
-	private String email;
+  /**
+   * 邮箱
+   */
+  private String email;
 
-	private String emailFuzzy;
+  private String emailFuzzy;
 
-	/**
-	 * 编号
-	 */
-	private String code;
+  /**
+   * 编号
+   */
+  private String code;
 
-	private String codeFuzzy;
+  private String codeFuzzy;
 
-	/**
-	 * 创建时间
-	 */
-	private String createTime;
+  /**
+   * 创建时间
+   */
+  private String createTime;
 
-	private String createTimeStart;
+  private String createTimeStart;
 
-	private String createTimeEnd;
+  private String createTimeEnd;
 
-	/**
-	 * 0:未使用  1:已使用
-	 */
-	private Integer status;
+  /**
+   * 0:未使用  1:已使用
+   */
+  private Integer status;
 
 }

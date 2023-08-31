@@ -18,6 +18,7 @@ public class DateUtils {
   public static String format(Date date, String patten) {
     return new SimpleDateFormat(patten).format(date);
   }
+
   public static String parse(String date, String patten) {
     try {
       return String.valueOf(new SimpleDateFormat(patten).parse(date));

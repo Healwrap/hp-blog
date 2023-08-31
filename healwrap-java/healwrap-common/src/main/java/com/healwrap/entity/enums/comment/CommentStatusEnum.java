@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums.comment;
 
 /**
+ * @author pepedd
  * @ClassName CommentStatusEnum
  * @Description TODO
  * @Date 2023/5/9 19:12
- * @author pepedd
  */
 public enum CommentStatusEnum {
   DEL(-1, "已删除"),

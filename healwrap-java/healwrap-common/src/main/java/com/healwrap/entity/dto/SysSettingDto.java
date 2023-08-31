@@ -4,10 +4,10 @@ import com.healwrap.entity.dto.sysDto.*;
 import lombok.Data;
 
 /**
+ * @author pepedd
  * @ClassName SysSettingDto
  * @Description 系统设置
  * @Date 2023/4/12 10:37
- * @author pepedd
  */
 @Data
 public class SysSettingDto {

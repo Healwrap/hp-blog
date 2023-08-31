@@ -90,10 +90,12 @@ public interface ForumArticleService {
    * 重置板块
    */
   void updateBoard(String articleId, Integer pBoardId, Integer boardId);
+
   /**
    * 审核文章
    */
   void auditArticle(String articleIds);
+
   /**
    * 审核单篇文章
    */

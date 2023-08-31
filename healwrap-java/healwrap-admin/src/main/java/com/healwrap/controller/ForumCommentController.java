@@ -6,6 +6,8 @@ import com.healwrap.entity.annotation.VerifyParams;
 import com.healwrap.entity.query.ForumCommentQuery;
 import com.healwrap.entity.vo.ResponseVO;
 import com.healwrap.service.ForumCommentService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,6 +31,7 @@ public class ForumCommentController extends ABaseController {
    * @return ResponseVO
    */
   @PostMapping("/loadCommentList")
+  @Cacheable(value = "commentList", key = "#commentQuery.pageNo")
   public ResponseVO loadCommentList(ForumCommentQuery commentQuery) {
     commentQuery.setLoadChildren(true);
     commentQuery.setOrderBy("post_time desc");
@@ -43,6 +46,7 @@ public class ForumCommentController extends ABaseController {
    * @return ResponseVO
    */
   @DeleteMapping("/deleteComment")
+  @CacheEvict(value = {"commentList", "articleList"}, allEntries = true)
   @GlobalIntercepter(checkParams = true)
   public ResponseVO deleteComment(@VerifyParams(required = true) String commentIds) {
     forumCommentService.delComment(commentIds);

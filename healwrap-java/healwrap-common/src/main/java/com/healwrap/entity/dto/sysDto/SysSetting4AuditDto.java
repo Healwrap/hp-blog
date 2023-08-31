@@ -4,10 +4,10 @@ import com.healwrap.entity.annotation.VerifyParams;
 import lombok.Data;
 
 /**
+ * @author pepedd
  * @ClassName SysSetting4AuditDto
  * @Description 审核设置
  * @Date 2023/4/12 9:57
- * @author pepedd
  */
 @Data
 public class SysSetting4AuditDto {

@@ -4,51 +4,49 @@ import lombok.Data;
 
 
 /**
- *
  * 点赞记录参数
- *
  */
 @Data
 public class LikeRecordQuery extends BaseParam {
 
 
-	/**
-	 * 自增ID
-	 */
-	private Integer opId;
+  /**
+   * 自增ID
+   */
+  private Integer opId;
 
-	/**
-	 * 操作类型0:文章点赞 1:评论点赞
-	 */
-	private Integer opType;
+  /**
+   * 操作类型0:文章点赞 1:评论点赞
+   */
+  private Integer opType;
 
-	/**
-	 * 主体ID
-	 */
-	private String objectId;
+  /**
+   * 主体ID
+   */
+  private String objectId;
 
-	private String objectIdFuzzy;
+  private String objectIdFuzzy;
 
-	/**
-	 * 用户ID
-	 */
-	private String userId;
+  /**
+   * 用户ID
+   */
+  private String userId;
 
-	private String userIdFuzzy;
+  private String userIdFuzzy;
 
-	/**
-	 * 发布时间
-	 */
-	private String createTime;
+  /**
+   * 发布时间
+   */
+  private String createTime;
 
-	private String createTimeStart;
+  private String createTimeStart;
 
-	private String createTimeEnd;
+  private String createTimeEnd;
 
-	/**
-	 * 主体作者ID
-	 */
-	private String authorUserId;
+  /**
+   * 主体作者ID
+   */
+  private String authorUserId;
 
-	private String authorUserIdFuzzy;
+  private String authorUserIdFuzzy;
 }

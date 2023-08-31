@@ -1,12 +1,12 @@
 package com.healwrap.service.impl;
 
-import com.healwrap.service.UserIntegralRecordService;
 import com.healwrap.entity.enums.PageSize;
 import com.healwrap.entity.po.UserIntegralRecord;
 import com.healwrap.entity.query.SimplePage;
 import com.healwrap.entity.query.UserIntegralRecordQuery;
 import com.healwrap.entity.vo.PaginationResultVO;
 import com.healwrap.mappers.UserIntegralRecordMapper;
+import com.healwrap.service.UserIntegralRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

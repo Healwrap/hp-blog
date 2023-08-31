@@ -4,10 +4,10 @@ import com.healwrap.entity.annotation.VerifyParams;
 import lombok.Data;
 
 /**
+ * @author pepedd
  * @ClassName SysSetting4EmailDto
  * @Description 邮件设置
  * @Date 2023/4/12 10:29
- * @author pepedd
  */
 @Data
 public class SysSetting4EmailDto {

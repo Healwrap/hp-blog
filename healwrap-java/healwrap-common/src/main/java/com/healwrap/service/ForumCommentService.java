@@ -27,10 +27,12 @@ public interface ForumCommentService {
    * 分页查询
    */
   PaginationResultVO<ForumComment> findListByPage(ForumCommentQuery param);
+
   /**
    * 分页查询，线性结构
    */
   PaginationResultVO<ForumComment> findListByPageLinear(ForumCommentQuery param);
+
   /**
    * 新增
    */

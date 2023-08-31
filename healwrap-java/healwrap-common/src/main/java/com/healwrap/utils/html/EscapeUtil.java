@@ -47,6 +47,7 @@ public class EscapeUtil {
 
   /**
    * 将html转为安全字符
+   *
    * @param input 输入字符
    * @return
    */
@@ -82,6 +83,7 @@ public class EscapeUtil {
 
   /**
    * 将安全字符转为html
+   *
    * @param input 输入字符
    * @return
    */

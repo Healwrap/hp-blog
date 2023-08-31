@@ -6,10 +6,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * @author pepedd
  * @ClassName VerifyUtils
  * @Description 验证工具类
  * @Date 2023/4/13 11:07
- * @author pepedd
  */
 public class VerifyUtils {
   public static Boolean verify(String regex, String value) {

@@ -172,8 +172,9 @@ public class UserMessageServiceImpl implements UserMessageService {
 
   /**
    * 更新消息阅读状态
+   *
    * @param receivedUserId 接收用户id
-   * @param messageType 消息类型
+   * @param messageType    消息类型
    */
   @Override
   public void readMessageByType(String receivedUserId, Integer messageType) {

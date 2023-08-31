@@ -5,10 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * @author pepedd
  * @ClassName ForumArticleAttachmentVO
  * @Description TODO
  * @Date 2023/4/27 23:04
- * @author pepedd
  */
 @Data
 public class ForumArticleAttachmentVO implements Serializable {

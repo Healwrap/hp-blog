@@ -1,10 +1,10 @@
 package com.healwrap.entity.enums.message;
 
 /**
+ * @author pepedd
  * @ClassName MessageStatusEnum
  * @Description 消息状态枚举
  * @Date 2023/4/12 15:02
- * @author pepedd
  */
 public enum MessageStatusEnum {
   NO_READ(0, "未读"),

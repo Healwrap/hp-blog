@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
+import { getCurrentInstance, reactive, ref } from 'vue'
 import DataList from '@/components/DataList/DataList.vue'
 
 const { proxy } = getCurrentInstance()

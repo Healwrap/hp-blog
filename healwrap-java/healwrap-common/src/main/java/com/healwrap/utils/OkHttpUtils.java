@@ -12,10 +12,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * @author pepedd
  * @ClassName OkHttpUtils
  * @Description okhttp工具类
  * @Date 2023/4/13 11:48
- * @author pepedd
  */
 
 public class OkHttpUtils {
@@ -26,6 +26,7 @@ public class OkHttpUtils {
   private static final int TIME_OUT_SECONDS = 5;
 
   private static final Logger logger = LoggerFactory.getLogger(OkHttpUtils.class);
+
   private static OkHttpClient.Builder getClientBuilder() {
     OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder().followRedirects(false).retryOnConnectionFailure(false);
     clientBuilder.connectTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS).readTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS).writeTimeout(TIME_OUT_SECONDS, TimeUnit.SECONDS);

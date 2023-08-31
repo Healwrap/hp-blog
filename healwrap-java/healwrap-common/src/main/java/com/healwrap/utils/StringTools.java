@@ -4,10 +4,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
+ * @author pepedd
  * @ClassName StringUtils
  * @Description 字符串工具类
  * @Date 2023/4/11 13:20
- * @author pepedd
  */
 public class StringTools {
   /**
@@ -52,6 +52,7 @@ public class StringTools {
 
   /**
    * 获取文件后缀
+   *
    * @param fileName 文件名
    * @return
    */
